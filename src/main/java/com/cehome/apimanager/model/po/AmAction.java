@@ -18,7 +18,7 @@ public class AmAction implements Serializable {
 	/**
 	 * 接口名称
 	 */
-	private String name;
+	private String actionName;
 	/**
 	 * 接口描述
 	 */
@@ -26,7 +26,7 @@ public class AmAction implements Serializable {
 	/**
 	 * 接口所属模块
 	 */
-	private String module;
+	private Integer moduleId;
 	/**
 	 * 接口请求类型
 	 */
@@ -88,12 +88,12 @@ public class AmAction implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getActionName() {
+		return actionName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setActionName(String actionName) {
+		this.actionName = actionName;
 	}
 
 	public String getActionDesc() {
@@ -104,12 +104,12 @@ public class AmAction implements Serializable {
 		this.actionDesc = actionDesc;
 	}
 
-	public String getModule() {
-		return module;
+	public Integer getModuleId() {
+		return moduleId;
 	}
 
-	public void setModule(String module) {
-		this.module = module;
+	public void setModuleId(Integer moduleId) {
+		this.moduleId = moduleId;
 	}
 
 	public Integer getRequestType() {

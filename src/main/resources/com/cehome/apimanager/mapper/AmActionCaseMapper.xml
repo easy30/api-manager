@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cehome.apimanager.model.po.AmActionCase">
+	<resultMap id="BaseResultMap" type="com.cehome.apimanager.model.po.AmActionCase">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="action_id" property="actionId" jdbcType="INTEGER" />
+		<result column="action_case_desc" property="actionCaseDesc" jdbcType="VARCHAR" />
+		<result column="request_head_data" property="requestHeadData" jdbcType="LONGVARCHAR" />
+		<result column="request_data" property="requestData" jdbcType="LONGVARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,action_id,action_case_desc,request_head_data,request_data,create_time,update_time
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_action_case
+		WHERE
+		id = #{id,jdbcType=INTEGER}
+		LIMIT 1
+	</select>
+	
+	<select id="find" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_action_case
+		WHERE
+			action_id = #{actionId}
+		ORDER BY update_time DESC
+		LIMIT #{pageOffset},#{pageSize}
+	</select>
+	
+	<select id="findCount" parameterType="map" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM am_action_case
+		WHERE
+			action_id = #{actionId}
+	</select>
+	
+	<select id="list" parameterType="com.cehome.apimanager.model.po.AmActionCase" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_action_case
+		WHERE
+			action_id = #{actionId}
+	</select>
+	
+	<insert id="insertSelective" parameterType="com.cehome.apimanager.model.po.AmActionCase" 
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO am_action_case
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+			id,
+			</if>
+			<if test="actionId != null">
+			action_id,
+			</if>
+			<if test="actionCaseDesc != null">
+			action_case_desc,
+			</if>
+			<if test="requestHeadData != null">
+			request_head_data,
+			</if>
+			<if test="requestData != null">
+			request_data,
+			</if>
+			<if test="createTime != null">
+			create_time,
+			</if>
+			<if test="updateTime != null">
+			update_time
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+			#{id,jdbcType=INTEGER},
+			</if>
+			<if test="actionId != null">
+			#{actionId,jdbcType=INTEGER},
+			</if>
+			<if test="actionCaseDesc != null">
+			#{actionCaseDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="requestHeadData != null">
+			#{requestHeadData,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="requestData != null">
+			#{requestData,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="createTime != null">
+			#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+			#{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateSelective" parameterType="com.cehome.apimanager.model.po.AmActionCase">
+		UPDATE am_action_case
+		<set>
+			<if test="actionId != null">
+			#{actionId,jdbcType=INTEGER},
+			</if>
+			<if test="actionCaseDesc != null">
+			#{actionCaseDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="requestHeadData != null">
+			#{requestHeadData,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="requestData != null">
+			#{requestData,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="createTime != null">
+			#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+			#{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</set>
+		WHERE
+			id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		DELETE FROM am_action_case WHERE id = #{id}
+	</delete>
+</mapper>

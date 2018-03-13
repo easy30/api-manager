@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cehome.apimanager.model.po.AmModule">
+	<resultMap id="BaseResultMap" type="com.cehome.apimanager.model.po.AmModule">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="project_id" property="projectId" jdbcType="INTEGER" />
+		<result column="module_name" property="moduleName" jdbcType="VARCHAR" />
+		<result column="module_desc" property="moduleDesc" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,project_id,module_name,module_desc,create_time,update_time
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_module
+		WHERE
+		id = #{id,jdbcType=INTEGER}
+		LIMIT 1
+	</select>
+	
+	<select id="find" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_module
+		WHERE
+			1=1
+		<if test="moduleName != null">
+		AND
+			module_name LIKE CONCAT('%',#{moduleName},'%')
+		</if>
+		<if test="projectId != null">
+		AND
+			project_id = #{projectId}
+		</if>
+		ORDER BY update_time DESC
+		LIMIT #{pageOffset},#{pageSize}
+	</select>
+	
+	<select id="findCount" parameterType="map" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM am_module
+		WHERE
+			1=1
+		<if test="moduleName != null">
+		AND
+			module_name LIKE CONCAT('%',#{moduleName},'%')
+		</if>
+		<if test="projectId != null">
+		AND
+			project_id = #{projectId}
+		</if>
+	</select>
+	
+	<select id="list" parameterType="com.cehome.apimanager.model.po.AmModule" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_module
+		WHERE
+			1=1
+		<if test="moduleName != null">
+		AND
+			module_name LIKE CONCAT('%',#{moduleName},'%')
+		</if>
+		<if test="projectId != null">
+		AND
+			project_id = #{projectId}
+		</if>
+	</select>
+	
+	<insert id="insertSelective" parameterType="com.cehome.apimanager.model.po.AmModule" 
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO am_module
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+			id,
+			</if>
+			<if test="projectId != null">
+			project_id,
+			</if>
+			<if test="moduleName != null">
+			module_name,
+			</if>
+			<if test="moduleDesc != null">
+			module_desc,
+			</if>
+			<if test="createTime != null">
+			create_time,
+			</if>
+			<if test="updateTime != null">
+			update_time
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+			#{id,jdbcType=INTEGER},
+			</if>
+			<if test="projectId != null">
+			#{projectId,jdbcType=INTEGER},
+			</if>
+			<if test="moduleName != null">
+			#{moduleName,jdbcType=VARCHAR},
+			</if>
+			<if test="moduleDesc != null">
+			#{moduleDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+			#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+			#{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateSelective" parameterType="com.cehome.apimanager.model.po.AmModule">
+		UPDATE am_module
+		<set>
+			<if test="projectId != null">
+			project_id = #{projectId,jdbcType=INTEGER},
+			</if>
+			<if test="moduleName != null">
+			module_name = #{moduleName,jdbcType=VARCHAR},
+			</if>
+			<if test="moduleDesc != null">
+			module_desc = #{moduleDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+			create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+			update_time = #{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</set>
+		WHERE
+			id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		DELETE FROM am_module WHERE id = #{id}
+	</delete>
+</mapper>

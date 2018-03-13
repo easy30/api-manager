@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cehome.apimanager.model.po.AmDepartment">
+	<resultMap id="BaseResultMap" type="com.cehome.apimanager.model.po.AmDepartment">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="dep_name" property="depName" jdbcType="VARCHAR" />
+		<result column="dep_desc" property="depDesc" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,dep_name,dep_desc,create_time,update_time
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_department
+		WHERE
+		id = #{id,jdbcType=INTEGER}
+		LIMIT 1
+	</select>
+	
+	<select id="find" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_department
+		WHERE
+			1=1
+		<if test="depName != null">
+		AND
+			dep_name LIKE CONCAT('%',#{depName},'%')
+		</if>
+		ORDER BY update_time DESC
+		LIMIT #{pageOffset},#{pageSize}
+	</select>
+	
+	<select id="findCount" parameterType="map" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM am_department
+		WHERE
+			1=1
+		<if test="depName != null">
+		AND
+			dep_name LIKE CONCAT('%',#{depName},'%')
+		</if>
+	</select>
+	
+	<select id="list" parameterType="com.cehome.apimanager.model.po.AmDepartment" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_department
+		WHERE
+			1=1
+		<if test="depName != null">
+		AND
+			dep_name LIKE CONCAT('%',#{depName},'%')
+		</if>
+	</select>
+	
+	<insert id="insertSelective" parameterType="com.cehome.apimanager.model.po.AmDepartment" 
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO am_department
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+			id,
+			</if>
+			<if test="depName != null">
+			dep_name,
+			</if>
+			<if test="depDesc != null">
+			dep_desc,
+			</if>
+			<if test="createTime != null">
+			create_time,
+			</if>
+			<if test="updateTime != null">
+			update_time
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+			#{id,jdbcType=INTEGER},
+			</if>
+			<if test="depName != null">
+			#{depName,jdbcType=VARCHAR},
+			</if>
+			<if test="depDesc != null">
+			#{depDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+			#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+			#{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateSelective" parameterType="com.cehome.apimanager.model.po.AmDepartment">
+		UPDATE am_department
+		<set>
+			<if test="depName != null">
+			dep_name = #{depName,jdbcType=VARCHAR},
+			</if>
+			<if test="depDesc != null">
+			dep_desc = #{depDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+			create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+			update_time = #{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</set>
+		WHERE
+			id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		DELETE FROM am_department WHERE id = #{id}
+	</delete>
+</mapper>

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cehome.apimanager.model.po.AmAction">
+	<resultMap id="BaseResultMap" type="com.cehome.apimanager.model.po.AmAction">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="module_id" property="moduleId" jdbcType="INTEGER" />
+		<result column="action_name" property="actionName" jdbcType="VARCHAR" />
+		<result column="action_desc" property="actionDesc" jdbcType="VARCHAR" />
+		<result column="request_type" property="requestType" jdbcType="VARCHAR" />
+		<result column="request_url" property="requestUrl" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="request_head_definition" property="requestHeadDefinition" jdbcType="LONGVARCHAR" />
+		<result column="request_definition" property="requestDefinition" jdbcType="LONGVARCHAR" />
+		<result column="response_definition" property="responseDefinition" jdbcType="LONGVARCHAR" />
+		<result column="request_head_mock" property="requestHeadMock" jdbcType="VARCHAR" />
+		<result column="request_mock" property="requestMock" jdbcType="LONGVARCHAR" />
+		<result column="response_mock" property="responseMock" jdbcType="LONGVARCHAR" />
+		<result column="create_user" property="createUser" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_user" property="updateUser" jdbcType="INTEGER" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,module_id,action_name,action_desc,request_type,request_url,status,request_head_definition,
+		request_definition,response_definition,request_head_mock,request_mock,response_mock,create_user,
+		create_time,update_user,update_time
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_action
+		WHERE
+		id = #{id,jdbcType=INTEGER}
+		LIMIT 1
+	</select>
+	
+	<select id="find" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_action
+		WHERE
+			1=1
+		<if test="actionName != null">
+		AND
+			action_name LIKE CONCAT('%',#{actionName},'%')
+		</if>
+		<if test="moduleId != null">
+		AND
+			module_id = #{moduleId}
+		</if>
+		ORDER BY update_time DESC
+		LIMIT #{pageOffset},#{pageSize}
+	</select>
+	
+	<select id="findCount" parameterType="map" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM am_action
+		WHERE
+			1=1
+		<if test="actionName != null">
+		AND
+			action_name LIKE CONCAT('%',#{actionName},'%')
+		</if>
+		<if test="moduleId != null">
+		AND
+			module_id = #{moduleId}
+		</if>		
+	</select>
+	
+	<select id="list" parameterType="com.cehome.apimanager.model.po.AmAction" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_action
+		WHERE
+			1=1
+		<if test="actionName != null">
+		AND
+			action_name LIKE CONCAT('%',#{actionName},'%')
+		</if>
+		<if test="moduleId != null">
+		AND
+			module_id = #{moduleId}
+		</if>
+	</select>
+	
+	<insert id="insertSelective" parameterType="com.cehome.apimanager.model.po.AmAction" 
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO am_action
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+			id,
+			</if>
+			<if test="moduleId != null">
+			module_id,
+			</if>
+			<if test="actionName != null">
+			action_name,
+			</if>
+			<if test="actionDesc != null">
+			action_desc,
+			</if>
+			<if test="requestType != null">
+			request_type,
+			</if>
+			<if test="requestUrl != null">
+			request_url,
+			</if>
+			<if test="status != null">
+			status,
+			</if>
+			<if test="requestHeadDefinition != null">
+			request_head_definition,
+			</if>
+			<if test="requestDefinition != null">
+			request_definition,
+			</if>
+			<if test="responseDefinition != null">
+			response_definition,
+			</if>
+			<if test="requestHeadMock != null">
+			request_head_mock,
+			</if>
+			<if test="requestMock != null">
+			request_mock,
+			</if>
+			<if test="responseMock != null">
+			response_mock,
+			</if>
+			<if test="createUser != null">
+			create_user,
+			</if>
+			<if test="createTime != null">
+			create_time,
+			</if>
+			<if test="updateUser != null">
+			update_user,
+			</if>
+			<if test="updateTime != null">
+			update_time
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+			id = {id,jdbcType=INTEGER},
+			</if>
+			<if test="moduleId != null">
+			module_id = {moduleId,jdbcType=INTEGER},
+			</if>
+			<if test="actionName != null">
+			action_name = {actionName,jdbcType=VARCHAR},
+			</if>
+			<if test="actionDesc != null">
+			action_desc = {actionDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="requestType != null">
+			request_type = {requestType,jdbcType=VARCHAR},
+			</if>
+			<if test="requestUrl != null">
+			request_url = {requestUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+			status = {status,jdbcType=INTEGER},
+			</if>
+			<if test="requestHeadDefinition != null">
+			request_head_definition = {requestHeadDefinition,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="requestDefinition != null">
+			request_definition = {requestDefinition,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="responseDefinition != null">
+			response_definition = {responseDefinition,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="requestHeadMock != null">
+			request_head_mock = {requestHeadMock,jdbcType=VARCHAR},
+			</if>
+			<if test="requestMock != null">
+			request_mock = {requestMock,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="responseMock != null">
+			response_mock = {responseMock,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="createUser != null">
+			create_user = {createUser,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+			create_time = {createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+			update_user = {updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+			update_time = {updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateSelective" parameterType="com.cehome.apimanager.model.po.AmAction">
+		UPDATE am_action
+		<set>
+			<if test="moduleId != null">
+			module_id = {moduleId,jdbcType=INTEGER},
+			</if>
+			<if test="actionName != null">
+			action_name = {actionName,jdbcType=VARCHAR},
+			</if>
+			<if test="actionDesc != null">
+			action_desc = {actionDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="requestType != null">
+			request_type = {requestType,jdbcType=VARCHAR},
+			</if>
+			<if test="requestUrl != null">
+			request_url = {requestUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+			status = {status,jdbcType=INTEGER},
+			</if>
+			<if test="requestHeadDefinition != null">
+			request_head_definition = {requestHeadDefinition,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="requestDefinition != null">
+			request_definition = {requestDefinition,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="responseDefinition != null">
+			response_definition = {responseDefinition,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="requestHeadMock != null">
+			request_head_mock = {requestHeadMock,jdbcType=VARCHAR},
+			</if>
+			<if test="requestMock != null">
+			request_mock = {requestMock,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="responseMock != null">
+			response_mock = {responseMock,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="createUser != null">
+			create_user = {createUser,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+			create_time = {createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+			update_user = {updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+			update_time = {updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</set>
+		WHERE
+			id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		DELETE FROM am_action WHERE id = #{id}
+	</delete>
+</mapper>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cehome.apimanager.model.po.AmProject">
+	<resultMap id="BaseResultMap" type="com.cehome.apimanager.model.po.AmProject">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="dep_id" property="depId" jdbcType="INTEGER" />
+		<result column="project_name" property="projectName" jdbcType="VARCHAR" />
+		<result column="project_desc" property="projectDesc" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,dep_id,project_name,project_desc,create_time,update_time
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_project
+		WHERE
+		id = #{id,jdbcType=INTEGER}
+		LIMIT 1
+	</select>
+	
+	<select id="find" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_project
+		WHERE
+			1=1
+		<if test="depName != null">
+		AND
+			project_name LIKE CONCAT('%',#{projectName},'%')
+		</if>
+		<if test="depId != null">
+		AND
+			dep_id = #{depId}
+		</if>
+		ORDER BY update_time DESC
+		LIMIT #{pageOffset},#{pageSize}
+	</select>
+	
+	<select id="findCount" parameterType="map" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM am_project
+		WHERE
+			1=1
+		<if test="projectName != null">
+		AND
+			project_name LIKE CONCAT('%',#{projectName},'%')
+		</if>
+		<if test="depId != null">
+		AND
+			dep_id = #{depId}
+		</if>		
+	</select>
+	
+	<select id="list" parameterType="com.cehome.apimanager.model.po.AmProject" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_project
+		WHERE
+			1=1
+		<if test="projectName != null">
+		AND
+			project_name LIKE CONCAT('%',#{projectName},'%')
+		</if>
+		<if test="depId != null">
+		AND
+			dep_id = #{depId}
+		</if>
+	</select>
+	
+	<insert id="insertSelective" parameterType="com.cehome.apimanager.model.po.AmProject" 
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO am_project
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+			id,
+			</if>
+			<if test="depId != null">
+			dep_id,
+			</if>
+			<if test="projectName != null">
+			project_name,
+			</if>
+			<if test="projectDesc != null">
+			project_desc,
+			</if>
+			<if test="createTime != null">
+			create_time,
+			</if>
+			<if test="updateTime != null">
+			update_time
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+			#{id,jdbcType=INTEGER},
+			</if>
+			<if test="depId != null">
+			#{depId,jdbcType=INTEGER},
+			</if>
+			<if test="projectName != null">
+			#{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="projectDesc != null">
+			#{projectDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+			#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+			#{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateSelective" parameterType="com.cehome.apimanager.model.po.AmProject">
+		UPDATE am_project
+		<set>
+			<if test="depId != null">
+			dep_id = #{depId,jdbcType=INTEGER},
+			</if>
+			<if test="projectName != null">
+			project_name = #{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="projectDesc != null">
+			project_desc = #{projectDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+			create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+			update_time = #{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</set>
+		WHERE
+			id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		DELETE FROM am_project WHERE id = #{id}
+	</delete>
+</mapper>
