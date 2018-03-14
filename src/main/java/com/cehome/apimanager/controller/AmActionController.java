@@ -6,7 +6,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cehome.apimanager.common.BaseController;
@@ -21,18 +23,18 @@ import com.cehome.apimanager.service.IAmActionService;
 @RequestMapping("/apimanager/action")
 public class AmActionController extends BaseController {
 	private static Logger logger = LoggerFactory.getLogger(AmActionController.class);
-	
+
 	@Autowired
 	private IAmActionService actionService;
-	
+
 	/**
 	 * 添加接口文档
 	 * 
 	 * @param dto
 	 * @return
 	 */
-	@RequestMapping("add")
-	public Map<String, Object> add(AmActionReqDto dto) {
+	@RequestMapping(value = "add", method = RequestMethod.POST)
+	public Map<String, Object> add(@RequestBody AmActionReqDto dto) {
 		try {
 			actionService.add(dto);
 			return toSuccess();
@@ -48,8 +50,8 @@ public class AmActionController extends BaseController {
 	 * @param dto
 	 * @return
 	 */
-	@RequestMapping("update")
-	public Map<String, Object> update(AmActionReqDto dto) {
+	@RequestMapping(value = "update", method = RequestMethod.POST)
+	public Map<String, Object> update(@RequestBody AmActionReqDto dto) {
 		try {
 			actionService.update(dto);
 			return toSuccess();
@@ -109,7 +111,7 @@ public class AmActionController extends BaseController {
 			return toFail(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 获取测试用例列表
 	 * 

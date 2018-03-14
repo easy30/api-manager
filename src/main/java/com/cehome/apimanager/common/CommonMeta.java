@@ -9,10 +9,17 @@ public class CommonMeta {
 
 	/**
 	 * 字段类型
-	 *
 	 */
 	public enum JavaType {
-		NUMBER(1, "number"), STRING(2, "string"), BOOLEAN(3, "boolean"), OBJECT(4, "object"), ARRAY(5, "array");
+		NUMBER(1, "number"), 
+		STRING(2, "string"), 
+		BOOLEAN(3, "boolean"), 
+		OBJECT(4, "object"), 
+		ARRAY(5, "array"), 
+		ARRAY_NUMBER(6, "array[number]"), 
+		ARRAY_STRING(7,"array[string]"), 
+		ARRAY_BOOLEAN(8, "array[boolean]"), 
+		ARRAY_OBJECT(9, "array[object]");
 
 		public static Map<String, String> MAP;
 		public static List<MetaKv> KVS;
@@ -44,6 +51,56 @@ public class CommonMeta {
 		private final String desc;
 
 		JavaType(int code, String desc) {
+			this.code = code;
+			this.desc = desc;
+		}
+
+		public int getCode() {
+			return code;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
+	}
+
+	/**
+	 * 请求类型
+	 */
+	public enum RequestType {
+		GET(1, "get"), 
+		POST(2, "post");
+
+		public static Map<String, String> MAP;
+		public static List<MetaKv> KVS;
+
+		static {
+			MAP = new HashMap<String, String>(RequestType.values().length);
+			KVS = new ArrayList<MetaKv>(RequestType.values().length);
+			for (RequestType requestType : RequestType.values()) {
+				MAP.put(String.valueOf(requestType.getCode()), requestType.getDesc());
+				KVS.add(new MetaKv(requestType.getCode(), requestType.getDesc()));
+			}
+		}
+
+		public static String findDescByCode(Integer code) {
+			if (null == code || -1 == code)
+				return "";
+			return findDescByCode(String.valueOf(code));
+		}
+
+		public static String findDescByCode(String code) {
+			String desc = MAP.get(code);
+			if (null == desc) {
+				desc = "未知";
+			}
+			return desc;
+		}
+
+		private final int code;
+		private final String desc;
+
+		RequestType(int code, String desc) {
 			this.code = code;
 			this.desc = desc;
 		}
