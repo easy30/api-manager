@@ -44,7 +44,7 @@ public class MockUtils {
 		return mockData.toString();
 	}
 	
-	public static synchronized void createScriptEngine(){
+	private static synchronized void createScriptEngine(){
 		if(engine != null){
 			return;
 		}
@@ -73,7 +73,7 @@ public class MockUtils {
 		}
 	}
 	
-	public static String getJsPath(){
+	private static String getJsPath(){
 		URL resource = Thread.currentThread().getContextClassLoader().getResource("");
 		String path = resource.getPath();
 		return path + File.separator + "static/res/mock/mock-min.js";

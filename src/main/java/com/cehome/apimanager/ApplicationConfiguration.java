@@ -8,11 +8,14 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
+
+import com.cehome.apimanager.filter.RedirectFilter;
 
 @Configuration
 public class ApplicationConfiguration {
@@ -22,7 +25,7 @@ public class ApplicationConfiguration {
 	@Autowired
 	private DataSource dataSource;
 
-	@Bean(name = "sqlSessionTemplate")
+	@Bean
 	public SqlSessionTemplate newSqlSessionTemplate() {
 		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 		factoryBean.setDataSource(dataSource);
@@ -40,7 +43,7 @@ public class ApplicationConfiguration {
 		return null;
 	}
 	
-	@Bean(name = "restTemplate")
+	@Bean
 	public RestTemplate newRestTemplate(){
 		HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
         httpRequestFactory.setConnectionRequestTimeout(5000);
@@ -49,4 +52,11 @@ public class ApplicationConfiguration {
 		RestTemplate restTemplate = new RestTemplate(httpRequestFactory);
 		return restTemplate;
 	}
+	
+	@Bean  
+    public FilterRegistrationBean<RedirectFilter> testFilterRegistration() {  
+        FilterRegistrationBean<RedirectFilter> registration = new FilterRegistrationBean<>(new RedirectFilter());  
+        registration.addUrlPatterns("/*");  
+        return registration;  
+    }
 }

@@ -37,6 +37,14 @@ public interface IAmActionService {
 	 * @return
 	 */
 	AmActionResDto findById(AmActionQueryReqDto dto);
+	
+	/**
+	 * 根据url匹配接口
+	 * 
+	 * @param dto
+	 * @return
+	 */
+	Integer findByRequestUrl(String requestUrl);
 
 	/**
 	 * 根据id删除接口文档

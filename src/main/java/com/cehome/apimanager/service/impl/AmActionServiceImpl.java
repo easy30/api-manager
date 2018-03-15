@@ -2,6 +2,8 @@ package com.cehome.apimanager.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import com.cehome.apimanager.model.dto.AmActionReqDto;
 import com.cehome.apimanager.model.dto.AmActionResDto;
 import com.cehome.apimanager.model.po.AmAction;
 import com.cehome.apimanager.service.IAmActionService;
+import com.cehome.apimanager.utils.UrlUtils;
 
 /**
  * 动作业务接口实现
@@ -33,6 +36,8 @@ public class AmActionServiceImpl implements IAmActionService {
 	@Autowired
 	private AmActionDao actionDao;
 
+	private Map<String, Integer> map = new ConcurrentHashMap<>();
+	
 	@Override
 	public void add(AmActionReqDto dto) {
 		buildMock(dto);
@@ -58,7 +63,17 @@ public class AmActionServiceImpl implements IAmActionService {
 		BeanUtils.copyProperties(amAction, amActionResDto);
 		return amActionResDto;
 	}
-
+	
+	@Override
+	public Integer findByRequestUrl(String requestUrl) {
+		for(Map.Entry<String, Integer> entry : map.entrySet()){
+			if(UrlUtils.match(entry.getKey(), requestUrl)){
+				return entry.getValue();
+			}
+		}
+		return null;
+	}
+	
 	@Override
 	public void delete(AmActionReqDto dto) {
 		actionDao.delete(dto.getId());
