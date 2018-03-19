@@ -33,10 +33,10 @@ public interface IAmActionService {
 	/**
 	 * 根据id返回接口文档
 	 * 
-	 * @param dto
+	 * @param id
 	 * @return
 	 */
-	AmActionResDto findById(AmActionQueryReqDto dto);
+	AmActionResDto findById(Integer id);
 	
 	/**
 	 * 根据url匹配接口
@@ -44,7 +44,7 @@ public interface IAmActionService {
 	 * @param dto
 	 * @return
 	 */
-	Integer findByRequestUrl(String requestUrl);
+	Integer findIdByRequestUrl(String requestUrl);
 
 	/**
 	 * 根据id删除接口文档
@@ -69,4 +69,9 @@ public interface IAmActionService {
 	 */
 	List<AmAction> list(AmActionQueryReqDto dto);
 
+	/**
+	 * 返回全部的接口url列表
+	 * @return
+	 */
+	List<AmAction> findUrlList();
 }

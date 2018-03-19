@@ -13,7 +13,7 @@ public class BaseDao<E> {
 	private Class<E> clz;
 
 	@Autowired
-	private SqlSessionTemplate sqlSessionTemplate;
+	protected SqlSessionTemplate sqlSessionTemplate;
 
 	public void add(E entity) {
 		sqlSessionTemplate.insert(getClassName() + ".insertSelective", entity);
@@ -58,7 +58,7 @@ public class BaseDao<E> {
 		return clz;
 	}
 
-	private String getClassName() {
+	protected String getClassName() {
 		return getClz().getName();
 	}
 }

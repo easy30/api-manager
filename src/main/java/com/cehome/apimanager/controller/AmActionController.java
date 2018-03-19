@@ -68,9 +68,9 @@ public class AmActionController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("findById")
-	public Map<String, Object> findById(AmActionQueryReqDto dto) {
+	public Map<String, Object> findById(Integer id) {
 		try {
-			AmActionResDto amActionResDto = actionService.findById(dto);
+			AmActionResDto amActionResDto = actionService.findById(id);
 			return toSuccess(amActionResDto);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);

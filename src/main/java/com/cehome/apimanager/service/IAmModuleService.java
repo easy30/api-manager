@@ -20,7 +20,7 @@ public interface IAmModuleService {
 
 	void update(AmModuleReqDto dto);
 
-	AmModuleResDto findById(AmModuleQueryReqDto dto);
+	AmModuleResDto findById(Integer id);
 
 	void delete(AmModuleReqDto dto);
 

@@ -16,22 +16,18 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cehome.apimanager.common.CommonMeta;
-import com.cehome.apimanager.model.dto.AmActionQueryReqDto;
 import com.cehome.apimanager.model.dto.AmActionResDto;
 import com.cehome.apimanager.service.IAmActionService;
+import com.cehome.apimanager.utils.ApplicationContextUtils;
 import com.cehome.apimanager.utils.HttpUtils;
 import com.cehome.apimanager.utils.MockUtils;
 
-public class RedirectFilter implements Filter, ApplicationContextAware{
+public class RedirectFilter implements Filter {
 	private static final String CONTENT_TYPE = "application/json";
 	private static final String ENCODING = "UTF-8";
-	private ApplicationContext applicationContext;
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -42,11 +38,9 @@ public class RedirectFilter implements Filter, ApplicationContextAware{
 			return;
 		}
 		
-		IAmActionService actionService = applicationContext.getBean(IAmActionService.class);
-		Integer actionId = actionService.findByRequestUrl(requestURL.toString());
-		AmActionQueryReqDto dto = new AmActionQueryReqDto();
-		dto.setId(actionId);
-		AmActionResDto actionResDto = actionService.findById(dto);
+		IAmActionService actionService = ApplicationContextUtils.getBean(IAmActionService.class);
+		Integer actionId = actionService.findIdByRequestUrl(requestURL.toString());
+		AmActionResDto actionResDto = actionService.findById(actionId);
 		String responseText = "";
 		if(actionResDto != null && actionResDto.getStatus() == CommonMeta.Status.DOING.getCode()){
 			String responseMock = actionResDto.getResponseMock();
@@ -56,7 +50,9 @@ public class RedirectFilter implements Filter, ApplicationContextAware{
 			Enumeration<String> headerNames = httpRequest.getHeaderNames();
 			while(headerNames.hasMoreElements()){
 				String headerName = headerNames.nextElement();
-				headers.put(headerName, httpRequest.getHeader(headerName));
+				if(isValidHeader(headerName)){
+					headers.put(headerName, httpRequest.getHeader(headerName));
+				}
 			}
 			HttpEntity responseEntity = null;
 			String method = httpRequest.getMethod();
@@ -100,8 +96,7 @@ public class RedirectFilter implements Filter, ApplicationContextAware{
 		
 	}
 	
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.applicationContext = applicationContext;
+	public boolean isValidHeader(String headerName){
+		return false;
 	}
 }

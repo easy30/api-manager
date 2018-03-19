@@ -84,6 +84,10 @@
 		</if>
 	</select>
 	
+	<select id="findUrlList" resultMap="BaseResultMap">
+		SELECT id,request_url FROM am_action
+	</select>
+	
 	<insert id="insertSelective" parameterType="com.cehome.apimanager.model.po.AmAction" 
 		useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO am_action

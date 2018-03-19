@@ -2,8 +2,6 @@ package com.cehome.apimanager.service.impl;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +11,10 @@ import org.springframework.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.cehome.apimanager.cache.CacheProvider;
 import com.cehome.apimanager.common.CommonMeta;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.dao.AmActionDao;
-import com.cehome.apimanager.exception.BizValidationException;
 import com.cehome.apimanager.model.dto.AmActionQueryReqDto;
 import com.cehome.apimanager.model.dto.AmActionReqDto;
 import com.cehome.apimanager.model.dto.AmActionResDto;
@@ -36,7 +34,8 @@ public class AmActionServiceImpl implements IAmActionService {
 	@Autowired
 	private AmActionDao actionDao;
 
-	private Map<String, Integer> map = new ConcurrentHashMap<>();
+	@Autowired
+	private CacheProvider cacheProvider;
 	
 	@Override
 	public void add(AmActionReqDto dto) {
@@ -44,20 +43,35 @@ public class AmActionServiceImpl implements IAmActionService {
 		dto.setCreateTime(new Date());
 		dto.setUpdateTime(new Date());
 		actionDao.add(dto);
+		
+		cacheProvider.addActionUrlCache(dto);
 	}
 
 	@Override
 	public void update(AmActionReqDto dto) {
+		AmActionResDto actionResDto = findById(dto.getId());
+		if(actionResDto == null){
+			return;
+		}
+		String requestUrl = actionResDto.getRequestUrl();
+		AmAction action = new AmAction();
+		action.setRequestUrl(requestUrl);
+		action.setId(dto.getId());
+		cacheProvider.removeActionUrlCache(action);
+		
 		buildMock(dto);
 		dto.setUpdateTime(new Date());
 		actionDao.update(dto);
+		
+		action.setRequestUrl(dto.getRequestUrl());
+		cacheProvider.addActionUrlCache(action);
 	}
 
 	@Override
-	public AmActionResDto findById(AmActionQueryReqDto dto) {
-		AmAction amAction = actionDao.get(dto.getId());
+	public AmActionResDto findById(Integer id) {
+		AmAction amAction = actionDao.get(id);
 		if (amAction == null) {
-			throw new BizValidationException("接口不存在，接口编号【" + dto.getId() + "】");
+			return null;
 		}
 		AmActionResDto amActionResDto = new AmActionResDto();
 		BeanUtils.copyProperties(amAction, amActionResDto);
@@ -65,17 +79,24 @@ public class AmActionServiceImpl implements IAmActionService {
 	}
 	
 	@Override
-	public Integer findByRequestUrl(String requestUrl) {
-		for(Map.Entry<String, Integer> entry : map.entrySet()){
-			if(UrlUtils.match(entry.getKey(), requestUrl)){
-				return entry.getValue();
-			}
-		}
-		return null;
+	public Integer findIdByRequestUrl(String requestUrl) {
+		List<AmAction> actionUrlCache = cacheProvider.getActionUrlCache();
+		AmAction result = actionUrlCache.stream().filter(action -> UrlUtils.match(action.getRequestUrl(), requestUrl)).findAny().orElse(null);
+		return result == null ? 0 : result.getId();
 	}
 	
 	@Override
 	public void delete(AmActionReqDto dto) {
+		AmActionResDto actionResDto = findById(dto.getId());
+		if(actionResDto == null){
+			return;
+		}
+		String requestUrl = actionResDto.getRequestUrl();
+		AmAction action = new AmAction();
+		action.setRequestUrl(requestUrl);
+		action.setId(dto.getId());
+		cacheProvider.removeActionUrlCache(action);
+		
 		actionDao.delete(dto.getId());
 	}
 
@@ -89,6 +110,11 @@ public class AmActionServiceImpl implements IAmActionService {
 		return actionDao.list(dto);
 	}
 
+	@Override
+	public List<AmAction> findUrlList() {
+		return actionDao.findUrlList();
+	}
+	
 	private JSONObject buildMockData(List<JSONObject> columnList) {
 		JSONObject mockObject = new JSONObject();
 		for (JSONObject column : columnList) {

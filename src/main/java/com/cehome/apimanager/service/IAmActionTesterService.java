@@ -9,7 +9,7 @@ import com.cehome.apimanager.model.dto.ActionTesterReqDto;
  * @author sunlei
  *
  */
-public interface IActionTesterService {
+public interface IAmActionTesterService {
 
 	/**
 	 * 发送接口请求

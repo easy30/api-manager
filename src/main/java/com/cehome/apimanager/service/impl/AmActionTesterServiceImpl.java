@@ -9,7 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.cehome.apimanager.common.CommonMeta;
 import com.cehome.apimanager.exception.BizValidationException;
 import com.cehome.apimanager.model.dto.ActionTesterReqDto;
-import com.cehome.apimanager.service.IActionTesterService;
+import com.cehome.apimanager.service.IAmActionTesterService;
 import com.cehome.apimanager.utils.HttpUtils;
 
 /**
@@ -19,7 +19,7 @@ import com.cehome.apimanager.utils.HttpUtils;
  *
  */
 @Service
-public class ActionTesterServiceImpl implements IActionTesterService {
+public class AmActionTesterServiceImpl implements IAmActionTesterService {
 
 	@Override
 	public JSONObject send(ActionTesterReqDto dto) { 

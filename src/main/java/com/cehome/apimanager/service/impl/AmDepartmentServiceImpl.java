@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.dao.AmDepartmentDao;
-import com.cehome.apimanager.exception.BizValidationException;
+import com.cehome.apimanager.dao.AmUserDepartmentDao;
 import com.cehome.apimanager.model.dto.AmDepartmentQueryReqDto;
 import com.cehome.apimanager.model.dto.AmDepartmentReqDto;
 import com.cehome.apimanager.model.dto.AmDepartmentResDto;
@@ -26,7 +26,10 @@ import com.cehome.apimanager.service.IAmDepartmentService;
 public class AmDepartmentServiceImpl implements IAmDepartmentService {
 	@Autowired
 	private AmDepartmentDao departmentDao;
-
+	
+	@Autowired
+	private AmUserDepartmentDao userDepartmentDao;
+	
 	public Integer add(AmDepartmentReqDto dto) {
 		AmDepartment entity = new AmDepartment();
 		BeanUtils.copyProperties(dto, entity);
@@ -46,7 +49,7 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 	public AmDepartmentResDto findById(AmDepartmentQueryReqDto dto) {
 		AmDepartment amDepartment = departmentDao.get(dto.getId());
 		if(amDepartment == null){
-			throw new BizValidationException("部门不存在，部门编号【" + dto.getId() + "】");
+			return null;
 		}
 		AmDepartmentResDto amDepartmentResDto = new AmDepartmentResDto();
 		BeanUtils.copyProperties(amDepartment, amDepartmentResDto);
@@ -55,6 +58,7 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 
 	@Override
 	public void delete(AmDepartmentReqDto dto) {
+		userDepartmentDao.deleteByDepId(dto.getId());
 		departmentDao.delete(dto.getId());
 	}
 

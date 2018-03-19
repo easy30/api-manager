@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.dao.AmProjectDao;
-import com.cehome.apimanager.exception.BizValidationException;
 import com.cehome.apimanager.model.dto.AmProjectQueryReqDto;
 import com.cehome.apimanager.model.dto.AmProjectReqDto;
 import com.cehome.apimanager.model.dto.AmProjectResDto;
@@ -45,7 +44,7 @@ public class AmProjectServiceImpl implements IAmProjectService {
 	public AmProjectResDto findById(AmProjectQueryReqDto dto) {
 		AmProject amProject = projectDao.get(dto.getId());
 		if(amProject == null){
-			throw new BizValidationException("项目不存在，项目编号【" + dto.getId() + "】");
+			return null;
 		}
 		AmProjectResDto amProjectResDto = new AmProjectResDto();
 		BeanUtils.copyProperties(amProject, amProjectResDto);

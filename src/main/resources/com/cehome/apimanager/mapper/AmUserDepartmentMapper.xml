@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cehome.apimanager.model.po.AmUserDepartment">
+	<resultMap id="BaseResultMap" type="com.cehome.apimanager.model.po.AmUserDepartment">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="roleId" jdbcType="INTEGER" />
+		<result column="dep_id" property="roleId" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,user_id,dep_id
+	</sql>
+	
+	<insert id="batchAdd">  
+        INSERT INTO 
+        	am_user_department (user_id,dep_id)  
+        VALUES   
+        <foreach collection="userDepartmentList" item="ud" separator=",">  
+            (#{ud.userId},#{ud.depId})  
+        </foreach>  
+	</insert>
+	
+	<delete id="deleteByUserId" parameterType="java.lang.Integer">
+		DELETE FROM am_user_department WHERE user_id = #{userId}
+	</delete>
+	
+	<delete id="deleteByDepId" parameterType="java.lang.Integer">
+		DELETE FROM am_user_department WHERE dep_id = #{depId}
+	</delete>
+</mapper>

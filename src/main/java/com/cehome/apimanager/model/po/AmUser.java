@@ -32,10 +32,6 @@ public class AmUser implements Serializable {
 	 */
 	private String email;
 	/**
-	 * 所属部门
-	 */
-	private Integer depId;
-	/**
 	 * 创建时间
 	 */
 	private Date createTime;
@@ -82,14 +78,6 @@ public class AmUser implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public Integer getDepId() {
-		return depId;
-	}
-
-	public void setDepId(Integer depId) {
-		this.depId = depId;
 	}
 
 	public Date getCreateTime() {

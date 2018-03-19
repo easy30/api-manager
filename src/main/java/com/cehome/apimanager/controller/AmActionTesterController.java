@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.cehome.apimanager.common.BaseController;
 import com.cehome.apimanager.model.dto.ActionTesterReqDto;
-import com.cehome.apimanager.service.IActionTesterService;
+import com.cehome.apimanager.service.IAmActionTesterService;
 
 @RestController
 @RequestMapping("/apimanager/tester")
-public class ActionTesterController extends BaseController {
-	private static Logger logger = LoggerFactory.getLogger(ActionTesterController.class);
+public class AmActionTesterController extends BaseController {
+	private static Logger logger = LoggerFactory.getLogger(AmActionTesterController.class);
 
 	@Autowired
-	private IActionTesterService actionTesterService;
+	private IAmActionTesterService actionTesterService;
 
 	/**
 	 * 发送接口请求

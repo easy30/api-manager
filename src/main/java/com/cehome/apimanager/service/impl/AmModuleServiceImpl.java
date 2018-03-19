@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.dao.AmModuleDao;
-import com.cehome.apimanager.exception.BizValidationException;
 import com.cehome.apimanager.model.dto.AmModuleQueryReqDto;
 import com.cehome.apimanager.model.dto.AmModuleReqDto;
 import com.cehome.apimanager.model.dto.AmModuleResDto;
@@ -42,10 +41,10 @@ public class AmModuleServiceImpl implements IAmModuleService {
 	}
 
 	@Override
-	public AmModuleResDto findById(AmModuleQueryReqDto dto) {
-		AmModule amModule = moduleDao.get(dto.getId());
+	public AmModuleResDto findById(Integer id) {
+		AmModule amModule = moduleDao.get(id);
 		if (amModule == null) {
-			throw new BizValidationException("模块不存在，模块编号【" + dto.getId() + "】");
+			return null;
 		}
 		AmModuleResDto amModuleResDto = new AmModuleResDto();
 		BeanUtils.copyProperties(amModule, amModuleResDto);
