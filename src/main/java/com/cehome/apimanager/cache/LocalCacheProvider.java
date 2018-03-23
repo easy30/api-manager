@@ -34,7 +34,7 @@ public class LocalCacheProvider implements CacheProvider{
 		Iterator<AmAction> iterator = actionUrlCache.iterator();
 		while(iterator.hasNext()){
 			AmAction next = iterator.next();
-			if(next.getRequestUrl().equals(next.getRequestUrl())){
+			if(next.getRequestUrl().equals(action.getRequestUrl())){
 				iterator.remove();
 				break;
 			}

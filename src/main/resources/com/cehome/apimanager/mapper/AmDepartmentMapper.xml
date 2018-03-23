@@ -32,7 +32,7 @@
 		AND
 			dep_name LIKE CONCAT('%',#{depName},'%')
 		</if>
-		ORDER BY update_time DESC
+		ORDER BY id
 		LIMIT #{pageOffset},#{pageSize}
 	</select>
 	

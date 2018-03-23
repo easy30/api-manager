@@ -59,7 +59,7 @@ public class MockUtils {
 						+ "	var jsonObject = JSON.parse(mockTemplate);"
 						+ "	var mockData = Mock.mock(jsonObject);"
 						+ " return JSON.stringify(mockData, null, 2);"
-						+ "}");
+					  + "}");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

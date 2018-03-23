@@ -33,7 +33,7 @@ public class RedirectFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		StringBuffer requestURL = httpRequest.getRequestURL();
-		if(requestURL.indexOf("/apimanager/") > 0){
+		if(requestURL.indexOf("localhost") > 0){
 			chain.doFilter(request, response);
 			return;
 		}
@@ -87,7 +87,7 @@ public class RedirectFilter implements Filter {
 	}
 
 	@Override
-	public void init(FilterConfig arg0) throws ServletException {
+	public void init(FilterConfig filterConfig) throws ServletException {
 		
 	}
 	

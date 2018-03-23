@@ -58,12 +58,11 @@ public class ApplicationConfiguration {
         httpRequestFactory.setConnectionRequestTimeout(5000);
         httpRequestFactory.setConnectTimeout(5000);
         httpRequestFactory.setReadTimeout(5000);
-		RestTemplate restTemplate = new RestTemplate(httpRequestFactory);
-		return restTemplate;
+		return new RestTemplate(httpRequestFactory);
 	}
-	 
+	
 	@Bean  
-    public FilterRegistrationBean<RedirectFilter> testFilterRegistration() {
+    public FilterRegistrationBean<RedirectFilter> filterRegistration() {
         FilterRegistrationBean<RedirectFilter> registration = new FilterRegistrationBean<>(new RedirectFilter());  
         registration.addUrlPatterns("/*");  
         return registration;  
