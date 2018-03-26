@@ -426,11 +426,11 @@
                     })
                     $td.append($button);
                 }
-                if(type == 'enter'){
+                if (type == 'enter') {
                     var $button = $('<button class="btn btn-info btn-sm btn-enter" style="margin-left: 10px;" type="button"></button>');
                     $button.html('<span class="glyphicon glyphicon-share-alt"></span>&nbsp;&nbsp;' + button.text);
                     $button.click(function () {
-                        if(button.fn){
+                        if (button.fn) {
                             button.fn();
                         }
                     })
