@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>datatable</title>
+    <link href="../res/bootstrap-4.0.0/css/bootstrap.css" rel="stylesheet"></link>
+    <script src="../res/js/jquery-3.3.1.min.js"></script>
+    <script src="../res/bootstrap-4.0.0/js/bootstrap.min.js"></script>
+    <script src="js/jquery.editTable.js"></script>
+</head>
+<body>
+<form id="form" style="width: 300px;">
+    <div class="input-group">
+        <input type="text" name="depName" class="form-control" style="height: 30px;" placeholder="按照部门名称搜索"/>
+        <span class="input-group-btn">
+            <button class="btn btn-primary btn-sm" type="button">搜 索</button>
+        </span>
+    </div>
+</form>
+
+<div id="datatable"></div>
+<script>
+    var options = {
+        headers: [
+            {text: '部门编号', width: '20%'},
+            {text: '部门名称', width: '20%'},
+            {text: '部门简述', width: '40%'},
+            {text: '操作', width: '20%'}
+        ],
+        form: '#form',
+        fields: [
+            {name: 'id', inputDesc: '部门编号', required: false},
+            {name: 'depName', inputDesc: '部门名称', required: true},
+            {name: 'depDesc', inputDesc: '部门描述', required: false}
+        ],
+        rowButtons: [
+            {type: 'update', text: '编辑', url: '/apimanager/department/update'},
+            {type: 'save', text: '保存', url: '/apimanager/department/add'},
+            {type: 'delete', text: '删除', url: '/apimanager/department/delete'}
+        ],
+        url: '/apimanager/department/findPage'
+    };
+    $('#datatable').editTable(options);
+</script>
+</body>
+</html>
