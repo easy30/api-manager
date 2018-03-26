@@ -1,7 +1,7 @@
 ;(function ($) {
     $.fn.editTable = function (options) {
         var defaults = {
-            width: 900
+            width: '100%'
         };
         var conf = this.conf = $.extend({}, defaults, options);
         var jq = this;
@@ -36,8 +36,8 @@
             $tBody.append($tr);
         }
 
-        var $addBtn = $('<button class="btn btn-info btn-sm btn-add" type="button" style="width: 80px;"></button>');
-        $addBtn.html('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;添 加').click(function () {
+        var $addBtn = $('<button class="btn btn-success btn-sm btn-add" type="button"></button>');
+        $addBtn.html('<span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;添加').click(function () {
             jq._addRow();
         });
 
@@ -49,7 +49,7 @@
         $.each(data, function (index, rowData) {
             jq._showRow(rowData);
         });
-        return jq;
+        return this;
     }
     $.fn._load = function (params) {
         var jq = this;
@@ -65,6 +65,7 @@
                 jq._build(data);
             }
         })
+        return this;
     }
     $.fn._addRow = function () {
         var jq = this;
@@ -105,8 +106,9 @@
             $.each(rowButtons, function (index, button) {
                 var type = button.type;
                 if (type == 'update') {
-                    var $button = $('<button class="btn btn-primary btn-sm btn-update" type="button" textType="update"></button>');
-                    $button.text(button.text).css('display', 'none').on('click', function () {
+                    var $button = $('<button class="btn btn-primary btn-sm btn-update" style="margin-left: 10px;" type="button" textType="update"></button>');
+                    $button.html('<span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;' + button.text);
+                    $button.css('display', 'none').on('click', function () {
                         var textType = $button.attr('textType');
                         if (textType == 'update') {
                             $tr.find('.td-item-input').css('display', '');
@@ -158,8 +160,9 @@
                     $td.append($button);
                 }
                 if (type == 'save') {
-                    var $button = $('<button class="btn btn-primary btn-sm btn-save" type="button"></button>');
-                    $button.text(button.text).on('click', function () {
+                    var $button = $('<button class="btn btn-primary btn-sm btn-save" style="margin-left: 10px;" type="button"></button>');
+                    $button.html('<span class="glyphicon glyphicon-saved"></span>&nbsp;&nbsp;' + button.text);
+                    $button.on('click', function () {
                         // 数据校验
                         var validation = {};
                         var params = {};
@@ -197,8 +200,9 @@
                     $td.append($button);
                 }
                 if (type == 'delete') {
-                    var $button = $('<button class="btn btn-danger btn-sm btn-delete" type="button"></button>');
-                    $button.text(button.text).click(function () {
+                    var $button = $('<button class="btn btn-danger btn-sm btn-delete" style="margin-left: 10px;" type="button"></button>');
+                    $button.html('<span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;' + button.text);
+                    $button.click(function () {
                         var msg = "确认删除？";
                         if (confirm(msg)) {
                             var $idInput = $tr.find('input[name="id"]');
@@ -224,7 +228,8 @@
                     $td.append($button);
                 }
             })
-            var $cancelBtn = $('<button class="btn btn-info btn-sm btn-cancel" type="button">取消</button>');
+            var $cancelBtn = $('<button class="btn btn-warning btn-sm btn-cancel" style="margin-left: 10px;" type="button"></button>');
+            $cancelBtn.html('<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;取消');
             $cancelBtn.css('display', 'none').on('click', function () {
                 $.each($tr.find('.td-item'), function (index, td) {
                     var text = $(td).find('span').text();
@@ -232,7 +237,7 @@
                 })
 
                 $tr.find('.btn-update').attr('textType', 'update');
-                $tr.find('.btn-update').text('编辑');
+                $tr.find('.btn-update').html('<span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;编辑');
                 $tr.find('.td-item-input').css('display', 'none');
                 $tr.find('.td-item-span').css('display', '');
                 $tr.find('.btn-delete').css('display', '');
@@ -264,6 +269,7 @@
             }
         });
         this._load(params);
+        return this;
     }
     $.fn._showRow = function (rowData) {
         var jq = this;
@@ -293,8 +299,9 @@
             $.each(rowButtons, function (index, button) {
                 var type = button.type;
                 if (type == 'update') {
-                    var $button = $('<button class="btn btn-primary btn-sm btn-update" type="button" textType="update"></button>');
-                    $button.text(button.text).on('click', function () {
+                    var $button = $('<button class="btn btn-primary btn-sm btn-update" style="margin-left: 10px;" type="button" textType="update"></button>');
+                    $button.html('<span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;' + button.text);
+                    $button.on('click', function () {
                         var textType = $(this).attr('textType');
                         if (textType == 'update') {
                             // 显示输入域
@@ -302,8 +309,9 @@
                             // 隐藏显示域
                             $tr.find('.td-item-span').css('display', 'none');
                             $td.find('.btn-delete').css('display', 'none');
+                            $td.find('.btn-enter').css('display', 'none');
                             $td.find('.btn-cancel').css('display', '');
-                            $(this).text('确定').attr('textType', 'sure');
+                            $(this).html('<span class="glyphicon glyphicon-ok-sign"></span>&nbsp;&nbsp;确定').attr('textType', 'sure');
                         } else {
                             // 数据校验
                             var validation = {};
@@ -328,6 +336,7 @@
                                 $tr.find('.td-item-input').css('display', 'none');
                                 $tr.find('.td-item-span').css('display', '');
                                 $td.find('.btn-delete').css('display', '');
+                                $td.find('.btn-enter').css('display', '');
                                 $td.find('.btn-cancel').css('display', 'none');
 
                                 // 调用服务修改数据
@@ -348,9 +357,10 @@
                     $td.append($button);
                 }
                 if (type == 'save') {
-                    var $button = $('<button class="btn btn-primary btn-sm btn-update" type="button"></button>');
+                    var $button = $('<button class="btn btn-primary btn-sm btn-save" style="margin-left: 10px;" type="button"></button>');
+                    $button.html('<span class="glyphicon glyphicon-saved"></span>&nbsp;&nbsp;' + button.text);
                     // 保存按钮初始隐藏
-                    $button.text(button.text).css('display', 'none').on('click', function () {
+                    $button.css('display', 'none').on('click', function () {
                         // 数据校验
                         var validation = {};
                         var params = {};
@@ -389,8 +399,9 @@
                     $td.append($button);
                 }
                 if (type == 'delete') {
-                    var $button = $('<button class="btn btn-danger btn-sm btn-delete" type="button"></button>');
-                    $button.text(button.text).click(function () {
+                    var $button = $('<button class="btn btn-danger btn-sm btn-delete" style="margin-left: 10px;" type="button"></button>');
+                    $button.html('<span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;' + button.text);
+                    $button.click(function () {
                         var msg = "确认删除？";
                         if (confirm(msg)) {
                             var $idInput = $tr.find('input[name="id"]');
@@ -415,8 +426,19 @@
                     })
                     $td.append($button);
                 }
+                if(type == 'enter'){
+                    var $button = $('<button class="btn btn-info btn-sm btn-enter" style="margin-left: 10px;" type="button"></button>');
+                    $button.html('<span class="glyphicon glyphicon-share-alt"></span>&nbsp;&nbsp;' + button.text);
+                    $button.click(function () {
+                        if(button.fn){
+                            button.fn();
+                        }
+                    })
+                    $td.append($button);
+                }
             })
-            var $cancelBtn = $('<button class="btn btn-info btn-sm btn-cancel" type="button">取消</button>');
+            var $cancelBtn = $('<button class="btn btn-warning btn-sm btn-cancel" style="margin-left: 10px;" type="button"></button>');
+            $cancelBtn.html('<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;取消');
             $cancelBtn.css('display', 'none').on('click', function () {
                 $.each($tr.find('.td-item'), function (index, td) {
                     var text = $(td).find('span').text();
@@ -424,11 +446,12 @@
                 })
 
                 $tr.find('.btn-update').attr('textType', 'update');
-                $tr.find('.btn-update').text('编辑');
+                $tr.find('.btn-update').html('<span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;编辑');
                 $tr.find('.td-item-input').css('display', 'none');
                 $tr.find('.td-item-span').css('display', '');
                 $tr.find('.btn-delete').css('display', '');
                 $tr.find('.btn-cancel').css('display', 'none');
+                $td.find('.btn-enter').css('display', '');
 
                 $.each($tr.find('.td-item'), function (index, td) {
                     var inputValue = $(td).find('input').val();
