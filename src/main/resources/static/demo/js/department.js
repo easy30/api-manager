@@ -1,14 +1,21 @@
 var options = {
+    container:'#departmentTable',
     headers: [
-        {text: '部门编号', width: '20%'},
+        {text: '部门编号', width: '10%'},
         {text: '部门名称', width: '20%'},
-        {text: '部门简述', width: '40%'},
+        {text: '所属部门', width: '20%'},
+        {text: '部门简述', width: '30%'},
         {text: '操作', width: '20%'}
     ],
     form: '#form',
     fields: [
         {name: 'id', type:'input', inputDesc: '部门编号', required: false},
         {name: 'depName', type:'input', inputDesc: '部门名称', required: true},
+        {name: 'depId', type:'select', inputDesc: '所属部门', required: true, options:{
+                selectName: 'depId',
+                optionField: {value: 'id', text: 'depName'},
+                url: '/apimanager/department/list'
+            }},
         {name: 'depDesc', type:'input', inputDesc: '部门描述', required: false}
     ],
     rowButtons: [
@@ -21,4 +28,4 @@ var options = {
     ],
     url: '/apimanager/department/findPage'
 };
-$('#datatable').editTable(options);
+api.ui.editTable(options);
