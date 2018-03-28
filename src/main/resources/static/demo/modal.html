@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modal</title>
+    <link href="../res/bootstrap-4.0.0/css/bootstrap.css" rel="stylesheet"></link>
+    <script src="../res/js/jquery-3.3.1.min.js"></script>
+    <script src="../res/bootstrap-4.0.0/js/bootstrap.min.js"></script>
+    <script src="js/namespace.js"></script>
+    <script src="js/jquery.modal.js"></script>
+</head>
+<body>
+
+<h2>创建模态框（Modal）</h2>
+<!-- 按钮触发模态框 -->
+<button id="openModalBtn" class="btn btn-primary btn-lg">
+    开始演示模态框
+</button>
+<script>
+    var options = {
+        container: 'body',
+        content: '部门名称不能为空！',
+        buttons: [
+            {
+                text: '取消', type: 'cancel', fn: function () {
+                    alert('取消');
+                }
+            },
+            {
+                text: '确定', type: 'sure', fn: function () {
+                    alert('取消');
+                }
+            }
+        ]
+    };
+    $('#openModalBtn').on('click', function () {
+        api.ui.modal(options).show();
+    });
+</script>
+</body>
+</html>

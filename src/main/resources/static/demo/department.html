@@ -9,14 +9,16 @@
     <script src="js/namespace.js"></script>
     <script src="js/jquery.editTable.js"></script>
     <script src="js/jquery.chosenSelect.js"></script>
+    <script src="js/jquery.modal.js"></script>
 
 </head>
 <body>
+<input name="parentId" type="hidden" value="12345">
 <form id="form" style="width: 300px;">
     <div class="input-group">
         <input type="text" name="depName" class="form-control" style="height: 30px;" placeholder="按照部门名称搜索"/>
         <span class="input-group-btn">
-            <button class="btn btn-primary btn-sm" type="button">搜 索</button>
+            <button class="btn btn-primary btn-sm" type="button"><span class="glyphicon glyphicon-search"/>&nbsp;搜索</button>
         </span>
     </div>
 </form>

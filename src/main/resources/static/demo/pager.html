@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>pager</title>
+    <link href="../res/bootstrap-4.0.0/css/bootstrap.css" rel="stylesheet"></link>
+    <script src="../res/js/jquery-3.3.1.min.js"></script>
+    <script src="../res/bootstrap-4.0.0/js/bootstrap.min.js"></script>
+    <script src="js/namespace.js"></script>
+    <script src="js/jquery.pager.js"></script>
+</head>
+<body>
+    <div><p> 第1页  共1页  每页10条  共2条  <button>首页</button><button>上一页</button><button>下一页</button><button>尾页</button></p></div>
+    <script>
+        var options = {
+            pageInfo:'第_CURRENT_页  共_TOTALPAGE_页  每页_SIZE_条  共_TOTAL_条',
+            container:'',
+            pageIndex:1,
+            currentIndex:1,
+            totalPage:1,
+            totalRecord:1,
+            pageSize:10,
+            onPageChange:function () {
+                
+            }
+        };
+
+    </script>
+</body>
+</html>

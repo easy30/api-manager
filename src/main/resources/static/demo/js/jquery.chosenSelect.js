@@ -23,11 +23,11 @@
             return this;
         },
         val: function (value) {
-            var $select = this.jq.find('select');
+            var $selector = this.jq.find('select');
             if (!value) {
-                return $select.val();
+                return $selector.val();
             } else {
-                $select.find('option').each(function () {
+                $selector.find('option').each(function () {
                     var $option = $(this);
                     if ($option.val() == value) {
                         $option.attr('selected', true);

@@ -1,5 +1,5 @@
 var options = {
-    container:'#departmentTable',
+    container: '#departmentTable',
     headers: [
         {text: '部门编号', width: '10%'},
         {text: '部门名称', width: '20%'},
@@ -9,23 +9,32 @@ var options = {
     ],
     form: '#form',
     fields: [
-        {name: 'id', type:'input', inputDesc: '部门编号', required: false},
-        {name: 'depName', type:'input', inputDesc: '部门名称', required: true},
-        {name: 'depId', type:'select', inputDesc: '所属部门', required: true, options:{
+        {name: 'id', type: 'input', inputDesc: '部门编号', required: false},
+        {name: 'depName', type: 'input', inputDesc: '部门名称', required: true},
+        {
+            name: 'depId', type: 'select', inputDesc: '所属部门', required: true, options: {
                 selectName: 'depId',
                 optionField: {value: 'id', text: 'depName'},
                 url: '/apimanager/department/list'
-            }},
-        {name: 'depDesc', type:'input', inputDesc: '部门描述', required: false}
+            }
+        },
+        {name: 'depDesc', type: 'input', inputDesc: '部门描述', required: true}
     ],
     rowButtons: [
         {type: 'update', text: '编辑', url: '/apimanager/department/update'},
         {type: 'save', text: '保存', url: '/apimanager/department/add'},
         {type: 'delete', text: '删除', url: '/apimanager/department/delete'},
-        {type: 'enter', text: '进入', fn: function () {
+        {
+            type: 'enter', text: '进入', fn: function () {
                 alert("进入");
-            }}
+            }
+        }
     ],
-    url: '/apimanager/department/findPage'
+    url: '/apimanager/department/findPage',
+    initFn: function () {
+        var parentId = $('input[name="parentId"]').val(), params = {};
+        params['depId'] = parentId;
+        return params;
+    }
 };
 api.ui.editTable(options);
