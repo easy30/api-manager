@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>form</title>
+    <link href="../res/bootstrap-4.0.0/css/bootstrap.css" rel="stylesheet"></link>
+    <script src="../res/js/jquery-3.3.1.min.js"></script>
+    <script src="../res/bootstrap-4.0.0/js/bootstrap.min.js"></script>
+    <script src="js/namespace.js"></script>
+    <script src="js/jquery.form.js"></script>
+</head>
+<body>
+<form id="form">
+    <input type="text" name="name" value="java"/>
+    <select name="sex">
+        <option value="1">男</option>
+        <option value="2">女</option>
+    </select>
+</form>
+<script>
+    var options = {
+        container: '#form'
+    };
+    var form = api.ui.form(options);
+    console.log(form.toJson());
+</script>
+</body>
+</html>

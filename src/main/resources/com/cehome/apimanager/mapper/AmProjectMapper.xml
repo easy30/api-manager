@@ -29,7 +29,7 @@
 		FROM am_project
 		WHERE
 			1=1
-		<if test="depName != null">
+		<if test="projectName != null">
 		AND
 			project_name LIKE CONCAT('%',#{projectName},'%')
 		</if>

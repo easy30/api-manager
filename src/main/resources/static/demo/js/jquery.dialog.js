@@ -46,12 +46,15 @@
             jq.find('#myModal').on('hidden.bs.modal', function () {
                 this.remove();
             });
+            return this;
         },
         show: function () {
             this.jq.find('#myModal').modal('show');
+            return this;
         },
         hidden: function () {
             this.jq.find('#myModal').modal('hide');
+            return this;
         }
     };
     dialog.defaults = {

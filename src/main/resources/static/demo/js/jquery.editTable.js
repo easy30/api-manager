@@ -80,25 +80,20 @@
             return this;
         },
         _load: function () {
-            var params = this.options.preSend && this.options.preSend(), inputs = this.$form.serializeArray(), pagerOptions = this.pager.options;
+            var params = this.options.preSend && this.options.preSend(), pagerOptions = this.pager.options;
             params['pageIndex'] = pagerOptions.currentIndex;
             params['pageSize'] = pagerOptions.pageSize;
-            $.each(inputs, function () {
-                if (params[this.name]) {
-                    if (!params[this.name].push) {
-                        params[this.name] = [params[this.name]];
-                    }
-                    params[this.name].push(this.value || '');
-                } else {
-                    params[this.name] = this.value || '';
-                }
-            });
+            var options = {
+                container: this.$form
+            };
+            params = $.extend(params, api.ui.form(options).toJson());
             this._ajax(params);
             return this;
         },
         _reload: function () {
             this.pager.options.currentIndex = 1;
             this._load();
+            return this;
         },
         _addRow: function () {
             var editTable = this, jq = this.jq, fields = this.options.fields, rowButtons = this.options.rowButtons, $tr = $('<tr></tr>'), hasUnfinishedRow = false;
@@ -114,7 +109,7 @@
                     content: '存在未完成的数据行！'
                 };
                 api.ui.dialog(options).show();
-                return jq;
+                return this;
             }
             $.each(fields, function (index, field) {
                 var $td = $('<td class="td-item" style="padding-left: 10px;"></td>');

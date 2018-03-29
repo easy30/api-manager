@@ -35,7 +35,6 @@
                     }
                 });
             }
-            return this;
         },
         disable: function () {
             this.jq.find('select').attr('disabled', true);

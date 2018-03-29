@@ -19,6 +19,7 @@
             pageInfo = pageInfo.replace('_SIZE_', pageParams.pageSize);
             pageInfo = pageInfo.replace('_TOTAL_', pageParams.totalRecord);
             jq.append(pageDesc.html(pageInfo)).append(firstBtn).append(prevBtn).append(nextBtn).append(lastBtn);
+
             jq.find('.btn-first').on('click', function () {
                 options.currentIndex = 1;
                 options.onPageChange();
@@ -54,6 +55,7 @@
             pageInfo = pageInfo.replace('_SIZE_', options.pageSize);
             pageInfo = pageInfo.replace('_TOTAL_', options.totalRecord);
             jq.find('.pageDesc').html(pageInfo);
+            return this;
         }
     };
 
