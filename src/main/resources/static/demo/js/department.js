@@ -30,11 +30,11 @@ var options = {
             }
         }
     ],
-    url: '/apimanager/department/findPage',
-    preSend: function () {
-        var parentId = $('input[name="parentId"]').val(), params = {};
-        params['depId'] = parentId;
-        return params;
-    }
+    url: '/apimanager/department/findPage'
+    // preSend: function () {
+    //     var parentId = $('input[name="parentId"]').val(), params = {};
+    //     params['depId'] = parentId;
+    //     return params;
+    // }
 };
 api.ui.editTable(options);

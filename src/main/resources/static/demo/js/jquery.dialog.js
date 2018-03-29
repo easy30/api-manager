@@ -16,13 +16,13 @@
         '  </div>\n' +
         '</div>';
 
-    function modal(options) {
-        var options = this.options = $.extend({}, modal.defaults, options);
+    function dialog(options) {
+        var options = this.options = $.extend({}, dialog.defaults, options);
         var jq = this.jq = ('string' == typeof options.container) ? $(options.container) : options.container;
         this._build();
     };
 
-    modal.prototype = {
+    dialog.prototype = {
         _build: function () {
             var modal = this, options = this.options, jq = this.jq, buttons = options.buttons;
             jq.append(modalHtml).find('.modal-body').text(this.options.content);
@@ -54,13 +54,13 @@
             this.jq.find('#myModal').modal('hide');
         }
     };
-    modal.defaults = {
+    dialog.defaults = {
         container: 'body',
         content: '系统提示'
     };
 
-    api.ui.modal = function (options) {
-        return new modal(options);
+    api.ui.dialog = function (options) {
+        return new dialog(options);
     }
 
 })(jQuery, window, document);

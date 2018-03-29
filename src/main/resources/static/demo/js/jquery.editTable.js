@@ -3,7 +3,6 @@
         var options = this.options = $.extend({}, editTable.defaults, options), table = this;
         var jq = this.jq = ('string' == typeof options.container) ? $(options.container) : options.container;
         var form = this.$form = ('string' == typeof options.form) ? $(options.form) : options.form;
-        var preSend = this.preSend = options.preSend;
         form.find('button').on('click', function () {
             table._reload();
         });
@@ -81,7 +80,7 @@
             return this;
         },
         _load: function () {
-            var params = this.preSend && this.preSend(), inputs = this.$form.serializeArray(), pagerOptions = this.pager.options;
+            var params = this.options.preSend && this.options.preSend(), inputs = this.$form.serializeArray(), pagerOptions = this.pager.options;
             params['pageIndex'] = pagerOptions.currentIndex;
             params['pageSize'] = pagerOptions.pageSize;
             $.each(inputs, function () {
@@ -114,7 +113,7 @@
                 var options = {
                     content: '存在未完成的数据行！'
                 };
-                api.ui.modal(options).show();
+                api.ui.dialog(options).show();
                 return jq;
             }
             $.each(fields, function (index, field) {
@@ -183,7 +182,7 @@
                                     var options = {
                                         content: '存在未完成的输入项！'
                                     };
-                                    api.ui.modal(options).show();
+                                    api.ui.dialog(options).show();
                                 }
                             }
                         });
@@ -220,7 +219,7 @@
                                 var options = {
                                     content: '存在未完成的输入项！'
                                 };
-                                api.ui.modal(options).show();
+                                api.ui.dialog(options).show();
                             }
                         });
                         $td.append($button);
@@ -258,7 +257,7 @@
                                     }
                                 ]
                             };
-                            api.ui.modal(options).show();
+                            api.ui.dialog(options).show();
                         });
                         $td.append($button);
                     }
@@ -363,7 +362,7 @@
                                     var options = {
                                         content: '存在未完成的输入项！'
                                     };
-                                    api.ui.modal(options).show();
+                                    api.ui.dialog(options).show();
                                 }
                             }
                         });
@@ -400,7 +399,7 @@
                                 var options = {
                                     content: '存在未完成的输入项！'
                                 };
-                                api.ui.modal(options).show();
+                                api.ui.dialog(options).show();
                             }
                         });
                         $td.append($button);
@@ -438,7 +437,7 @@
                                     }
                                 ]
                             };
-                            api.ui.modal(options).show();
+                            api.ui.dialog(options).show();
                         });
                         $td.append($button);
                     }
@@ -489,7 +488,10 @@
 
     editTable.defaults = {
         container: '',
-        width: '100%'
+        width: '100%',
+        preSend: function () {
+            return {};
+        }
     }
 
     api.ui.editTable = function (options) {
