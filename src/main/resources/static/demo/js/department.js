@@ -3,7 +3,7 @@ var options = {
     headers: [
         {text: '部门编号', width: '10%'},
         {text: '部门名称', width: '20%'},
-        {text: '所属部门', width: '20%'},
+        // {text: '所属部门', width: '20%'},
         {text: '部门简述', width: '30%'},
         {text: '操作', width: '20%'}
     ],
@@ -11,13 +11,13 @@ var options = {
     fields: [
         {name: 'id', type: 'input', inputDesc: '部门编号', required: false},
         {name: 'depName', type: 'input', inputDesc: '部门名称', required: true},
-        {
-            name: 'depId', type: 'select', inputDesc: '所属部门', required: true, options: {
-                selectName: 'depId',
-                optionField: {value: 'id', text: 'depName'},
-                url: '/apimanager/department/list'
-            }
-        },
+        // {
+        //     name: 'depId', type: 'select', inputDesc: '所属部门', required: true, options: {
+        //         selectName: 'depId',
+        //         optionField: {value: 'id', text: 'depName'},
+        //         url: '/apimanager/department/list'
+        //     }
+        // },
         {name: 'depDesc', type: 'input', inputDesc: '部门描述', required: true}
     ],
     rowButtons: [
@@ -31,7 +31,7 @@ var options = {
         }
     ],
     url: '/apimanager/department/findPage',
-    initFn: function () {
+    preSend: function () {
         var parentId = $('input[name="parentId"]').val(), params = {};
         params['depId'] = parentId;
         return params;

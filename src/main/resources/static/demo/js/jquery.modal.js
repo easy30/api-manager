@@ -17,13 +17,13 @@
         '</div>';
 
     function modal(options) {
-        this.options = $.extend({}, modal.options, options);
+        var options = this.options = $.extend({}, modal.defaults, options);
         var jq = this.jq = ('string' == typeof options.container) ? $(options.container) : options.container;
-        this.init();
+        this._build();
     };
 
     modal.prototype = {
-        init: function () {
+        _build: function () {
             var modal = this, options = this.options, jq = this.jq, buttons = options.buttons;
             jq.append(modalHtml).find('.modal-body').text(this.options.content);
             if (buttons) {
@@ -48,7 +48,7 @@
             });
         },
         show: function () {
-            $('#myModal').modal('show');
+            this.jq.find('#myModal').modal('show');
         },
         hidden: function () {
             this.jq.find('#myModal').modal('hide');

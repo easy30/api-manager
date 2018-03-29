@@ -10,11 +10,11 @@
     <script src="js/jquery.pager.js"></script>
 </head>
 <body>
-    <div><p> 第1页  共1页  每页10条  共2条  <button>首页</button><button>上一页</button><button>下一页</button><button>尾页</button></p></div>
+    <div id="pager"></div>
     <script>
         var options = {
-            pageInfo:'第_CURRENT_页  共_TOTALPAGE_页  每页_SIZE_条  共_TOTAL_条',
-            container:'',
+            pageInfo:'第_CURRENT_页  共_PAGE_页  每页_SIZE_条  共_TOTAL_条',
+            container:'#pager',
             pageIndex:1,
             currentIndex:1,
             totalPage:1,
@@ -24,7 +24,7 @@
                 
             }
         };
-
+        api.ui.pager(options);
     </script>
 </body>
 </html>
