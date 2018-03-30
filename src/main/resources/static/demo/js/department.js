@@ -29,11 +29,13 @@ var options = {
             }
         }
     ],
+    headBtn: [
+        {
+            type: 'add', text: '添加', fn: function (row) {
+                row.find('select').val(81);
+            }
+        }
+    ],
     url: '/apimanager/department/findPage'
-    // preSend: function () {
-    //     var parentId = $('input[name="parentId"]').val(), params = {};
-    //     params['depId'] = parentId;
-    //     return params;
-    // }
 };
 api.ui.editTable(options);

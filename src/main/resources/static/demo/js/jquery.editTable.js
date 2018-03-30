@@ -17,12 +17,12 @@
 
     editTable.prototype = {
         _build: function () {
-            var editTable = this, jq = this.jq, conf = this.options, fields = conf.fields, headers = conf.headers;
+            var editTable = this, jq = this.jq, conf = this.options, fields = conf.fields, headers = conf.headers, headBtns = conf.headBtn;
             var $table = $('<table class="table table-hover table-sm" style="font-size: 15px;"></table>');
             var $tHead = $('<thead></thead>');
             var $tBody = $('<tbody></tbody>');
             var $tFoot = $('<tfoot></tfoot>');
-            var $addBtn = $('<button class="btn btn-success btn-sm btn-add" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-plus"></span>&nbsp;添加</button>');
+
             // 设置表头
             if (headers) {
                 var $tr = $('<tr style="background-color: #e3e3e3;"></tr>');
@@ -32,12 +32,22 @@
                 $tHead.append($tr);
             }
 
-            $addBtn.on('click', function () {
-                editTable._addRow();
-            });
             var pageInfoTd = $('<td></td>').attr('colspan', headers.length - 1);
             $tFoot.append($('<tr></tr>').append(pageInfoTd).append('<td style="padding-left: 10px;"></td>'));
-            $tFoot.find('td:last').append($addBtn);
+
+            if(headBtns){
+                $.each(headBtns, function (index, headBtn) {
+                    var type = headBtn.type;
+                    if(type == 'add'){
+                        var $addBtn = $('<button class="btn btn-success btn-sm btn-add" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-plus"></span></button>').append('&nbsp;' + headBtn.text);
+                        $addBtn.on('click', function () {
+                            editTable._addRow();
+                            headBtn.fn && headBtn.fn($tBody.find('tr:last'));
+                        });
+                        $tFoot.find('td:last').append($addBtn);
+                    }
+                })
+            }
 
             var pageOptions = {
                 container: $tFoot.find('td:first'),
@@ -442,8 +452,10 @@
                         $button.append('&nbsp;&nbsp;' + button.text);
                         $button.on('click', function () {
                             if (button.fn) {
-                                var $idInput = $tr.find('input[name="id"]'), inputVal = $idInput.val(), params = {};
-                                params['id'] = inputVal;
+                                var params = {};
+                                $tr.find('input,select').each(function () {
+                                    params[this.name] = $(this).val();
+                                })
                                 button.fn(params);
                             }
                         });
