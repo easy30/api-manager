@@ -1,5 +1,5 @@
 ;(function ($, window, document, undefined) {
-    function chosenSelect(options) {
+    var chosenSelect = function (options) {
         var options = this.options = $.extend({}, chosenSelect.defaults, options);
         var jq = this.jq = ('string' == typeof options.selector) ? $(options.selector) : options.selector;
         jq.css('width', options.width).css('height', options.height);
@@ -8,11 +8,12 @@
         } else {
             this.load();
         }
-    };
+    }
 
     chosenSelect.prototype = {
         data: function (data) {
             var jq = this.jq, options = this.options;
+            jq.append($('<option></option>'));
             $.each(data, function (index, value) {
                 jq.append($('<option></option>').attr('value', value[options.optionField.value]).text(value[options.optionField.text]));
             });
@@ -31,6 +32,19 @@
                     }
                 });
             }
+        },
+        empty: function () {
+            this.jq.find('option').each(function () {
+                var $option = $(this);
+                if (!$option.val()) {
+                    $option.attr('selected', true);
+                    return false;
+                }
+            });
+            return this;
+        },
+        clear: function () {
+            this.jq.empty();
         },
         disable: function () {
             this.jq.attr('disabled', true);

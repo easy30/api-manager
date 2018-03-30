@@ -16,7 +16,7 @@
         '  </div>\n' +
         '</div>';
 
-    function dialog(options) {
+    var dialog = function (options) {
         var options = this.options = $.extend({}, dialog.defaults, options);
         var jq = this.jq = ('string' == typeof options.container) ? $(options.container) : options.container;
         this._build();
@@ -48,11 +48,11 @@
             });
             return this;
         },
-        show: function () {
+        open: function () {
             this.jq.find('#myModal').modal('show');
             return this;
         },
-        hidden: function () {
+        close: function () {
             this.jq.find('#myModal').modal('hide');
             return this;
         }
@@ -65,5 +65,4 @@
     api.ui.dialog = function (options) {
         return new dialog(options);
     }
-
 })(jQuery, window, document);

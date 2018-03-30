@@ -1,5 +1,5 @@
 ;(function ($, window, document, undefined) {
-    function form(options) {
+    var form = function (options) {
         var options = this.options = $.extend({}, form.defaults, options);
         var jq = this.jq = ('string' == typeof options.container) ? $(options.container) : options.container;
     }

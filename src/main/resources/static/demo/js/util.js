@@ -1,10 +1,11 @@
 Api.ns('api.browser');
+Api.ns('api.browser');
 api.browser.isIe = window.navigator.appName == 'Microsoft Internet Explorer';
 api.browser.isHtml5 = api.browser.isIe ? (/MSIE (\d\d?)/.exec(window.navigator.appVersion)[1] > 8) : true;
 api.link = document.createElement('link');
 api.link.setAttribute('rel', 'stylesheet');
 api.util = {
-    scriptsCatche: {
+    scriptsCache: {
         linkDom: api.link,
         scriptDom: document.createElement('script'),
         headDom: document.head || document.getElementsByTagName('head')[0]
@@ -26,12 +27,12 @@ api.util = {
     },
     loadScript: function (url, fn) {
         fn = fn || $.noop;
-        if (!this.scriptsCatche[url]) {
-            var script = this.scriptsCatche.scriptDom.cloneNode();
+        if (!this.scriptsCache[url]) {
+            var script = this.scriptsCache.scriptDom.cloneNode();
             script.setAttribute('src', url);
             this.addEvent(script, 'load', fn);
-            this.scriptsCatche.headDom.appendChild(script);
-            this.scriptsCatche[url] = true;
+            this.scriptsCache.headDom.appendChild(script);
+            this.scriptsCache[url] = true;
         } else {
             fn && fn();
         }
@@ -52,4 +53,3 @@ api.util = {
         load();
     }
 };
-api.link = undefined;

@@ -1,5 +1,5 @@
 ;(function ($, window, document, undefined) {
-    function editTable(options) {
+    var editTable = function (options) {
         var options = this.options = $.extend({}, editTable.defaults, options), table = this;
         var jq = this.jq = ('string' == typeof options.container) ? $(options.container) : options.container;
         var form = this.$form = ('string' == typeof options.form) ? $(options.form) : options.form;
@@ -107,7 +107,7 @@
                 var options = {
                     content: '存在未完成的数据行！'
                 };
-                api.ui.dialog(options).show();
+                api.ui.dialog(options).open();
                 return this;
             }
             $.each(fields, function (index, field) {
@@ -178,7 +178,7 @@
                                     var options = {
                                         content: '存在未完成的输入项！'
                                     };
-                                    api.ui.dialog(options).show();
+                                    api.ui.dialog(options).close();
                                 }
                             }
                         });
@@ -215,7 +215,7 @@
                                 var options = {
                                     content: '存在未完成的输入项！'
                                 };
-                                api.ui.dialog(options).show();
+                                api.ui.dialog(options).open();
                             }
                         });
                         $td.append($button);
@@ -253,7 +253,7 @@
                                     }
                                 ]
                             };
-                            api.ui.dialog(options).show();
+                            api.ui.dialog(options).close();
                         });
                         $td.append($button);
                     }
@@ -358,7 +358,7 @@
                                     var options = {
                                         content: '存在未完成的输入项！'
                                     };
-                                    api.ui.dialog(options).show();
+                                    api.ui.dialog(options).open();
                                 }
                             }
                         });
@@ -395,7 +395,7 @@
                                 var options = {
                                     content: '存在未完成的输入项！'
                                 };
-                                api.ui.dialog(options).show();
+                                api.ui.dialog(options).open();
                             }
                         });
                         $td.append($button);
@@ -433,7 +433,7 @@
                                     }
                                 ]
                             };
-                            api.ui.dialog(options).show();
+                            api.ui.dialog(options).open();
                         });
                         $td.append($button);
                     }

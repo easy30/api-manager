@@ -5,7 +5,7 @@
     var lastBtn = $('<button class="btn btn-info btn-sm btn-last" style="margin-left: 5px; height: 28px;">末页<span class="glyphicon glyphicon-step-forward"></span></button>');
     var pageDesc = $('<span class="pageDesc" style="color: #2a6496;"></span>');
 
-    function pager(options) {
+    var pager = function (options) {
         var options = this.options = $.extend({}, pager.defaults, options);
         var jq = this.jq = ('string' == typeof options.container) ? $(options.container) : options.container;
         this._build(options);
