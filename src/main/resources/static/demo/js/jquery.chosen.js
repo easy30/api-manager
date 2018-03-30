@@ -1,12 +1,8 @@
 ;(function ($, window, document, undefined) {
     function chosenSelect(options) {
         var options = this.options = $.extend({}, chosenSelect.defaults, options);
-        var $selector = $('<select class="form-control" style="font-size: 14px;"></select>')
-            .attr('name', options.selectName)
-            .css('width', options.width)
-            .css('height', options.height);
-        var jq = this.jq = ('string' == typeof options.container) ? $(options.container) : options.container;
-        jq.append($selector);
+        var jq = this.jq = ('string' == typeof options.selector) ? $(options.selector) : options.selector;
+        jq.css('width', options.width).css('height', options.height);
         if (options.data) {
             this.data(options.data);
         } else {
@@ -16,18 +12,18 @@
 
     chosenSelect.prototype = {
         data: function (data) {
-            var jq = this.jq, options = this.options, $selector = jq.find('select');
+            var jq = this.jq, options = this.options;
             $.each(data, function (index, value) {
-                $selector.append($('<option></option>').attr('value', value[options.optionField.value]).text(value[options.optionField.text]));
+                jq.append($('<option></option>').attr('value', value[options.optionField.value]).text(value[options.optionField.text]));
             });
             return this;
         },
         val: function (value) {
-            var $selector = this.jq.find('select');
+            var jq = this.jq;
             if (!value) {
-                return $selector.val();
+                return jq.val();
             } else {
-                $selector.find('option').each(function () {
+                jq.find('option').each(function () {
                     var $option = $(this);
                     if ($option.val() == value) {
                         $option.attr('selected', true);
@@ -37,11 +33,11 @@
             }
         },
         disable: function () {
-            this.jq.find('select').attr('disabled', true);
+            this.jq.attr('disabled', true);
             return this;
         },
         enable: function () {
-            this.jq.find('select').attr('disabled', false);
+            this.jq.attr('disabled', false);
             return this;
         },
         load: function () {
@@ -61,10 +57,10 @@
     };
 
     chosenSelect.defaults = {
-        container: '',
+        selector: '',
         url: '',
         width: '80%',
-        height: '35px'
+        height: '34px'
     };
 
     api.ui.chosenSelect = function (options) {

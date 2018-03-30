@@ -92,8 +92,7 @@
         },
         _reload: function () {
             this.pager.options.currentIndex = 1;
-            this._load();
-            return this;
+            return this._load();
         },
         _addRow: function () {
             var editTable = this, jq = this.jq, fields = this.options.fields, rowButtons = this.options.rowButtons, $tr = $('<tr></tr>'), hasUnfinishedRow = false;
@@ -122,9 +121,11 @@
                         $input.attr('inputDesc', field.inputDesc).attr('name', field.name).attr('required', field.required).css('display', '');
                         $tr.append($td.append($span).append($input));
                     } else if(field.type = 'select'){
-                        var options = field.options;
-                        options.container = $td;
-                        api.ui.chosenSelect(field.options);
+                        var chosenOptions = field.options, $selector = $('<select class="form-control"></select>');
+                        $selector.attr('name', field.name);
+                        chosenOptions.selector = $selector;
+                        api.ui.chosenSelect(chosenOptions);
+                        $td.append($selector);
                         $tr.append($td);
                     }
                 }
@@ -300,11 +301,13 @@
                         $input.attr('inputDesc', field.inputDesc).attr('required', required).attr('name', field.name).val(rowData[field.name]).css('display', 'none');
                         $tr.append($td.append($span).append($input));
                     } else if(field.type = 'select'){
-                        var options = field.options;
-                        options.container = $td;
-                        var chosenSelect = api.ui.chosenSelect(field.options);
+                        var chosenOptions = field.options, $selector = $('<select class="form-control"></select>');
+                        $selector.attr('name', field.name);
+                        chosenOptions.selector = $selector;
+                        var chosenSelect = api.ui.chosenSelect(chosenOptions);
                         chosenSelect.val(rowData[field.name]);
                         chosenSelect.disable();
+                        $td.append($selector);
                         $tr.append($td);
                     }
                 }
@@ -320,10 +323,8 @@
                         $button.on('click', function () {
                             var textType = $(this).attr('textType');
                             if (textType == 'update') {
-                                // 显示
                                 $tr.find('.td-item-input').css('display', '');
                                 $td.find('.btn-cancel').css('display', '');
-                                // 隐藏
                                 $tr.find('.td-item-span').css('display', 'none');
                                 $td.find('.btn-delete').css('display', 'none');
                                 $td.find('.btn-enter').css('display', 'none');
