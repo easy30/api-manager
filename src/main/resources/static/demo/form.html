@@ -13,6 +13,7 @@
 <form id="form">
     <input type="text" name="name" value="java"/>
     <select name="sex">
+        <option></option>
         <option value="1">男</option>
         <option value="2">女</option>
     </select>
@@ -23,6 +24,8 @@
     };
     var form = api.ui.form(options);
     console.log(form.toJson());
+    form.giveVal({name:'jquery', sex: 2});
+    // form.reset();
 </script>
 </body>
 </html>

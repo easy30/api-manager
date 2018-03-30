@@ -10,16 +10,18 @@
     <script src="js/jquery.chosen.js"></script>
 </head>
 <body>
-<div id="chosenSelect"></div>
+<div>
+    <select name="depId"></select>
+</div>
 <script>
     var options = {
-        container:'#chosenSelect',
-        selectName: 'depId',
+        selector:'[name=depId]',
         optionField: {value: 'id', text: 'depName'},
         url: '/apimanager/department/list'
     }
     var chosenSelect = api.ui.chosenSelect(options);
-    chosenSelect.val(41);
+    chosenSelect.val(88);
+    chosenSelect.empty('');
 </script>
 </body>
 </html>
