@@ -6,8 +6,8 @@
 
     form.prototype = {
         toJson: function () {
-            var jq = this.jq, params = {}, inputs = jq.serializeArray();
-            $.each(inputs, function () {
+            var jq = this.jq, params = {}, els = jq.serializeArray();
+            $.each(els, function (index, el) {
                 if (params[this.name]) {
                     if (!params[this.name].push) {
                         params[this.name] = [params[this.name]];
@@ -19,7 +19,20 @@
             });
             return params;
         },
-        setVal: function (json) {
+        giveVal: function (data) {
+            this.oldData = data;
+            this.jq.find('input,select').each(function () {
+                var $this = $(this);
+                $this.val(data[$this.attr('name')]);
+            });
+            return this;
+        },
+        reset: function () {
+            var oldData = this.data;
+            this.jq.find('input,select').each(function () {
+                var $this = $(this);
+                $this.val(oldData[$this.attr('name')]);
+            });
             return this;
         }
     }

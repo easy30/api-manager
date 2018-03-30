@@ -253,7 +253,7 @@
                                     }
                                 ]
                             };
-                            api.ui.dialog(options).close();
+                            api.ui.dialog(options).open();
                         });
                         $td.append($button);
                     }

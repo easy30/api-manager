@@ -24,7 +24,7 @@
 
     dialog.prototype = {
         _build: function () {
-            var modal = this, options = this.options, jq = this.jq, buttons = options.buttons;
+            var dialog = this, options = this.options, jq = this.jq, buttons = options.buttons;
             jq.append(modalHtml).find('.modal-body').text(this.options.content);
             if (buttons) {
                 $.each(buttons, function (index, button) {
@@ -37,7 +37,7 @@
                         var $btn = $('<button type="button" class="btn btn-primary"></button>').text(button.text);
                     }
                     $btn.on('click', function () {
-                        modal.hidden();
+                        dialog.close();
                         button.fn && button.fn();
                     });
                     jq.find('.modal-footer').append($btn);
