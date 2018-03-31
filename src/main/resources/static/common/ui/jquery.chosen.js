@@ -8,7 +8,11 @@
         } else {
             this.load();
         }
-    }
+        // 添加change事件
+        options.change && jq.on('change', function (event) {
+            options.change(event);
+        })
+    };
 
     chosenSelect.prototype = {
         data: function (data) {
@@ -28,20 +32,11 @@
                     var $option = $(this);
                     if ($option.val() == value) {
                         $option.attr('selected', true);
+                        jq.trigger('change');
                         return false;
                     }
                 });
             }
-        },
-        empty: function () {
-            this.jq.find('option').each(function () {
-                var $option = $(this);
-                if (!$option.val()) {
-                    $option.attr('selected', true);
-                    return false;
-                }
-            });
-            return this;
         },
         clear: function () {
             this.jq.empty();
@@ -54,13 +49,13 @@
             this.jq.attr('disabled', false);
             return this;
         },
-        load: function () {
+        load: function (param) {
             var chosenSelect = this;
             $.ajax({
                 url: this.options.url,
                 type: 'GET',
                 async: false,
-                data: {},
+                data: param,
                 dataType: 'json',
                 success: function (result) {
                     chosenSelect.data(result.data);
@@ -74,7 +69,10 @@
         selector: '',
         url: '',
         width: '80%',
-        height: '34px'
+        height: '34px',
+        change: function (event) {
+
+        }
     };
 
     api.ui.chosenSelect = function (options) {
