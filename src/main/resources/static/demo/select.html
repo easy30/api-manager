@@ -15,13 +15,16 @@
 </div>
 <script>
     var options = {
-        selector:'[name=depId]',
+        selector: '[name=depId]',
         optionField: {value: 'id', text: 'depName'},
-        url: '/apimanager/department/list'
-    }
+        url: '/apimanager/department/list',
+        change: function (e, p) {
+            console.log(e.target.value);
+        }
+    };
     var chosenSelect = api.ui.chosenSelect(options);
-    chosenSelect.val(88);
-    chosenSelect.empty('');
+    // chosenSelect.val(88);
+    // chosenSelect.empty('');
 </script>
 </body>
 </html>
