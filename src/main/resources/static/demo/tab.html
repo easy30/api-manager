@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tab</title>
+    <link href="../res/bootstrap-4.0.0/css/bootstrap.css" rel="stylesheet"></link>
+    <script src="../res/js/jquery-3.3.1.min.js"></script>
+    <script src="../res/bootstrap-4.0.0/js/bootstrap.min.js"></script>
+    <script src="js/namespace.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/jquery.load.js"></script>
+    <script src="js/jquery.tab.js"></script>
+</head>
+<body>
+
+<div id="myTabs">
+</div>
+<script>
+    var conf = {
+        container: '#myTabs',
+        tabs: [{
+            title: '基本信息',
+            content: '基本信息'
+        }, {
+            title: '参数信息',
+            content:'参数信息'
+        }]
+    };
+    var tabs = api.ui.tabs(conf);
+    tabs.hide('参数信息');
+    // tabs.display('参数信息');
+</script>
+</body>
+</html>
