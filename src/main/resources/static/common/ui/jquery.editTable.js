@@ -6,6 +6,15 @@
         form.find('button').on('click', function () {
             table._reload();
         });
+
+        // 监听回车事件，并且屏蔽回车后浏览器刷新
+        $(document).keydown(function (event) {
+            if(event.keyCode == 13){
+                form.find('button').click();
+                return false;
+            }
+        });
+
         this._build();
         var data = options.data;
         if (data) {
@@ -13,7 +22,7 @@
         } else {
             this._load();
         }
-    }
+    };
 
     editTable.prototype = {
         _build: function () {
@@ -45,6 +54,13 @@
                             headBtn.fn && headBtn.fn($tBody.find('tr:last'));
                         });
                         $tFoot.find('td:last').append($addBtn);
+                    } else {
+                        var $customBtn = $('<button class="btn btn-success btn-sm" style="margin-left: 10px;" type="button"><span></span></button>').append('&nbsp;' + headBtn.text);
+                        $customBtn.find('span').addClass(headBtn.icon);
+                        $customBtn.on('click', function () {
+                            headBtn.fn && headBtn.fn();
+                        });
+                        $tFoot.find('td:last').append($customBtn);
                     }
                 })
             }
@@ -86,7 +102,7 @@
                     pager._refresh();
                     editTable._refresh(pageData['datas']);
                 }
-            })
+            });
             return this;
         },
         _load: function () {
@@ -112,7 +128,7 @@
                     hasUnfinishedRow = true;
                     return false;
                 }
-            })
+            });
             if (hasUnfinishedRow) {
                 var options = {
                     content: '存在未完成的数据行！'
@@ -166,7 +182,7 @@
                                         $input.css('border-color', '#FF2F2F');
                                     }
                                     params[inputName] = inputValue;
-                                })
+                                });
                                 if (!message.inputDesc) {
                                     $tr.find('.td-item-input').css('display', 'none');
                                     $td.find('.btn-cancel').css('display', 'none');
@@ -193,8 +209,7 @@
                             }
                         });
                         $td.append($button);
-                    }
-                    if (type == 'save') {
+                    } else if (type == 'save') {
                         var $button = $('<button class="btn btn-primary btn-sm btn-save" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-save"></span></button>');
                         $button.append('&nbsp;&nbsp;' + button.text);
                         $button.on('click', function () {
@@ -207,7 +222,7 @@
                                     $input.css('border-color', '#FF2F2F');
                                 }
                                 params[inputName] = inputValue;
-                            })
+                            });
                             if (!message.inputDesc) {
                                 // 调用服务保存数据
                                 if (button.url) {
@@ -229,8 +244,7 @@
                             }
                         });
                         $td.append($button);
-                    }
-                    if (type == 'delete') {
+                    } else if (type == 'delete') {
                         var $button = $('<button class="btn btn-danger btn-sm btn-delete" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-trash"></span></button>');
                         $button.append('&nbsp;&nbsp;' + button.text);
                         $button.on('click', function () {
@@ -266,15 +280,28 @@
                             api.ui.dialog(options).open();
                         });
                         $td.append($button);
+                    } else {
+                        var $button = $('<button class="btn btn-info btn-sm" style="margin-left: 10px;" type="button"><span></span></button>');
+                        $button.append('&nbsp;&nbsp;' + button.text).find('span').addClass(button.icon);
+                        $button.on('click', function () {
+                            if (button.fn) {
+                                var params = {};
+                                $tr.find('input,select').each(function () {
+                                    params[this.name] = $(this).val();
+                                });
+                                button.fn(params);
+                            }
+                        });
+                        $td.append($button);
                     }
-                })
+                });
 
                 var $cancelBtn = $('<button class="btn btn-secondary btn-sm btn-cancel" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;取消</button>').css('display', 'none');
                 $cancelBtn.on('click', function () {
                     $.each($tr.find('.td-item'), function (index, td) {
                         var text = $(td).find('span').text();
                         $(td).find('input').val(text);
-                    })
+                    });
 
                     $tr.find('.btn-update').attr('textType', 'update');
                     $tr.find('.btn-update').html('<span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;编辑');
@@ -285,7 +312,7 @@
                     $.each($tr.find('.td-item'), function (index, td) {
                         var inputValue = $(td).find('input').val();
                         $(td).find('span').text(inputValue);
-                    })
+                    });
                     $(this).css('display', 'none');
                 });
                 $td.append($cancelBtn);
@@ -350,7 +377,7 @@
                                         $input.css('border-color', '#FF2F2F');
                                     }
                                     params[inputName] = inputValue;
-                                })
+                                });
                                 if (!message.inputDesc) {
                                     // 调用服务修改数据
                                     if (button.url) {
@@ -373,8 +400,7 @@
                             }
                         });
                         $td.append($button);
-                    }
-                    if (type == 'save') {
+                    } else if (type == 'save') {
                         var $button = $('<button class="btn btn-primary btn-sm btn-save" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-save"></span></button>');
                         $button.append('&nbsp;&nbsp;' + button.text).css('display', 'none');
                         $button.on('click', function () {
@@ -386,7 +412,7 @@
                                     $input.css('border-color', '#FF2F2F');
                                 }
                                 params[inputName] = inputValue;
-                            })
+                            });
 
                             if (!message.inputDesc) {
                                 // 调用服务保存数据
@@ -409,8 +435,7 @@
                             }
                         });
                         $td.append($button);
-                    }
-                    if (type == 'delete') {
+                    } else if (type == 'delete') {
                         var $button = $('<button class="btn btn-danger btn-sm btn-delete" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-trash"></span></button>');
                         $button.append('&nbsp;&nbsp;' + button.text);
                         $button.on('click', function () {
@@ -446,8 +471,7 @@
                             api.ui.dialog(options).open();
                         });
                         $td.append($button);
-                    }
-                    if (type == 'enter') {
+                    } else if (type == 'enter') {
                         var $button = $('<button class="btn btn-info btn-sm btn-enter" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-share-alt"></span></button>');
                         $button.append('&nbsp;&nbsp;' + button.text);
                         $button.on('click', function () {
@@ -455,20 +479,33 @@
                                 var params = {};
                                 $tr.find('input,select').each(function () {
                                     params[this.name] = $(this).val();
-                                })
+                                });
+                                button.fn(params);
+                            }
+                        });
+                        $td.append($button);
+                    } else {
+                        var $button = $('<button class="btn btn-info btn-sm" style="margin-left: 10px;" type="button"><span></span></button>');
+                        $button.append('&nbsp;&nbsp;' + button.text).find('span').addClass(button.icon);
+                        $button.on('click', function () {
+                            if (button.fn) {
+                                var params = {};
+                                $tr.find('input,select').each(function () {
+                                    params[this.name] = $(this).val();
+                                });
                                 button.fn(params);
                             }
                         });
                         $td.append($button);
                     }
-                })
+                });
                 var $cancelBtn = $('<button class="btn btn-secondary btn-sm btn-cancel" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-remove"></span></button>');
                 $cancelBtn.append('&nbsp;&nbsp;取消');
                 $cancelBtn.css('display', 'none').on('click', function () {
                     $.each($tr.find('.td-item'), function (index, td) {
                         var text = $(td).find('span').text();
                         $(td).find('input').val(text);
-                    })
+                    });
 
                     $tr.find('.btn-update').attr('textType', 'update');
                     $tr.find('.btn-update').html('<span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;编辑');
@@ -482,7 +519,7 @@
                     $.each($tr.find('.td-item'), function (index, td) {
                         var inputValue = $(td).find('input').val();
                         $(td).find('span').text(inputValue);
-                    })
+                    });
 
                     $(this).css('display', 'none');
                 });
@@ -492,7 +529,7 @@
             jq.find('tbody:first').append($tr);
             return this;
         }
-    }
+    };
 
     editTable.defaults = {
         container: '',
@@ -500,7 +537,7 @@
         preSend: function () {
             return {};
         }
-    }
+    };
 
     api.ui.editTable = function (options) {
         return new editTable(options);

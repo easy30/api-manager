@@ -54,6 +54,13 @@
                             headBtn.fn && headBtn.fn($tBody.find('tr:last'));
                         });
                         $tFoot.find('td:last').append($addBtn);
+                    } else {
+                        var $customBtn = $('<button class="btn btn-success btn-sm" style="margin-left: 10px;" type="button"><span></span></button>').append('&nbsp;' + headBtn.text);
+                        $customBtn.find('span').addClass(headBtn.icon);
+                        $customBtn.on('click', function () {
+                            headBtn.fn && headBtn.fn();
+                        });
+                        $tFoot.find('td:last').append($customBtn);
                     }
                 })
             }
@@ -202,8 +209,7 @@
                             }
                         });
                         $td.append($button);
-                    }
-                    if (type == 'save') {
+                    } else if (type == 'save') {
                         var $button = $('<button class="btn btn-primary btn-sm btn-save" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-save"></span></button>');
                         $button.append('&nbsp;&nbsp;' + button.text);
                         $button.on('click', function () {
@@ -238,8 +244,7 @@
                             }
                         });
                         $td.append($button);
-                    }
-                    if (type == 'delete') {
+                    } else if (type == 'delete') {
                         var $button = $('<button class="btn btn-danger btn-sm btn-delete" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-trash"></span></button>');
                         $button.append('&nbsp;&nbsp;' + button.text);
                         $button.on('click', function () {
@@ -273,6 +278,19 @@
                                 ]
                             };
                             api.ui.dialog(options).open();
+                        });
+                        $td.append($button);
+                    } else {
+                        var $button = $('<button class="btn btn-info btn-sm" style="margin-left: 10px;" type="button"><span></span></button>');
+                        $button.append('&nbsp;&nbsp;' + button.text).find('span').addClass(button.icon);
+                        $button.on('click', function () {
+                            if (button.fn) {
+                                var params = {};
+                                $tr.find('input,select').each(function () {
+                                    params[this.name] = $(this).val();
+                                });
+                                button.fn(params);
+                            }
                         });
                         $td.append($button);
                     }
@@ -382,8 +400,7 @@
                             }
                         });
                         $td.append($button);
-                    }
-                    if (type == 'save') {
+                    } else if (type == 'save') {
                         var $button = $('<button class="btn btn-primary btn-sm btn-save" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-save"></span></button>');
                         $button.append('&nbsp;&nbsp;' + button.text).css('display', 'none');
                         $button.on('click', function () {
@@ -418,8 +435,7 @@
                             }
                         });
                         $td.append($button);
-                    }
-                    if (type == 'delete') {
+                    } else if (type == 'delete') {
                         var $button = $('<button class="btn btn-danger btn-sm btn-delete" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-trash"></span></button>');
                         $button.append('&nbsp;&nbsp;' + button.text);
                         $button.on('click', function () {
@@ -455,10 +471,22 @@
                             api.ui.dialog(options).open();
                         });
                         $td.append($button);
-                    }
-                    if (type == 'enter') {
+                    } else if (type == 'enter') {
                         var $button = $('<button class="btn btn-info btn-sm btn-enter" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-share-alt"></span></button>');
                         $button.append('&nbsp;&nbsp;' + button.text);
+                        $button.on('click', function () {
+                            if (button.fn) {
+                                var params = {};
+                                $tr.find('input,select').each(function () {
+                                    params[this.name] = $(this).val();
+                                });
+                                button.fn(params);
+                            }
+                        });
+                        $td.append($button);
+                    } else {
+                        var $button = $('<button class="btn btn-info btn-sm" style="margin-left: 10px;" type="button"><span></span></button>');
+                        $button.append('&nbsp;&nbsp;' + button.text).find('span').addClass(button.icon);
                         $button.on('click', function () {
                             if (button.fn) {
                                 var params = {};

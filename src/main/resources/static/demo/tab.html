@@ -13,22 +13,27 @@
 </head>
 <body>
 
-<div id="myTabs">
+<div id="actionPage">
+    <div id="headButton">
+        <button class="btn btn-success"><span class="glyphicon glyphicon-save"></span>&nbsp;保存</button>
+    </div>
+    <hr style="margin-top: 1px">
+    <form id="tabs"/>
 </div>
 <script>
     var conf = {
-        container: '#myTabs',
+        container: '#tabs',
         tabs: [{
             title: '基本信息',
+            href: 'actionInfo.html',
             content: '基本信息'
         }, {
-            title: '参数信息',
-            content:'参数信息'
+            title: '接口参数',
+            href: 'actionParams.html',
+            content: '基本信息'
         }]
     };
     var tabs = api.ui.tabs(conf);
-    tabs.hide('参数信息');
-    // tabs.display('参数信息');
 </script>
 </body>
 </html>
