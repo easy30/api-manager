@@ -6,7 +6,7 @@
         if (options.data) {
             this.data(options.data);
         } else {
-            this.load();
+            this.load(options.params);
         }
         // 添加change事件
         options.change && jq.on('change', function (event) {
@@ -70,6 +70,7 @@
         url: '',
         width: '80%',
         height: '34px',
+        params: {},
         change: function (event) {
 
         }
