@@ -30,9 +30,9 @@
         },
         _data: function (content) {
             var jq = this.jq, conf = this.conf;
-            conf.preLoad && conf.preLoad(content);
+            var params = conf.preLoad && conf.preLoad();
             jq.html(content);
-            conf.loaded && conf.loaded(jq);
+            conf.loaded && conf.loaded(params);
         }
     };
 
