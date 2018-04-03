@@ -50,5 +50,11 @@ api.util = {
         }
 
         load();
+    },
+    generateId: function () {
+        return 'api-id' + this.generateNumber();
+    },
+    generateNumber: function () {
+        return Math.round(Math.random() * 9999999999);
     }
 };
