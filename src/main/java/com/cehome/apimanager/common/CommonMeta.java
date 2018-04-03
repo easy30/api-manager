@@ -10,7 +10,7 @@ public class CommonMeta {
 	/**
 	 * 字段类型
 	 */
-	public enum JavaType {
+	public enum FieldType {
 		NUMBER(1, "number"), 
 		STRING(2, "string"), 
 		BOOLEAN(3, "boolean"), 
@@ -25,9 +25,9 @@ public class CommonMeta {
 		public static List<MetaKv> KVS;
 
 		static {
-			MAP = new HashMap<String, String>(JavaType.values().length);
-			KVS = new ArrayList<MetaKv>(JavaType.values().length);
-			for (JavaType javaType : JavaType.values()) {
+			MAP = new HashMap<String, String>(FieldType.values().length);
+			KVS = new ArrayList<MetaKv>(FieldType.values().length);
+			for (FieldType javaType : FieldType.values()) {
 				MAP.put(String.valueOf(javaType.getCode()), javaType.getDesc());
 				KVS.add(new MetaKv(javaType.getCode(), javaType.getDesc()));
 			}
@@ -50,7 +50,7 @@ public class CommonMeta {
 		private final int code;
 		private final String desc;
 
-		JavaType(int code, String desc) {
+		FieldType(int code, String desc) {
 			this.code = code;
 			this.desc = desc;
 		}

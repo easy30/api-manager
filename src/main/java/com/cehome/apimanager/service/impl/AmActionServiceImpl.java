@@ -119,22 +119,22 @@ public class AmActionServiceImpl implements IAmActionService {
 		JSONObject mockObject = new JSONObject();
 		for (JSONObject column : columnList) {
 			int columnType = column.getIntValue("type");
-			if (CommonMeta.JavaType.NUMBER.getCode() == columnType 
-					|| CommonMeta.JavaType.STRING.getCode() == columnType
-					|| CommonMeta.JavaType.BOOLEAN.getCode() == columnType
-					|| CommonMeta.JavaType.ARRAY_NUMBER.getCode() == columnType
-					|| CommonMeta.JavaType.ARRAY_STRING.getCode() == columnType
-					|| CommonMeta.JavaType.ARRAY_BOOLEAN.getCode() == columnType) {
+			if (CommonMeta.FieldType.NUMBER.getCode() == columnType
+					|| CommonMeta.FieldType.STRING.getCode() == columnType
+					|| CommonMeta.FieldType.BOOLEAN.getCode() == columnType
+					|| CommonMeta.FieldType.ARRAY_NUMBER.getCode() == columnType
+					|| CommonMeta.FieldType.ARRAY_STRING.getCode() == columnType
+					|| CommonMeta.FieldType.ARRAY_BOOLEAN.getCode() == columnType) {
 				String name = column.getString("name");
 				String rule = StringUtils.isEmpty(column.getString("rule")) ? "" : "|" + column.getString("rule");
 				Object value = column.get("value");
 				mockObject.put(name + rule, value);
-			} else if (CommonMeta.JavaType.OBJECT.getCode() == columnType) {
+			} else if (CommonMeta.FieldType.OBJECT.getCode() == columnType) {
 				String name = column.getString("name");
 				List<JSONObject> children = column.getJSONArray("child").toJavaList(JSONObject.class);
 				JSONObject columnObject = buildMockData(children);
 				mockObject.put(name, columnObject);
-			} else if (CommonMeta.JavaType.ARRAY_OBJECT.getCode() == columnType) {
+			} else if (CommonMeta.FieldType.ARRAY_OBJECT.getCode() == columnType) {
 				JSONArray objectArray = new JSONArray();
 				String name = column.getString("name");
 				List<JSONObject> children = column.getJSONArray("child").toJavaList(JSONObject.class);
