@@ -1,9 +1,5 @@
 package com.cehome.apimanager.service.impl;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.util.EntityUtils;
-import org.springframework.stereotype.Service;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.cehome.apimanager.common.CommonMeta;
@@ -11,6 +7,9 @@ import com.cehome.apimanager.exception.BizValidationException;
 import com.cehome.apimanager.model.dto.ActionTesterReqDto;
 import com.cehome.apimanager.service.IAmActionTesterService;
 import com.cehome.apimanager.utils.HttpUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.util.EntityUtils;
+import org.springframework.stereotype.Service;
 
 /**
  * 接口测试

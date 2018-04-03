@@ -103,22 +103,22 @@
 		UPDATE am_action_case
 		<set>
 			<if test="actionId != null">
-			#{actionId,jdbcType=INTEGER},
+				action_id = #{actionId,jdbcType=INTEGER},
 			</if>
 			<if test="actionCaseDesc != null">
-			#{actionCaseDesc,jdbcType=VARCHAR},
+				action_case_desc = #{actionCaseDesc,jdbcType=VARCHAR},
 			</if>
 			<if test="requestHeadData != null">
-			#{requestHeadData,jdbcType=LONGVARCHAR},
+				request_head_data = #{requestHeadData,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="requestData != null">
-			#{requestData,jdbcType=LONGVARCHAR},
+				request_data = #{requestData,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="createTime != null">
-			#{createTime,jdbcType=TIMESTAMP},
+				create_time = #{createTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updateTime != null">
-			#{updateTime,jdbcType=TIMESTAMP}
+				update_time = #{updateTime,jdbcType=TIMESTAMP}
 			</if>
 		</set>
 		WHERE

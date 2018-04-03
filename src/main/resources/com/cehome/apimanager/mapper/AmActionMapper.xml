@@ -146,55 +146,55 @@
 		</trim>
 		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
-			id = {id,jdbcType=INTEGER},
+			id = #{id,jdbcType=INTEGER},
 			</if>
 			<if test="moduleId != null">
-			module_id = {moduleId,jdbcType=INTEGER},
+			module_id = #{moduleId,jdbcType=INTEGER},
 			</if>
 			<if test="actionName != null">
-			action_name = {actionName,jdbcType=VARCHAR},
+			action_name = #{actionName,jdbcType=VARCHAR},
 			</if>
 			<if test="actionDesc != null">
-			action_desc = {actionDesc,jdbcType=VARCHAR},
+			action_desc = #{actionDesc,jdbcType=VARCHAR},
 			</if>
 			<if test="requestType != null">
-			request_type = {requestType,jdbcType=VARCHAR},
+			request_type = #{requestType,jdbcType=VARCHAR},
 			</if>
 			<if test="requestUrl != null">
-			request_url = {requestUrl,jdbcType=VARCHAR},
+			request_url = #{requestUrl,jdbcType=VARCHAR},
 			</if>
 			<if test="status != null">
-			status = {status,jdbcType=INTEGER},
+			status = #{status,jdbcType=INTEGER},
 			</if>
 			<if test="requestHeadDefinition != null">
-			request_head_definition = {requestHeadDefinition,jdbcType=LONGVARCHAR},
+			request_head_definition = #{requestHeadDefinition,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="requestDefinition != null">
-			request_definition = {requestDefinition,jdbcType=LONGVARCHAR},
+			request_definition = #{requestDefinition,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="responseDefinition != null">
-			response_definition = {responseDefinition,jdbcType=LONGVARCHAR},
+			response_definition = #{responseDefinition,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="requestHeadMock != null">
-			request_head_mock = {requestHeadMock,jdbcType=VARCHAR},
+			request_head_mock = #{requestHeadMock,jdbcType=VARCHAR},
 			</if>
 			<if test="requestMock != null">
-			request_mock = {requestMock,jdbcType=LONGVARCHAR},
+			request_mock = #{requestMock,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="responseMock != null">
-			response_mock = {responseMock,jdbcType=LONGVARCHAR},
+			response_mock = #{responseMock,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="createUser != null">
-			create_user = {createUser,jdbcType=INTEGER},
+			create_user = #{createUser,jdbcType=INTEGER},
 			</if>
 			<if test="createTime != null">
-			create_time = {createTime,jdbcType=TIMESTAMP},
+			create_time = #{createTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updateUser != null">
-			update_user = {updateUser,jdbcType=INTEGER},
+			update_user = #{updateUser,jdbcType=INTEGER},
 			</if>
 			<if test="updateTime != null">
-			update_time = {updateTime,jdbcType=TIMESTAMP}
+			update_time = #{updateTime,jdbcType=TIMESTAMP}
 			</if>
 		</trim>
 	</insert>
@@ -203,52 +203,52 @@
 		UPDATE am_action
 		<set>
 			<if test="moduleId != null">
-			module_id = {moduleId,jdbcType=INTEGER},
+			module_id = #{moduleId,jdbcType=INTEGER},
 			</if>
 			<if test="actionName != null">
-			action_name = {actionName,jdbcType=VARCHAR},
+			action_name = #{actionName,jdbcType=VARCHAR},
 			</if>
 			<if test="actionDesc != null">
-			action_desc = {actionDesc,jdbcType=VARCHAR},
+			action_desc = #{actionDesc,jdbcType=VARCHAR},
 			</if>
 			<if test="requestType != null">
 			request_type = {requestType,jdbcType=VARCHAR},
 			</if>
 			<if test="requestUrl != null">
-			request_url = {requestUrl,jdbcType=VARCHAR},
+			request_url = #{requestUrl,jdbcType=VARCHAR},
 			</if>
 			<if test="status != null">
-			status = {status,jdbcType=INTEGER},
+			status = #{status,jdbcType=INTEGER},
 			</if>
 			<if test="requestHeadDefinition != null">
-			request_head_definition = {requestHeadDefinition,jdbcType=LONGVARCHAR},
+			request_head_definition = #{requestHeadDefinition,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="requestDefinition != null">
-			request_definition = {requestDefinition,jdbcType=LONGVARCHAR},
+			request_definition = #{requestDefinition,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="responseDefinition != null">
-			response_definition = {responseDefinition,jdbcType=LONGVARCHAR},
+			response_definition = #{responseDefinition,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="requestHeadMock != null">
-			request_head_mock = {requestHeadMock,jdbcType=VARCHAR},
+			request_head_mock = #{requestHeadMock,jdbcType=VARCHAR},
 			</if>
 			<if test="requestMock != null">
-			request_mock = {requestMock,jdbcType=LONGVARCHAR},
+			request_mock = #{requestMock,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="responseMock != null">
-			response_mock = {responseMock,jdbcType=LONGVARCHAR},
+			response_mock = #{responseMock,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="createUser != null">
-			create_user = {createUser,jdbcType=INTEGER},
+			create_user = #{createUser,jdbcType=INTEGER},
 			</if>
 			<if test="createTime != null">
-			create_time = {createTime,jdbcType=TIMESTAMP},
+			create_time = #{createTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="updateUser != null">
-			update_user = {updateUser,jdbcType=INTEGER},
+			update_user = #{updateUser,jdbcType=INTEGER},
 			</if>
 			<if test="updateTime != null">
-			update_time = {updateTime,jdbcType=TIMESTAMP}
+			update_time = #{updateTime,jdbcType=TIMESTAMP}
 			</if>
 		</set>
 		WHERE
