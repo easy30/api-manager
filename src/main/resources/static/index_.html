@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>API Manager</title>
+	<link href="plugins/bootstrap/css/bootstrap.css" rel="stylesheet"></link>
+	<link href="common/css/style.css" rel="stylesheet"></link>
+	<script src="common/js/jquery-3.3.1.min.js"></script>
+	<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="common/js/namespace.js"></script>
+    <!--<script src="common/js/util.js"></script>-->
+    <script src="demo/js/util.js"></script>
+    <script src="common/ui/jquery.chosen.js"></script>
+    <script src="common/ui/jquery.dialog.js"></script>
+    <script src="common/ui/jquery.pager.js"></script>
+    <script src="common/ui/jquery.form.js"></script>
+    <!--<script src="common/ui/jquery.tab.js"></script>-->
+    <script src="demo/js/jquery.tab.js"></script>
+    <script src="common/ui/jquery.load.js"></script>
+	<script src="common/ui/jquery.editTable.js"></script>
+</head>
+<body>
+    <div id="head"></div>
+    <script>
+        var conf = {
+        container: '#head',
+            url: 'html/head/head.html',
+            content: "",
+            async: false,
+            preLoad: function (content) {
+            // console.log(content);
+        },
+        loaded: function () {
+            // alert('加载完成后');
+            }
+        }
+        api.ui.load(conf);
+    </script>
+    <div id="container" class="container"></div>
+    <script>
+        var conf = {
+            container: '#container',
+            url: 'html/department/department.html',
+            content: "",
+            async: false,
+            preLoad: function (content) {
+            },
+            loaded: function () {
+            }
+        }
+        api.ui.load(conf);
+    </script>
+</body>
+</html>

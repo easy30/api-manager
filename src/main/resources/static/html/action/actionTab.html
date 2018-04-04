@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>API Manager</title>
+    <link href="plugins/bootstrap/css/bootstrap.css" rel="stylesheet"></link>
+    <link href="common/css/style.css" rel="stylesheet"></link>
+    <script src="common/js/jquery-3.3.1.min.js"></script>
+    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="common/js/namespace.js"></script>
+    <script src="common/js/util.js"></script>
+    <script src="common/ui/jquery.chosen.js"></script>
+    <script src="common/ui/jquery.dialog.js"></script>
+    <script src="common/ui/jquery.pager.js"></script>
+    <script src="common/ui/jquery.form.js"></script>
+    <script src="common/ui/jquery.tab.js"></script>
+    <script src="common/ui/jquery.load.js"></script>
+    <script src="common/ui/jquery.editTable.js"></script>
+</head>
+<body>
+<div id="actionPage">
+    <div id="headButton" class="row justify-content-end">
+        <button class="btn btn-success"><span class="glyphicon glyphicon-edit"></span>&nbsp;编辑</button>
+        <button class="btn btn-success" style="margin-left: 10px"><span class="glyphicon glyphicon-save"></span>&nbsp;保存</button>
+    </div>
+    <hr style="margin-top: 1px">
+    <form id="tabs"/>
+</div>
+<script>
+    var conf = {
+        container: '#tabs',
+        tabs: [{
+            title: '基本信息',
+            href: 'html/action/actionInfo.html'
+        }, {
+            title: '接口参数',
+            href: 'html/action/actionParam.html'
+        }]
+    };
+    var tabs = api.ui.tabs(conf);
+</script>
+</body>
