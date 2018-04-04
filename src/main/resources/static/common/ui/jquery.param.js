@@ -374,7 +374,10 @@
             jq.find('tfoot button').css('display', 'none');
             jq.find('.td-item-operate a').each(function () {
                 var $this = $(this);
-                $this.attr('oldDisplay', $this.css('display'));
+                // 判断属性是否存在
+                if(typeof $this.attr("oldDisplay") == "undefined"){
+                    $this.attr('oldDisplay', $this.css('display'));
+                }
                 $this.css('display', 'none');
             });
 
