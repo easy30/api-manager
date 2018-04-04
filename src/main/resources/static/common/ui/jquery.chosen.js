@@ -17,10 +17,7 @@
     chosenSelect.prototype = {
         data: function (data) {
             var jq = this.jq, options = this.options;
-            if(options.blank){
-                jq.append($('<option></option>'));
-            }
-
+            jq.append($('<option></option>'));
             $.each(data, function (index, value) {
                 jq.append($('<option></option>').attr('value', value[options.optionField.value]).text(value[options.optionField.text]));
             });
@@ -52,18 +49,30 @@
             this.jq.attr('disabled', false);
             return this;
         },
+        _cache: {},
         load: function (param) {
-            var chosenSelect = this;
-            $.ajax({
-                url: this.options.url,
-                type: 'GET',
-                async: false,
-                data: param,
-                dataType: 'json',
-                success: function (result) {
-                    chosenSelect.data(result.data);
-                }
-            });
+            var chosenSelect = this, url = this.options.url, cacheKey = '';
+            if(param){
+                cacheKey = $.md5(param) + '-' + url;
+            } else {
+                cacheKey = url;
+            }
+            if(chosenSelect._cache[cacheKey]){
+                chosenSelect.data(chosenSelect._cache[cacheKey]);
+            } else {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    async: false,
+                    data: param,
+                    dataType: 'json',
+                    success: function (result) {
+                        var data = result.data;
+                        chosenSelect.data(data);
+                        chosenSelect._cache[cacheKey] = data;
+                    }
+                });
+            }
             return this;
         }
     };
@@ -71,9 +80,8 @@
     chosenSelect.defaults = {
         selector: '',
         url: '',
-        width: '80%',
+        width: '100%',
         height: '34px',
-        blank: true,
         params: {},
         change: function (event) {
 

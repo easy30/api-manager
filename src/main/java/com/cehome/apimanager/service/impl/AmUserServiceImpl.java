@@ -1,13 +1,5 @@
 package com.cehome.apimanager.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.dao.AmUserDao;
 import com.cehome.apimanager.dao.AmUserDepartmentDao;
@@ -17,6 +9,13 @@ import com.cehome.apimanager.model.dto.AmUserReqDto;
 import com.cehome.apimanager.model.po.AmUser;
 import com.cehome.apimanager.model.po.AmUserDepartment;
 import com.cehome.apimanager.service.IAmUserService;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 用户模块接口实现
@@ -92,7 +91,7 @@ public class AmUserServiceImpl implements IAmUserService {
 	}
 
 	@Override
-	public void login(AmUserReqDto dto) {
+	public AmUser login(AmUserReqDto dto) {
 		String password = dto.getPassword();
 		AmUser user = userDao.findByAccount(dto.getAccount());
 		if(user == null){
@@ -104,5 +103,6 @@ public class AmUserServiceImpl implements IAmUserService {
 		if(user == null){
 			throw new BizValidationException("密码错误！");
 		}
+		return user;
 	}
 }

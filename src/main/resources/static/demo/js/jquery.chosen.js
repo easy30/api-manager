@@ -49,18 +49,30 @@
             this.jq.attr('disabled', false);
             return this;
         },
+        _cache: {},
         load: function (param) {
-            var chosenSelect = this;
-            $.ajax({
-                url: this.options.url,
-                type: 'GET',
-                async: false,
-                data: param,
-                dataType: 'json',
-                success: function (result) {
-                    chosenSelect.data(result.data);
-                }
-            });
+            var chosenSelect = this, url = this.options.url, cacheKey = '';
+            if(param){
+                cacheKey = $.md5(param) + '-' + url;
+            } else {
+                cacheKey = url;
+            }
+            if(chosenSelect._cache[cacheKey]){
+                chosenSelect.data(chosenSelect._cache[cacheKey]);
+            } else {
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    async: false,
+                    data: param,
+                    dataType: 'json',
+                    success: function (result) {
+                        var data = result.data;
+                        chosenSelect.data(data);
+                        chosenSelect._cache[cacheKey] = data;
+                    }
+                });
+            }
             return this;
         }
     };

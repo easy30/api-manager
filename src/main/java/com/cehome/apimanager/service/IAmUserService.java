@@ -54,5 +54,5 @@ public interface IAmUserService {
 	 * 
 	 * @param dto
 	 */
-	void login(AmUserReqDto dto);
+	AmUser login(AmUserReqDto dto);
 }

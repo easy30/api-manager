@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>md5</title>
+    <script src="../res/js/jquery-3.3.1.min.js"></script>
+    <script src="../common/js/jquery.md5.js"></script>
+</head>
+<body>
+    <input type="text" name="str">
+    <button id="btn">生成md5</button>
+    <textarea id="tt"></textarea>
+    <script>
+        $('#btn').on('click', function () {
+            $('#tt').val($.md5($('input[name=str]').val()));
+            console.log($.md5({name:'a'}));
+        })
+    </script>
+</body>
+</html>

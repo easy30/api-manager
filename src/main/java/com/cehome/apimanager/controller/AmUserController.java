@@ -1,19 +1,18 @@
 package com.cehome.apimanager.controller;
 
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.cehome.apimanager.common.BaseController;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.model.dto.AmUserQueryReqDto;
 import com.cehome.apimanager.model.dto.AmUserReqDto;
 import com.cehome.apimanager.model.po.AmUser;
 import com.cehome.apimanager.service.IAmUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/apimanager/user")
@@ -49,8 +48,7 @@ public class AmUserController extends BaseController {
 	@RequestMapping("login")
 	public Map<String, Object> login(AmUserReqDto dto) {
 		try {
-			userService.login(dto);
-			return toSuccess();
+			return toSuccess(userService.login(dto));
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return toFail(e.getMessage());
