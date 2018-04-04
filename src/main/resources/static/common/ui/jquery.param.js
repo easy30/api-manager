@@ -347,6 +347,7 @@
                 $addLink.css('display', '');
                 afterRow($tr, children);
             }
+            return this;
         },
         toData: function () {
             var that = this, jq = this.jq, rootArray = [], rootRows = jq.find('tr[level=root]')
