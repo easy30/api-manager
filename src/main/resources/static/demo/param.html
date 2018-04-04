@@ -12,8 +12,10 @@
     <script src="js/jquery.param.js"></script>
 </head>
 <body>
-<div id="param"></div>
+<div id="param" style="background-color: white"></div>
 <button id="showDataBtn" class="btn btn-info">转化数据</button>
+<button id="viewBtn" class="btn btn-info">查看</button>
+<button id="editBtn" class="btn btn-info">编辑</button>
 <script>
     var options = {
         container: '#param',
@@ -51,6 +53,12 @@
     var param = api.ui.param(options);
     $('#showDataBtn').on('click', function () {
         console.log(param.toData());
+    });
+    $('#viewBtn').on('click', function () {
+        param.disable();
+    });
+    $('#editBtn').on('click', function () {
+        param.enable();
     });
 </script>
 </body>

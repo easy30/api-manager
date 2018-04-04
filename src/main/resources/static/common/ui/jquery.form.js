@@ -21,7 +21,7 @@
         },
         giveVal: function (data) {
             this.oldData = data;
-            this.jq.find('input,select').each(function () {
+            this.jq.find('input,select,textarea').each(function () {
                 var $this = $(this);
                 $this.val(data[$this.attr('name')]);
             });
@@ -29,10 +29,18 @@
         },
         reset: function () {
             var oldData = this.data;
-            this.jq.find('input,select').each(function () {
+            this.jq.find('input,select,textarea').each(function () {
                 var $this = $(this);
                 $this.val(oldData[$this.attr('name')]);
             });
+            return this;
+        },
+        disable: function () {
+            this.jq.find('input,select,textarea').attr('disabled', true).css('background-color', 'white');
+            return this;
+        },
+        enable: function () {
+            this.jq.find('input,select,textarea').attr('disabled', false);
             return this;
         }
     }

@@ -367,6 +367,28 @@
             }
             deal(rootRows, rootArray);
             return rootArray;
+        },
+        disable: function () {
+            var jq = this.jq;
+            jq.find('input,select,textarea').attr('disabled', true).css('background-color', 'white');
+            jq.find('tfoot button').css('display', 'none');
+            jq.find('.td-item-operate a').each(function () {
+                var $this = $(this);
+                $this.attr('oldDisplay', $this.css('display'));
+                $this.css('display', 'none');
+            });
+
+            return this;
+        },
+        enable: function () {
+            var jq = this.jq;
+            jq.find('input,select,textarea').attr('disabled', false);
+            jq.find('tfoot button').css('display', '');
+            jq.find('.td-item-operate a').each(function () {
+                var $this = $(this);
+                $this.css('display', $this.attr('oldDisplay'));
+            });
+            return this;
         }
     };
     param.defaults = {

@@ -17,6 +17,7 @@
         <option value="1">男</option>
         <option value="2">女</option>
     </select>
+    <textarea name="desc">描述</textarea>
 </form>
 <script>
     var options = {
@@ -24,8 +25,9 @@
     };
     var form = api.ui.form(options);
     console.log(form.toJson());
-    form.giveVal({name:'jquery', sex: 2});
-    // form.reset();
+    form.giveVal({name:'jquery', sex: 2, desc: 'textarea区域'});
+    form.disable();
+    // form.enable();
 </script>
 </body>
 </html>
