@@ -18,7 +18,6 @@
             var $tHead = $('<thead></thead>');
             var $tBody = $('<tbody></tbody>');
             var $tFoot = $('<tfoot></tfoot>');
-
             if (headers) {
                 var $tr = $('<tr style="background-color: #e3e3e3"></tr>');
                 $.each(headers, function (index, header) {
@@ -82,8 +81,10 @@
                         var value = event.target.value;
                         if(value > 3){
                             $addLink.css('display', '');
+                            $addLink.attr('oldDisplay', '');
                             $tr.find('input[name=defaultVal]').val('');
                         } else {
+                            $addLink.attr('oldDisplay', 'none');
                             $addLink.css('display', 'none');
                             if(value == 3){
                                 $tr.find('input[name=defaultVal]').val(false);
@@ -141,7 +142,7 @@
                 if(field.type == 'input'){
                     var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%;"/>');
                     if(field.name == 'name'){
-                        $input.css('padding-left', padding.replace('px', '') * 2 + 'px');
+                        $input.css('padding-left', (parseInt(padding.replace('px', '')) + 20) + 'px');
                     }
                     $input.attr('name', field.name);
                     $tr.append($td.append($input));
@@ -152,9 +153,11 @@
                     chosenOptions.change = function (event) {
                         var target = event.target, value = target.value;;
                         if(value > 3){
+                            $addLink.attr('oldDisplay', '');
                             $addLink.css('display', '');
                             $tr.find('input[name=defaultVal]').val('');
                         } else {
+                            $addLink.attr('oldDisplay', 'none');
                             $addLink.css('display', 'none');
                             if(value == 3){
                                 $tr.find('input[name=defaultVal]').val(false);
@@ -232,9 +235,11 @@
                     chosenOptions.change = function (event) {
                         var value = event.target.value;
                         if(value > 3){
+                            $addLink.attr('oldDisplay', '');
                             $addLink.css('display', '');
                             $tr.find('input[name=defaultVal]').val('');
                         } else {
+                            $addLink.attr('oldDisplay', 'none');
                             $addLink.css('display', 'none');
                             if(value == 3){
                                 $tr.find('input[name=defaultVal]').val(false);
@@ -292,7 +297,7 @@
                         if(field.type == 'input'){
                             var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%;"/>');
                             if(field.name == 'name'){
-                                $input.css('padding-left', padding.replace('px', '') * 2 + 'px');
+                                $input.css('padding-left', (parseInt(padding.replace('px', '')) + 20) + 'px');
                             }
                             $input.attr('name', field.name).val(childFiledData[field.name]);
                             $tr.append($td.append($input));
@@ -303,9 +308,11 @@
                             chosenOptions.change = function (event) {
                                 var value = event.target.value;;
                                 if(value > 3){
+                                    $addLink.attr('oldDisplay', '');
                                     $addLink.css('display', '');
                                     $tr.find('input[name=defaultVal]').val('');
                                 } else {
+                                    $addLink.attr('oldDisplay', 'none');
                                     $addLink.css('display', 'none');
                                     if(value == 3){
                                         $tr.find('input[name=defaultVal]').val(false);
@@ -396,7 +403,7 @@
     };
     param.defaults = {
         container: '',
-        width: '80%',
+        width: '100%',
         data: {},
         url: undefined
     };
