@@ -27,7 +27,7 @@
     editTable.prototype = {
         _build: function () {
             var editTable = this, jq = this.jq, conf = this.options, fields = conf.fields, headers = conf.headers, headBtns = conf.headBtn;
-            var $table = $('<table class="table table-hover table-sm" style="font-size: 15px;"></table>');
+            var $table = $('<table class="table table-hover table-sm" style="font-family: Microsoft YaHei, \'宋体\', Tahoma, Helvetica, Arial, sans-serif;"></table>');
             var $tHead = $('<thead></thead>');
             var $tBody = $('<tbody></tbody>');
             var $tFoot = $('<tfoot></tfoot>');
@@ -143,16 +143,16 @@
                 } else {
                     if(field.type == 'input'){
                         var $span = $('<span class="td-item-span" style="display: none"></span>');
-                        var $input = $('<input class="form-control td-item-input" type="text" style="height: 30px;"/>');
+                        var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%;"/>');
                         $input.attr('inputDesc', field.inputDesc).attr('name', field.name).attr('required', field.required).css('display', '');
                         $tr.append($td.append($span).append($input));
                     } else if(field.type = 'select'){
-                        var chosenOptions = field.options, $selector = $('<select class="form-control"></select>');
+                        var $span = $('<span class="td-item-span" style="display: none" selectVal=""></span>');
+                        var chosenOptions = field.options, $selector = $('<select class="form-control td-item-select"></select>');
                         $selector.attr('name', field.name);
                         chosenOptions.selector = $selector;
                         api.ui.chosenSelect(chosenOptions);
-                        $td.append($selector);
-                        $tr.append($td);
+                        $tr.append($td.append($span).append($selector));
                     }
                 }
             });
@@ -168,6 +168,7 @@
                             var textType = $button.attr('textType');
                             if (textType == 'update') {
                                 $tr.find('.td-item-input').css('display', '');
+                                $tr.find('.td-item-select').css('display', '');
                                 $td.find('.btn-cancel').css('display', '');
                                 $tr.find('.td-item-span').css('display', 'none');
                                 $td.find('.btn-delete').css('display', 'none');
@@ -185,6 +186,7 @@
                                 });
                                 if (!message.inputDesc) {
                                     $tr.find('.td-item-input').css('display', 'none');
+                                    $tr.find('.td-item-select').css('display', 'none');
                                     $td.find('.btn-cancel').css('display', 'none');
                                     $tr.find('.td-item-span').css('display', '');
                                     $td.find('.btn-delete').css('display', '');
@@ -280,6 +282,8 @@
                             api.ui.dialog(options).open();
                         });
                         $td.append($button);
+                    } else if(type == 'enter'){
+
                     } else {
                         var $button = $('<button class="btn btn-info btn-sm" style="margin-left: 10px;" type="button"><span></span></button>');
                         $button.append('&nbsp;&nbsp;' + button.text).find('span').addClass(button.icon);
@@ -299,14 +303,21 @@
                 var $cancelBtn = $('<button class="btn btn-secondary btn-sm btn-cancel" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;取消</button>').css('display', 'none');
                 $cancelBtn.on('click', function () {
                     $.each($tr.find('.td-item'), function (index, td) {
-                        var text = $(td).find('span').text();
-                        $(td).find('input').val(text);
+                        var $select = $(td).find('select'), $input = $(td).find('input'), $span = $(td).find('span');
+                        if($select.length > 0) {
+                            var selectVal = $span.attr('selectVal');
+                            $select.val(selectVal);
+                        } else {
+                            var text = $span.text();
+                            $input.val(text);
+                        }
                     });
 
                     $tr.find('.btn-update').attr('textType', 'update');
                     $tr.find('.btn-update').html('<span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;编辑');
                     $tr.find('.btn-cancel').css('display', 'none');
-                    $tr.find('.td-item-input').css('display', 'none').css('border-color','');
+                    $tr.find('.td-item-input').css('display', 'none');
+                    $tr.find('.td-item-select').css('display', 'none');
                     $tr.find('.td-item-span').css('display', '');
                     $tr.find('.btn-delete').css('display', '');
                     $.each($tr.find('.td-item'), function (index, td) {
@@ -333,19 +344,20 @@
                 } else {
                     if(field.type == 'input'){
                         var $span = $('<span class="td-item-span">' + rowData[field.name] + '</span>');
-                        var $input = $('<input class="form-control td-item-input" type="text" style="height: 30px;"/>');
+                        var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%;"/>');
                         var required = field.required;
                         $input.attr('inputDesc', field.inputDesc).attr('required', required).attr('name', field.name).val(rowData[field.name]).css('display', 'none');
                         $tr.append($td.append($span).append($input));
                     } else if(field.type = 'select'){
-                        var chosenOptions = field.options, $selector = $('<select class="form-control"></select>');
-                        $selector.attr('name', field.name);
+                        var $span = $('<span class="td-item-span"></span>');
+                        var chosenOptions = field.options, $selector = $('<select class="form-control td-item-select"></select>');
+                        $selector.attr('name', field.name).css('display', 'none');
                         chosenOptions.selector = $selector;
                         var chosenSelect = api.ui.chosenSelect(chosenOptions);
                         chosenSelect.val(rowData[field.name]);
-                        chosenSelect.disable();
-                        $td.append($selector);
-                        $tr.append($td);
+                        var selected = chosenSelect.selected();
+                        $span.attr('selectVal', selected.value).text(selected.text);
+                        $tr.append($td.append($span).append($selector));
                     }
                 }
             });
@@ -361,6 +373,7 @@
                             var textType = $(this).attr('textType');
                             if (textType == 'update') {
                                 $tr.find('.td-item-input').css('display', '');
+                                $tr.find('.td-item-select').css('display', '');
                                 $td.find('.btn-cancel').css('display', '');
                                 $tr.find('.td-item-span').css('display', 'none');
                                 $td.find('.btn-delete').css('display', 'none');
@@ -503,14 +516,21 @@
                 $cancelBtn.append('&nbsp;&nbsp;取消');
                 $cancelBtn.css('display', 'none').on('click', function () {
                     $.each($tr.find('.td-item'), function (index, td) {
-                        var text = $(td).find('span').text();
-                        $(td).find('input').val(text);
+                        var $select = $(td).find('select'), $input = $(td).find('input'), $span = $(td).find('span');
+                        if($select.length > 0) {
+                            var selectVal = $span.attr('selectVal');
+                            $select.val(selectVal);
+                        } else {
+                            var text = $span.text();
+                            $input.val(text);
+                        }
                     });
 
                     $tr.find('.btn-update').attr('textType', 'update');
                     $tr.find('.btn-update').html('<span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;编辑');
                     $tr.find('.btn-cancel').css('display', 'none');
-                    $tr.find('.td-item-input').css('display', 'none').css('border-color','');
+                    $tr.find('.td-item-input').css('display', 'none');
+                    $tr.find('.td-item-select').css('display', 'none');
                     $tr.find('.td-item-span').css('display', '');
                     $tr.find('.btn-delete').css('display', '');
                     $td.find('.btn-enter').css('display', '');

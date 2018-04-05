@@ -38,11 +38,23 @@
                 });
             }
         },
+        selected: function () {
+            var selected = {};
+            this.jq.find('option').each(function () {
+                var $selectedOption = $(this);
+                if ($selectedOption.attr('selected')) {
+                    selected['value'] = $selectedOption.val();
+                    selected['text'] = $selectedOption.text();
+                    return false;
+                }
+            });
+            return selected;
+        },
         clear: function () {
             this.jq.empty();
         },
         disable: function () {
-            this.jq.attr('disabled', true);
+            this.jq.attr('disabled', true).css('background-color', 'white');
             return this;
         },
         enable: function () {
@@ -81,7 +93,7 @@
         selector: '',
         url: '',
         width: '100%',
-        height: '34px',
+        height: '100%',
         params: {},
         change: function (event) {
 

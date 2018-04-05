@@ -9,7 +9,7 @@ var departmentOptions = {
     form: '#form',
     fields: [
         {name: 'id', type: 'input', inputDesc: '部门编号', required: false},
-        {name: 'depName', type: 'input', inputDesc: '部门名称', required: false},
+        {name: 'depName', type: 'input', inputDesc: '部门名称', required: true},
         {name: 'depDesc', type: 'input', inputDesc: '部门描述', required: false}
     ],
     rowButtons: [
