@@ -3,102 +3,51 @@
 <head>
 	<meta charset="UTF-8">
 	<title>API Manager</title>
-	<link href="res/bootstrap-4.0.0/css/bootstrap.css" rel="stylesheet"></link>
-	<link href="res/css/style.css" rel="stylesheet"></link>
-	<script src="res/js/jquery-3.3.1.min.js"></script>
-	<script src="res/bootstrap-4.0.0/js/bootstrap.min.js"></script>
-	<script src="res/js/vue.js"></script>
-	<script src="res/js/vue-resource.js"></script>
+	<link href="plugins/bootstrap/css/bootstrap.css" rel="stylesheet"></link>
+	<link href="common/css/style.css" rel="stylesheet"></link>
+	<script src="common/js/jquery-3.3.1.min.js"></script>
+	<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="common/js/jquery.md5.js"></script>
+    <script src="common/js/namespace.js"></script>
+    <script src="common/js/util.js"></script>
+    <script src="common/ui/jquery.chosen.js"></script>
+    <script src="common/ui/jquery.dialog.js"></script>
+    <script src="common/ui/jquery.pager.js"></script>
+    <script src="common/ui/jquery.form.js"></script>
+    <script src="common/ui/jquery.tab.js"></script>
+    <script src="common/ui/jquery.load.js"></script>
+	<script src="common/ui/jquery.editTable.js"></script>
 </head>
 <body>
-	<div id="xxx">
-	
-	</div>
-	<nav class="navbar navbar-expand-md" style="margin-bottom: 0px; border-radius: 0px">
-		<div class="container">
-			<a class="navbar-brand" href="#"> 
-				<img style="width: 48px" src="res/img/logo.png"> 
-				<span style="vertical-align: middle; color: #f0ad4e; margin-left: 5px; font-size: 18px; font-weight: bold">API Manager</span>
-			</a>
-		</div>
-	</nav>
-	<p></p>
-	<div class="container">
-		<div class="row justify-content-end" style="margin-bottom: 10px;">
-			<div class="col-4">
-				<div class="input-group">
-	                <input type="text" class="form-control " placeholder="按照部门名称搜索"/>
-	                <span class="input-group-btn">
-	                    <button class="btn btn-primary" type="button">搜 索</button>
-	                </span>
-	            </div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-12">
-				<table id="table-list" class="table table-hover table-sm" style="font-size: 15px;">
-					<tbody>
-						<tr>
-							<th>部门名称</th>
-							<th>部门描述</th>
-							<th>操作</th>
-						</tr>
-						<template v-for="department in departments">
-							<tr>
-								<td><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;<a href="#">{{department.depName}}</a></td>
-								<td>{{department.depDesc}}</td>
-								<td>
-									<button v-on:click="onUpdate" type="button" class="btn btn-primary btn-sm">{{buttonText.update}}</button>
-									&nbsp;&nbsp;&nbsp;&nbsp;
-									<button v-on:click="onDelete" type="button" class="btn btn-danger btn-sm">{{buttonText.remove}}</button>
-								</td>
-							</tr>
-					    </template>
-					 </tbody>
-					 <tfoot>
-						<nav>
-							<ul class="pagination justify-content-center">
-								<li class="page-item"><a class="page-link" href="#">上一页</a></li>
-								<template v-for="(value, key, index) in departments">
-									<li class="page-item"><a class="page-link" href="#">{{index)}}</a></li>
-								</template>
-								<li class="page-item"><a class="page-link" href="#">下一页</a></li>
-							</ul>
-						</nav>
-					 </tfoot>
-				</table>
-			</div>
-		</div>
-	</div>
-	<script>
-		Vue.use(VueResource);
-		new Vue({
-			el : '#table-list',
-			data : {
-				departments : [],
-				buttonText:{
-					update:'编  辑',
-					remove:'删  除'
-				}
-			},
-			created : function() {
-				var url = "/apimanager/department/findPage";
-				this.$http.get(url).then(function(data) {
-					var result = JSON.parse(data.bodyText);
-					this.departments = result["data"]["datas"];
-				}, function(response) {
-					console.info(response);
-				})
-			},
-			methods:{
-				onUpdate:function(event){
-					
-				},
-				onDelete:function(event){
-					alert('Hello ' + this.name + '!');
-				}
-			}
-		});
-	</script>
+    <div id="head"></div>
+    <script>
+        var conf = {
+        container: '#head',
+            url: 'html/head/head.html',
+            content: "",
+            async: false,
+            preLoad: function (content) {
+            // console.log(content);
+        },
+        loaded: function () {
+            // alert('加载完成后');
+            }
+        }
+        api.ui.load(conf);
+    </script>
+    <div id="container" class="container"></div>
+    <script>
+        var conf = {
+            container: '#container',
+            url: 'html/department/department.html',
+            content: "",
+            async: false,
+            preLoad: function (content) {
+            },
+            loaded: function () {
+            }
+        }
+        api.ui.load(conf);
+    </script>
 </body>
 </html>

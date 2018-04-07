@@ -2,11 +2,17 @@ package com.cehome.apimanager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class ApiManagerApplication {
+public class ApiManagerApplication extends SpringBootServletInitializer {
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(ApiManagerApplication.class);
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(ApiManagerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ApiManagerApplication.class, args);
+    }
 }

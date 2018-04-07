@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class RootController {
 
-    @RequestMapping("index.htm")
+    @RequestMapping("/")
     public String save(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-        return "index";
+        return "index.html";
     }
 }
