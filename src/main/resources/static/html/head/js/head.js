@@ -172,7 +172,7 @@ function actionClick(){
             var depOptions = {
                 selector: '[name=depId]',
                 optionField: {value: 'id', text: 'depName'},
-                width: '60%',
+                width: '70%',
                 url: '/apimanager/department/list',
                 change: function (e, p) {
                     projectSelect.clear();
@@ -184,7 +184,7 @@ function actionClick(){
             var projectOptions = {
                 selector: '[name=projectId]',
                 optionField: {value: 'id', text: 'projectName'},
-                width: '60%',
+                width: '70%',
                 url: '/apimanager/project/list',
                 change: function (e, p) {
                     moduleSelect.clear();
@@ -196,7 +196,7 @@ function actionClick(){
             var moduleOptions = {
                 selector: '[name=moduleId]',
                 optionField: {value: 'id', text: 'moduleName'},
-                width: '60%',
+                width: '70%',
                 url: '/apimanager/module/list'
             };
             var projectSelect = api.ui.chosenSelect(projectOptions);
@@ -237,7 +237,7 @@ function actionClick1(){
             var depOptions = {
                 selector: '[name=depId]',
                 optionField: {value: 'id', text: 'depName'},
-                width: '60%',
+                width: '70%',
                 url: '/apimanager/department/list',
                 change: function (e, p) {
                     projectSelect.clear();
@@ -250,7 +250,7 @@ function actionClick1(){
             var projectOptions = {
                 selector: '[name=projectId]',
                 optionField: {value: 'id', text: 'projectName'},
-                width: '60%',
+                width: '70%',
                 url: '/apimanager/project/list',
                 change: function (e, p) {
                     moduleSelect.clear();
@@ -263,7 +263,7 @@ function actionClick1(){
             var moduleOptions = {
                 selector: '[name=moduleId]',
                 optionField: {value: 'id', text: 'moduleName'},
-                width: '60%',
+                width: '70%',
                 url: '/apimanager/module/list'
             };
             var moduleSelect = api.ui.chosenSelect(moduleOptions);

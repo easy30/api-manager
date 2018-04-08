@@ -50,7 +50,7 @@ var moduleTableOptions = {
                     };
                     var projectOptions = {
                         selector: '[name=projectId]',
-                        width: '60%',
+                        width: '70%',
                         optionField: {value: 'id', text: 'projectName'},
                         url: '/apimanager/project/list',
                         change: function (e, p) {
@@ -63,7 +63,7 @@ var moduleTableOptions = {
                     };
                     var moduleOptions = {
                         selector: '[name=moduleId]',
-                        width: '60%',
+                        width: '70%',
                         optionField: {value: 'id', text: 'moduleName'},
                         url: '/apimanager/module/list'
                     };
