@@ -65,7 +65,7 @@
         currentIndex: 1,
         totalPage: 1,
         totalRecord: 1,
-        pageSize: 10
+        pageSize: 5
     };
 
     api.ui.pager = function (options) {

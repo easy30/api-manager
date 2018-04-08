@@ -37,8 +37,8 @@ var moduleTableOptions = {
                 loaded: function (depId) {
                     var depOptions = {
                         selector: '[name=depId]',
+                        width: '60%',
                         optionField: {value: 'id', text: 'depName'},
-                        width: '121px',
                         url: '/apimanager/department/list',
                         change: function (e, p) {
                             projectSelect.clear();
@@ -50,8 +50,8 @@ var moduleTableOptions = {
                     };
                     var projectOptions = {
                         selector: '[name=projectId]',
+                        width: '60%',
                         optionField: {value: 'id', text: 'projectName'},
-                        width: '121px',
                         url: '/apimanager/project/list',
                         change: function (e, p) {
                             moduleSelect.clear();
@@ -63,8 +63,8 @@ var moduleTableOptions = {
                     };
                     var moduleOptions = {
                         selector: '[name=moduleId]',
+                        width: '60%',
                         optionField: {value: 'id', text: 'moduleName'},
-                        width: '121px',
                         url: '/apimanager/module/list'
                     };
                     var moduleSelect = api.ui.chosenSelect(moduleOptions);

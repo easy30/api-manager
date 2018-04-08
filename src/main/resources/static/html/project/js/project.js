@@ -36,21 +36,21 @@ var projectTableOptions = {
                 loaded: function () {
                     var depOptions = {
                         selector: '[name=depId]',
+                        width: '70%',
                         optionField: {value: 'id', text: 'depName'},
-                        width: '131px',
                         url: '/apimanager/department/list',
                         change: function (e, p) {
                             projectSelect.clear();
                             var param = {};
-                            param['depId']=e.target.value;
+                            param['depId'] = e.target.value;
                             projectSelect.load(param);
                             projectSelect.val(parentId);
                         }
                     };
                     var projectOptions = {
                         selector: '[name=projectId]',
+                        width: '70%',
                         optionField: {value: 'id', text: 'projectName'},
-                        width: '131px',
                         url: '/apimanager/project/list'
                     };
                     var projectSelect = api.ui.chosenSelect(projectOptions);

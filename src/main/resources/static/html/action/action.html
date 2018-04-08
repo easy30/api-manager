@@ -1,34 +1,26 @@
-<div class="row justify-content-end" style="margin-bottom: 10px;">
-    <div class="col-9">
-        <form id="form" style="height: 35px">
-            <div class="input-group">
-                <div class="row" style="width: 100%;">
-                    <div class="col-3 form-inline">
-                        <label>部门：
-                            <select name="depId" class="form-control"></select>
-                        </label>
-                    </div>
-                    <div class="col-3 form-inline">
-                        <label>项目：
-                            <select name="projectId" class="form-control"></select>
-                        </label>
-                    </div>
-                    <div class="col-3 form-inline">
-                        <label>模块：
-                            <select name="moduleId" class="form-control"></select>
-                        </label>
-                    </div>
-                    <div class="col-3 form-inline">
-                        接口：<input type="text" name="moduleName" class="form-control" style="height: 34px;width: 100px;" placeholder="接口名称"/>
-                        <span class="input-group-btn" style="width: 18px;margin-left: 10px">
-                            <button class="btn btn-primary btn-sm" style="height: 34px;" type="button">搜 索</button>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </form>
+<form id="form" class="form-inline" style="width: 100%; margin-bottom: 10px;">
+    <div class="input-group col-3">
+        <label>所属部门：</label>
+        <select name="depId" class="form-control"></select>
     </div>
-</div>
+    <div class="input-group col-3">
+        <label>所属项目：</label>
+        <select name="projectId" class="form-control"></select>
+    </div>
+    <div class="input-group col-3">
+        <label>所属模块：</label>
+        <select name="moduleId" class="form-control"></select>
+    </div>
+    <div class="input-group col-3">
+        <label>名称：</label>
+        <input type="text" name="moduleName" class="form-control" style="height: 35px;"/>
+        <span class="input-group-btn">&nbsp;
+            <button class="btn btn-primary btn-sm" style="height: 34px;" type="button">
+                <span class="glyphicon glyphicon-search"/>&nbsp;搜 索
+            </button>
+        </span>
+    </div>
+</form>
 <div class="row">
     <div class="col-12">
         <div id="editTable"></div>
