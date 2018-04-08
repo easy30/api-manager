@@ -1,5 +1,5 @@
 ;(function ($, window, document, undefined) {
-    var modalHtml = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">\n' +
+    var modalHtml = '<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">\n' +
         '  <div class="modal-dialog">\n' +
         '    <div class="modal-content">\n' +
         '      <div class="modal-header">\n' +
@@ -24,8 +24,9 @@
 
     dialog.prototype = {
         _build: function () {
-            var dialog = this, options = this.options, jq = this.jq, buttons = options.buttons;
-            jq.append(modalHtml).find('.modal-body').text(this.options.content);
+            var dialog = this, options = this.options, jq = this.jq, buttons = options.buttons, $modalHtml = $(modalHtml), modalId = 'modal-' + api.util.generateId();
+            this.modalId = modalId;
+            jq.append($modalHtml.clone().attr('id', modalId)).find('.modal-body').text(this.options.content);
             if (buttons) {
                 $.each(buttons, function (index, button) {
                     var btnType = button.type;
@@ -43,17 +44,17 @@
                     jq.find('.modal-footer').append($btn);
                 })
             }
-            jq.find('#myModal').on('hidden.bs.modal', function () {
+            jq.find('#' + modalId).on('hidden.bs.modal', function () {
                 this.remove();
             });
             return this;
         },
         open: function () {
-            this.jq.find('#myModal').modal('show');
+            this.jq.find('#' + this.modalId).modal('show');
             return this;
         },
         close: function () {
-            this.jq.find('#myModal').modal('hide');
+            this.jq.find('#' + this.modalId).modal('hide');
             return this;
         }
     };

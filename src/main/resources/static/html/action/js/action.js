@@ -31,7 +31,7 @@ var actionTableOptions = {
         }
     ],
     rowButtons: [
-        {type: 'view', text: '查看', icon: 'glyphicon glyphicon-share-alt', fn: function (param) {
+        {type: 'view', text: '查看', icon: 'glyphicon glyphicon-eye-open', fn: function (param) {
             var conf = {
                 container: '#container',
                 url: 'html/action/actionTab.html',
