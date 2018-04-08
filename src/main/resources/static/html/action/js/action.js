@@ -31,7 +31,7 @@ var actionTableOptions = {
         }
     ],
     rowButtons: [
-        {type: 'enter', text: '查看', fn: function (param) {
+        {type: 'view', text: '查看', icon: 'glyphicon glyphicon-share-alt', fn: function (param) {
             var conf = {
                 container: '#container',
                 url: 'html/action/actionTab.html',
@@ -67,7 +67,7 @@ var actionTableOptions = {
     ],
     headBtn: [
         {
-            type: 'enter', text: '添加', fn: function (row) {
+            type: 'add-jump', text: '添加', icon: 'glyphicon glyphicon-plus', fn: function (row) {
                 var conf = {
                     container: '#container',
                     url: 'html/action/actionTab.html',
