@@ -63,28 +63,18 @@
         },
         _cache: {},
         load: function (param) {
-            var chosenSelect = this, url = this.options.url, cacheKey = '';
-            if(param){
-                cacheKey = $.md5(param) + '-' + url;
-            } else {
-                cacheKey = url;
-            }
-            if(chosenSelect._cache[cacheKey]){
-                chosenSelect.data(chosenSelect._cache[cacheKey]);
-            } else {
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    async: false,
-                    data: param,
-                    dataType: 'json',
-                    success: function (result) {
-                        var data = result.data;
-                        chosenSelect.data(data);
-                        chosenSelect._cache[cacheKey] = data;
-                    }
-                });
-            }
+            var chosenSelect = this, url = this.options.url;
+            $.ajax({
+                url: url,
+                type: 'GET',
+                async: false,
+                data: param,
+                dataType: 'json',
+                success: function (result) {
+                    var data = result.data;
+                    chosenSelect.data(data);
+                }
+            });
             return this;
         }
     };
