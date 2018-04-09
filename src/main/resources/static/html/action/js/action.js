@@ -37,30 +37,50 @@ var actionTableOptions = {
                 url: 'html/action/actionTab.html',
                 content: "",
                 async: false,
-                preLoad: function () {
-
-                },
+                preLoad: function () {},
                 loaded: function () {
-                    $.ajax({
-                        type: 'get',
-                        url: '/apimanager/action/findById',
-                        data:{id: param.id},
-                        dataType: "json",
-                        contentType: 'json',
-                        success: function(result){
-                            var data = result['data'];
-                            console.log(data);
-                            $('input[name=actionName]').val(data['actionName']);
-                            $('input[name=actionName]').attr('disabled','disabled');
-                            $('input[name=actionDesc]').val(data['actionDesc']);
-                            $('input[name=actionDesc]').attr('disabled','disabled');
-                            $('select[name=requestType]').val(data['requestType']);
-                            $('select[name=requestType]').attr('disabled','disabled');
-                        }
-                    })
+                    $('#headButton button:last').css('display','none');
+                    var conf = {
+                        container: '#tabs',
+                        tabs: [{
+                            title: '基本信息',
+                            width: '10%',
+                            href: 'html/action/actionInfo1.html',
+                            loaded: function () {
+                                $.ajax({
+                                    type: 'get',
+                                    url: '/apimanager/action/findById',
+                                    data:{id: param.id},
+                                    dataType: "json",
+                                    contentType: 'json',
+                                    success: function(result){
+                                        var data = result['data'];
+                                        console.log(data);
+                                        var actionInfoFormOptions={
+                                            container:'#actionInfoForm'
+                                        };
+                                        var actionInfoFormObject =  api.ui.form(actionInfoFormOptions);
+                                        console.log(actionInfoFormObject.toJson());
+                                        actionInfoFormObject.giveVal({
+                                            requestUrl: data['requestUrl'],
+                                            actionName:data['actionName'],
+                                            actionDesc: data['actionDesc']
+                                        })
+                                        actionInfoFormObject.disable();
+                                    }
+                                })
+                            }
+                        }, {
+                            title: '接口参数',
+                            width: '10%',
+                            href: 'html/action/actionParam.html'
+                        }]
+                    };
+                    var tabs = api.ui.tabs(conf);
                 }
             }
             api.ui.load(conf);
+
             }
         },
         {type: 'delete', text: '删除', url: '/apimanager/action/delete'}
@@ -74,9 +94,10 @@ var actionTableOptions = {
                     content: "",
                     async: false,
                     preLoad: function (content) {
-                        alert('之前！')
+
                     },
                     loaded: function () {
+                        $('#headButton button:first').css('display','none');
 
                     }
                 }
