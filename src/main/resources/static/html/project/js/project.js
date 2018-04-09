@@ -38,7 +38,7 @@ var projectTableOptions = {
                         width: '70%',
                         optionField: {value: 'id', text: 'depName'},
                         url: '/apimanager/department/list',
-                        change: function (e, p) {
+                        change: function (e) {
                             projectSelect.clear();
                             var param = {};
                             param['depId'] = e.target.value;

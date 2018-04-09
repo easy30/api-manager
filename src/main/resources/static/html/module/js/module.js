@@ -22,8 +22,7 @@ var moduleTableOptions = {
         {type: 'save', text: '保存', url: '/apimanager/module/add'},
         {type: 'delete', text: '删除', url: '/apimanager/module/delete'},
         {type: 'enter', text: '进入', fn: function (param) {
-            var parentId = param.id;
-            var projectId = param.projectId;
+            var parentId = param.id, projectId = param.projectId;
             var conf = {
                 container: '#container',
                 url: 'html/action/action.html',
@@ -39,7 +38,7 @@ var moduleTableOptions = {
                         width: '60%',
                         optionField: {value: 'id', text: 'depName'},
                         url: '/apimanager/department/list',
-                        change: function (e, p) {
+                        change: function (e) {
                             projectSelect.clear();
                             var params = {};
                             params['depId'] = e.target.value;
@@ -52,7 +51,7 @@ var moduleTableOptions = {
                         width: '70%',
                         optionField: {value: 'id', text: 'projectName'},
                         url: '/apimanager/project/list',
-                        change: function (e, p) {
+                        change: function (e) {
                             moduleSelect.clear();
                             var params = {};
                             params['projectId'] = e.target.value;
