@@ -1,20 +1,23 @@
 package com.cehome.apimanager.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
+import com.cehome.apimanager.common.Page;
+import com.cehome.apimanager.dao.AmDepartmentDao;
+import com.cehome.apimanager.dao.AmUserDepartmentDao;
+import com.cehome.apimanager.exception.BizValidationException;
+import com.cehome.apimanager.model.dto.AmDepartmentQueryReqDto;
+import com.cehome.apimanager.model.dto.AmDepartmentReqDto;
+import com.cehome.apimanager.model.dto.AmDepartmentResDto;
+import com.cehome.apimanager.model.dto.AmProjectQueryReqDto;
+import com.cehome.apimanager.model.po.AmDepartment;
+import com.cehome.apimanager.model.po.AmProject;
+import com.cehome.apimanager.service.IAmDepartmentService;
+import com.cehome.apimanager.service.IAmProjectService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cehome.apimanager.common.Page;
-import com.cehome.apimanager.dao.AmDepartmentDao;
-import com.cehome.apimanager.dao.AmUserDepartmentDao;
-import com.cehome.apimanager.model.dto.AmDepartmentQueryReqDto;
-import com.cehome.apimanager.model.dto.AmDepartmentReqDto;
-import com.cehome.apimanager.model.dto.AmDepartmentResDto;
-import com.cehome.apimanager.model.po.AmDepartment;
-import com.cehome.apimanager.service.IAmDepartmentService;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 部门业务接口实现类
@@ -26,7 +29,9 @@ import com.cehome.apimanager.service.IAmDepartmentService;
 public class AmDepartmentServiceImpl implements IAmDepartmentService {
 	@Autowired
 	private AmDepartmentDao departmentDao;
-	
+	@Autowired
+	private IAmProjectService projectService;
+
 	@Autowired
 	private AmUserDepartmentDao userDepartmentDao;
 	
@@ -58,6 +63,12 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 
 	@Override
 	public void delete(AmDepartmentReqDto dto) {
+		AmProjectQueryReqDto projectQueryDto = new AmProjectQueryReqDto();
+		projectQueryDto.setDepId(dto.getId());
+		List<AmProject> projectList = projectService.list(projectQueryDto);
+		if(projectList != null && !projectList.isEmpty()){
+			throw new BizValidationException("部门下存在其他项目，不能删除！");
+		}
 		userDepartmentDao.deleteByDepId(dto.getId());
 		departmentDao.delete(dto.getId());
 	}

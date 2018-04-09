@@ -120,6 +120,13 @@
             this.pager.options.currentIndex = 1;
             return this._load();
         },
+        hasEditRow: function () {
+            var len = this.jq.find('tr[operateType=edit]').length;
+            if(len > 0){
+                return true;
+            }
+            return false;
+        },
         _addRow: function () {
             var editTable = this, jq = this.jq, fields = this.options.fields, rowButtons = this.options.rowButtons, $tr = $('<tr></tr>'), hasUnfinishedRow = false;
             jq.find('input[name="id"]').each(function () {
@@ -132,6 +139,13 @@
             if (hasUnfinishedRow) {
                 var options = {
                     content: '存在未完成的数据行！'
+                };
+                api.ui.dialog(options).open();
+                return this;
+            }
+            if(this.hasEditRow()){
+                var options = {
+                    content: '请先完成正在编辑的数据行！'
                 };
                 api.ui.dialog(options).open();
                 return this;
@@ -268,7 +282,15 @@
                                                     data: params,
                                                     dataType: 'json',
                                                     success: function (result) {
-                                                        editTable._reload();
+                                                        var code = result.code;
+                                                        if(code == '-1'){
+                                                            var options = {
+                                                                content: result.data
+                                                            };
+                                                            api.ui.dialog(options).open();
+                                                        } else {
+                                                            editTable._reload();
+                                                        }
                                                     }
                                                 });
                                             }
@@ -372,6 +394,13 @@
                         $button.on('click', function () {
                             var textType = $(this).attr('textType');
                             if (textType == 'update') {
+                                if(editTable.hasEditRow()){
+                                    var options = {
+                                        content: '请先完成正在编辑的数据行！'
+                                    };
+                                    api.ui.dialog(options).open();
+                                    return editTable;
+                                }
                                 $tr.find('.td-item-input').css('display', '');
                                 $tr.find('.td-item-select').css('display', '');
                                 $td.find('.btn-cancel').css('display', '');
@@ -379,6 +408,7 @@
                                 $td.find('.btn-delete').css('display', 'none');
                                 $td.find('.btn-enter').css('display', 'none');
                                 $tr.find('select').attr('disabled', false);
+                                $tr.attr('operateType', 'edit');
                                 $(this).html('<span class="glyphicon glyphicon-ok-sign"></span>&nbsp;&nbsp;确定').attr('textType', 'sure');
                             } else {
                                 // 数据校验
@@ -400,6 +430,7 @@
                                             data: params,
                                             dataType: 'json',
                                             success: function (result) {
+                                                $tr.attr('operateType', '');
                                                 editTable._reload();
                                             }
                                         });
@@ -470,7 +501,15 @@
                                                     data: params,
                                                     dataType: 'json',
                                                     success: function (result) {
-                                                        editTable._reload();
+                                                        var code = result.code;
+                                                        if(code == '-1'){
+                                                            var options = {
+                                                                content: result.msg
+                                                            };
+                                                            api.ui.dialog(options).open();
+                                                        } else {
+                                                            editTable._reload();
+                                                        }
                                                     }
                                                 });
                                             }
@@ -535,7 +574,7 @@
                     $tr.find('.btn-delete').css('display', '');
                     $td.find('.btn-enter').css('display', '');
                     $tr.find('select').attr('disabled', true);
-
+                    $tr.attr('operateType', '');
                     $.each($tr.find('.td-item'), function (index, td) {
                         var inputValue = $(td).find('input').val();
                         $(td).find('span').text(inputValue);
