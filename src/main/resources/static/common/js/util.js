@@ -56,5 +56,32 @@ api.util = {
     },
     generateNumber: function () {
         return Math.round(Math.random() * 9999999999);
+    },
+    buildMockTemplate: function (array) {
+        var mockObject = {};
+        for (var j = 0, len = array.length; j < len; j++) {
+            var element = array[j];
+            var columnType = element['type'];
+            if (columnType == '1' || columnType == '2' || columnType == '3'
+                || columnType == '6' || columnType == '7' || columnType == '8') {
+                var name = element['name'], rule = !element['rule'] ? '' : '|' +    element['rule'], value = element['defaultVal'];
+                if(columnType == '1' || columnType == '6'){
+                    value = Number(value);
+                }
+                mockObject[name + rule] = value;
+            } else if (columnType == '4') {
+                var name = element['name'], children = element['child'], columnObject = this.buildMockTemplate(children);
+                mockObject[name] = columnObject;
+            } else if (columnType == '9') {
+                var name = element['name'], children = element['child'], innerArray = [];
+                for (var i = 0, len = children.length; i < len; i++) {
+                    var childElement = children[i], innerChildren = childElement['child'];
+                    var innerColumnObject = this.buildMockTemplate(innerChildren);
+                    innerArray[i] = innerColumnObject;
+                }
+                mockObject[name] = innerArray;
+            }
+        }
+        return mockObject;
     }
 };

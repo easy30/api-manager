@@ -27,7 +27,6 @@ var moduleTableOptions = {
             var conf = {
                 container: '#container',
                 url: 'html/action/action.html',
-                content: "",
                 async: false,
                 preLoad: function () {
                     var depId = $("select[name=depId]").val();
@@ -43,7 +42,7 @@ var moduleTableOptions = {
                         change: function (e, p) {
                             projectSelect.clear();
                             var params = {};
-                            params['depId']=e.target.value;
+                            params['depId'] = e.target.value;
                             projectSelect.load(params);
                             projectSelect.val(projectId);
                         }
@@ -56,7 +55,7 @@ var moduleTableOptions = {
                         change: function (e, p) {
                             moduleSelect.clear();
                             var params = {};
-                            params['projectId']=e.target.value;
+                            params['projectId'] = e.target.value;
                             moduleSelect.load(params);
                             moduleSelect.val(parentId);
                         }
@@ -70,7 +69,7 @@ var moduleTableOptions = {
                     var moduleSelect = api.ui.chosenSelect(moduleOptions);
                     var projectSelect = api.ui.chosenSelect(projectOptions);
                     api.ui.chosenSelect(depOptions).val(depId);
-                    api.util.loadScript("html/action/js/action.js" ,function () {
+                    api.util.loadScript('html/action/js/action.js' ,function () {
                         api.ui.editTable(actionTableOptions);
                     });
                 }
@@ -81,7 +80,7 @@ var moduleTableOptions = {
     headBtn: [
         {
             type: 'add', text: '添加', fn: function (row) {
-                row.find('select').val($("form select[name=projectId]").val());
+                row.find('select').val($('form select[name=projectId]').val());
             }
         }
     ],

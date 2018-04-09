@@ -32,14 +32,16 @@ var actionTableOptions = {
     ],
     rowButtons: [
         {type: 'view', text: '查看', icon: 'glyphicon glyphicon-eye-open', fn: function (param) {
+
                 var conf = {
                     container: '#container',
                     url: 'html/action/actionTab.html',
                     content: "",
                     async: false,
-                    preLoad: function () {},
+                    preLoad: function () {
+                    },
                     loaded: function () {
-                        $('#headButton button:last').css('display','none');
+                        $('#headButton button:last').css('display', 'none');
                         $('input[name=id]').val(param.id);
                         api.util.loadScript('html/action/js/actionTab.js', function () {
                             api.ui.tabs(actionTabConf);
@@ -47,14 +49,14 @@ var actionTableOptions = {
                     }
                 };
                 api.ui.load(conf);
-                var actionInfoFormOptions={
-                    container:'#tabs'
+                var actionInfoFormOptions = {
+                    container: '#tabs'
                 };
-                var actionInfoFormObject =  api.ui.form(actionInfoFormOptions);
+                var actionInfoFormObject = api.ui.form(actionInfoFormOptions);
                 $('#headButton button:first').on('click', function () {
                     actionInfoFormObject.enable();
-                    $('#headButton button:first').css('display','none');
-                    $('#headButton button:last').css('display','');
+                    $('#headButton button:first').css('display', 'none');
+                    $('#headButton button:last').css('display', '');
                 });
                 //保存
                 $('#headButton button:last').on('click', function () {
@@ -62,13 +64,13 @@ var actionTableOptions = {
                         type: 'post',
                         url: 'apimanager/action/update',
                         dataType: 'json',
-                        data : JSON.stringify(actionInfoFormObject.toJson()),
-                        contentType : 'application/json;charset=utf-8',
+                        data: JSON.stringify(actionInfoFormObject.toJson()),
+                        contentType: 'application/json;charset=utf-8',
                         success: function (data) {
                             //不跳转到列表
                             actionInfoFormObject.disable();
-                            $('#headButton button:first').css('display','');
-                            $('#headButton button:last').css('display','none');
+                            $('#headButton button:first').css('display', '');
+                            $('#headButton button:last').css('display', 'none');
                         }
                     });
                 });

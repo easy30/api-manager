@@ -6,8 +6,9 @@
     <link href="../plugins/bootstrap/css/bootstrap.css" rel="stylesheet"></link>
     <script src="../common/js/jquery-3.3.1.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../plugins/mock/mock.js"></script>
     <script src="js/namespace.js"></script>
-    <script src="js/util.js"></script>
+    <script src="../common/js/util.js"></script>
     <script src="js/jquery.chosen.js"></script>
     <script src="js/jquery.param.js"></script>
     <script src="../common/js/jquery.md5.js"></script>
@@ -49,11 +50,14 @@
                 }
             }
         ],
-        data: JSON.parse('[{"name":"id","desc":"设备编号","type":"1","rule":"1-10","defaultVal":"1"},{"name":"firstImg","desc":"设备图片","type":"4","rule":"","defaultVal":"","child":[{"name":"mid","desc":"中图","type":"2","rule":"","defaultVal":"http://mid/img.jpg"},{"name":"big","desc":"大图","type":"2","rule":"","defaultVal":"http://big/img.jpg"}]}]')
+        data: JSON.parse('[{"name":"id","desc":"设备编号","type":"1","rule":"1-10","defaultVal":1},{"name":"firstImg","desc":"设备图片","type":"4","rule":"","defaultVal":"","child":[{"name":"mid","desc":"中图","type":"2","rule":"","defaultVal":"http://mid/img.jpg"},{"name":"big","desc":"大图","type":"2","rule":"","defaultVal":"http://big/img.jpg"}]}]')
     };
     var param = api.ui.param(options);
     $('#showDataBtn').on('click', function () {
         console.log(param.toData());
+        var jsonObject = api.util.buildMockTemplate(param.toData());
+        var mockData = Mock.mock(jsonObject);
+        console.log(mockData);
     });
     $('#viewBtn').on('click', function () {
         param.disable();
