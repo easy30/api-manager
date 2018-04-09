@@ -28,7 +28,6 @@ var projectTableOptions = {
             var conf = {
                 container: '#container',
                 url: 'html/module/module.html',
-                content: "",
                 async: false,
                 preLoad: function (content) {
                     $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"moduleClick1()\">Module</a></li>");
@@ -55,7 +54,7 @@ var projectTableOptions = {
                     };
                     var projectSelect = api.ui.chosenSelect(projectOptions);
                     api.ui.chosenSelect(depOptions).val(depId);
-                    api.util.loadScript("html/module/js/module.js" ,function () {
+                    api.util.loadScript('html/module/js/module.js' ,function () {
                         api.ui.editTable(moduleTableOptions);
                     });
                 }
@@ -66,7 +65,7 @@ var projectTableOptions = {
     headBtn: [
         {
             type: 'add', text: '添加', fn: function (row) {
-                row.find('select').val($("form select[name=depId]").val());
+                row.find('select').val($('form select[name=depId]').val());
             }
         }
     ],

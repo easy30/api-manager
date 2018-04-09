@@ -35,7 +35,6 @@ var actionTableOptions = {
             var conf = {
                 container: '#container',
                 url: 'html/action/actionTab.html',
-                content: "",
                 async: false,
                 preLoad: function () {},
                 loaded: function () {

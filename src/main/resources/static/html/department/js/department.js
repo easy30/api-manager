@@ -21,7 +21,6 @@ var departmentOptions = {
             var conf = {
                 container: '#container',
                 url: 'html/project/project.html',
-                content: "",
                 async: false,
                 preLoad: function (content) {
                     $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"projectClick1()\">Project</a></li>");
