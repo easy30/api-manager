@@ -13,21 +13,21 @@ var projectTableOptions = {
         {name: 'projectName', type: 'input', inputDesc: '项目名称', required: true},
         {name: 'depId', type:'select', inputDesc: '所属部门', required: true, options:{
                 optionField: {value: 'id', text: 'depName'},
-                url: '/apimanager/department/list'
+                url: api.util.getUrl('apimanager/department/list')
         }},
         {name: 'projectDesc', type: 'input', inputDesc: '项目描述', required: false}
 
     ],
     rowButtons: [
-        {type: 'update', text: '编辑', url: '/apimanager/project/update'},
-        {type: 'save', text: '保存', url: '/apimanager/project/add'},
-        {type: 'delete', text: '删除', url: '/apimanager/project/delete'},
+        {type: 'update', text: '编辑', url: api.util.getUrl('apimanager/project/update')},
+        {type: 'save', text: '保存', url: api.util.getUrl('apimanager/project/add')},
+        {type: 'delete', text: '删除', url: api.util.getUrl('apimanager/project/delete')},
         {type: 'enter', text: '进入', fn: function (param) {
             var parentId = param['id'];
             var depId = param['depId'];
             var conf = {
                 container: '#container',
-                url: 'html/module/module.html',
+                url: api.util.getUrl('html/module/module.html'),
                 async: false,
                 preLoad: function (content) {
                     $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"moduleClick1()\">Module</a></li>");
@@ -37,7 +37,7 @@ var projectTableOptions = {
                         selector: '[name=depId]',
                         width: '70%',
                         optionField: {value: 'id', text: 'depName'},
-                        url: '/apimanager/department/list',
+                        url: api.util.getUrl('apimanager/department/list'),
                         change: function (e) {
                             projectSelect.clear();
                             var param = {};
@@ -50,11 +50,11 @@ var projectTableOptions = {
                         selector: '[name=projectId]',
                         width: '70%',
                         optionField: {value: 'id', text: 'projectName'},
-                        url: '/apimanager/project/list'
+                        url: api.util.getUrl('apimanager/project/list')
                     };
                     var projectSelect = api.ui.chosenSelect(projectOptions);
                     api.ui.chosenSelect(depOptions).val(depId);
-                    api.util.loadScript('html/module/js/module.js' ,function () {
+                    api.util.loadScript(api.util.getUrl('html/module/js/module.js') ,function () {
                         api.ui.editTable(moduleTableOptions);
                     });
                 }
@@ -69,5 +69,5 @@ var projectTableOptions = {
             }
         }
     ],
-    url: '/apimanager/project/findPage'
+    url: api.util.getUrl('apimanager/project/findPage')
 };

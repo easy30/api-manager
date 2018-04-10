@@ -14,19 +14,19 @@ var actionTableOptions = {
         {name: 'actionName', type: 'input', inputDesc: '接口名称', required: true},
         {name: 'moduleId', type:'select', inputDesc: '所属模块', required: true, options:{
                 optionField: {value: 'id', text: 'moduleName'},
-                url: '/apimanager/module/list'
+                url: api.util.getUrl('apimanager/module/list')
             }
         },
         {name: 'requestType', type:'select', inputDesc: '请求类型', required: true, options:{
                 optionField: {value: 'k', text: 'v'},
                 params:{metaId: 2},
-                url: '/apimanager/meta/findMeta'
+                url: api.util.getUrl('apimanager/meta/findMeta')
             }
         },
         {name: 'status', type:'select', inputDesc: '状态', required: true, options:{
                 optionField: {value: 'k', text: 'v'},
                 params:{metaId: 3},
-                url: '/apimanager/meta/findMeta'
+                url: api.util.getUrl('apimanager/meta/findMeta')
             }
         }
     ],
@@ -35,7 +35,7 @@ var actionTableOptions = {
 
                 var conf = {
                     container: '#container',
-                    url: 'html/action/actionTab.html',
+                    url: api.util.getUrl('html/action/actionTab.html'),
                     content: "",
                     async: false,
                     preLoad: function () {
@@ -43,7 +43,7 @@ var actionTableOptions = {
                     loaded: function () {
                         $('#headButton button:last').css('display', 'none');
                         $('input[name=id]').val(param.id);
-                        api.util.loadScript('html/action/js/actionTab.js', function () {
+                        api.util.loadScript(api.util.getUrl('html/action/js/actionTab.js'), function () {
                             api.ui.tabs(actionTabConf);
                         });
                     }
@@ -62,7 +62,7 @@ var actionTableOptions = {
                 $('#headButton button:last').on('click', function () {
                     $.ajax({
                         type: 'post',
-                        url: 'apimanager/action/update',
+                        url: api.util.getUrl('apimanager/action/update'),
                         dataType: 'json',
                         data: JSON.stringify(actionInfoFormObject.toJson()),
                         contentType: 'application/json;charset=utf-8',
@@ -76,20 +76,20 @@ var actionTableOptions = {
                 });
             }
         },
-        {type: 'delete', text: '删除', url: '/apimanager/action/delete'}
+        {type: 'delete', text: '删除', url: api.util.getUrl('apimanager/action/delete')}
     ],
     headBtn: [
         {
             type: 'add-jump', text: '添加', icon: 'glyphicon glyphicon-plus', fn: function (row) {
                 var conf = {
                     container: '#container',
-                    url: 'html/action/actionTab.html',
+                    url: api.util.getUrl('html/action/actionTab.html'),
                     content: "",
                     async: false,
                     preLoad: function () {},
                     loaded: function () {
                         $('#headButton button:first').css('display','none');
-                        api.util.loadScript('html/action/js/actionTab.js', function () {
+                        api.util.loadScript(api.util.getUrl('html/action/js/actionTab.js'), function () {
                             api.ui.tabs(actionTabConf);
                         });
                     }
@@ -108,7 +108,7 @@ var actionTableOptions = {
                 $('#headButton button:last').on('click', function () {
                     $.ajax({
                         type: 'post',
-                        url: '/apimanager/action/add',
+                        url: api.util.getUrl('apimanager/action/add'),
                         dataType: 'json',
                         data : JSON.stringify(actionInfoFormObject.toJson()),
                         contentType : 'application/json;charset=utf-8',
@@ -116,7 +116,7 @@ var actionTableOptions = {
                             //跳转到action列表
                             var conf = {
                                 container: '#container',
-                                url: 'html/action/action.html',
+                                url: api.util.getUrl('html/action/action.html'),
                                 content: "",
                                 async: false,
                                 preLoad: function () {
@@ -131,7 +131,7 @@ var actionTableOptions = {
                                         selector: '[name=depId]',
                                         optionField: {value: 'id', text: 'depName'},
                                         width: '70%',
-                                        url: '/apimanager/department/list',
+                                        url: api.util.getUrl('apimanager/department/list'),
                                         change: function (e, p) {
                                             projectSelect.clear();
                                             var params = {};
@@ -143,7 +143,7 @@ var actionTableOptions = {
                                         selector: '[name=projectId]',
                                         optionField: {value: 'id', text: 'projectName'},
                                         width: '70%',
-                                        url: '/apimanager/project/list',
+                                        url: api.util.getUrl('apimanager/project/list'),
                                         change: function (e, p) {
                                             moduleSelect.clear();
                                             var params = {};
@@ -155,12 +155,12 @@ var actionTableOptions = {
                                         selector: '[name=moduleId]',
                                         optionField: {value: 'id', text: 'moduleName'},
                                         width: '70%',
-                                        url: '/apimanager/module/list'
+                                        url: api.util.getUrl('apimanager/module/list')
                                     };
                                     var projectSelect = api.ui.chosenSelect(projectOptions);
                                     var moduleSelect = api.ui.chosenSelect(moduleOptions);
                                     api.ui.chosenSelect(depOptions);
-                                    api.util.loadScript("html/action/js/action.js" ,function () {
+                                    api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
                                         api.ui.editTable(actionTableOptions);
                                     });
                                 }
@@ -172,5 +172,5 @@ var actionTableOptions = {
             }
         }
     ],
-    url: '/apimanager/action/findPage'
+    url: api.util.getUrl('apimanager/action/findPage')
 };

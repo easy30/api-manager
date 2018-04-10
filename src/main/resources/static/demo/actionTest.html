@@ -144,8 +144,7 @@
                 type: 'add', text: '添加参数', fn: function (row) {
                 }
             }
-        ],
-        data: JSON.parse('[{"name":"id","desc":"设备编号","type":"1","rule":"1-10","defaultVal":1},{"name":"firstImg","desc":"设备图片","type":"4","rule":"","defaultVal":"","child":[{"name":"mid","desc":"中图","type":"2","rule":"","defaultVal":"http://mid/img.jpg"},{"name":"big","desc":"大图","type":"2","rule":"","defaultVal":"http://big/img.jpg"}]}]')
+        ]
     };
 
     var headParam = api.ui.param(headOptions);
@@ -155,10 +154,26 @@
         var requestMockTemplate = api.util.buildMockTemplate(requestParam.toData());
         var headMockTemplate = api.util.buildMockTemplate(headParam.toData());
         var requestData = Mock.mock(requestMockTemplate);
+        var headData = Mock.mock(headMockTemplate);
         $('#requestJson').JSONView(JSON.stringify(requestData));
         $('#requestJsonArea').val(JSON.stringify(requestData));
-        $('#responseJsonArea').val(JSON.stringify(requestData));
-        $('#responseJson').JSONView(JSON.stringify(requestData));
+
+        var requestBody = {};
+        requestBody['requestType'] = 1;
+        requestBody['requestUrl'] = 'http://core.test.tiebaobei.com/core/home/findById';
+        requestBody['requestHeadData'] = JSON.stringify(headData);
+        requestBody['requestData'] = JSON.stringify(requestData);
+        $.ajax({
+            url: api.util.getUrl('apimanager/tester/send'),
+            type: 'POST',
+            data: requestBody,
+            dataType: 'json',
+            success: function (result) {
+                var data = result.data;
+                $('#responseJsonArea').val(JSON.stringify(data));
+                $('#responseJson').JSONView(JSON.stringify(data));
+            }
+        });
     });
     
     $('#requestJsonFormatLink').on('click', function () {
