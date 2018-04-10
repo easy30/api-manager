@@ -4,18 +4,5 @@
         <button class="btn btn-success" style="margin-left: 10px"><span class="glyphicon glyphicon-save"></span>&nbsp;保存</button>
     </div>
     <hr style="margin-top: 1px">
-    <form id="tabs"/>
+    <div id="tabs"></div>
 </div>
-<script>
-    var conf = {
-        container: '#tabs',
-        tabs: [{
-            title: '基本信息',
-            href: 'html/action/actionInfo.html'
-        }, {
-            title: '接口参数',
-            href: 'html/action/actionParam.html'
-        }]
-    };
-    var tabs = api.ui.tabs(conf);
-</script>
