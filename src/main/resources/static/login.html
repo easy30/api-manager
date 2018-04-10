@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <link href="plugins/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link href="common/css/style.css" rel="stylesheet"/>
+    <script src="common/js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row" style="background: #00b4ef; padding: 60px 0px;">
+        <div class="col-4 offset-4">
+            <form class="form-login">
+                <span class="heading">用户登录</span>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="userName" placeholder="账 号">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" placeholder="密 码">
+                </div>
+                <div class="form-group">
+                    <button id="loginBtn" type="button" class="btn btn-default">登录</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $('#loginBtn').on('click', function () {
+        window.location.href = 'index.html';
+    });
+</script>
+</body>
+</html>

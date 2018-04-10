@@ -6,12 +6,14 @@ import com.cehome.apimanager.model.dto.AmUserQueryReqDto;
 import com.cehome.apimanager.model.dto.AmUserReqDto;
 import com.cehome.apimanager.model.po.AmUser;
 import com.cehome.apimanager.service.IAmUserService;
+import com.cehome.apimanager.utils.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @RestController
@@ -46,9 +48,11 @@ public class AmUserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("login")
-	public Map<String, Object> login(AmUserReqDto dto) {
+	public Map<String, Object> login(HttpSession session, AmUserReqDto dto) {
 		try {
-			return toSuccess(userService.login(dto));
+			AmUser amUser = userService.login(dto);
+			WebUtils.setLoginManager(session, amUser);
+			return toSuccess(amUser);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return toFail(e.getMessage());

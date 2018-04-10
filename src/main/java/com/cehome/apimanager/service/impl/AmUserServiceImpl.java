@@ -10,6 +10,7 @@ import com.cehome.apimanager.model.po.AmUser;
 import com.cehome.apimanager.model.po.AmUserDepartment;
 import com.cehome.apimanager.service.IAmUserService;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,15 +42,17 @@ public class AmUserServiceImpl implements IAmUserService {
 		userDao.add(dto);
 		
 		String depIds = dto.getDepIds();
-		String[] depIdArray = depIds.split(",");
-		List<AmUserDepartment> userDepartmentList = new ArrayList<>();
-		for(String depIdS : depIdArray){
-			AmUserDepartment userDepartment = new AmUserDepartment();
-			userDepartment.setUserId(dto.getId());
-			userDepartment.setDepId(Integer.valueOf(depIdS));
-			userDepartmentList.add(userDepartment);
+		if(!StringUtils.isEmpty(depIds)){
+			String[] depIdArray = depIds.split(",");
+			List<AmUserDepartment> userDepartmentList = new ArrayList<>();
+			for(String depIdS : depIdArray){
+				AmUserDepartment userDepartment = new AmUserDepartment();
+				userDepartment.setUserId(dto.getId());
+				userDepartment.setDepId(Integer.valueOf(depIdS));
+				userDepartmentList.add(userDepartment);
+			}
+			userDepartmentDao.batchAdd(userDepartmentList);
 		}
-		userDepartmentDao.batchAdd(userDepartmentList);
 	}
 
 	@Override
@@ -62,16 +65,18 @@ public class AmUserServiceImpl implements IAmUserService {
 		userDao.update(dto);
 		
 		String depIds = dto.getDepIds();
-		String[] depIdArray = depIds.split(",");
-		List<AmUserDepartment> userDepartmentList = new ArrayList<>();
-		for(String depIdS : depIdArray){
-			AmUserDepartment userDepartment = new AmUserDepartment();
-			userDepartment.setUserId(dto.getId());
-			userDepartment.setDepId(Integer.valueOf(depIdS));
-			userDepartmentList.add(userDepartment);
+		if(!StringUtils.isEmpty(depIds)){
+			String[] depIdArray = depIds.split(",");
+			List<AmUserDepartment> userDepartmentList = new ArrayList<>();
+			for(String depIdS : depIdArray){
+				AmUserDepartment userDepartment = new AmUserDepartment();
+				userDepartment.setUserId(dto.getId());
+				userDepartment.setDepId(Integer.valueOf(depIdS));
+				userDepartmentList.add(userDepartment);
+			}
+			userDepartmentDao.deleteByUserId(dto.getId());
+			userDepartmentDao.batchAdd(userDepartmentList);
 		}
-		userDepartmentDao.deleteByUserId(dto.getId());
-		userDepartmentDao.batchAdd(userDepartmentList);
 	}
 
 	@Override

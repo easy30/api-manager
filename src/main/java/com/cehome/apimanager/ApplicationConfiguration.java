@@ -1,8 +1,9 @@
 package com.cehome.apimanager;
 
-import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
-
+import com.cehome.apimanager.cache.CacheProvider;
+import com.cehome.apimanager.filter.RedirectFilter;
+import com.cehome.apimanager.filter.UserLoginFilter;
+import com.cehome.apimanager.service.IAmActionService;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -16,9 +17,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
-import com.cehome.apimanager.cache.CacheProvider;
-import com.cehome.apimanager.filter.RedirectFilter;
-import com.cehome.apimanager.service.IAmActionService;
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
 
 @Configuration
 public class ApplicationConfiguration {
@@ -61,13 +61,13 @@ public class ApplicationConfiguration {
 		return new RestTemplate(httpRequestFactory);
 	}
 	
-	@Bean  
-    public FilterRegistrationBean<RedirectFilter> filterRegistration() {
-        FilterRegistrationBean<RedirectFilter> registration = new FilterRegistrationBean<>(new RedirectFilter());  
-        registration.addUrlPatterns("/*");  
-        return registration;  
+	@Bean
+    public FilterRegistrationBean<RedirectFilter> redirectFilterRegistration() {
+        FilterRegistrationBean<RedirectFilter> registration = new FilterRegistrationBean<>(new RedirectFilter());
+        registration.addUrlPatterns("/*");
+        return registration;
     }
-	
+
 	@PostConstruct
 	public void init(){
 		cacheProvider.setActionUrlCache(actionService.findUrlList());
