@@ -4,7 +4,7 @@ api.browser.isHtml5 = api.browser.isIe ? (/MSIE (\d\d?)/.exec(window.navigator.a
 api.link = document.createElement('link');
 api.link.setAttribute('rel', 'stylesheet');
 api.util = {
-    pathRootName: window.location.pathname.split('/')[1],
+    pathRootName: '/' + window.location.pathname.split('/')[1],
     scriptsCache: {
         linkDom: api.link,
         scriptDom: document.createElement('script'),
