@@ -46,13 +46,6 @@
                 }));
             }
 
-            if (conf.closable) {
-                a.css('padding-right', '16px');
-                item.prepend(closeD.clone().click(function () {
-                    tabs.close(title);
-                }));
-            }
-
             // 创建tab和panel
             this.nav.append(item);
             this.content.append(pane);
