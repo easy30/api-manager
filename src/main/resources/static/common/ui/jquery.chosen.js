@@ -17,7 +17,9 @@
     chosenSelect.prototype = {
         data: function (data) {
             var jq = this.jq, options = this.options;
-            jq.append($('<option></option>'));
+            if(options.blank){
+                jq.append($('<option></option>'));
+            }
             $.each(data, function (index, value) {
                 jq.append($('<option></option>').attr('value', value[options.optionField.value]).text(value[options.optionField.text]));
             });
@@ -84,6 +86,7 @@
         url: '',
         width: '100%',
         height: '100%',
+        blank: true,
         params: {},
         change: function (event) {
 

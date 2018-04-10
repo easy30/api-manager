@@ -13,20 +13,19 @@ var moduleTableOptions = {
         {name: 'moduleName', type: 'input', inputDesc: '模块名称', required: true},
         {name: 'projectId', type:'select', inputDesc: '所属项目', required: true, options:{
                 optionField: {value: 'id', text: 'projectName'},
-                url: '/apimanager/project/list'
+                url: api.util.getUrl('apimanager/project/list')
             }},
         {name: 'moduleDesc', type: 'input', inputDesc: '模块描述', required: false}
     ],
     rowButtons: [
-        {type: 'update', text: '编辑', url: '/apimanager/module/update'},
-        {type: 'save', text: '保存', url: '/apimanager/module/add'},
-        {type: 'delete', text: '删除', url: '/apimanager/module/delete'},
+        {type: 'update', text: '编辑', url: api.util.getUrl('apimanager/module/update')},
+        {type: 'save', text: '保存', url: api.util.getUrl('apimanager/module/add')},
+        {type: 'delete', text: '删除', url: api.util.getUrl('apimanager/module/delete')},
         {type: 'enter', text: '进入', fn: function (param) {
-            var parentId = param.id;
-            var projectId = param.projectId;
+            var parentId = param.id, projectId = param.projectId;
             var conf = {
                 container: '#container',
-                url: 'html/action/action.html',
+                url: api.util.getUrl('html/action/action.html'),
                 async: false,
                 preLoad: function () {
                     var depId = $("select[name=depId]").val();
@@ -38,8 +37,8 @@ var moduleTableOptions = {
                         selector: '[name=depId]',
                         width: '60%',
                         optionField: {value: 'id', text: 'depName'},
-                        url: '/apimanager/department/list',
-                        change: function (e, p) {
+                        url: api.util.getUrl('apimanager/department/list'),
+                        change: function (e) {
                             projectSelect.clear();
                             var params = {};
                             params['depId'] = e.target.value;
@@ -51,8 +50,8 @@ var moduleTableOptions = {
                         selector: '[name=projectId]',
                         width: '70%',
                         optionField: {value: 'id', text: 'projectName'},
-                        url: '/apimanager/project/list',
-                        change: function (e, p) {
+                        url: api.util.getUrl('apimanager/project/list'),
+                        change: function (e) {
                             moduleSelect.clear();
                             var params = {};
                             params['projectId'] = e.target.value;
@@ -64,12 +63,12 @@ var moduleTableOptions = {
                         selector: '[name=moduleId]',
                         width: '70%',
                         optionField: {value: 'id', text: 'moduleName'},
-                        url: '/apimanager/module/list'
+                        url: api.util.getUrl('apimanager/module/list')
                     };
                     var moduleSelect = api.ui.chosenSelect(moduleOptions);
                     var projectSelect = api.ui.chosenSelect(projectOptions);
                     api.ui.chosenSelect(depOptions).val(depId);
-                    api.util.loadScript('html/action/js/action.js' ,function () {
+                    api.util.loadScript(api.util.getUrl('html/action/js/action.js') ,function () {
                         api.ui.editTable(actionTableOptions);
                     });
                 }
@@ -84,5 +83,5 @@ var moduleTableOptions = {
             }
         }
     ],
-    url: '/apimanager/module/findPage'
+    url: api.util.getUrl('apimanager/module/findPage')
 };
