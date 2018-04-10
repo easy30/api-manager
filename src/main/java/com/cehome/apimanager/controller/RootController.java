@@ -12,6 +12,6 @@ public class RootController {
 
     @RequestMapping("/")
     public String save(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-        return "index.html";
+        return "login.html";
     }
 }
