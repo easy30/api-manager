@@ -157,7 +157,7 @@ var actionTableOptions = {
                                                     if(data['requestDefinition']){
                                                         var rowData = JSON.parse(data['requestDefinition']);
                                                         $.each(rowData, function (index, data) {
-                                                            testRequestParam._showRow();
+                                                            testRequestParam._showRow(data);
                                                         })
                                                     }
                                                 }
