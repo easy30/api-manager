@@ -59,6 +59,7 @@ var actionTableOptions = {
                                                 selector: '[name=moduleId]',
                                                 optionField: {value: 'id', text: 'moduleName'},
                                                 width: '60%',
+                                                blank: false,
                                                 url: api.util.getUrl('/apimanager/module/list')
                                             };
                                             api.ui.chosenSelect(moduleOptions);
@@ -66,7 +67,6 @@ var actionTableOptions = {
                                                 container:'#actionInfoForm'
                                             };
                                             actionInfoFormObject =  api.ui.form(actionInfoFormOptions);
-                                            if(data){
                                                 actionInfoFormObject.giveVal({
                                                     id: data['id'],
                                                     requestUrl: data['requestUrl'],
@@ -76,7 +76,6 @@ var actionTableOptions = {
                                                     status: data['status'],
                                                     actionDesc: data['actionDesc']
                                                 });
-                                            }
                                             actionInfoFormObject.disable();
                                         }
                                     });
@@ -109,13 +108,13 @@ var actionTableOptions = {
                                                 if(data && data['requestDefinition']){
                                                     var rowData = JSON.parse(data['requestDefinition']);
                                                     $.each(rowData, function (index, data) {
-                                                        headParam._showRow(data);
+                                                        requestParam._showRow(data);
                                                     })
                                                 }
                                                 if(data && data['responseDefinition']){
                                                     var rowData = JSON.parse(data['responseDefinition']);
                                                     $.each(rowData, function (index, data) {
-                                                        headParam._showRow(data);
+                                                        responseParam._showRow(data);
                                                     })
                                                 }
                                                 headParam.disable();
@@ -208,49 +207,13 @@ var actionTableOptions = {
                         //保存
                         $('#headButton button:last').on('click', function () {
                             var headArr = headParam.toData();
-                            var headStr = '';
-                            for(var i = 0;i<headArr.length;i++){
-                                if(i==headArr.length-1){
-                                    headStr= headStr+JSON.stringify(headArr[i])+']';
-                                    continue;
-                                }
-                                if(i==0){
-                                    headStr = '['+JSON.stringify(headArr[i])+',';
-                                }else{
-                                    headStr = headStr+JSON.stringify(headArr[i])+',';
-                                }
-                            }
-                            var requestHeadJson = {'requestHeadDefinition': headStr};
+                            var requestHeadJson = {'requestHeadDefinition': JSON.stringify(headArr)};
 
                             var requestArr = requestParam.toData();
-                            var requestStr = '';
-                            for(var i = 0;i<requestArr.length;i++){
-                                if(i==requestArr.length-1){
-                                    requestStr= requestStr+JSON.stringify(requestArr[i])+']';
-                                    continue;
-                                }
-                                if(i==0){
-                                    requestStr = '['+JSON.stringify(requestArr[i])+',';
-                                }else{
-                                    requestStr = requestStr+JSON.stringify(requestArr[i])+',';
-                                }
-                            }
-                            var requestJson = {'requestDefinition': requestStr};
+                            var requestJson = {'requestDefinition': JSON.stringify(requestArr)};
 
                             var responseArr = responseParam.toData();
-                            var responseStr = '';
-                            for(var i = 0;i<responseArr.length;i++){
-                                if(i==responseArr.length-1){
-                                    responseStr= responseStr+JSON.stringify(responseArr[i])+']';
-                                    continue;
-                                }
-                                if(i==0){
-                                    responseStr = '['+JSON.stringify(responseArr[i])+',';
-                                }else {
-                                    responseStr = responseStr+JSON.stringify(responseArr[i])+',';
-                                }
-                            }
-                            var responseJson = {'responseDefinition': responseStr};
+                            var responseJson = {'responseDefinition': JSON.stringify(responseArr)};
 
                             var paramData = $.extend({}, actionInfoFormObject.toJson(), requestHeadJson, requestJson, responseJson);
                             $.ajax({
@@ -261,12 +224,65 @@ var actionTableOptions = {
                                 contentType: 'application/json;charset=utf-8',
                                 success: function (data) {
                                     //不跳转到列表
-                                    actionInfoFormObject.disable();
-                                    headParam.disable();
-                                    requestParam.disable();
-                                    responseParam.disable();
-                                    $('#headButton button:first').css('display', '');
-                                    $('#headButton button:last').css('display', 'none');
+                                    // actionInfoFormObject.disable();
+                                    // headParam.disable();
+                                    // requestParam.disable();
+                                    // responseParam.disable();
+                                    // $('#headButton button:first').css('display', '');
+                                    // $('#headButton button:last').css('display', 'none');
+                                    //跳转到action列表
+                                    var actionConf = {
+                                        container: '#container',
+                                        url: api.util.getUrl('html/action/action.html'),
+                                        content: "",
+                                        async: false,
+                                        preLoad: function () {
+                                            $("#depart").empty();
+                                            $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"departmentClick()\">Department</a></li>");
+                                            $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"projectClick1()\">Project</a></li>");
+                                            $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"moduleClick1()\">Module</a></li>");
+                                            $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"actionClick1()\">Action</a></li>");
+                                        },
+                                        loaded: function () {
+                                            var depOptions = {
+                                                selector: '[name=depId]',
+                                                optionField: {value: 'id', text: 'depName'},
+                                                width: '70%',
+                                                url: api.util.getUrl('apimanager/department/list'),
+                                                change: function (e, p) {
+                                                    projectSelect.clear();
+                                                    var params = {};
+                                                    params['depId']=e.target.value;
+                                                    projectSelect.load(params);
+                                                }
+                                            };
+                                            var projectOptions = {
+                                                selector: '[name=projectId]',
+                                                optionField: {value: 'id', text: 'projectName'},
+                                                width: '70%',
+                                                url: api.util.getUrl('apimanager/project/list'),
+                                                change: function (e, p) {
+                                                    moduleSelect.clear();
+                                                    var params = {};
+                                                    params['projectId']=e.target.value;
+                                                    moduleSelect.load(params);
+                                                }
+                                            };
+                                            var moduleOptions = {
+                                                selector: '[name=moduleId]',
+                                                optionField: {value: 'id', text: 'moduleName'},
+                                                width: '70%',
+                                                url: api.util.getUrl('apimanager/module/list')
+                                            };
+                                            var projectSelect = api.ui.chosenSelect(projectOptions);
+                                            var moduleSelect = api.ui.chosenSelect(moduleOptions);
+                                            api.ui.chosenSelect(depOptions);
+                                            api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
+                                                api.ui.editTable(actionTableOptions);
+                                            });
+                                        }
+                                    }
+                                    api.ui.load(actionConf);
                                 }
                             });
                         });
@@ -305,6 +321,7 @@ var actionTableOptions = {
                                         selector: '[name=moduleId]',
                                         optionField: {value: 'id', text: 'moduleName'},
                                         width: '60%',
+                                        blank: false,
                                         url: api.util.getUrl('/apimanager/module/list')
                                     };
                                     api.ui.chosenSelect(moduleOptions);
@@ -312,6 +329,7 @@ var actionTableOptions = {
                             }, {
                                 title: '接口参数',
                                 width: '10%',
+                                lazy: false,
                                 href: api.util.getUrl('html/action/actionParam.html'),
                                 loaded: function () {
                                     api.util.loadScript(api.util.getUrl('html/action/js/actionParam.js'), function () {
@@ -343,61 +361,61 @@ var actionTableOptions = {
                                 contentType : 'application/json;charset=utf-8',
                                 success: function (data) {
                                     //不跳转到列表
-                                    actionInfoFormObject.disable();
-                                    $('#headButton button:first').css('display', '');
-                                    $('#headButton button:last').css('display', 'none');
+                                    // actionInfoFormObject.disable();
+                                    // $('#headButton button:first').css('display', '');
+                                    // $('#headButton button:last').css('display', 'none');
                                     //跳转到action列表
-                                    // var conf = {
-                                    //     container: '#container',
-                                    //     url: api.util.getUrl('html/action/action.html'),
-                                    //     async: false,
-                                    //     preLoad: function () {
-                                    //         $("#depart").empty();
-                                    //         $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"departmentClick()\">Department</a></li>");
-                                    //         $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"projectClick1()\">Project</a></li>");
-                                    //         $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"moduleClick1()\">Module</a></li>");
-                                    //         $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"actionClick1()\">Action</a></li>");
-                                    //     },
-                                    //     loaded: function () {
-                                    //         var depOptions = {
-                                    //             selector: '[name=depId]',
-                                    //             optionField: {value: 'id', text: 'depName'},
-                                    //             width: '70%',
-                                    //             url: api.util.getUrl('apimanager/department/list'),
-                                    //             change: function (e, p) {
-                                    //                 projectSelect.clear();
-                                    //                 var params = {};
-                                    //                 params['depId']=e.target.value;
-                                    //                 projectSelect.load(params);
-                                    //             }
-                                    //         };
-                                    //         var projectOptions = {
-                                    //             selector: '[name=projectId]',
-                                    //             optionField: {value: 'id', text: 'projectName'},
-                                    //             width: '70%',
-                                    //             url: api.util.getUrl('apimanager/project/list'),
-                                    //             change: function (e, p) {
-                                    //                 moduleSelect.clear();
-                                    //                 var params = {};
-                                    //                 params['projectId']=e.target.value;
-                                    //                 moduleSelect.load(params);
-                                    //             }
-                                    //         };
-                                    //         var moduleOptions = {
-                                    //             selector: '[name=moduleId]',
-                                    //             optionField: {value: 'id', text: 'moduleName'},
-                                    //             width: '70%',
-                                    //             url: api.util.getUrl('apimanager/module/list')
-                                    //         };
-                                    //         var projectSelect = api.ui.chosenSelect(projectOptions);
-                                    //         var moduleSelect = api.ui.chosenSelect(moduleOptions);
-                                    //         api.ui.chosenSelect(depOptions);
-                                    //         api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
-                                    //             api.ui.editTable(actionTableOptions);
-                                    //         });
-                                    //     }
-                                    // }
-                                    // api.ui.load(conf);
+                                    var conf = {
+                                        container: '#container',
+                                        url: api.util.getUrl('html/action/action.html'),
+                                        async: false,
+                                        preLoad: function () {
+                                            $("#depart").empty();
+                                            $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"departmentClick()\">Department</a></li>");
+                                            $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"projectClick1()\">Project</a></li>");
+                                            $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"moduleClick1()\">Module</a></li>");
+                                            $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"actionClick1()\">Action</a></li>");
+                                        },
+                                        loaded: function () {
+                                            var depOptions = {
+                                                selector: '[name=depId]',
+                                                optionField: {value: 'id', text: 'depName'},
+                                                width: '70%',
+                                                url: api.util.getUrl('apimanager/department/list'),
+                                                change: function (e, p) {
+                                                    projectSelect.clear();
+                                                    var params = {};
+                                                    params['depId']=e.target.value;
+                                                    projectSelect.load(params);
+                                                }
+                                            };
+                                            var projectOptions = {
+                                                selector: '[name=projectId]',
+                                                optionField: {value: 'id', text: 'projectName'},
+                                                width: '70%',
+                                                url: api.util.getUrl('apimanager/project/list'),
+                                                change: function (e, p) {
+                                                    moduleSelect.clear();
+                                                    var params = {};
+                                                    params['projectId']=e.target.value;
+                                                    moduleSelect.load(params);
+                                                }
+                                            };
+                                            var moduleOptions = {
+                                                selector: '[name=moduleId]',
+                                                optionField: {value: 'id', text: 'moduleName'},
+                                                width: '70%',
+                                                url: api.util.getUrl('apimanager/module/list')
+                                            };
+                                            var projectSelect = api.ui.chosenSelect(projectOptions);
+                                            var moduleSelect = api.ui.chosenSelect(moduleOptions);
+                                            api.ui.chosenSelect(depOptions);
+                                            api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
+                                                api.ui.editTable(actionTableOptions);
+                                            });
+                                        }
+                                    }
+                                    api.ui.load(conf);
                                 }
                             });
                         });
