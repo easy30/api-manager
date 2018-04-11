@@ -264,3 +264,6 @@ function actionClick1(){
     }
     api.ui.load(conf);
 }
+function actionTestClick() {
+
+}

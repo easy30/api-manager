@@ -23,6 +23,9 @@
             $.each(data, function (index, value) {
                 jq.append($('<option></option>').attr('value', value[options.optionField.value]).text(value[options.optionField.text]));
             });
+            if(options.selectedVal){
+                this.val(options.selectedVal);
+            }
             return this;
         },
         val: function (value) {
@@ -87,6 +90,7 @@
         width: '100%',
         height: '100%',
         blank: true,
+        selectedVal: undefined,
         params: {},
         change: function (event) {
 

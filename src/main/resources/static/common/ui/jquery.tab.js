@@ -55,7 +55,10 @@
             item.click(function (event) {
                 // 防止冒泡
                 event.stopPropagation();
-                that.load(tabConf);
+                if(!tabConf.panel.loaded){
+                    that.load(tabConf);
+                }
+                that.show(title);
             });
 
             //判断是否需要延迟加载标签
@@ -108,7 +111,6 @@
         },
         load: function (tabConf) {
             var title = tabConf.title, href = tabConf.href, pane = tabConf.panel, content = tabConf.content;
-            this.show(title);
             //已经load内容的不再加载，只展示内容
             if (!pane.loaded) {
                 api.ui.load({
