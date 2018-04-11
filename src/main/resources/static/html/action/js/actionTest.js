@@ -1,5 +1,5 @@
-var headOptions = {
-    container: '#requestHead',
+var testHeadOptions = {
+    container: '#testRequestHead',
     headers: [
         {text: '操作', width: '5%'},
         {text: '名称', width: '15%'},
@@ -16,8 +16,7 @@ var headOptions = {
                 height: '100%',
                 blank: false,
                 optionField: {value: 'k', text: 'v'},
-                selectedVal: 2,
-                url: api.util.getUrl('/apimanager/meta/findMeta'),
+                url: api.util.getUrl('apimanager/meta/findMeta'),
                 params: {metaId: 1}
             }
         },
@@ -30,42 +29,9 @@ var headOptions = {
         }
     ]
 };
-var requestOptions = {
-    container: '#requestParam',
-    headers: [
-        {text: '操作', width: '5%'},
-        {text: '名称', width: '15%'},
-        {text: '含义', width: '20%'},
-        {text: '类型', width: '20%'},
-        {text: '规则', width: '20%'},
-        {text: '默认值', width: '20%'}
-    ],
-    fields: [
-        {name: 'name', type: 'input'},
-        {name: 'desc', type: 'input'},
-        {
-            name: 'type', type: 'select', options: {
-                width: '100%',
-                height: '100%',
-                blank: false,
-                selectedVal: 2,
-                optionField: {value: 'k', text: 'v'},
-                url: api.util.getUrl('/apimanager/meta/findMeta'),
-                params: {metaId: 1}
-            }
-        },
-        {name: 'rule', type: 'input'},
-        {name: 'defaultVal', type: 'input'}
-    ],
-    footBtn: [
-        {
-            type: 'add', text: '添加参数', fn: function (row) {
-            }
-        }
-    ]
-};
-var responseOptions = {
-    container: '#responseParam',
+
+var testRequestOptions = {
+    container: '#testRequestParam',
     headers: [
         {text: '操作', width: '5%'},
         {text: '名称', width: '15%'},
@@ -82,9 +48,8 @@ var responseOptions = {
                 width: '100%',
                 height: '100%',
                 blank: false,
-                selectedVal: 2,
                 optionField: {value: 'k', text: 'v'},
-                url: api.util.getUrl('/apimanager/meta/findMeta'),
+                url: api.util.getUrl('apimanager/meta/findMeta'),
                 params: {metaId: 1}
             }
         },
@@ -98,6 +63,31 @@ var responseOptions = {
         }
     ]
 };
-// var headParam = api.ui.param(headOptions);
-// var requestParam = api.ui.param(requestOptions);
-// var responseParam = api.ui.param(responseOptions);
+
+var requestTypeOptions = {
+    selector: '[name=testRequestType]',
+    width: '70%',
+    params: {metaId: 2},
+    optionField: {value: 'k', text: 'v'},
+    url: api.util.getUrl('apimanager/meta/findMeta')
+};
+
+$('#requestJsonFormatLink').on('click', function () {
+    $('#requestJson').css('display', '');
+    $('#requestJsonArea').css('display', 'none');
+});
+
+$('#requestJsonRowLink').on('click', function () {
+    $('#requestJson').css('display', 'none');
+    $('#requestJsonArea').css('display', '');
+});
+
+$('#responseJsonFormatLink').on('click', function () {
+    $('#responseJson').css('display', '');
+    $('#responseJsonArea').css('display', 'none');
+});
+
+$('#responseJsonRowLink').on('click', function () {
+    $('#responseJson').css('display', 'none');
+    $('#responseJsonArea').css('display', '');
+});

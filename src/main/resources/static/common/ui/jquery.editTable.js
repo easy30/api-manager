@@ -27,7 +27,7 @@
     editTable.prototype = {
         _build: function () {
             var editTable = this, jq = this.jq, conf = this.options, fields = conf.fields, headers = conf.headers, headBtns = conf.headBtn;
-            var $table = $('<table class="table table-hover table-sm" style="font-family: Microsoft YaHei, \'宋体\', Tahoma, Helvetica, Arial, sans-serif;"></table>');
+            var $table = $('<table class="table table-hover table-sm" style="font-family: \'Microsoft YaHei\',微软雅黑,\'MicrosoftJhengHei\',华文细黑,STHeiti,MingLiu; font-size: 15px;"></table>');
             var $tHead = $('<thead></thead>');
             var $tBody = $('<tbody></tbody>');
             var $tFoot = $('<tfoot></tfoot>');
