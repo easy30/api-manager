@@ -65,7 +65,6 @@ public class ApplicationConfiguration {
 	public FilterRegistrationBean<RedirectFilter> redirectFilterRegistration() {
 		FilterRegistrationBean<RedirectFilter> registration = new FilterRegistrationBean<>(new RedirectFilter());
 		registration.addUrlPatterns("/*");
-		registration.setOrder(0);
 		return registration;
 	}
 
@@ -73,7 +72,6 @@ public class ApplicationConfiguration {
 	public FilterRegistrationBean<UserLoginFilter> userLoginFilterRegistration() {
 		FilterRegistrationBean<UserLoginFilter> registration = new FilterRegistrationBean<>(new UserLoginFilter());
 		registration.addUrlPatterns("/*");
-		registration.setOrder(1);
 		return registration;
 	}
 

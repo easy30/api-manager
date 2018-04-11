@@ -25,3 +25,10 @@ $('#loginBtn').on('click', function () {
         }
     });
 });
+// 监听回车事件，并且屏蔽回车后浏览器刷新
+$(document).keydown(function (event) {
+    if(event.keyCode == 13){
+        $('#loginBtn').click();
+        return false;
+    }
+});

@@ -1,8 +1,12 @@
 package com.cehome.apimanager.controller;
 
-import java.util.List;
-import java.util.Map;
-
+import com.cehome.apimanager.common.BaseController;
+import com.cehome.apimanager.common.Page;
+import com.cehome.apimanager.model.dto.AmActionQueryReqDto;
+import com.cehome.apimanager.model.dto.AmActionReqDto;
+import com.cehome.apimanager.model.dto.AmActionResDto;
+import com.cehome.apimanager.model.po.AmAction;
+import com.cehome.apimanager.service.IAmActionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cehome.apimanager.common.BaseController;
-import com.cehome.apimanager.common.Page;
-import com.cehome.apimanager.model.dto.AmActionQueryReqDto;
-import com.cehome.apimanager.model.dto.AmActionReqDto;
-import com.cehome.apimanager.model.dto.AmActionResDto;
-import com.cehome.apimanager.model.po.AmAction;
-import com.cehome.apimanager.service.IAmActionService;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/apimanager/action")
@@ -64,7 +63,7 @@ public class AmActionController extends BaseController {
 	/**
 	 * 根据主键返回接口文档
 	 * 
-	 * @param dto
+	 * @param id
 	 * @return
 	 */
 	@RequestMapping("findById")

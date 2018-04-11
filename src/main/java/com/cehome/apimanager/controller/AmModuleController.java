@@ -1,14 +1,5 @@
 package com.cehome.apimanager.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.cehome.apimanager.common.BaseController;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.model.dto.AmModuleQueryReqDto;
@@ -16,6 +7,14 @@ import com.cehome.apimanager.model.dto.AmModuleReqDto;
 import com.cehome.apimanager.model.dto.AmModuleResDto;
 import com.cehome.apimanager.model.po.AmModule;
 import com.cehome.apimanager.service.IAmModuleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/apimanager/module")
@@ -62,7 +61,7 @@ public class AmModuleController extends BaseController {
 	/**
 	 * 根据主键返回模块
 	 * 
-	 * @param dto
+	 * @param id
 	 * @return
 	 */
 	@RequestMapping("findById")
