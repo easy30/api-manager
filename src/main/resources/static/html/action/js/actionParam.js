@@ -98,6 +98,3 @@ var responseOptions = {
         }
     ]
 };
-// var headParam = api.ui.param(headOptions);
-// var requestParam = api.ui.param(requestOptions);
-// var responseParam = api.ui.param(responseOptions);

@@ -1,4 +1,5 @@
 function departmentClick(){
+    $('#depart').parent('.container').css('display','');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/department/department.html'),
@@ -13,6 +14,7 @@ function departmentClick(){
     api.ui.load(conf);
 }
 function projectClick(){
+    $('#depart').parent('.container').css('display','');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/project/project.html'),
@@ -65,6 +67,7 @@ function projectClick1(){
     api.ui.load(conf);
 }
 function moduleClick(){
+    $('#depart').parent('.container').css('display','');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/module/module.html'),
@@ -150,6 +153,7 @@ function moduleClick1(){
     api.ui.load(conf);
 }
 function actionClick(){
+    $('#depart').parent('.container').css('display','');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/action/action.html'),
@@ -265,5 +269,64 @@ function actionClick1(){
     api.ui.load(conf);
 }
 function actionTestClick() {
+    $('#depart').parent('.container').css('display','none');
+    var conf = {
+        container: '#container',
+        url: api.util.getUrl('html/action/actionTest.html'),
+        async: false,
+        loaded: function () {
+            var testHeadParam, testRequestParam;
+            api.util.loadScript(api.util.getUrl('html/action/js/actionTest.js'), function () {
+                var requestTypeSelect = api.ui.chosenSelect(requestTypeOptions);
+                testHeadParam = api.ui.param(testHeadOptions);
+                testRequestParam = api.ui.param(testRequestOptions);
+            });
+            $('#sendRequest').on('click', function () {
+                var requestMockTemplate = api.util.buildMockTemplate(testRequestParam.toData());
+                var headMockTemplate = api.util.buildMockTemplate(testHeadParam.toData());
+                var requestData = Mock.mock(requestMockTemplate), headData = Mock.mock(headMockTemplate);
+                var requestDataStr = JSON.stringify(requestData), headDataStr = JSON.stringify(headData);
+                $('#requestJson').JSONView(requestDataStr);
+                $('#requestJsonArea').val(requestDataStr);
 
+                var requestBody = {};
+                requestBody['requestType'] = $('[name=testRequestType]').val();
+                requestBody['requestUrl'] = $('[name=testRequestUrl]').val();
+                requestBody['requestHeadData'] = headDataStr;
+                requestBody['requestData'] = requestDataStr;
+                $.ajax({
+                    url: api.util.getUrl('apimanager/tester/send'),
+                    type: 'POST',
+                    contentType: 'application/json;charset=UTF-8', //解决415问题
+                    data: JSON.stringify(requestBody),//解决400问题
+                    dataType: 'json',
+                    success: function (result) {
+                        var data = result.data, dataStr = JSON.stringify(data);
+                        $('#responseJsonArea').val(dataStr);
+                        $('#responseJson').JSONView(dataStr);
+                    }
+                });
+            });
+            $('#requestJsonFormatLink').on('click', function () {
+                $('#requestJson').css('display', '');
+                $('#requestJsonArea').css('display', 'none');
+            });
+
+            $('#requestJsonRowLink').on('click', function () {
+                $('#requestJson').css('display', 'none');
+                $('#requestJsonArea').css('display', '');
+            });
+
+            $('#responseJsonFormatLink').on('click', function () {
+                $('#responseJson').css('display', '');
+                $('#responseJsonArea').css('display', 'none');
+            });
+
+            $('#responseJsonRowLink').on('click', function () {
+                $('#responseJson').css('display', 'none');
+                $('#responseJsonArea').css('display', '');
+            });
+        }
+    }
+    api.ui.load(conf);
 }

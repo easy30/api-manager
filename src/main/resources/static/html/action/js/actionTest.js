@@ -71,23 +71,3 @@ var requestTypeOptions = {
     optionField: {value: 'k', text: 'v'},
     url: api.util.getUrl('apimanager/meta/findMeta')
 };
-
-$('#requestJsonFormatLink').on('click', function () {
-    $('#requestJson').css('display', '');
-    $('#requestJsonArea').css('display', 'none');
-});
-
-$('#requestJsonRowLink').on('click', function () {
-    $('#requestJson').css('display', 'none');
-    $('#requestJsonArea').css('display', '');
-});
-
-$('#responseJsonFormatLink').on('click', function () {
-    $('#responseJson').css('display', '');
-    $('#responseJsonArea').css('display', 'none');
-});
-
-$('#responseJsonRowLink').on('click', function () {
-    $('#responseJson').css('display', 'none');
-    $('#responseJsonArea').css('display', '');
-});
