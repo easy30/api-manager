@@ -4,6 +4,7 @@ import com.cehome.apimanager.utils.WebUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
@@ -12,11 +13,19 @@ public class UserLoginFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
-		HttpSession session = httpRequest.getSession();
-		if(WebUtils.isLogin(session)){
+
+		HttpServletResponse httpResponse = (HttpServletResponse)response;
+		String requestURI = httpRequest.getRequestURI();
+		if(excludeURI(requestURI)){
 			chain.doFilter(request, response);
 		} else {
-			httpRequest.getRequestDispatcher("/login.html").forward(request,response);
+			HttpSession session = httpRequest.getSession();
+			if(WebUtils.isLogin(session)){
+				chain.doFilter(request, response);
+			} else {
+				httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.html");
+				return;
+			}
 		}
 	}
 
@@ -29,8 +38,17 @@ public class UserLoginFilter implements Filter {
 	public void destroy() {
 		
 	}
-	
-	public boolean isValidHeader(String headerName){
+
+	private boolean excludeURI(String requestURI){
+		if(requestURI.indexOf("/login.html") > 0){
+			return true;
+		}
+		if(requestURI.indexOf("/user/login") > 0){
+			return true;
+		}
+		if(requestURI.indexOf("/common/") > 0 || requestURI.indexOf("/plugins/") > 0){
+			return true;
+		}
 		return false;
 	}
 }

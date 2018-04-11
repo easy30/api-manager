@@ -196,7 +196,6 @@ var actionTableOptions = {
                             }]
                         };
                         api.ui.tabs(actionTabConf);
-
                         //切换
                         $('#headButton button:first').on('click', function () {
                             actionInfoFormObject.enable();
@@ -325,6 +324,7 @@ var actionTableOptions = {
                         };
                         api.ui.tabs(actionTabConf);
 
+                        //切换
                         $('#headButton button:first').on('click', function () {
                             actionInfoFormObject.enable();
                             headParam.enable();
