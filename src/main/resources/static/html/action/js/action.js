@@ -136,14 +136,16 @@ var actionTableOptions = {
                     var headArr = headParam.toData();
                     var headStr = '';
                     for(var i = 0;i<headArr.length;i++){
-                        if(i==headArr.length-1){
-                            headStr= headStr+JSON.stringify(headArr[i])+']';
+                        if(headArr.length==1){
+                            headStr= '['+JSON.stringify(headArr[i])+']';
                             continue;
                         }
                         if(i==0){
                             headStr = '['+JSON.stringify(headArr[i])+',';
-                        }else{
+                        }else if(i<headArr.length-1){
                             headStr = headStr+JSON.stringify(headArr[i])+',';
+                        }else{
+                            headStr= headStr+JSON.stringify(headArr[i])+']';
                         }
                     }
                     var requestHeadJson = {'requestHeadDefinition': headStr};
@@ -151,14 +153,16 @@ var actionTableOptions = {
                     var requestArr = requestParam.toData();
                     var requestStr = '';
                     for(var i = 0;i<requestArr.length;i++){
-                        if(i==requestArr.length-1){
-                            requestStr= requestStr+JSON.stringify(requestArr[i])+']';
+                        if(requestArr.length==1){
+                            requestStr= '['+JSON.stringify(requestArr[i])+']';
                             continue;
                         }
                         if(i==0){
                             requestStr = '['+JSON.stringify(requestArr[i])+',';
-                        }else{
+                        }else if(i<requestArr.length-1){
                             requestStr = requestStr+JSON.stringify(requestArr[i])+',';
+                        }else{
+                            requestStr= requestStr+JSON.stringify(requestArr[i])+']';
                         }
                     }
                     var requestJson = {'requestDefinition': requestStr};
@@ -166,14 +170,16 @@ var actionTableOptions = {
                     var responseArr = responseParam.toData();
                     var responseStr = '';
                     for(var i = 0;i<responseArr.length;i++){
-                        if(i==responseArr.length-1){
-                            responseStr= responseStr+JSON.stringify(responseArr[i])+']';
+                        if(responseArr.length==1){
+                            responseStr= '['+JSON.stringify(responseArr[i])+']';
                             continue;
                         }
                         if(i==0){
                             responseStr = '['+JSON.stringify(responseArr[i])+',';
-                        }else {
+                        }else if(i<responseArr.length-1) {
                             responseStr = responseStr+JSON.stringify(responseArr[i])+',';
+                        }else {
+                            responseStr= responseStr+JSON.stringify(responseArr[i])+']';
                         }
                     }
                     var responseJson = {'responseDefinition': responseStr};
