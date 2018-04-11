@@ -143,6 +143,22 @@ var actionTableOptions = {
                                                 requestTypeSelect.val(data['requestType']);
                                                 $('[name=testRequestUrl]').val(data['requestUrl']);
 
+                                                    if(data['requestHeadDefinition']){
+                                                        var rowData = JSON.parse(data['requestHeadDefinition']);
+                                                        $.each(rowData, function (index, data) {
+                                                            testHeadParam._showRow(data);
+                                                        })
+                                                    }
+                                                    if(data['requestDefinition']){
+                                                        var rowData = JSON.parse(data['requestDefinition']);
+                                                        $.each(rowData, function (index, data) {
+                                                            testRequestParam._showRow(data);
+                                                        })
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
                                                 if(data['requestHeadDefinition']){
                                                     var rowData = JSON.parse(data['requestHeadDefinition']);
                                                     $.each(rowData, function (index, data) {
@@ -152,7 +168,7 @@ var actionTableOptions = {
                                                 if(data['requestDefinition']){
                                                     var rowData = JSON.parse(data['requestDefinition']);
                                                     $.each(rowData, function (index, data) {
-                                                        testRequestParam._showRow();
+                                                        testRequestParam._showRow(data);
                                                     })
                                                 }
                                             }
@@ -168,6 +184,41 @@ var actionTableOptions = {
                                     $('#requestJson').JSONView(requestDataStr);
                                     $('#requestJsonArea').val(requestDataStr);
 
+                                        var requestBody = {};
+                                        requestBody['requestType'] = $('[name=testRequestType]').val();
+                                        requestBody['requestUrl'] = $('[name=testRequestUrl]').val();
+                                        requestBody['requestHeadData'] = headDataStr;
+                                        requestBody['requestData'] = requestDataStr;
+                                        $.ajax({
+                                            url: api.util.getUrl('apimanager/tester/send'),
+                                            type: 'POST',
+                                            contentType: 'application/json;charset=UTF-8', //解决415问题
+                                            data: JSON.stringify(requestBody),//解决400问题
+                                            dataType: 'json',
+                                            success: function (result) {
+                                                var data = result.data, dataStr = JSON.stringify(data);
+                                                $('#responseJsonArea').val(dataStr);
+                                                $('#responseJson').JSONView(dataStr);
+                                            }
+                                        });
+                                    });
+                                }
+                            }]
+                        };
+                        api.ui.tabs(actionTabConf);
+                        //切换
+                        $('#headButton button:first').on('click', function () {
+                            actionInfoFormObject.enable();
+                            headParam.enable();
+                            requestParam.enable();
+                            responseParam.enable();
+                            $('#headButton button:first').css('display', 'none');
+                            $('#headButton button:last').css('display', '');
+                        });
+                        //保存
+                        $('#headButton button:last').on('click', function () {
+                            var headArr = headParam.toData();
+                            var requestHeadJson = {'requestHeadDefinition': JSON.stringify(headArr)};
                                     var requestBody = {};
                                     requestBody['requestType'] = $('[name=testRequestType]').val();
                                     requestBody['requestUrl'] = $('[name=testRequestUrl]').val();
@@ -348,6 +399,8 @@ var actionTableOptions = {
                             }]
                         };
                         api.ui.tabs(actionTabConf);
+
+                        //切换
                         $('#headButton button:first').on('click', function () {
                             actionInfoFormObject.enable();
                             headParam.enable();

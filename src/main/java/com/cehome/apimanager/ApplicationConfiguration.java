@@ -62,11 +62,20 @@ public class ApplicationConfiguration {
 	}
 	
 	@Bean
-    public FilterRegistrationBean<RedirectFilter> redirectFilterRegistration() {
-        FilterRegistrationBean<RedirectFilter> registration = new FilterRegistrationBean<>(new RedirectFilter());
-        registration.addUrlPatterns("/*");
-        return registration;
-    }
+	public FilterRegistrationBean<RedirectFilter> redirectFilterRegistration() {
+		FilterRegistrationBean<RedirectFilter> registration = new FilterRegistrationBean<>(new RedirectFilter());
+		registration.addUrlPatterns("/*");
+		registration.setOrder(0);
+		return registration;
+	}
+
+	@Bean
+	public FilterRegistrationBean<UserLoginFilter> userLoginFilterRegistration() {
+		FilterRegistrationBean<UserLoginFilter> registration = new FilterRegistrationBean<>(new UserLoginFilter());
+		registration.addUrlPatterns("/*");
+		registration.setOrder(1);
+		return registration;
+	}
 
 	@PostConstruct
 	public void init(){
