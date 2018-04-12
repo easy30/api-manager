@@ -314,19 +314,12 @@ headBtn: [
                             width: '10%',
                             href: api.util.getUrl('html/action/actionInfo.html'),
                             loaded: function () {
-                                var actionInfoFormOptions = {
-                                    container:'#actionInfoForm'
-                                };
-                                actionInfoFormObject =  api.ui.form(actionInfoFormOptions);
-
-                                var moduleOptions = {
-                                    selector: '[name=moduleId]',
-                                    optionField: {value: 'id', text: 'moduleName'},
-                                    width: '60%',
-                                    blank: false,
-                                    url: api.util.getUrl('/apimanager/module/list')
-                                };
-                                api.ui.chosenSelect(moduleOptions);
+                                api.util.loadScript(api.util.getUrl('html/action/js/actionInfo.js'), function () {
+                                    api.ui.chosenSelect(typeSelectOption);
+                                    api.ui.chosenSelect(statusSelectOption);
+                                    api.ui.chosenSelect(moduleOptions);
+                                    actionInfoFormObject = api.ui.form(actionInfoFormOptions);
+                                });
                             }
                         }, {
                             title: '接口参数',
