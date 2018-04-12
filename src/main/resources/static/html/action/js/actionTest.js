@@ -14,6 +14,7 @@ var testHeadOptions = {
             name: 'type', type: 'select', options: {
                 width: '100%',
                 height: '100%',
+                selectedVal: 2,
                 blank: false,
                 optionField: {value: 'k', text: 'v'},
                 url: api.util.getUrl('apimanager/meta/findMeta'),
@@ -48,6 +49,7 @@ var testRequestOptions = {
                 width: '100%',
                 height: '100%',
                 blank: false,
+                selectedVal: 2,
                 optionField: {value: 'k', text: 'v'},
                 url: api.util.getUrl('apimanager/meta/findMeta'),
                 params: {metaId: 1}
