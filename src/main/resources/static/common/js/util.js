@@ -4,7 +4,7 @@ api.browser.isHtml5 = api.browser.isIe ? (/MSIE (\d\d?)/.exec(window.navigator.a
 api.link = document.createElement('link');
 api.link.setAttribute('rel', 'stylesheet');
 api.util = {
-    pathRootName: '/' + window.location.pathname.split('/')[1],
+    pathRootName: '/',
     scriptsCache: {
         linkDom: api.link,
         scriptDom: document.createElement('script'),
@@ -13,9 +13,9 @@ api.util = {
     getUrl: function (url) {
         var separate = url.charAt(0);
         if(separate == '/'){
-            return this.pathRootName + url;
+            return url;
         } else {
-            return this.pathRootName + '/' + url;
+            return this.pathRootName + url;
         }
     },
     addEvent: function (elem, e, fn) {

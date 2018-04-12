@@ -1,22 +1,5 @@
 package com.cehome.apimanager.filter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Enumeration;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.util.EntityUtils;
-
 import com.alibaba.fastjson.JSONObject;
 import com.cehome.apimanager.common.CommonMeta;
 import com.cehome.apimanager.model.dto.AmActionResDto;
@@ -24,6 +7,18 @@ import com.cehome.apimanager.service.IAmActionService;
 import com.cehome.apimanager.utils.ApplicationContextUtils;
 import com.cehome.apimanager.utils.HttpUtils;
 import com.cehome.apimanager.utils.MockUtils;
+import com.cehome.apimanager.utils.WebUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.util.EntityUtils;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Enumeration;
 
 public class RedirectFilter implements Filter {
 	private static final String CONTENT_TYPE = "application/json";
@@ -32,9 +27,17 @@ public class RedirectFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
+		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		StringBuffer requestURL = httpRequest.getRequestURL();
+		//对本系统请求进行登录验证
 		if(requestURL.indexOf("localhost") > 0){
-			chain.doFilter(request, response);
+			String requestURI = httpRequest.getRequestURI();
+			HttpSession session = httpRequest.getSession();
+			if (whileList(requestURI) || WebUtils.isLogin(session)) {
+				chain.doFilter(request, response);
+			} else {
+				httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.html");
+			}
 			return;
 		}
 		
@@ -97,6 +100,29 @@ public class RedirectFilter implements Filter {
 	}
 	
 	public boolean isValidHeader(String headerName){
+		return false;
+	}
+
+
+	/**
+	 * 配置白名单
+	 *
+	 * @param requestURI
+	 * @return
+	 */
+	private boolean whileList(String requestURI) {
+		if(requestURI.equals("/")){
+			return true;
+		}
+		if (requestURI.contains("/login.html")) {
+			return true;
+		}
+		if (requestURI.contains("/user/login")) {
+			return true;
+		}
+		if (requestURI.contains("/common/") || requestURI.contains("/plugins/")) {
+			return true;
+		}
 		return false;
 	}
 }

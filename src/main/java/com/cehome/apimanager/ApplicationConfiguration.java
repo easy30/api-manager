@@ -2,7 +2,6 @@ package com.cehome.apimanager;
 
 import com.cehome.apimanager.cache.CacheProvider;
 import com.cehome.apimanager.filter.RedirectFilter;
-import com.cehome.apimanager.filter.UserLoginFilter;
 import com.cehome.apimanager.service.IAmActionService;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -64,13 +63,6 @@ public class ApplicationConfiguration {
 	@Bean
 	public FilterRegistrationBean<RedirectFilter> redirectFilterRegistration() {
 		FilterRegistrationBean<RedirectFilter> registration = new FilterRegistrationBean<>(new RedirectFilter());
-		registration.addUrlPatterns("/*");
-		return registration;
-	}
-
-	@Bean
-	public FilterRegistrationBean<UserLoginFilter> userLoginFilterRegistration() {
-		FilterRegistrationBean<UserLoginFilter> registration = new FilterRegistrationBean<>(new UserLoginFilter());
 		registration.addUrlPatterns("/*");
 		return registration;
 	}
