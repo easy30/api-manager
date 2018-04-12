@@ -222,7 +222,7 @@ var actionTableOptions = {
                                 var value = $.trim($(this).val());
                                 if(!value){
                                     i=1;
-                                    var option={content: '存在空值'};
+                                    var option={content: '请完善接口基本信息'};
                                     api.ui.dialog(option).open();
                                     actionTabConfObject.show('基本信息');
                                     $(this).css('border-color','red');
@@ -236,6 +236,7 @@ var actionTableOptions = {
                             var requestArr = requestParam.toData();
                             var responseArr = responseParam.toData();
                             var requestData = actionInfoFormObject.toJson();
+                            requestData['id'] = param.id;
                             requestData['requestHeadDefinition'] = JSON.stringify(headArr);
                             requestData['requestDefinition'] = JSON.stringify(requestArr);
                             requestData['responseDefinition'] = JSON.stringify(responseArr);
@@ -374,7 +375,7 @@ headBtn: [
                             var value = $.trim($(this).val());
                             if(!value){
                                 i=1;
-                                var option={content: '存在空值'};
+                                var option={content: '请完善接口基本信息'};
                                 api.ui.dialog(option).open();
                                 actionTabConfObject.show('基本信息');
                                 $(this).css('border-color','red');
