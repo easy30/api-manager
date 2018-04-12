@@ -204,7 +204,7 @@ var actionTableOptions = {
                                 }
                             }]
                         }
-                        api.ui.tabs(actionTabConf);
+                        var actionTabConfObject = api.ui.tabs(actionTabConf);
                         //切换
                         $('#headButton button:first').on('click', function () {
                             actionInfoFormObject.enable();
@@ -216,6 +216,22 @@ var actionTableOptions = {
                         });
                         //保存
                         $('#headButton button:last').on('click', function () {
+                            //表单非空校验
+                            var i=0;
+                            $('#actionInfoForm').find('input,select').each(function(){
+                                var value = $.trim($(this).val());
+                                if(!value){
+                                    i=1;
+                                    var option={content: '存在空值'};
+                                    api.ui.dialog(option).open();
+                                    actionTabConfObject.show('基本信息');
+                                    $(this).css('border-color','red');
+                                    return false;
+                                }
+                            });
+                            if(i==1){
+                                return;
+                            }
                             var headArr = headParam.toData();
                             var requestArr = requestParam.toData();
                             var responseArr = responseParam.toData();
@@ -339,7 +355,7 @@ headBtn: [
                             }
                         }]
                     };
-                    api.ui.tabs(actionTabConf);
+                    var actionTabConfObject = api.ui.tabs(actionTabConf);
 
                     //切换
                     $('#headButton button:first').on('click', function () {
@@ -360,6 +376,8 @@ headBtn: [
                                 i=1;
                                 var option={content: '存在空值'};
                                 api.ui.dialog(option).open();
+                                actionTabConfObject.show('基本信息');
+                                $(this).css('border-color','red');
                                 return false;
                             }
                         });
@@ -383,6 +401,7 @@ headBtn: [
                                 if(data.code==-1){
                                     var option={content: '保存失败'};
                                     api.ui.dialog(option).open();
+
                                     return;
                                 }
                                 $('#depart').parent('.container').css('display','');
