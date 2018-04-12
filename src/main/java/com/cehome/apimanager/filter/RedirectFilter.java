@@ -22,7 +22,7 @@ import java.util.Enumeration;
 
 public class RedirectFilter implements Filter {
 	private static final String CONTENT_TYPE = "application/json";
-	private static final String ENCODING = "UTF-8";
+	private static final String ENCODING = "GB2312";
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -36,57 +36,56 @@ public class RedirectFilter implements Filter {
 			if (whileList(requestURI) || WebUtils.isLogin(session)) {
 				chain.doFilter(request, response);
 			} else {
-				httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.html");
+				httpResponse.sendRedirect(httpRequest.getContextPath() + "/");
 			}
-			return;
-		}
-		
-		IAmActionService actionService = ApplicationContextUtils.getBean(IAmActionService.class);
-		Integer actionId = actionService.findIdByRequestUrl(requestURL.toString());
-		AmActionResDto actionResDto = actionService.findById(actionId);
-		String responseText = "";
-		if(actionResDto != null && actionResDto.getStatus() == CommonMeta.Status.DOING.getCode()){
-			String responseMock = actionResDto.getResponseMock();
-			responseText = MockUtils.buildMockData(responseMock);
 		} else {
-			JSONObject headers = new JSONObject();
-			Enumeration<String> headerNames = httpRequest.getHeaderNames();
-			while(headerNames.hasMoreElements()){
-				String headerName = headerNames.nextElement();
-				if(isValidHeader(headerName)){
-					headers.put(headerName, httpRequest.getHeader(headerName));
+			IAmActionService actionService = ApplicationContextUtils.getBean(IAmActionService.class);
+			Integer actionId = actionService.findIdByRequestUrl(requestURL.toString());
+			AmActionResDto actionResDto = actionService.findById(actionId);
+			String responseText = "";
+			if(actionResDto != null && actionResDto.getStatus() == CommonMeta.Status.DOING.getCode()){
+				String responseMock = actionResDto.getResponseMock();
+				responseText = MockUtils.buildMockData(responseMock);
+			} else {
+				JSONObject headers = new JSONObject();
+				Enumeration<String> headerNames = httpRequest.getHeaderNames();
+				while(headerNames.hasMoreElements()){
+					String headerName = headerNames.nextElement();
+					if(isValidHeader(headerName)){
+						headers.put(headerName, httpRequest.getHeader(headerName));
+					}
 				}
+				HttpEntity responseEntity = null;
+				String method = httpRequest.getMethod();
+				if("GET".equals(method)){
+					Enumeration<String> parameterNames = httpRequest.getParameterNames();
+					JSONObject nameValuePair = new JSONObject();
+					while(parameterNames.hasMoreElements()){
+						String parameterName = parameterNames.nextElement();
+						nameValuePair.put(parameterName, httpRequest.getParameter(parameterName));
+					}
+					HttpUtils httpUtils = HttpUtils.getInstance();
+					responseEntity = httpUtils.execute(requestURL.toString(), null, nameValuePair);
+				} else if("POST".equals(method)){
+					BufferedReader reader = new BufferedReader(new InputStreamReader(httpRequest.getInputStream()));
+					StringBuffer buffer = new StringBuffer();
+					String line = "";
+					while ((line = reader.readLine()) != null){
+						buffer.append(line);
+					}
+					HttpUtils httpUtils = HttpUtils.getInstance();
+					responseEntity = httpUtils.execute(requestURL.toString(), headers, buffer.toString());
+				}
+				responseText = EntityUtils.toString(responseEntity, ENCODING);
 			}
-			HttpEntity responseEntity = null;
-			String method = httpRequest.getMethod();
-			if("GET".equals(method)){
-				Enumeration<String> parameterNames = httpRequest.getParameterNames();
-				JSONObject nameValuePair = new JSONObject();
-				while(parameterNames.hasMoreElements()){
-					String parameterName = parameterNames.nextElement();
-					nameValuePair.put(parameterName, httpRequest.getParameter(parameterName));
-				}
-				HttpUtils httpUtils = HttpUtils.getInstance();
-				responseEntity = httpUtils.execute(requestURL.toString(), null, nameValuePair);
-			} else if("POST".equals(method)){
-				BufferedReader reader = new BufferedReader(new InputStreamReader(httpRequest.getInputStream()));
-				StringBuffer buffer = new StringBuffer();
-				String line = "";
-				while ((line = reader.readLine()) != null){
-					buffer.append(line);
-				}
-				HttpUtils httpUtils = HttpUtils.getInstance();
-				responseEntity = httpUtils.execute(requestURL.toString(), headers, buffer.toString());
-			}
-			responseText = EntityUtils.toString(responseEntity, ENCODING);
+
+			response.setContentType(CONTENT_TYPE);
+			response.setCharacterEncoding(ENCODING);
+			ServletOutputStream outputStream = response.getOutputStream();
+			outputStream.write(responseText.getBytes());
+			outputStream.flush();
+			outputStream.close();
 		}
-		
-		response.setContentType(CONTENT_TYPE);
-		response.setCharacterEncoding(ENCODING);
-		ServletOutputStream outputStream = response.getOutputStream();
-		outputStream.write(responseText.getBytes());
-		outputStream.flush();
-		outputStream.close();
 	}
 
 	@Override
@@ -114,6 +113,9 @@ public class RedirectFilter implements Filter {
 		if(requestURI.equals("/")){
 			return true;
 		}
+        if (requestURI.contains("/reload.html")) {
+            return true;
+        }
 		if (requestURI.contains("/login.html")) {
 			return true;
 		}

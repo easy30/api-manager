@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 public class RootController {
 
     @RequestMapping("/")
-    public String save(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-        return "login.html";
+    public String redirect(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+        return "redirect:/login.html";
     }
 }
