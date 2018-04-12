@@ -223,14 +223,18 @@ var actionTableOptions = {
                             requestData['requestHeadDefinition'] = JSON.stringify(headArr);
                             requestData['requestDefinition'] = JSON.stringify(requestArr);
                             requestData['responseDefinition'] = JSON.stringify(responseArr);
-                            console.log(requestData);
                             $.ajax({
-                                url: api.util.getUrl('apimanager/tester/update'),
-                                type: 'POST',
+                                url: api.util.getUrl('apimanager/action/update'),
+                                type: 'post',
                                 contentType: 'application/json;charset=UTF-8',
                                 data: JSON.stringify(requestData),
                                 dataType: 'json',
                                 success: function (data) {
+                                    if(data.code==-1){
+                                        var option={content: '保存失败'};
+                                        api.ui.dialog(option).open();
+                                        return;
+                                    }
                                     $('#depart').parent('.container').css('display','');
                                     //跳转到action列表
                                     var conf = {
@@ -348,13 +352,39 @@ headBtn: [
                     });
                     //保存
                     $('#headButton button:last').on('click', function () {
+                        //表单非空校验
+                        var i=0;
+                        $('#actionInfoForm').find('input,select').each(function(){
+                            var value = $.trim($(this).val());
+                            if(!value){
+                                i=1;
+                                var option={content: '存在空值'};
+                                api.ui.dialog(option).open();
+                                return false;
+                            }
+                        });
+                        if(i==1){
+                            return;
+                        }
+                        var headArr = headParam.toData();
+                        var requestArr = requestParam.toData();
+                        var responseArr = responseParam.toData();
+                        var requestData = actionInfoFormObject.toJson();
+                        requestData['requestHeadDefinition'] = JSON.stringify(headArr);
+                        requestData['requestDefinition'] = JSON.stringify(requestArr);
+                        requestData['responseDefinition'] = JSON.stringify(responseArr);
                         $.ajax({
                             type: 'post',
                             url: api.util.getUrl('apimanager/action/add'),
                             dataType: 'json',
-                            data : JSON.stringify(actionInfoFormObject.toJson()),
+                            data : JSON.stringify(requestData),
                             contentType : 'application/json;charset=utf-8',
                             success: function (data) {
+                                if(data.code==-1){
+                                    var option={content: '保存失败'};
+                                    api.ui.dialog(option).open();
+                                    return;
+                                }
                                 $('#depart').parent('.container').css('display','');
                                 //跳转到action列表
                                 var conf = {

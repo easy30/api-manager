@@ -68,6 +68,7 @@ var requestTypeOptions = {
     selector: '[name=testRequestType]',
     width: '70%',
     params: {metaId: 2},
+    blank: false,
     optionField: {value: 'k', text: 'v'},
     url: api.util.getUrl('apimanager/meta/findMeta')
 };
