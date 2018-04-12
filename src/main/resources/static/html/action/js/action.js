@@ -222,14 +222,14 @@ var actionTableOptions = {
                                 var value = $.trim($(this).val());
                                 if(!value){
                                     i=1;
-                                    var option={content: '请完善接口基本信息'};
-                                    api.ui.dialog(option).open();
-                                    actionTabConfObject.show('基本信息');
                                     $(this).css('border-color','red');
-                                    return false;
+                                    return true;
                                 }
                             });
                             if(i==1){
+                                actionTabConfObject.show('基本信息');
+                                var option={content: '请完善接口基本信息'};
+                                api.ui.dialog(option).open();
                                 return;
                             }
                             var headArr = headParam.toData();
@@ -375,14 +375,14 @@ headBtn: [
                             var value = $.trim($(this).val());
                             if(!value){
                                 i=1;
-                                var option={content: '请完善接口基本信息'};
-                                api.ui.dialog(option).open();
-                                actionTabConfObject.show('基本信息');
                                 $(this).css('border-color','red');
-                                return false;
+                                return true;
                             }
                         });
                         if(i==1){
+                            var option={content: '请完善接口基本信息'};
+                            api.ui.dialog(option).open();
+                            actionTabConfObject.show('基本信息');
                             return;
                         }
                         var headArr = headParam.toData();
