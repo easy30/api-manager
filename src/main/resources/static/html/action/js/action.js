@@ -38,8 +38,6 @@ var actionTableOptions = {
                     container: '#container',
                     url: api.util.getUrl('html/action/actionTab.html'),
                     async: false,
-                    preLoad: function () {
-                    },
                     loaded: function () {
                         $('#headButton button:last').css('display', 'none');
                         var actionTabConf = {
@@ -56,23 +54,23 @@ var actionTableOptions = {
                                         dataType: "json",
                                         contentType: 'json',
                                         success: function (result) {
+                                            var data = result['data'];
                                             api.util.loadScript(api.util.getUrl('html/action/js/actionInfo.js'), function () {
                                                 api.ui.chosenSelect(typeSelectOption);
                                                 api.ui.chosenSelect(statusSelectOption);
                                                 api.ui.chosenSelect(moduleOptions);
                                                 actionInfoFormObject = api.ui.form(actionInfoFormOptions);
+                                                actionInfoFormObject.giveVal({
+                                                    id: data['id'],
+                                                    requestUrl: data['requestUrl'],
+                                                    actionName: data['actionName'],
+                                                    moduleId: data['moduleId'],
+                                                    requestType: data['requestType'],
+                                                    status: data['status'],
+                                                    actionDesc: data['actionDesc']
+                                                });
+                                                actionInfoFormObject.disable();
                                             });
-                                            var data = result['data'];
-                                            actionInfoFormObject.giveVal({
-                                                id: data['id'],
-                                                requestUrl: data['requestUrl'],
-                                                actionName: data['actionName'],
-                                                moduleId: data['moduleId'],
-                                                requestType: data['requestType'],
-                                                status: data['status'],
-                                                actionDesc: data['actionDesc']
-                                            });
-                                            actionInfoFormObject.disable();
                                         }
                                     });
                                 }
@@ -159,54 +157,54 @@ var actionTableOptions = {
                                                     }
                                                 }
                                             });
-                                            $('#requestJsonFormatLink').on('click', function () {
-                                                $('#requestJson').css('display', '');
-                                                $('#requestJsonArea').css('display', 'none');
-                                            });
-                                            $('#requestJsonRowLink').on('click', function () {
-                                                $('#requestJson').css('display', 'none');
-                                                $('#requestJsonArea').css('display', '');
-                                            });
-                                            $('#responseJsonFormatLink').on('click', function () {
-                                                $('#responseJson').css('display', '');
-                                                $('#responseJsonArea').css('display', 'none');
-                                            });
-                                            $('#responseJsonRowLink').on('click', function () {
-                                                $('#responseJson').css('display', 'none');
-                                                $('#responseJsonArea').css('display', '');
-                                            });
                                         }
+                                    });
+                                    $('#sendRequest').on('click', function () {
+                                        var requestMockTemplate = api.util.buildMockTemplate(testRequestParam.toData());
+                                        var headMockTemplate = api.util.buildMockTemplate(testHeadParam.toData());
+                                        var requestData = Mock.mock(requestMockTemplate), headData = Mock.mock(headMockTemplate);
+                                        var requestDataStr = JSON.stringify(requestData), headDataStr = JSON.stringify(headData);
+                                        $('#requestJson').JSONView(requestDataStr);
+                                        $('#requestJsonArea').val(requestDataStr);
+
+                                        var requestBody = {};
+                                        requestBody['requestType'] = $('[name=testRequestType]').val();
+                                        requestBody['requestUrl'] = $('[name=testRequestUrl]').val();
+                                        requestBody['requestHeadData'] = headDataStr;
+                                        requestBody['requestData'] = requestDataStr;
+                                        $.ajax({
+                                            url: api.util.getUrl('apimanager/tester/send'),
+                                            type: 'POST',
+                                            contentType: 'application/json;charset=UTF-8', //解决415问题
+                                            data: JSON.stringify(requestBody),//解决400问题
+                                            dataType: 'json',
+                                            success: function (result) {
+                                                var data = result.data, dataStr = JSON.stringify(data);
+                                                $('#responseJsonArea').val(dataStr);
+                                                $('#responseJson').JSONView(dataStr);
+                                            }
+                                        });
+                                    });
+                                    $('#requestJsonFormatLink').on('click', function () {
+                                        $('#requestJson').css('display', '');
+                                        $('#requestJsonArea').css('display', 'none');
+                                    });
+                                    $('#requestJsonRowLink').on('click', function () {
+                                        $('#requestJson').css('display', 'none');
+                                        $('#requestJsonArea').css('display', '');
+                                    });
+                                    $('#responseJsonFormatLink').on('click', function () {
+                                        $('#responseJson').css('display', '');
+                                        $('#responseJsonArea').css('display', 'none');
+                                    });
+                                    $('#responseJsonRowLink').on('click', function () {
+                                        $('#responseJson').css('display', 'none');
+                                        $('#responseJsonArea').css('display', '');
                                     });
                                 }
                             }]
                         }
                         api.ui.tabs(actionTabConf);
-                        $('#sendRequest').on('click', function () {
-                            var requestMockTemplate = api.util.buildMockTemplate(testRequestParam.toData());
-                            var headMockTemplate = api.util.buildMockTemplate(testHeadParam.toData());
-                            var requestData = Mock.mock(requestMockTemplate), headData = Mock.mock(headMockTemplate);
-                            var requestDataStr = JSON.stringify(requestData), headDataStr = JSON.stringify(headData);
-                            $('#requestJson').JSONView(requestDataStr);
-                            $('#requestJsonArea').val(requestDataStr);
-
-                            var requestBody = {};
-                            requestBody['requestType'] = $('[name=testRequestType]').val();
-                            requestBody['requestUrl'] = $('[name=testRequestUrl]').val();
-                            requestBody['requestHeadData'] = headDataStr;
-                            requestBody['requestData'] = requestDataStr;
-                            $.ajax({
-                                url: api.util.getUrl('apimanager/tester/send'),
-                                type: 'POST',
-                                contentType: 'application/json;charset=UTF-8', //解决415问题
-                                data: JSON.stringify(requestBody),//解决400问题
-                                dataType: 'json',
-                                success: function (result) {
-                                    var data = result.data, dataStr = JSON.stringify(data);
-                                    $('#responseJsonArea').val(dataStr);
-                                    $('#responseJson').JSONView(dataStr);
-                                }
-                            });
-                        });
                         //切换
                         $('#headButton button:first').on('click', function () {
                             actionInfoFormObject.enable();
@@ -219,23 +217,73 @@ var actionTableOptions = {
                         //保存
                         $('#headButton button:last').on('click', function () {
                             var headArr = headParam.toData();
-                            var requestHeadJson = {'requestHeadDefinition': JSON.stringify(headArr)};
-                            var requestBody = {};
-                            requestBody['requestType'] = $('[name=testRequestType]').val();
-                            requestBody['requestUrl'] = $('[name=testRequestUrl]').val();
-                            requestBody['requestHeadData'] = headDataStr;
-                            requestBody['requestData'] = requestDataStr;
+                            var requestArr = requestParam.toData();
+                            var responseArr = responseParam.toData();
+                            var requestData = actionInfoFormObject.toJson();
+                            requestData['requestHeadDefinition'] = JSON.stringify(headArr);
+                            requestData['requestDefinition'] = JSON.stringify(requestArr);
+                            requestData['responseDefinition'] = JSON.stringify(responseArr);
+                            console.log(requestData);
                             $.ajax({
-                                url: api.util.getUrl('apimanager/tester/send'),
+                                url: api.util.getUrl('apimanager/tester/update'),
                                 type: 'POST',
-                                contentType: 'application/json;charset=UTF-8', //解决415问题
-                                data: JSON.stringify(requestBody),//解决400问题
+                                contentType: 'application/json;charset=UTF-8',
+                                data: JSON.stringify(requestData),
                                 dataType: 'json',
-                                success: function (result) {
+                                success: function (data) {
                                     $('#depart').parent('.container').css('display','');
-                                    var data = result.data, dataStr = JSON.stringify(data);
-                                    $('#responseJsonArea').val(dataStr);
-                                    $('#responseJson').JSONView(dataStr);
+                                    //跳转到action列表
+                                    var conf = {
+                                        container: '#container',
+                                        url: api.util.getUrl('html/action/action.html'),
+                                        async: false,
+                                        preLoad: function () {
+                                            $("#depart").empty();
+                                            $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"departmentClick()\">Department</a></li>");
+                                            $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"projectClick1()\">Project</a></li>");
+                                            $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"moduleClick1()\">Module</a></li>");
+                                            $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"actionClick1()\">Action</a></li>");
+                                        },
+                                        loaded: function () {
+                                            var depOptions = {
+                                                selector: '[name=depId]',
+                                                optionField: {value: 'id', text: 'depName'},
+                                                width: '70%',
+                                                url: api.util.getUrl('apimanager/department/list'),
+                                                change: function (e, p) {
+                                                    projectSelect.clear();
+                                                    var params = {};
+                                                    params['depId']=e.target.value;
+                                                    projectSelect.load(params);
+                                                }
+                                            };
+                                            var projectOptions = {
+                                                selector: '[name=projectId]',
+                                                optionField: {value: 'id', text: 'projectName'},
+                                                width: '70%',
+                                                url: api.util.getUrl('apimanager/project/list'),
+                                                change: function (e, p) {
+                                                    moduleSelect.clear();
+                                                    var params = {};
+                                                    params['projectId']=e.target.value;
+                                                    moduleSelect.load(params);
+                                                }
+                                            };
+                                            var moduleOptions = {
+                                                selector: '[name=moduleId]',
+                                                optionField: {value: 'id', text: 'moduleName'},
+                                                width: '70%',
+                                                url: api.util.getUrl('apimanager/module/list')
+                                            };
+                                            var projectSelect = api.ui.chosenSelect(projectOptions);
+                                            var moduleSelect = api.ui.chosenSelect(moduleOptions);
+                                            api.ui.chosenSelect(depOptions);
+                                            api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
+                                                api.ui.editTable(actionTableOptions);
+                                            });
+                                        }
+                                    }
+                                    api.ui.load(conf);
                                 }
                             });
                         });
