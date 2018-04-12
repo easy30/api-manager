@@ -1,33 +1,46 @@
 <input type="hidden" name="id">
 <form id="actionInfoForm">
     <div class="row form-row">
-        <div class="col-12">
-            <label for="requestUrl">请求url：</label>
-            <input class="form-control" style="width: 60%; display: inline" name="requestUrl" type="text">
+        <div class="col-1">
+            <label for="requestUrl" style="float:right">接口地址：</label>
+        </div>
+        <div class="col-9">
+            <input class="form-control" style="width: 100%; display: inline" name="requestUrl" type="text">
         </div>
     </div>
+    <p/>
     <div class="row form-row">
-        <div class="col-6">
+        <div class="col-1">
             <label for="actionName">接口名称：</label>
-            <input class="form-control" style="width: 60%; display: inline" name="actionName" type="text">
         </div>
-        <div class="col-6">
+        <div class="col-4">
+            <input class="form-control" style="width: 100%; display: inline" name="actionName" type="text">
+        </div>
+        <div class="col-1 offset-1">
             <label for="requestType">请求类型：</label>
-            <select class="form-control" style="width: 60%; display: inline" name="requestType"></select>
+        </div>
+        <div class="col-3">
+            <select class="form-control" name="requestType"></select>
         </div>
     </div>
+    <p/>
     <div class="row form-row">
-        <div class="col-6">
+        <div class="col-1">
             <label for="moduleId">所属模块：</label>
+        </div>
+        <div class="col-4">
             <select class="form-control" style="display: inline" name="moduleId"></select>
         </div>
-        <div class="col-6">
+        <div class="col-1 offset-1">
             <label for="status">接口状态：</label>
-            <select class="form-control" style="width: 60%; display: inline" name="status"></select>
+        </div>
+        <div class="col-3">
+            <select class="form-control" name="status"></select>
         </div>
     </div>
+    <p/>
     <div>
         <p for="actionDesc">接口描述：</p>
-        <textarea name="actionDesc"  style="width: 90%;height: 100px;"></textarea>
+        <textarea class="col-10 form-control" name="actionDesc"  style="width: 100%;height: 100px;"></textarea>
     </div>
 </form>

@@ -1,6 +1,6 @@
 var typeSelectOption = {
     selector: '[name=requestType]',
-    width: '60%',
+    width: '100%',
     blank: false,
     params: {metaId: 2},
     optionField: {value: 'k', text: 'v'},
@@ -8,7 +8,7 @@ var typeSelectOption = {
 };
 var statusSelectOption = {
     selector: '[name=status]',
-    width: '60%',
+    width: '100%',
     blank: false,
     params: {metaId: 3},
     optionField: {value: 'k', text: 'v'},
@@ -17,7 +17,7 @@ var statusSelectOption = {
 var moduleOptions = {
     selector: '[name=moduleId]',
     optionField: {value: 'id', text: 'moduleName'},
-    width: '60%',
+    width: '100%',
     blank: false,
     url: api.util.getUrl('/apimanager/module/list')
 };
