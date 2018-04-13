@@ -19,7 +19,7 @@
         data: function (data) {
             var jq = this.jq, options = this.options;
             if(options.blank){
-                jq.append($('<option>--请选择--</option>'));
+                jq.append($('<option value="">--请选择--</option>'));
             }
             $.each(data, function (index, value) {
                 jq.append($('<option></option>').attr('value', value[options.optionField.value]).text(value[options.optionField.text]));
