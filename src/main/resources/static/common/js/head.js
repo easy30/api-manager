@@ -9,6 +9,9 @@ function departmentClick(){
             $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"departmentClick()\">Department</a></li>");
         },
         loaded: function () {
+            api.util.loadScript(api.util.getUrl('html/department/js/department.js'), function () {
+                api.ui.editTable(departmentOptions);
+            });
         }
     }
     api.ui.load(conf);

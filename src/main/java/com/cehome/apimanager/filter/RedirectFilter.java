@@ -36,7 +36,7 @@ public class RedirectFilter implements Filter {
 			if (whileList(requestURI) || WebUtils.isLogin(session)) {
 				chain.doFilter(request, response);
 			} else {
-				httpResponse.sendRedirect(httpRequest.getContextPath() + "/");
+				httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.html");
 			}
 		} else {
 			IAmActionService actionService = ApplicationContextUtils.getBean(IAmActionService.class);

@@ -12,6 +12,6 @@ public class RootController {
 
     @RequestMapping("/")
     public String redirect(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-        return "redirect:/login.html";
+        return "login.html";
     }
 }

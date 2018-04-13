@@ -47,4 +47,3 @@ var departmentOptions = {
     ],
     url: api.util.getUrl('apimanager/department/findPage')
 };
-api.ui.editTable(departmentOptions);
