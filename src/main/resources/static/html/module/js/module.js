@@ -66,6 +66,7 @@ var moduleTableOptions = {
                         url: api.util.getUrl('apimanager/module/list')
                     };
                     var moduleSelect = api.ui.chosenSelect(moduleOptions);
+                    moduleSelect.val(parentId);
                     var projectSelect = api.ui.chosenSelect(projectOptions);
                     api.ui.chosenSelect(depOptions).val(depId);
                     api.util.loadScript(api.util.getUrl('html/action/js/action.js') ,function () {

@@ -41,7 +41,10 @@ var actionTableOptions = {
                     url: api.util.getUrl('html/action/actionTab.html'),
                     async: false,
                     loaded: function () {
-                        $('#headButton button:last').css('display', 'none');
+                        var $cancelSave = $('#cancelSave');
+                        var $editChange = $('#editChange');
+                        var $cancelButton = $('#cancelButton'),$editButton = $('#editButton'),$saveButton = $('#saveButton');
+                        $cancelSave.css('display','none');
                         var actionTabConf = {
                             container: '#tabs',
                             tabs: [{
@@ -217,16 +220,59 @@ var actionTableOptions = {
                         }
                         var actionTabConfObject = api.ui.tabs(actionTabConf);
                         //切换
-                        $('#headButton button:first').on('click', function () {
+                        $editButton.on('click', function () {
                             actionInfoFormObject.enable();
                             headParam.enable();
                             requestParam.enable();
                             responseParam.enable();
-                            $('#headButton button:first').css('display', 'none');
-                            $('#headButton button:last').css('display', '');
+                            $editChange.css('display','none');
+                            $cancelSave.css('display','');
+                        });
+                        $cancelButton.on('click', function () {
+                            actionInfoFormObject.reset();
+                            actionInfoFormObject.disable();
+                            $.ajax({
+                                type: 'get',
+                                url: api.util.getUrl('/apimanager/action/findById'),
+                                data: {id: param.id},
+                                dataType: "json",
+                                async: false,
+                                contentType: 'json',
+                                success: function (result) {
+                                    var data = result['data'];
+                                    api.util.loadScript(api.util.getUrl('html/action/js/actionParam.js'), function () {
+                                        headParam = api.ui.param(headOptions);
+                                        requestParam = api.ui.param(requestOptions);
+                                        responseParam = api.ui.param(responseOptions);
+                                        if (data && data['requestHeadDefinition']) {
+                                            var rowData = JSON.parse(data['requestHeadDefinition']);
+                                            $.each(rowData, function (index, data) {
+                                                headParam._showRow(data);
+                                            })
+                                        }
+                                        if (data && data['requestDefinition']) {
+                                            var rowData = JSON.parse(data['requestDefinition']);
+                                            $.each(rowData, function (index, data) {
+                                                requestParam._showRow(data);
+                                            })
+                                        }
+                                        if (data && data['responseDefinition']) {
+                                            var rowData = JSON.parse(data['responseDefinition']);
+                                            $.each(rowData, function (index, data) {
+                                                responseParam._showRow(data);
+                                            })
+                                        }
+                                        headParam.disable();
+                                        requestParam.disable();
+                                        responseParam.disable();
+                                    });
+                                }
+                            });
+                            $editChange.css('display', '');
+                            $cancelSave.css('display', 'none');
                         });
                         //保存
-                        $('#headButton button:last').on('click', function () {
+                        $saveButton.on('click', function () {
                             //表单非空校验
                             var i=0;
                             $('#actionInfoForm').find('input,select').each(function(){
@@ -328,8 +374,9 @@ var actionTableOptions = {
 ],
 headBtn: [
     {
-        type: 'add-jump', text: '添加', icon: 'glyphicon glyphicon-plus', fn: function (row) {
+        type: 'add-jump', text: '添加', icon: 'glyphicon glyphicon-plus', fn: function () {
             $('#depart').parent('.container').css('display','none');
+            var parentId = $('select[name=moduleId]').val();
             var actionInfoFormObject, headParam, requestParam, responseParam;
             var conf = {
                 container: '#container',
@@ -339,6 +386,8 @@ headBtn: [
                 preLoad: function () {},
                 loaded: function () {
                     $('#headButton button:first').css('display','none');
+                    $('#actionPage').css('margin-top','90px');
+
                     var actionTabConf = {
                         container: '#tabs',
                         tabs: [{
@@ -351,6 +400,10 @@ headBtn: [
                                     api.ui.chosenSelect(statusSelectOption);
                                     api.ui.chosenSelect(moduleOptions);
                                     actionInfoFormObject = api.ui.form(actionInfoFormOptions);
+                                    actionInfoFormObject.giveVal({
+                                        moduleId: parentId
+                                    });
+
                                 });
                             }
                         }, {
