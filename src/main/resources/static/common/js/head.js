@@ -307,6 +307,7 @@ function actionTestClick() {
                         var data = result.data, dataStr = JSON.stringify(data);
                         $('#responseJsonArea').val(dataStr);
                         $('#responseJson').JSONView(dataStr);
+                        $('#requestJsonFormatLink')[0].scrollIntoView();
                     }
                 });
             });
