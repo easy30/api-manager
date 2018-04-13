@@ -304,9 +304,15 @@ function actionTestClick() {
                     data: JSON.stringify(requestBody),//解决400问题
                     dataType: 'json',
                     success: function (result) {
-                        var data = result.data, dataStr = JSON.stringify(data);
-                        $('#responseJsonArea').val(dataStr);
-                        $('#responseJson').JSONView(dataStr);
+                        var code = result.code;
+                        if(code == '-1'){
+                            $('#responseJsonArea').val(JSON.stringify(result));
+                            $('#responseJson').JSONView(result);
+                        } else {
+                            var data = result.data, dataStr = JSON.stringify(data)
+                            $('#responseJsonArea').val(dataStr);
+                            $('#responseJson').JSONView(dataStr);
+                        }
                         $('#requestJsonFormatLink')[0].scrollIntoView();
                     }
                 });
