@@ -1,7 +1,6 @@
 var typeSelectOption = {
     selector: '[name=requestType]',
     width: '100%',
-    blank: false,
     params: {metaId: 2},
     cache: true,
     optionField: {value: 'k', text: 'v'},
@@ -10,7 +9,6 @@ var typeSelectOption = {
 var statusSelectOption = {
     selector: '[name=status]',
     width: '100%',
-    blank: false,
     params: {metaId: 3},
     cache: true,
     optionField: {value: 'k', text: 'v'},

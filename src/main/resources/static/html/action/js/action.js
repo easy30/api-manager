@@ -41,8 +41,7 @@ var actionTableOptions = {
                     url: api.util.getUrl('html/action/actionTab.html'),
                     async: false,
                     loaded: function () {
-                        var $cancelSave = $('#cancelSave');
-                        var $editChange = $('#editChange');
+                        var $cancelSave = $('#cancelSave'),$editChange = $('#editChange');
                         var $cancelButton = $('#cancelButton'),$editButton = $('#editButton'),$saveButton = $('#saveButton');
                         $cancelSave.css('display','none');
                         var actionTabConf = {
@@ -228,6 +227,7 @@ var actionTableOptions = {
                             $editChange.css('display','none');
                             $cancelSave.css('display','');
                         });
+                        //取消
                         $cancelButton.on('click', function () {
                             actionInfoFormObject.reset();
                             actionInfoFormObject.disable();
@@ -280,12 +280,22 @@ var actionTableOptions = {
                                 if(!value){
                                     i=1;
                                     $(this).css('border-color','red');
+                                    $(this).on('blur',function () {
+                                        if($.trim($(this).val())){
+                                            $(this).css('border-color','');
+                                        }
+                                    })
                                     return true;
                                 }
                             });
                             if(i==1){
                                 actionTabConfObject.show('基本信息');
                                 var option={content: '请完善接口基本信息'};
+                                api.ui.dialog(option).open();
+                                return;
+                            }
+                            if(headParam._checkEmpty()||requestParam._checkEmpty()||responseParam._checkEmpty()){
+                                var option={content: '请完善接口参数信息'};
                                 api.ui.dialog(option).open();
                                 return;
                             }
@@ -385,7 +395,9 @@ headBtn: [
                 async: false,
                 preLoad: function () {},
                 loaded: function () {
-                    $('#headButton button:first').css('display','none');
+                    var $cancelSave = $('#cancelSave'),$editChange = $('#editChange');
+                    var $cancelButton = $('#cancelButton'),$editButton = $('#editButton'),$saveButton = $('#saveButton');
+                    $editButton.css('display','none');
                     $('#actionPage').css('margin-top','90px');
 
                     var actionTabConf = {
@@ -431,6 +443,61 @@ headBtn: [
                         $('#headButton button:first').css('display','none');
                         $('#headButton button:last').css('display','');
                     });
+                    //取消
+                    $cancelButton.on('click', function () {
+                        //跳转到action列表
+                        var conf = {
+                            container: '#container',
+                            url: api.util.getUrl('html/action/action.html'),
+                            async: false,
+                            preLoad: function () {
+                                $("#depart").empty();
+                                $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"departmentClick()\">Department</a></li>");
+                                $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"projectClick1()\">Project</a></li>");
+                                $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"moduleClick1()\">Module</a></li>");
+                                $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"actionClick1()\">Action</a></li>");
+                            },
+                            loaded: function () {
+                                var depOptions = {
+                                    selector: '[name=depId]',
+                                    optionField: {value: 'id', text: 'depName'},
+                                    width: '70%',
+                                    url: api.util.getUrl('apimanager/department/list'),
+                                    change: function (e, p) {
+                                        projectSelect.clear();
+                                        var params = {};
+                                        params['depId']=e.target.value;
+                                        projectSelect.load(params);
+                                    }
+                                };
+                                var projectOptions = {
+                                    selector: '[name=projectId]',
+                                    optionField: {value: 'id', text: 'projectName'},
+                                    width: '70%',
+                                    url: api.util.getUrl('apimanager/project/list'),
+                                    change: function (e, p) {
+                                        moduleSelect.clear();
+                                        var params = {};
+                                        params['projectId']=e.target.value;
+                                        moduleSelect.load(params);
+                                    }
+                                };
+                                var moduleOptions = {
+                                    selector: '[name=moduleId]',
+                                    optionField: {value: 'id', text: 'moduleName'},
+                                    width: '70%',
+                                    url: api.util.getUrl('apimanager/module/list')
+                                };
+                                var projectSelect = api.ui.chosenSelect(projectOptions);
+                                var moduleSelect = api.ui.chosenSelect(moduleOptions);
+                                api.ui.chosenSelect(depOptions);
+                                api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
+                                    api.ui.editTable(actionTableOptions);
+                                });
+                            }
+                        }
+                        api.ui.load(conf);
+                    });
                     //保存
                     $('#headButton button:last').on('click', function () {
                         //表单非空校验
@@ -440,13 +507,24 @@ headBtn: [
                             if(!value){
                                 i=1;
                                 $(this).css('border-color','red');
+                                $(this).on('blur',function () {
+                                    if($.trim($(this).val())){
+                                        $(this).css('border-color','');
+                                    }
+                                })
                                 return true;
                             }
+
                         });
                         if(i==1){
                             var option={content: '请完善接口基本信息'};
                             api.ui.dialog(option).open();
                             actionTabConfObject.show('基本信息');
+                            return;
+                        }
+                        if(headParam._checkEmpty()||requestParam._checkEmpty()||responseParam._checkEmpty()){
+                            var option={content: '请完善接口参数信息'};
+                            api.ui.dialog(option).open();
                             return;
                         }
                         var headArr = headParam.toData();
