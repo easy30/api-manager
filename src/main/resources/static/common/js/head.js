@@ -278,6 +278,7 @@ function actionTestClick() {
         url: api.util.getUrl('html/action/actionTest.html'),
         async: false,
         loaded: function () {
+            $('#testPage').css('margin-top','90px');
             var testHeadParam, testRequestParam;
             api.util.loadScript(api.util.getUrl('html/action/js/actionTest.js'), function () {
                 var requestTypeSelect = api.ui.chosenSelect(requestTypeOptions);
