@@ -33,6 +33,13 @@
                     if (type == 'add') {
                         var $addBtn = $('<button class="btn btn-success btn-sm" type="button"><span class="glyphicon glyphicon-plus"></span></button>').append('&nbsp;' + footBtn.text);
                         $addBtn.on('click', function () {
+                            if(that._checkEmpty()){
+                                var options = {
+                                    content: '存在未完成的字段名称！'
+                                };
+                                api.ui.dialog(options).open();
+                                return false;
+                            }
                             that._addRow();
                             footBtn.fn && footBtn.fn();
                         });
@@ -63,6 +70,13 @@
                 $tr.remove();
             });
             $addLink.on('click', function () {
+                if(that._checkEmpty()){
+                    var options = {
+                        content: '存在未完成的字段名称！'
+                    };
+                    api.ui.dialog(options).open();
+                    return that;
+                }
                 that._after($tr);
             });
             $operate.append($addLink).append($removeLink);
@@ -134,6 +148,13 @@
                 $tr.remove();
             });
             $addLink.on('click', function () {
+                if(that._checkEmpty()){
+                    var options = {
+                        content: '存在未完成的字段名称！'
+                    };
+                    api.ui.dialog(options).open();
+                    return that;
+                }
                 that._after($tr);
             });
             $operate.append($addLink).append($removeLink);
@@ -224,6 +245,13 @@
                 $tr.remove();
             });
             $addLink.on('click', function () {
+                if(that._checkEmpty()){
+                    var options = {
+                        content: '存在未完成的字段名称！'
+                    };
+                    api.ui.dialog(options).open();
+                    return that;
+                }
                 that._after($tr);
             });
             $operate.append($addLink).append($removeLink);
@@ -295,6 +323,13 @@
                         $tr.remove();
                     });
                     $addLink.on('click', function () {
+                        if(that._checkEmpty()){
+                            var options = {
+                                content: '存在未完成的字段名称！'
+                            };
+                            api.ui.dialog(options).open();
+                            return that;
+                        }
                         that._after($tr);
                     });
                     $operate.append($addLink).append($removeLink);
@@ -367,6 +402,22 @@
                 afterRow($tr, children);
             }
             return this;
+        },
+        _checkEmpty: function () {
+            var that = this, jq = this.jq, checkResult = false;
+            jq.find('tbody tr td .td-item-input[name=name]').each(function () {
+                var $input = $(this);
+                if(!$input.val()){
+                    $input.css('border-color', '#FF2F2F');
+                    checkResult = true;
+                    $input.on('blur', function () {
+                        if($input.val() && $input.val().trim()){
+                            $input.css('border-color', '');
+                        }
+                    })
+                }
+            });
+            return checkResult;
         },
         toData: function () {
             var that = this, jq = this.jq, rootArray = [], rootRows = jq.find('tr[level=root]')
