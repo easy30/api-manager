@@ -37,7 +37,7 @@ public class AmActionTesterServiceImpl implements IAmActionTesterService {
 			}
 			responseText = EntityUtils.toString(responseEntity, "UTF-8");
 		} catch (Exception e) {
-			throw new BizValidationException(dto.getRequestUrl() + " 服务异常", e);
+			throw new BizValidationException("服务处理异常！", e);
 		}
 		return JSON.parseObject(responseText);
 	}
