@@ -20,7 +20,6 @@ var moduleOptions = {
     selector: '[name=moduleId]',
     optionField: {value: 'id', text: 'moduleName'},
     width: '100%',
-    blank: false,
     url: api.util.getUrl('/apimanager/module/list')
 };
 var actionInfoFormOptions={

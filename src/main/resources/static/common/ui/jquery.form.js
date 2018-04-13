@@ -28,7 +28,7 @@
             return this;
         },
         reset: function () {
-            var oldData = this.data;
+            var oldData = this.oldData;
             this.jq.find('input,select,textarea').each(function () {
                 var $this = $(this);
                 $this.val(oldData[$this.attr('name')]);
