@@ -17,6 +17,7 @@ var headOptions = {
                 blank: false,
                 optionField: {value: 'k', text: 'v'},
                 selectedVal: 2,
+                cache: true,
                 url: api.util.getUrl('/apimanager/meta/findMeta'),
                 params: {metaId: 1}
             }
@@ -49,6 +50,7 @@ var requestOptions = {
                 height: '100%',
                 blank: false,
                 selectedVal: 2,
+                cache: true,
                 optionField: {value: 'k', text: 'v'},
                 url: api.util.getUrl('/apimanager/meta/findMeta'),
                 params: {metaId: 1}
@@ -83,6 +85,7 @@ var responseOptions = {
                 height: '100%',
                 blank: false,
                 selectedVal: 2,
+                cache: true,
                 optionField: {value: 'k', text: 'v'},
                 url: api.util.getUrl('/apimanager/meta/findMeta'),
                 params: {metaId: 1}

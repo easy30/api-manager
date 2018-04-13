@@ -20,12 +20,14 @@ var actionTableOptions = {
         {name: 'requestType', type:'select', inputDesc: '请求类型', required: true, options:{
                 optionField: {value: 'k', text: 'v'},
                 params:{metaId: 2},
+                cache: true,
                 url: api.util.getUrl('apimanager/meta/findMeta')
             }
         },
         {name: 'status', type:'select', inputDesc: '状态', required: true, options:{
                 optionField: {value: 'k', text: 'v'},
                 params:{metaId: 3},
+                cache: true,
                 url: api.util.getUrl('apimanager/meta/findMeta')
             }
         }
