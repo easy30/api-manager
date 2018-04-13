@@ -127,6 +127,8 @@ var actionTableOptions = {
                                 href: api.util.getUrl('html/action/actionTest.html'),
                                 loaded: function () {
                                     $('#depart').parent('.container').css('display','none');
+                                    $('#actionPage').css('margin-top','90px');
+                                    $('#testPage').css('margin-top','0px');
                                     var testHeadParam, testRequestParam;
                                     $.ajax({
                                         type: 'get',
