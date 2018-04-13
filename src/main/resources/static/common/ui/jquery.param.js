@@ -92,6 +92,9 @@
                                 $tr.find('input[name=defaultVal]').val('');
                             } else if(value == 1){
                                 $tr.find('input[name=defaultVal]').val(0);
+                            } else if(value == 0){
+                                var date = new Date();
+                                $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
                             }
                         }
                         function removeChildren(identity) {
@@ -165,6 +168,9 @@
                                 $tr.find('input[name=defaultVal]').val('');
                             } else if(value == 1){
                                 $tr.find('input[name=defaultVal]').val(0);
+                            } else if(value == 0){
+                                var date = new Date();
+                                $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
                             }
                         }
                         function removeChildren(identity) {
@@ -247,6 +253,9 @@
                                 $tr.find('input[name=defaultVal]').val('');
                             } else if(value == 1){
                                 $tr.find('input[name=defaultVal]').val(0);
+                            } else if(value == 0){
+                                var date = new Date();
+                                $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
                             }
                         }
                         function removeChildren(identity) {
@@ -320,6 +329,9 @@
                                         $tr.find('input[name=defaultVal]').val('');
                                     } else if(value == 1){
                                         $tr.find('input[name=defaultVal]').val(0);
+                                    } else if(value == 0){
+                                        var date = new Date();
+                                        $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate());
                                     }
                                 }
                                 function removeChildren(identity) {

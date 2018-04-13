@@ -11,10 +11,11 @@ public class CommonMeta {
 	 * 字段类型
 	 */
 	public enum FieldType {
+		DATE(0, "date"),
 		NUMBER(1, "number"), 
 		STRING(2, "string"), 
-		BOOLEAN(3, "boolean"), 
-		OBJECT(4, "object"), 
+		BOOLEAN(3, "boolean"),
+		OBJECT(4, "object"),
 		ARRAY(5, "array"), 
 		ARRAY_NUMBER(6, "array[number]"), 
 		ARRAY_STRING(7,"array[string]"), 
