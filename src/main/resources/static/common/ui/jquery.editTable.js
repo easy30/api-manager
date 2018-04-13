@@ -163,7 +163,7 @@
                     } else if(field.type = 'select'){
                         var $span = $('<span class="td-item-span" style="display: none" selectVal=""></span>');
                         var chosenOptions = field.options, $selector = $('<select class="form-control td-item-select"></select>');
-                        $selector.attr('name', field.name);
+                        $selector.attr('name', field.name).attr('required', field.required);
                         chosenOptions.selector = $selector;
                         api.ui.chosenSelect(chosenOptions);
                         $tr.append($td.append($span).append($selector));
@@ -367,13 +367,12 @@
                     if(field.type == 'input'){
                         var $span = $('<span class="td-item-span">' + rowData[field.name] + '</span>');
                         var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%;"/>');
-                        var required = field.required;
-                        $input.attr('inputDesc', field.inputDesc).attr('required', required).attr('name', field.name).val(rowData[field.name]).css('display', 'none');
+                        $input.attr('inputDesc', field.inputDesc).attr('required', field.required).attr('name', field.name).val(rowData[field.name]).css('display', 'none');
                         $tr.append($td.append($span).append($input));
                     } else if(field.type = 'select'){
                         var $span = $('<span class="td-item-span"></span>');
                         var chosenOptions = field.options, $selector = $('<select class="form-control td-item-select"></select>');
-                        $selector.attr('name', field.name).css('display', 'none');
+                        $selector.attr('name', field.name).attr('required', field.required).css('display', 'none');
                         chosenOptions.selector = $selector;
                         var chosenSelect = api.ui.chosenSelect(chosenOptions);
                         chosenSelect.val(rowData[field.name]);

@@ -35,6 +35,5 @@ $(document).keydown(function (event) {
 
 //能获取到[id=container]节点，说明login.html被嵌套在index.html页面了，这是登录失效重定向的结果
 if($('#container').length){
-    // 打开新窗口
-    window.open('/login.html','_self');
+    window.open('/login.html', '_self');
 }

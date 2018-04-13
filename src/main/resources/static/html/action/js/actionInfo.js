@@ -3,6 +3,7 @@ var typeSelectOption = {
     width: '100%',
     blank: false,
     params: {metaId: 2},
+    cache: true,
     optionField: {value: 'k', text: 'v'},
     url: api.util.getUrl('apimanager/meta/findMeta')
 };
@@ -11,6 +12,7 @@ var statusSelectOption = {
     width: '100%',
     blank: false,
     params: {metaId: 3},
+    cache: true,
     optionField: {value: 'k', text: 'v'},
     url: api.util.getUrl('apimanager/meta/findMeta')
 };

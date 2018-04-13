@@ -3,11 +3,12 @@
         var options = this.options = $.extend({}, chosenSelect.defaults, options);
         var jq = this.jq = ('string' == typeof options.selector) ? $(options.selector) : options.selector;
         jq.css('width', options.width).css('height', options.height);
-        if (options.data) {
-            this.data(options.data);
-        } else {
+        if(options.url){
             this.load(options.params);
+        } else {
+            this.data(options.data);
         }
+
         // 添加change事件
         options.change && jq.on('change', function (event) {
             options.change(event);
@@ -68,7 +69,14 @@
         },
         _cache: {},
         load: function (param) {
-            var chosenSelect = this, url = this.options.url;
+            var chosenSelect = this, url = this.options.url, cache = this.options.cache;
+            if(cache){
+                var key = $.md5(JSON.stringify(param) + ':' + url);
+                if(this._cache[key]){
+                    chosenSelect.data(this._cache[key]);
+                    return this;
+                }
+            }
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -77,6 +85,9 @@
                 dataType: 'json',
                 success: function (result) {
                     var data = result.data;
+                    if(cache){
+                        chosenSelect._cache[key] = data;
+                    }
                     chosenSelect.data(data);
                 }
             });
@@ -87,11 +98,13 @@
     chosenSelect.defaults = {
         selector: '',
         url: '',
+        data: {},
         width: '100%',
         height: '100%',
         blank: true,
         selectedVal: undefined,
         params: {},
+        cache: false,
         change: function (event) {
 
         }
