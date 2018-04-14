@@ -195,6 +195,11 @@
                                     if (required && (!inputValue || inputValue.trim() == '')) {
                                         message['inputDesc'] = {};
                                         $input.css('border-color', '#FF2F2F');
+                                        $input.on('blur',function () {
+                                            if($.trim($input.val())){
+                                                $input.css('border-color','');
+                                            }
+                                        })
                                     }
                                     params[inputName] = inputValue;
                                 });
@@ -236,6 +241,11 @@
                                 if (required && (!inputValue || inputValue.trim() == '')) {
                                     message['inputDesc'] = {};
                                     $input.css('border-color', '#FF2F2F');
+                                    $input.on('blur',function () {
+                                        if($.trim($input.val())){
+                                            $input.css('border-color','');
+                                        }
+                                    })
                                 }
                                 params[inputName] = inputValue;
                             });
@@ -417,6 +427,11 @@
                                     if (required && (!inputValue || inputValue.trim() == '')) {
                                         message['inputDesc'] = {};
                                         $input.css('border-color', '#FF2F2F');
+                                        $input.on('blur',function () {
+                                            if($.trim($input.val())){
+                                                $input.css('border-color','');
+                                            }
+                                        })
                                     }
                                     params[inputName] = inputValue;
                                 });
@@ -453,6 +468,11 @@
                                 if (required && (!inputValue || inputValue.trim() == '')) {
                                     message['inputDesc'] = {};
                                     $input.css('border-color', '#FF2F2F');
+                                    $input.on('blur',function () {
+                                        if($.trim($input.val())){
+                                            $input.css('border-color','');
+                                        }
+                                    })
                                 }
                                 params[inputName] = inputValue;
                             });

@@ -15,6 +15,10 @@ public class WebUtils {
         return session.getAttribute(BaseVar.SESSION_LOGIN_USER);
     }
 
+    public static void removeLoginManager(HttpSession session) {
+        session.removeAttribute(BaseVar.SESSION_LOGIN_USER);
+    }
+
     interface BaseVar {
         String SESSION_LOGIN_USER = "loginUser";
     }

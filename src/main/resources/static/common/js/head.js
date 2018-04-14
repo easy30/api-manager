@@ -341,3 +341,13 @@ function actionTestClick() {
     }
     api.ui.load(conf);
 }
+function logOut() {
+    $.ajax({
+        url: api.util.getUrl('apimanager/user/loginOut'),
+        type: 'get',
+        dataType: 'json',
+        success: function (result) {
+            window.location.href = '/login.html';
+        }
+    });
+}

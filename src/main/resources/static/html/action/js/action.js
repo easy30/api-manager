@@ -241,9 +241,9 @@ var actionTableOptions = {
                                 success: function (result) {
                                     var data = result['data'];
                                     api.util.loadScript(api.util.getUrl('html/action/js/actionParam.js'), function () {
-                                        headParam = api.ui.param(headOptions);
-                                        requestParam = api.ui.param(requestOptions);
-                                        responseParam = api.ui.param(responseOptions);
+                                        headParam._empty();
+                                        requestParam._empty();
+                                        responseParam._empty();
                                         if (data && data['requestHeadDefinition']) {
                                             var rowData = JSON.parse(data['requestHeadDefinition']);
                                             $.each(rowData, function (index, data) {
@@ -278,7 +278,7 @@ var actionTableOptions = {
                             $('#actionInfoForm').find('input,select').each(function(){
                                 var value = $.trim($(this).val());
                                 if(!value){
-                                    i=1;
+                                    i = 1;
                                     $(this).css('border-color','red');
                                     $(this).on('blur',function () {
                                         if($.trim($(this).val())){
@@ -288,14 +288,14 @@ var actionTableOptions = {
                                     return true;
                                 }
                             });
-                            if(i==1){
+                            if(i == 1){
                                 actionTabConfObject.show('基本信息');
-                                var option={content: '请完善接口基本信息'};
+                                var option = {content: '请完善接口基本信息'};
                                 api.ui.dialog(option).open();
                                 return;
                             }
-                            if(headParam._checkEmpty()||requestParam._checkEmpty()||responseParam._checkEmpty()){
-                                var option={content: '请完善接口参数信息'};
+                            if(headParam._checkEmpty() || requestParam._checkEmpty() || responseParam._checkEmpty()){
+                                var option = {content: '请完善接口参数信息'};
                                 api.ui.dialog(option).open();
                                 return;
                             }

@@ -419,6 +419,11 @@
             });
             return checkResult;
         },
+        _empty: function () {
+            var that = this, jq = this.jq;
+            jq.find('tbody').empty();
+            return this;
+        },
         toData: function () {
             var that = this, jq = this.jq, rootArray = [], rootRows = jq.find('tr[level=root]')
             function deal(rows, array){
