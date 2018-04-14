@@ -157,7 +157,7 @@
                 } else {
                     if(field.type == 'input'){
                         var $span = $('<span class="td-item-span" style="display: none"></span>');
-                        var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%;"/>');
+                        var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%; font-size: 15px;"/>');
                         $input.attr('inputDesc', field.inputDesc).attr('name', field.name).attr('required', field.required).css('display', '');
                         $tr.append($td.append($span).append($input));
                     } else if(field.type = 'select'){
@@ -376,7 +376,7 @@
                 } else {
                     if(field.type == 'input'){
                         var $span = $('<span class="td-item-span">' + rowData[field.name] + '</span>');
-                        var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%;"/>');
+                        var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%; font-size: 15px;"/>');
                         $input.attr('inputDesc', field.inputDesc).attr('required', field.required).attr('name', field.name).val(rowData[field.name]).css('display', 'none');
                         $tr.append($td.append($span).append($input));
                     } else if(field.type = 'select'){

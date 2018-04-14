@@ -2,7 +2,7 @@
     var chosenSelect = function (options) {
         var options = this.options = $.extend({}, chosenSelect.defaults, options);
         var jq = this.jq = ('string' == typeof options.selector) ? $(options.selector) : options.selector;
-        jq.css('width', options.width).css('height', options.height);
+        jq.css('width', options.width).css('height', options.height).css('font-size', '15px');
         if(options.url){
             this.load(options.params);
         } else {
@@ -19,7 +19,7 @@
         data: function (data) {
             var jq = this.jq, options = this.options;
             if(options.blank){
-                jq.append($('<option value="">--请选择--</option>'));
+                jq.append($('<option value=""></option>').text(options.emptyText));
             }
             $.each(data, function (index, value) {
                 jq.append($('<option></option>').attr('value', value[options.optionField.value]).text(value[options.optionField.text]));
@@ -102,6 +102,7 @@
         width: '100%',
         height: '100%',
         blank: true,
+        emptyText: '--请选择--',
         selectedVal: undefined,
         params: {},
         cache: false,
