@@ -5,7 +5,7 @@
 
     function tabs(conf) {
         this.confs = {};
-        conf = $.extend({}, tabs.defaults, conf);
+        this.conf = conf = $.extend({}, tabs.defaults, conf);
 
         this.nav = $('<ul class="nav nav-tabs"/>');
         this.content = $('<div class="tab-content"/>');
@@ -92,11 +92,15 @@
             return this;
         },
         hide: function (title) {
-            this.nav.find('a:contains(' + title + ')').parent().css('display', 'none');
+            var $a = this.nav.find('a:contains(' + title + ')');
+            $a.parent().css('display', 'none');
+            this.content.find($a.attr('href')).css('display', 'none');
             return this;
         },
         display: function (title) {
-            this.nav.find('a:contains(' + title + ')').parent().css('display', '');
+            var $a = this.nav.find('a:contains(' + title + ')');
+            $a.parent().css('display', '');
+            this.content.find($a.attr('href')).css('display', '');
             return this;
         },
         contains: function (title) {
@@ -134,6 +138,9 @@
             var a = this.nav.find('>li.active a'), jq = this.content.find('>div' + a.attr('href'));
             jq.conf = this.confs[a.text()];
             return this;
+        },
+        activeTabTitle: function () {
+            return this.nav.find('>li a.active').text();
         },
         destroy: function () {
             this.nav.remove();

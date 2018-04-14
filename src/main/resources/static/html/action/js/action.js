@@ -33,7 +33,7 @@ var actionTableOptions = {
         }
     ],
     rowButtons: [
-        {type: 'view', text: '查看', icon: 'glyphicon glyphicon-eye-open', fn: function (param) {
+        {type: 'more', text: '更多', icon: 'glyphicon glyphicon-option-horizontal', fn: function (param) {
                 $('#depart').parent('.container').css('display', 'none');
                 var actionInfoFormObject, headParam, requestParam, responseParam;
                 var conf = {
@@ -226,11 +226,17 @@ var actionTableOptions = {
                             responseParam.enable();
                             $editChange.css('display','none');
                             $cancelSave.css('display','');
+                            var activeTabTitle = actionTabConfObject.activeTabTitle();
+                            if(activeTabTitle == '接口测试'){
+                                actionTabConfObject.show('基本信息');
+                            }
+                            actionTabConfObject.hide('接口测试');
                         });
                         //取消
                         $cancelButton.on('click', function () {
                             actionInfoFormObject.reset();
                             actionInfoFormObject.disable();
+                            actionTabConfObject.display('接口测试');
                             $.ajax({
                                 type: 'get',
                                 url: api.util.getUrl('/apimanager/action/findById'),
@@ -433,7 +439,6 @@ headBtn: [
                         }]
                     };
                     var actionTabConfObject = api.ui.tabs(actionTabConf);
-
                     //切换
                     $('#headButton button:first').on('click', function () {
                         actionInfoFormObject.enable();

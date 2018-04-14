@@ -48,14 +48,14 @@
                 $.each(headBtns, function (index, headBtn) {
                     var type = headBtn.type;
                     if(type == 'add'){
-                        var $addBtn = $('<button class="btn btn-success btn-sm btn-add" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-plus"></span></button>').append('&nbsp;' + headBtn.text);
+                        var $addBtn = $('<button class="btn btn-success btn-sm btn-add" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-plus"></span></button>').append('&nbsp;&nbsp;' + headBtn.text);
                         $addBtn.on('click', function () {
                             editTable._addRow();
                             headBtn.fn && headBtn.fn($tBody.find('tr:last'));
                         });
                         $tFoot.find('td:last').append($addBtn);
                     } else {
-                        var $customBtn = $('<button class="btn btn-success btn-sm" style="margin-left: 10px;" type="button"><span></span></button>').append('&nbsp;' + headBtn.text);
+                        var $customBtn = $('<button class="btn btn-success btn-sm" style="margin-left: 10px;" type="button"><span></span></button>').append('&nbsp;&nbsp;' + headBtn.text);
                         $customBtn.find('span').addClass(headBtn.icon);
                         $customBtn.on('click', function () {
                             headBtn.fn && headBtn.fn();
