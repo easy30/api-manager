@@ -415,11 +415,13 @@ headBtn: [
                             loaded: function () {
                                 api.util.loadScript(api.util.getUrl('html/action/js/actionInfo.js'), function () {
                                     api.ui.chosenSelect(typeSelectOption);
-                                    api.ui.chosenSelect(statusSelectOption);
+                                    var statusSelect = api.ui.chosenSelect(statusSelectOption);
                                     api.ui.chosenSelect(moduleOptions);
                                     actionInfoFormObject = api.ui.form(actionInfoFormOptions);
                                     actionInfoFormObject.giveVal({
-                                        moduleId: parentId
+                                        moduleId: parentId,
+                                        status: 1,
+                                        requestType: 1
                                     });
 
                                 });
