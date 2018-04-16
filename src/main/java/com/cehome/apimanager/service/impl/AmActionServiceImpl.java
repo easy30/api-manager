@@ -3,6 +3,7 @@ package com.cehome.apimanager.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.cehome.apimanager.cache.CacheProvider;
 import com.cehome.apimanager.common.CommonMeta;
 import com.cehome.apimanager.common.Page;
@@ -126,7 +127,16 @@ public class AmActionServiceImpl implements IAmActionService {
                     || CommonMeta.FieldType.ARRAY_BOOLEAN.getCode() == columnType) {
                 String name = column.getString("name");
                 String rule = StringUtils.isEmpty(column.getString("rule")) ? "" : "|" + column.getString("rule");
-                Object value = column.get("value");
+                Object value = column.get("defaultVal");
+                if(CommonMeta.FieldType.NUMBER.getCode() == columnType){
+                    if(value != null){
+                        if(value.toString().contains(".")){
+                            value = Double.valueOf(value.toString());
+                        } else {
+                            value = Integer.valueOf(value.toString());
+                        }
+                    }
+                }
                 mockObject.put(name + rule, value);
             } else if (CommonMeta.FieldType.OBJECT.getCode() == columnType) {
                 String name = column.getString("name");
@@ -154,7 +164,7 @@ public class AmActionServiceImpl implements IAmActionService {
         if (!StringUtils.isEmpty(requestHeadDefinition)) {
             List<JSONObject> columnList = JSON.parseArray(requestHeadDefinition, JSONObject.class);
             JSONObject requestHeadMockData = buildMockData(columnList);
-            dto.setRequestHeadMock(requestHeadMockData.toJSONString());
+            dto.setRequestHeadMock(JSON.toJSONString(requestHeadMockData, SerializerFeature.WriteNullStringAsEmpty));
         }
 
         // 请求mock模板生成
@@ -162,7 +172,7 @@ public class AmActionServiceImpl implements IAmActionService {
         if (!StringUtils.isEmpty(requestDefinition)) {
             List<JSONObject> columnList = JSON.parseArray(requestDefinition, JSONObject.class);
             JSONObject requestMockData = buildMockData(columnList);
-            dto.setRequestMock(requestMockData.toJSONString());
+            dto.setRequestMock(JSON.toJSONString(requestMockData, SerializerFeature.WriteNullStringAsEmpty));
         }
 
         // 返回结果mock模板生成
@@ -170,7 +180,7 @@ public class AmActionServiceImpl implements IAmActionService {
         if (!StringUtils.isEmpty(responseDefinition)) {
             List<JSONObject> columnList = JSON.parseArray(responseDefinition, JSONObject.class);
             JSONObject responseMockData = buildMockData(columnList);
-            dto.setResponseMock(responseMockData.toJSONString());
+            dto.setResponseMock(JSON.toJSONString(responseMockData, SerializerFeature.WriteNullStringAsEmpty));
         }
     }
 }
