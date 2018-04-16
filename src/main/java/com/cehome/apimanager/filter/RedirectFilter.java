@@ -10,6 +10,8 @@ import com.cehome.apimanager.utils.MockUtils;
 import com.cehome.apimanager.utils.WebUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import java.io.InputStreamReader;
 import java.util.Enumeration;
 
 public class RedirectFilter implements Filter {
+	private static Logger logger = LoggerFactory.getLogger(RedirectFilter.class);
 	private static final String CONTENT_TYPE = "application/json";
 	private static final String ENCODING = "GB2312";
 
@@ -29,6 +32,7 @@ public class RedirectFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		StringBuffer requestURL = httpRequest.getRequestURL();
+		logger.info("本次请求的URL：" + requestURL.toString());
 		//对本系统请求进行登录验证
 		if(requestURL.indexOf("localhost") > 0
 				|| requestURL.indexOf("192.168.0.21") > 0
