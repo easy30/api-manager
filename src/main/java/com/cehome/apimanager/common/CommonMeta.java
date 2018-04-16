@@ -66,6 +66,56 @@ public class CommonMeta {
 	}
 
 	/**
+	 * 必填项
+	 */
+	public enum Required {
+		YES(1, "是"),
+		NO(2, "否");
+
+		public static Map<String, String> MAP;
+		public static List<MetaKv> KVS;
+
+		static {
+			MAP = new HashMap<String, String>(Required.values().length);
+			KVS = new ArrayList<MetaKv>(Required.values().length);
+			for (Required required : Required.values()) {
+				MAP.put(String.valueOf(required.getCode()), required.getDesc());
+				KVS.add(new MetaKv(required.getCode(), required.getDesc()));
+			}
+		}
+
+		public static String findDescByCode(Integer code) {
+			if (null == code || -1 == code)
+				return "";
+			return findDescByCode(String.valueOf(code));
+		}
+
+		public static String findDescByCode(String code) {
+			String desc = MAP.get(code);
+			if (null == desc) {
+				desc = "未知";
+			}
+			return desc;
+		}
+
+		private final int code;
+		private final String desc;
+
+		Required(int code, String desc) {
+			this.code = code;
+			this.desc = desc;
+		}
+
+		public int getCode() {
+			return code;
+		}
+
+		public String getDesc() {
+			return desc;
+		}
+	}
+
+	/**
 	 * 请求类型
 	 */
 	public enum RequestType {

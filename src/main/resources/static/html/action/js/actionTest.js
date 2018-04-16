@@ -39,7 +39,7 @@ var testRequestOptions = {
         {text: '名称', width: '15%'},
         {text: '含义', width: '20%'},
         {text: '类型', width: '20%'},
-        {text: '规则', width: '20%'},
+        {text: 'Mock规则', width: '20%'},
         {text: '默认值', width: '20%'}
     ],
     fields: [
