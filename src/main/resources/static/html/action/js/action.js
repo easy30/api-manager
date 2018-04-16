@@ -300,7 +300,8 @@ var actionTableOptions = {
                                 api.ui.dialog(option).open();
                                 return;
                             }
-                            if(headParam._checkEmpty() || requestParam._checkEmpty() || responseParam._checkEmpty()){
+                            if(headParam._checkEmpty() || requestParam._checkEmpty() || responseParam._checkEmpty()||
+                                headParam.defaultFlag==1||requestParam.defaultFlag==1||responseParam.defaultFlag==1){
                                 var option = {content: '请完善接口参数信息'};
                                 api.ui.dialog(option).open();
                                 return;
@@ -529,7 +530,8 @@ headBtn: [
                             actionTabConfObject.show('基本信息');
                             return;
                         }
-                        if(headParam._checkEmpty()||requestParam._checkEmpty()||responseParam._checkEmpty()){
+                        if(headParam._checkEmpty()||requestParam._checkEmpty()||responseParam._checkEmpty()||
+                            headParam.defaultFlag==1||requestParam.defaultFlag==1||responseParam.defaultFlag==1){
                             var option={content: '请完善接口参数信息'};
                             api.ui.dialog(option).open();
                             return;

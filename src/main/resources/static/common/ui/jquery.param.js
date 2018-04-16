@@ -40,6 +40,13 @@
                                 api.ui.dialog(options).open();
                                 return false;
                             }
+                            if(that.defaultFlag==1){
+                                var options = {
+                                    content: '请输入整数！'
+                                };
+                                api.ui.dialog(options).open();
+                                return false;
+                            }
                             that._addRow();
                             footBtn.fn && footBtn.fn();
                         });
@@ -73,6 +80,13 @@
                 if(that._checkEmpty()){
                     var options = {
                         content: '存在未完成的字段名称！'
+                    };
+                    api.ui.dialog(options).open();
+                    return that;
+                }
+                if(that.defaultFlag==1){
+                    var options = {
+                        content: '请输入整数！'
                     };
                     api.ui.dialog(options).open();
                     return that;
@@ -126,6 +140,22 @@
                     $tr.append($td.append($selector));
                 }
             });
+            $tr.find('input[name=defaultVal]').on('blur', function () {
+                var regPos = /^(-|\+)?\d+$/; // 整数
+                var $default = $tr.find('input[name=defaultVal]');
+                if(!regPos.test($default.val())){
+                    var options = {
+                        content: '请输入整数！'
+                    };
+                    api.ui.dialog(options).open();
+                    that.defaultFlag = 1;
+                    $default.css('border-color','red');
+                    return false;
+                }else {
+                    that.defaultFlag = 0;
+                    $default.css('border-color','');
+                }
+            })
             jq.find('tbody').append($tr);
             return this;
         },
@@ -148,9 +178,16 @@
                 $tr.remove();
             });
             $addLink.on('click', function () {
-                if(that._checkEmpty()){
+                if(that._checkEmpty()||that.defaultFlag==1){
                     var options = {
                         content: '存在未完成的字段名称！'
+                    };
+                    api.ui.dialog(options).open();
+                    return that;
+                }
+                if(that.defaultFlag==1){
+                    var options = {
+                        content: '请输入整数！'
                     };
                     api.ui.dialog(options).open();
                     return that;
@@ -252,6 +289,13 @@
                     api.ui.dialog(options).open();
                     return that;
                 }
+                if(that.defaultFlag==1){
+                    var options = {
+                        content: '请输入整数！'
+                    };
+                    api.ui.dialog(options).open();
+                    return that;
+                }
                 that._after($tr);
             });
             $operate.append($addLink).append($removeLink);
@@ -303,6 +347,22 @@
                 }
             });
 
+            $tr.find('input[name=defaultVal]').on('blur', function () {
+                var regPos = /^(-|\+)?\d+$/; // 整数
+                var $default = $tr.find('input[name=defaultVal]');
+                if(!regPos.test($default.val())){
+                    var options = {
+                        content: '请输入整数！'
+                    };
+                    api.ui.dialog(options).open();
+                    that.defaultFlag = 1;
+                    $default.css('border-color','red');
+                    return false;
+                }else {
+                    that.defaultFlag = 0;
+                    $default.css('border-color','');
+                }
+            })
             function afterRow($parentTr, childRowData) {
                 $.each(childRowData, function (index, childFiledData) {
                     var $tr = $('<tr></tr>');
@@ -326,6 +386,13 @@
                         if(that._checkEmpty()){
                             var options = {
                                 content: '存在未完成的字段名称！'
+                            };
+                            api.ui.dialog(options).open();
+                            return that;
+                        }
+                        if(that.defaultFlag==1){
+                            var options = {
+                                content: '请输入整数！'
                             };
                             api.ui.dialog(options).open();
                             return that;
