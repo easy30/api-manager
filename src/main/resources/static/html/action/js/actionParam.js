@@ -3,13 +3,12 @@ var headOptions = {
     headers: [
         {text: '操作', width: '5%'},
         {text: '名称', width: '15%'},
-        {text: '含义', width: '20%'},
         {text: '类型', width: '20%'},
+        {text: '备注', width: '20%'},
         {text: '默认值', width: '20%'}
     ],
     fields: [
         {name: 'name', type: 'input'},
-        {name: 'desc', type: 'input'},
         {
             name: 'type', type: 'select', options: {
                 width: '100%',
@@ -22,6 +21,7 @@ var headOptions = {
                 params: {metaId: 1}
             }
         },
+        {name: 'desc', type: 'input'},
         {name: 'defaultVal', type: 'input'}
     ],
     footBtn: [
@@ -84,14 +84,13 @@ var responseOptions = {
     headers: [
         {text: '操作', width: '5%'},
         {text: '名称', width: '15%'},
-        {text: '含义', width: '20%'},
         {text: '类型', width: '20%'},
+        {text: '备注', width: '20%'},
         {text: 'Mock规则', width: '20%'},
         {text: '默认值', width: '20%'}
     ],
     fields: [
         {name: 'name', type: 'input'},
-        {name: 'desc', type: 'input'},
         {
             name: 'type', type: 'select', options: {
                 width: '100%',
@@ -104,6 +103,7 @@ var responseOptions = {
                 params: {metaId: 1}
             }
         },
+        {name: 'desc', type: 'input'},
         {name: 'rule', type: 'input'},
         {name: 'defaultVal', type: 'input'}
     ],
