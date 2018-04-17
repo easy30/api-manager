@@ -278,7 +278,7 @@ var actionTableOptions = {
                             $cancelSave.css('display', 'none');
                         });
                         //保存
-                        $saveButton.mousedown(function () {
+                        $saveButton.on('click', function () {
                             //表单非空校验
                             var i=0;
                             $('#actionInfoForm').find('input,select').each(function(){
@@ -507,7 +507,7 @@ headBtn: [
                         api.ui.load(conf);
                     });
                     //保存
-                    $('#headButton button:last').mousedown(function () {
+                    $('#headButton button:last').on('click', function () {
                         //表单非空校验
                         var i=0;
                         $('#actionInfoForm').find('input,select').each(function(){
