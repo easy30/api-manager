@@ -233,7 +233,7 @@ var actionTableOptions = {
                             actionTabConfObject.hide('接口测试');
                         });
                         //取消
-                        $cancelButton.on('click', function () {
+                        $cancelButton.mousedown(function () {
                             actionInfoFormObject.reset();
                             actionInfoFormObject.disable();
                             actionTabConfObject.display('接口测试');
@@ -452,7 +452,7 @@ headBtn: [
                         $('#headButton button:last').css('display','');
                     });
                     //取消
-                    $cancelButton.on('click', function () {
+                    $cancelButton.mousedown(function () {
                         //跳转到action列表
                         var conf = {
                             container: '#container',
