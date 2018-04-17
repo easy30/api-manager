@@ -233,7 +233,7 @@ var actionTableOptions = {
                             actionTabConfObject.hide('接口测试');
                         });
                         //取消
-                        $cancelButton.on('click', function () {
+                        $cancelButton.mousedown(function () {
                             actionInfoFormObject.reset();
                             actionInfoFormObject.disable();
                             actionTabConfObject.display('接口测试');
@@ -278,7 +278,7 @@ var actionTableOptions = {
                             $cancelSave.css('display', 'none');
                         });
                         //保存
-                        $saveButton.on('click', function () {
+                        $saveButton.mousedown(function () {
                             //表单非空校验
                             var i=0;
                             $('#actionInfoForm').find('input,select').each(function(){
@@ -452,7 +452,7 @@ headBtn: [
                         $('#headButton button:last').css('display','');
                     });
                     //取消
-                    $cancelButton.on('click', function () {
+                    $cancelButton.mousedown(function () {
                         //跳转到action列表
                         var conf = {
                             container: '#container',
@@ -507,7 +507,7 @@ headBtn: [
                         api.ui.load(conf);
                     });
                     //保存
-                    $('#headButton button:last').on('click', function () {
+                    $('#headButton button:last').mousedown(function () {
                         //表单非空校验
                         var i=0;
                         $('#actionInfoForm').find('input,select').each(function(){

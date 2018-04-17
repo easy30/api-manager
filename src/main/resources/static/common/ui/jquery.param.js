@@ -42,7 +42,7 @@
                             }
                             if(that.defaultFlag==1){
                                 var options = {
-                                    content: '请输入整数！'
+                                    content: '请输入数字！'
                                 };
                                 api.ui.dialog(options).open();
                                 return false;
@@ -86,7 +86,7 @@
                 }
                 if(that.defaultFlag==1){
                     var options = {
-                        content: '请输入整数！'
+                        content: '请输入数字！'
                     };
                     api.ui.dialog(options).open();
                     return that;
@@ -141,19 +141,22 @@
                 }
             });
             $tr.find('input[name=defaultVal]').on('blur', function () {
-                var regPos = /^(-|\+)?\d+$/; // 整数
-                var $default = $tr.find('input[name=defaultVal]');
-                if(!regPos.test($default.val())){
-                    var options = {
-                        content: '请输入整数！'
-                    };
-                    api.ui.dialog(options).open();
-                    that.defaultFlag = 1;
-                    $default.css('border-color','red');
-                    return false;
-                }else {
-                    that.defaultFlag = 0;
-                    $default.css('border-color','');
+                if($tr.find('select[name=type]').val()==1){
+                    var regPos = /^(-?\d+)(\.\d+)?$/; // 浮点数
+                    var $default = $tr.find('input[name=defaultVal]');
+                    if(!regPos.test($default.val())){
+                        var options = {
+                            content: '请输入数字！'
+                        };
+                        api.ui.dialog(options).open();
+                        that.defaultFlag = 1;
+                        $default.val(0);
+                        $default.css('border-color','red');
+                        return false;
+                    }else {
+                        that.defaultFlag = 0;
+                        $default.css('border-color','');
+                    }
                 }
             })
             jq.find('tbody').append($tr);
@@ -187,7 +190,7 @@
                 }
                 if(that.defaultFlag==1){
                     var options = {
-                        content: '请输入整数！'
+                        content: '请输入数字！'
                     };
                     api.ui.dialog(options).open();
                     return that;
@@ -291,7 +294,7 @@
                 }
                 if(that.defaultFlag==1){
                     var options = {
-                        content: '请输入整数！'
+                        content: '请输入数字！'
                     };
                     api.ui.dialog(options).open();
                     return that;
@@ -347,22 +350,26 @@
                 }
             });
 
-            $tr.find('input[name=defaultVal]').on('blur', function () {
-                var regPos = /^(-|\+)?\d+$/; // 整数
-                var $default = $tr.find('input[name=defaultVal]');
-                if(!regPos.test($default.val())){
-                    var options = {
-                        content: '请输入整数！'
-                    };
-                    api.ui.dialog(options).open();
-                    that.defaultFlag = 1;
-                    $default.css('border-color','red');
-                    return false;
-                }else {
-                    that.defaultFlag = 0;
-                    $default.css('border-color','');
+            $tr.find('input[name=defaultVal]').on('blur',  function () {
+                if($tr.find('select[name=type]').val()==1){
+                    var regPos = /^(-?\d+)(\.\d+)?$/; // 浮点数
+                    var $default = $tr.find('input[name=defaultVal]');
+                    if(!regPos.test($default.val())){
+                        var options = {
+                            content: '请输入数字！'
+                        };
+                        api.ui.dialog(options).open();
+                        that.defaultFlag = 1;
+                        $default.val(0);
+                        $default.css('border-color','red');
+                        return false;
+                    }else {
+                        that.defaultFlag = 0;
+                        $default.css('border-color','');
+                    }
                 }
             })
+
             function afterRow($parentTr, childRowData) {
                 $.each(childRowData, function (index, childFiledData) {
                     var $tr = $('<tr></tr>');
@@ -392,7 +399,7 @@
                         }
                         if(that.defaultFlag==1){
                             var options = {
-                                content: '请输入整数！'
+                                content: '请输入数字！'
                             };
                             api.ui.dialog(options).open();
                             return that;
