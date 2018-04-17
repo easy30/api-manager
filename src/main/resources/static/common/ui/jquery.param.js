@@ -483,6 +483,25 @@
                             $tr.append($td.append($selector));
                         }
                     });
+                    $tr.find('input[name=defaultVal]').on('blur',  function () {
+                        if($tr.find('select[name=type]').val()==1){
+                            var regPos = /^(-?\d+)(\.\d+)?$/; // 浮点数
+                            var $default = $tr.find('input[name=defaultVal]');
+                            if(!regPos.test($default.val())){
+                                var options = {
+                                    content: '请输入数字！'
+                                };
+                                api.ui.dialog(options).open();
+                                that.defaultFlag = 1;
+                                $default.val(0);
+                                $default.css('border-color','red');
+                                return false;
+                            }else {
+                                delete that.defaultFlag;
+                                $default.css('border-color','');
+                            }
+                        }
+                    })
                     $parentTr.after($tr);
                     var children = childFiledData.child;
                     if(children && children.length > 0){
