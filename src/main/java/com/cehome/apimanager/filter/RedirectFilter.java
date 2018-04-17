@@ -32,11 +32,8 @@ public class RedirectFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		StringBuffer requestURL = httpRequest.getRequestURL();
-		logger.info("本次请求的URL：" + requestURL.toString());
 		//对本系统请求进行登录验证
-		if(requestURL.indexOf("localhost") > 0
-				|| requestURL.indexOf("192.168.0.21") > 0
-				|| requestURL.indexOf("apimanager.tiebaobei.com") > 0){
+		if(requestURL.indexOf("localhost") > 0 || requestURL.indexOf("apimanager.tiebaobei.com") > 0){
 			String requestURI = httpRequest.getRequestURI();
 			HttpSession session = httpRequest.getSession();
 			if (whileList(requestURI) || WebUtils.isLogin(session)) {

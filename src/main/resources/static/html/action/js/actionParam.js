@@ -10,7 +10,8 @@ var headOptions = {
     fields: [
         {name: 'name', type: 'input'},
         {
-            name: 'type', type: 'select', options: {
+            name: 'type', type: 'select',
+            options: {
                 width: '100%',
                 height: '100%',
                 blank: false,
@@ -45,7 +46,8 @@ var requestOptions = {
     fields: [
         {name: 'name', type: 'input'},
         {
-            name: 'type', type: 'select', options: {
+            name: 'type', type: 'select',
+            options: {
                 width: '100%',
                 height: '100%',
                 blank: false,

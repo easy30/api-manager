@@ -59,7 +59,7 @@
             return this;
         },
         _addRow: function () {
-            var that = this, jq = this.jq, conf = this.options, fields = conf.fields, $tr = $('<tr></tr>');
+            var that = this, jq = this.jq, conf = this.options, fields = conf.fields, $tr = $('<tr childrenCount="0"></tr>');
             var $operate = $('<td class="td-item-operate" align="right"></td>');
             var $addLink = $('<a class="glyphicon glyphicon-plus" href="#" style="text-decoration: none; margin-top: 10px; color: #1e7e34; display: none;"></a>');
             var $removeLink = $('<a class="glyphicon glyphicon-remove" href="#" style="text-decoration: none; margin-left: 10px; margin-top: 10px; color: #ab1e1e"></a>');
@@ -101,7 +101,7 @@
                     var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%;"/>');
                     $input.attr('name', field.name);
                     $tr.append($td.append($input));
-                } else if(field.type = 'select'){
+                } else if(field.type == 'select'){
                     var chosenOptions = field.options, $selector = $('<select class="form-control"></select>');
                     $selector.attr('name', field.name);
                     chosenOptions.selector = $selector;
@@ -125,6 +125,9 @@
                                 $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
                             }
                         }
+                        if(value < 5){
+                            $tr.find('input[name=name]').attr('disabled', false);
+                        }
                         function removeChildren(identity) {
                             var children = jq.find('tbody tr[parent=' + identity + ']');
                             $.each(children, function (index, child) {
@@ -135,6 +138,7 @@
                             })
                         }
                         removeChildren($tr.attr('identity'));
+                        $tr.attr('childrenCount', 0);
                     }
                     api.ui.chosenSelect(chosenOptions);
                     $tr.append($td.append($selector));
@@ -160,7 +164,7 @@
             return this;
         },
         _after: function ($row) {
-            var that = this, jq = this.jq, conf = this.options, fields = conf.fields, $tr = $('<tr></tr>');
+            var that = this, jq = this.jq, conf = this.options, fields = conf.fields, $tr = $('<tr childrenCount="0"></tr>'), parentType = $row.find('select[name=type]').val();
             var $operate = $('<td class="td-item-operate" align="right"></td>');
             var $addLink = $('<a class="glyphicon glyphicon-plus" href="#" style="text-decoration: none; margin-top: 10px; color: #1e7e34; display: none;"></a>');
             var $removeLink = $('<a class="glyphicon glyphicon-remove" href="#" style="text-decoration: none; margin-left: 10px; margin-top: 10px; color: #ab1e1e"></a>');
@@ -176,6 +180,14 @@
                 }
                 removeChildren($tr.attr('identity'));
                 $tr.remove();
+                if(parseInt($row.attr('childrenCount')) > 0){
+                    var children = jq.find('tbody tr[parent=' + $row.attr('identity') + ']'), len = children.length;
+                    $.each(children, function (index, child) {
+                        var $child = $(child);
+                        $child.find('input[name=name]').val('array[' + (len - index - 1) + ']')
+                    })
+                    $row.attr('childrenCount', parseInt($row.attr('childrenCount')) - 1);
+                }
             });
             $addLink.on('click', function () {
                 if(that._checkEmpty()||that.defaultFlag==1){
@@ -204,67 +216,89 @@
                     var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%;"/>');
                     if(field.name == 'name'){
                         $input.css('padding-left', (parseInt(padding.replace('px', '')) + 20) + 'px');
+                        if(parentType >= 5){
+                            $input.val('array[' + $row.attr('childrenCount') + ']');
+                            $input.attr('disabled', true).css('background-color', 'white');
+                            $input.attr('arrayElement', true);
+                        }
                     }
                     $input.attr('name', field.name);
                     $tr.append($td.append($input));
-                } else if(field.type = 'select'){
+                } else if(field.type == 'select'){
                     var chosenOptions = field.options, $selector = $('<select class="form-control"></select>');
                     $selector.attr('name', field.name);
                     chosenOptions.selector = $selector;
-                    chosenOptions.change = function (event) {
-                        var target = event.target, value = target.value;;
-                        if(value > 3){
+                    if(field.name == 'type'){
+                        chosenOptions.change = function (event) {
+                            var target = event.target, value = target.value;;
+                            if(value > 3){
+                                $addLink.attr('oldDisplay', '');
+                                $addLink.css('display', '');
+                                $tr.find('input[name=defaultVal]').val('');
+                            } else {
+                                $addLink.attr('oldDisplay', 'none');
+                                $addLink.css('display', 'none');
+                                if(value == 3){
+                                    $tr.find('input[name=defaultVal]').val(false);
+                                } else if(value == 2){
+                                    $tr.find('input[name=defaultVal]').val('');
+                                } else if(value == 1){
+                                    $tr.find('input[name=defaultVal]').val(0);
+                                } else if(value == 0){
+                                    var date = new Date();
+                                    $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+                                }
+                            }
+                            if(value < 5){
+                                $tr.find('input[name=name]').attr('disabled', false);
+                                $tr.find('input[name=name]').attr('arrayElement', false);
+                                $tr.find('select[name=type]').attr('arrayElement', false);
+                            }
+                            function removeChildren(identity) {
+                                var children = jq.find('tbody tr[parent=' + identity + ']');
+                                $.each(children, function (index, child) {
+                                    var $child = $(child);
+                                    var identity = $child.attr('identity');
+                                    removeChildren(identity);
+                                    $child.remove();
+                                })
+                            }
+                            removeChildren($tr.attr('identity'));
+                        }
+                        if(parentType >= 5 ){
+                            $selector.attr('arrayElement', true);
+                        }
+                    }
+                    var chosen = api.ui.chosenSelect(chosenOptions);
+                    if(field.name == 'type'){
+                        if(parentType == 6){
+                            chosen.val(1);
+                            chosen.disable();
+                        } else if(parentType == 7){
+                            chosen.val(2);
+                            chosen.disable();
+                        } else if(parentType == 8){
+                            chosen.val(3);
+                            chosen.disable();
+                        } else if(parentType == 9){
+                            chosen.val(4);
+                            chosen.disable();
+                        }
+                        if(chosen.val() == 4){
                             $addLink.attr('oldDisplay', '');
                             $addLink.css('display', '');
                             $tr.find('input[name=defaultVal]').val('');
-                        } else {
-                            $addLink.attr('oldDisplay', 'none');
-                            $addLink.css('display', 'none');
-                            if(value == 3){
-                                $tr.find('input[name=defaultVal]').val(false);
-                            } else if(value == 2){
-                                $tr.find('input[name=defaultVal]').val('');
-                            } else if(value == 1){
-                                $tr.find('input[name=defaultVal]').val(0);
-                            } else if(value == 0){
-                                var date = new Date();
-                                $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
-                            }
                         }
-                        function removeChildren(identity) {
-                            var children = jq.find('tbody tr[parent=' + identity + ']');
-                            $.each(children, function (index, child) {
-                                var $child = $(child);
-                                var identity = $child.attr('identity');
-                                removeChildren(identity);
-                                $child.remove();
-                            })
-                        }
-                        removeChildren($tr.attr('identity'));
-                    }
-                    var chosen = api.ui.chosenSelect(chosenOptions);
-                    var parentType = $row.children('td').eq(3).children('select').val();
-                    if(parentType == 6){
-                        chosen.val(1);
-                        chosen.disable();
-                    } else if(parentType == 7){
-                        chosen.val(2);
-                        chosen.disable();
-                    } else if(parentType == 8){
-                        chosen.val(3);
-                        chosen.disable();
-                    } else if(parentType == 9){
-                        chosen.val(4);
-                        chosen.disable();
                     }
                     $tr.append($td.append($selector));
                 }
             });
             $row.after($tr);
+            $row.attr('childrenCount', parseInt($row.attr('childrenCount')) + 1);
             return this;
         },
         _showRow: function (rowData) {
-            var that = this, jq = this.jq, conf = this.options, fields = conf.fields, $tr = $('<tr></tr>');
+            var that = this, jq = this.jq, conf = this.options, fields = conf.fields, $tr = $('<tr childrenCount="0"></tr>');
             var $operate = $('<td class="td-item-operate" align="right"></td>');
             var $addLink = $('<a class="glyphicon glyphicon-plus" href="#" style="text-decoration: none; margin-top: 10px; color: #1e7e34; display: none;"></a>');
             var $removeLink = $('<a class="glyphicon glyphicon-remove" href="#" style="text-decoration: none; margin-left: 10px; margin-top: 10px; color: #ab1e1e"></a>');
@@ -306,40 +340,48 @@
                     var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%;"/>');
                     $input.attr('name', field.name).val(rowData[field.name]);
                     $tr.append($td.append($input));
-                } else if(field.type = 'select'){
+                } else if(field.type == 'select'){
                     var chosenOptions = field.options, $selector = $('<select class="form-control"></select>');
                     $selector.attr('name', field.name);
                     chosenOptions.selector = $selector;
-                    chosenOptions.change = function (event) {
-                        var value = event.target.value;
-                        if(value > 3){
-                            $addLink.attr('oldDisplay', '');
-                            $addLink.css('display', '');
-                            $tr.find('input[name=defaultVal]').val('');
-                        } else {
-                            $addLink.attr('oldDisplay', 'none');
-                            $addLink.css('display', 'none');
-                            if(value == 3){
-                                $tr.find('input[name=defaultVal]').val(false);
-                            } else if(value == 2){
+                    if(field.name == 'type'){
+                        chosenOptions.change = function (event) {
+                            var value = event.target.value;
+                            if(value > 3){
+                                $addLink.attr('oldDisplay', '');
+                                $addLink.css('display', '');
                                 $tr.find('input[name=defaultVal]').val('');
-                            } else if(value == 1){
-                                $tr.find('input[name=defaultVal]').val(0);
-                            } else if(value == 0){
-                                var date = new Date();
-                                $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+                            } else {
+                                $addLink.attr('oldDisplay', 'none');
+                                $addLink.css('display', 'none');
+                                if(value == 3){
+                                    $tr.find('input[name=defaultVal]').val(false);
+                                } else if(value == 2){
+                                    $tr.find('input[name=defaultVal]').val('');
+                                } else if(value == 1){
+                                    $tr.find('input[name=defaultVal]').val(0);
+                                } else if(value == 0){
+                                    var date = new Date();
+                                    $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+                                }
                             }
+                            if(value < 5){
+                                $tr.find('input[name=name]').attr('disabled', false);
+                                $tr.find('input[name=name]').attr('arrayElement', false);
+                                $tr.find('select[name=type]').attr('arrayElement', false);
+                            }
+                            function removeChildren(identity) {
+                                var children = jq.find('tbody tr[parent=' + identity + ']');
+                                $.each(children, function (index, child) {
+                                    var $child = $(child);
+                                    var identity = $child.attr('identity');
+                                    removeChildren(identity);
+                                    $child.remove();
+                                })
+                            }
+                            removeChildren($tr.attr('identity'));
+                            $tr.attr('childrenCount', 0);
                         }
-                        function removeChildren(identity) {
-                            var children = jq.find('tbody tr[parent=' + identity + ']');
-                            $.each(children, function (index, child) {
-                                var $child = $(child);
-                                var identity = $child.attr('identity');
-                                removeChildren(identity);
-                                $child.remove();
-                            })
-                        }
-                        removeChildren($tr.attr('identity'));
                     }
                     var chosen = api.ui.chosenSelect(chosenOptions);
                     chosen.val(rowData[field.name]);
@@ -364,8 +406,9 @@
                 }
             })
             function afterRow($parentTr, childRowData) {
+                var requestType = $parentTr.find('select[name=type]').val()
                 $.each(childRowData, function (index, childFiledData) {
-                    var $tr = $('<tr></tr>');
+                    var $tr = $('<tr childrenCount="0"></tr>');
                     var $operate = $('<td class="td-item-operate" align="right"></td>');
                     var $addLink = $('<a class="glyphicon glyphicon-plus" href="#" style="text-decoration: none; margin-top: 10px; color: #1e7e34; display: none;"></a>');
                     var $removeLink = $('<a class="glyphicon glyphicon-remove" href="#" style="text-decoration: none; margin-left: 10px; margin-top: 10px; color: #ab1e1e"></a>');
@@ -380,6 +423,9 @@
                             })
                         }
                         removeChildren($tr.attr('identity'));
+                        if($tr.attr('arrayElement')){
+                            $parentTr.attr('childrenCount', parseInt($row.attr('childrenCount')) - 1);
+                        }
                         $tr.remove();
                     });
                     $addLink.on('click', function () {
@@ -409,46 +455,59 @@
                             var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%;"/>');
                             if(field.name == 'name'){
                                 $input.css('padding-left', (parseInt(padding.replace('px', '')) + 20) + 'px');
+                                if(requestType >= 5){
+                                    $input.attr('disabled', true).css('background-color', 'white');
+                                    $input.attr('arrayElement', true);
+                                }
                             }
                             $input.attr('name', field.name).val(childFiledData[field.name]);
                             $tr.append($td.append($input));
-                        } else if(field.type = 'select'){
+                        } else if(field.type == 'select'){
                             var chosenOptions = field.options, $selector = $('<select class="form-control"></select>');
                             $selector.attr('name', field.name);
                             chosenOptions.selector = $selector;
-                            chosenOptions.change = function (event) {
-                                var value = event.target.value;;
-                                if(value > 3){
-                                    $addLink.attr('oldDisplay', '');
-                                    $addLink.css('display', '');
-                                    $tr.find('input[name=defaultVal]').val('');
-                                } else {
-                                    $addLink.attr('oldDisplay', 'none');
-                                    $addLink.css('display', 'none');
-                                    if(value == 3){
-                                        $tr.find('input[name=defaultVal]').val(false);
-                                    } else if(value == 2){
+                            if(field.name == 'type'){
+                                chosenOptions.change = function (event) {
+                                    var value = event.target.value;;
+                                    if(value > 3){
+                                        $addLink.attr('oldDisplay', '');
+                                        $addLink.css('display', '');
                                         $tr.find('input[name=defaultVal]').val('');
-                                    } else if(value == 1){
-                                        $tr.find('input[name=defaultVal]').val(0);
-                                    } else if(value == 0){
-                                        var date = new Date();
-                                        $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate());
+                                    } else {
+                                        $addLink.attr('oldDisplay', 'none');
+                                        $addLink.css('display', 'none');
+                                        if(value == 3){
+                                            $tr.find('input[name=defaultVal]').val(false);
+                                        } else if(value == 2){
+                                            $tr.find('input[name=defaultVal]').val('');
+                                        } else if(value == 1){
+                                            $tr.find('input[name=defaultVal]').val(0);
+                                        } else if(value == 0){
+                                            var date = new Date();
+                                            $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate());
+                                        }
                                     }
+                                    if(value < 5){
+                                        $tr.find('input[name=name]').attr('disabled', false);
+                                        $tr.find('input[name=name]').attr('arrayElement', false);
+                                        $tr.find('select[name=type]').attr('arrayElement', false);
+                                    }
+                                    function removeChildren(identity) {
+                                        var children = jq.find('tbody tr[parent=' + identity + ']');
+                                        $.each(children, function (index, child) {
+                                            var $child = $(child);
+                                            var identity = $child.attr('identity');
+                                            removeChildren(identity);
+                                            $child.remove();
+                                        })
+                                    }
+                                    removeChildren($tr.attr('identity'));
                                 }
-                                function removeChildren(identity) {
-                                    var children = jq.find('tbody tr[parent=' + identity + ']');
-                                    $.each(children, function (index, child) {
-                                        var $child = $(child);
-                                        var identity = $child.attr('identity');
-                                        removeChildren(identity);
-                                        $child.remove();
-                                    })
+                                if(requestType >= 5){
+                                    $selector.attr('arrayElement', true);
                                 }
-                                removeChildren($tr.attr('identity'));
                             }
                             var chosen = api.ui.chosenSelect(chosenOptions);
-                            var parentType = $parentTr.children('td').eq(3).children('select').val();
                             chosen.val(childFiledData[field.name]);
                             $tr.append($td.append($selector));
                         }
@@ -527,7 +586,7 @@
         },
         enable: function () {
             var jq = this.jq;
-            jq.find('input,select,textarea').attr('disabled', false);
+            jq.find('input[arrayElement!=true],select[arrayElement!=true],textarea').attr('disabled', false);
             jq.find('tfoot button').css('display', '');
             jq.find('.td-item-operate a').each(function () {
                 var $this = $(this);

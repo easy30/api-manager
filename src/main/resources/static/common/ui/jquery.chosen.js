@@ -38,7 +38,6 @@
                     var $option = $(this);
                     if ($option.val() == value) {
                         $option.attr('selected', true);
-                        jq.trigger('change');
                         return false;
                     }
                 });
