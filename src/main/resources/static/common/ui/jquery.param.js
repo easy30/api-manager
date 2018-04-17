@@ -63,7 +63,8 @@
             var $operate = $('<td class="td-item-operate" align="right"></td>');
             var $addLink = $('<a class="glyphicon glyphicon-plus" href="#" style="text-decoration: none; margin-top: 10px; color: #1e7e34; display: none;"></a>');
             var $removeLink = $('<a class="glyphicon glyphicon-remove" href="#" style="text-decoration: none; margin-left: 10px; margin-top: 10px; color: #ab1e1e"></a>');
-            $removeLink.on('click', function () {
+            $removeLink.mousedown(function () {
+                delete that.defaultFlag;
                 function removeChildren(identity) {
                     var children = jq.find('tbody tr[parent=' + identity + ']');
                     $.each(children, function (index, child) {
@@ -154,7 +155,7 @@
                         $default.css('border-color','red');
                         return false;
                     }else {
-                        that.defaultFlag = 0;
+                        delete that.defaultFlag;
                         $default.css('border-color','');
                     }
                 }
@@ -167,7 +168,8 @@
             var $operate = $('<td class="td-item-operate" align="right"></td>');
             var $addLink = $('<a class="glyphicon glyphicon-plus" href="#" style="text-decoration: none; margin-top: 10px; color: #1e7e34; display: none;"></a>');
             var $removeLink = $('<a class="glyphicon glyphicon-remove" href="#" style="text-decoration: none; margin-left: 10px; margin-top: 10px; color: #ab1e1e"></a>');
-            $removeLink.on('click', function () {
+            $removeLink.mousedown(function () {
+                delete that.defaultFlag;
                 function removeChildren(identity) {
                     var children = jq.find('tbody tr[parent=' + identity + ']');
                     $.each(children, function (index, child) {
@@ -263,6 +265,25 @@
                     $tr.append($td.append($selector));
                 }
             });
+            $tr.find('input[name=defaultVal]').on('blur',  function () {
+                if($tr.find('select[name=type]').val()==1){
+                    var regPos = /^(-?\d+)(\.\d+)?$/; // 浮点数
+                    var $default = $tr.find('input[name=defaultVal]');
+                    if(!regPos.test($default.val())){
+                        var options = {
+                            content: '请输入数字！'
+                        };
+                        api.ui.dialog(options).open();
+                        that.defaultFlag = 1;
+                        $default.val(0);
+                        $default.css('border-color','red');
+                        return false;
+                    }else {
+                        delete that.defaultFlag;
+                        $default.css('border-color','');
+                    }
+                }
+            })
             $row.after($tr);
             return this;
         },
@@ -271,7 +292,8 @@
             var $operate = $('<td class="td-item-operate" align="right"></td>');
             var $addLink = $('<a class="glyphicon glyphicon-plus" href="#" style="text-decoration: none; margin-top: 10px; color: #1e7e34; display: none;"></a>');
             var $removeLink = $('<a class="glyphicon glyphicon-remove" href="#" style="text-decoration: none; margin-left: 10px; margin-top: 10px; color: #ab1e1e"></a>');
-            $removeLink.on('click', function () {
+            $removeLink.mousedown(function () {
+                delete that.defaultFlag;
                 function removeChildren(identity) {
                     var children = jq.find('tbody tr[parent=' + identity + ']');
                     $.each(children, function (index, child) {
@@ -364,7 +386,7 @@
                         $default.css('border-color','red');
                         return false;
                     }else {
-                        that.defaultFlag = 0;
+                        delete that.defaultFlag;
                         $default.css('border-color','');
                     }
                 }
@@ -376,7 +398,8 @@
                     var $operate = $('<td class="td-item-operate" align="right"></td>');
                     var $addLink = $('<a class="glyphicon glyphicon-plus" href="#" style="text-decoration: none; margin-top: 10px; color: #1e7e34; display: none;"></a>');
                     var $removeLink = $('<a class="glyphicon glyphicon-remove" href="#" style="text-decoration: none; margin-left: 10px; margin-top: 10px; color: #ab1e1e"></a>');
-                    $removeLink.on('click', function () {
+                    $removeLink.mousedown(function () {
+                        delete that.defaultFlag;
                         function removeChildren(identity) {
                             var children = jq.find('tbody tr[parent=' + identity + ']');
                             $.each(children, function (index, child) {
