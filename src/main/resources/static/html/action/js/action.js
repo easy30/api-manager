@@ -42,7 +42,7 @@ var actionTableOptions = {
                     async: false,
                     loaded: function () {
                         var $cancelSave = $('#cancelSave'),$editChange = $('#editChange');
-                        var $cancelButton = $('#cancelButton'),$editButton = $('#editButton'),$saveButton = $('#saveButton');
+                        var $cancelButton = $('#cancelButton'),$editCancel = $('#editCancel'),$editButton = $('#editButton'),$saveButton = $('#saveButton');
                         $cancelSave.css('display','none');
                         var actionTabConf = {
                             container: '#tabs',
@@ -232,7 +232,7 @@ var actionTableOptions = {
                             }
                             actionTabConfObject.hide('接口测试');
                         });
-                        //取消
+                        //取消保存
                         $cancelButton.mousedown(function () {
                             actionInfoFormObject.reset();
                             actionInfoFormObject.disable();
@@ -276,6 +276,64 @@ var actionTableOptions = {
                             });
                             $editChange.css('display', '');
                             $cancelSave.css('display', 'none');
+                        });
+                        //退出查看页面
+                        $editCancel.mousedown(function () {
+                            $('#depart').parent('.container').css('display', '');
+                            var moduleId = $('select[name=moduleId]').val();
+                            //跳转到action列表
+                            var conf = {
+                                container: '#container',
+                                url: api.util.getUrl('html/action/action.html'),
+                                async: false,
+                                preLoad: function () {
+                                    $("#depart").empty();
+                                    $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"departmentClick()\">Department</a></li>");
+                                    $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"projectClick1()\">Project</a></li>");
+                                    $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"moduleClick1()\">Module</a></li>");
+                                    $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"actionClick1()\">Action</a></li>");
+                                },
+                                loaded: function () {
+                                    var depOptions = {
+                                        selector: '[name=depId]',
+                                        optionField: {value: 'id', text: 'depName'},
+                                        width: '70%',
+                                        url: api.util.getUrl('apimanager/department/list'),
+                                        change: function (e, p) {
+                                            projectSelect.clear();
+                                            var params = {};
+                                            params['depId']=e.target.value;
+                                            projectSelect.load(params);
+                                        }
+                                    };
+                                    var projectOptions = {
+                                        selector: '[name=projectId]',
+                                        optionField: {value: 'id', text: 'projectName'},
+                                        width: '70%',
+                                        url: api.util.getUrl('apimanager/project/list'),
+                                        change: function (e, p) {
+                                            moduleSelect.clear();
+                                            var params = {};
+                                            params['projectId']=e.target.value;
+                                            moduleSelect.load(params);
+                                        }
+                                    };
+                                    var moduleOptions = {
+                                        selector: '[name=moduleId]',
+                                        optionField: {value: 'id', text: 'moduleName'},
+                                        width: '70%',
+                                        url: api.util.getUrl('apimanager/module/list')
+                                    };
+                                    var projectSelect = api.ui.chosenSelect(projectOptions);
+                                    var moduleSelect = api.ui.chosenSelect(moduleOptions);
+                                    moduleSelect.val(moduleId);
+                                    api.ui.chosenSelect(depOptions);
+                                    api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
+                                        api.ui.editTable(actionTableOptions);
+                                    });
+                                }
+                            }
+                            api.ui.load(conf);
                         });
                         //保存
                         $saveButton.on('click', function () {
@@ -404,7 +462,7 @@ headBtn: [
                 loaded: function () {
                     var $cancelSave = $('#cancelSave'),$editChange = $('#editChange');
                     var $cancelButton = $('#cancelButton'),$editButton = $('#editButton'),$saveButton = $('#saveButton');
-                    $editButton.css('display','none');
+                    $editChange.css('display','none');
                     $('#actionPage').css('margin-top','90px');
 
                     var actionTabConf = {
@@ -451,8 +509,10 @@ headBtn: [
                         $('#headButton button:first').css('display','none');
                         $('#headButton button:last').css('display','');
                     });
-                    //取消
+                    //退出添加
                     $cancelButton.mousedown(function () {
+                        $('#depart').parent('.container').css('display', '');
+                        var moduleId = $('select[name=moduleId]');
                         //跳转到action列表
                         var conf = {
                             container: '#container',
@@ -498,6 +558,7 @@ headBtn: [
                                 };
                                 var projectSelect = api.ui.chosenSelect(projectOptions);
                                 var moduleSelect = api.ui.chosenSelect(moduleOptions);
+                                moduleSelect.val(moduleId);
                                 api.ui.chosenSelect(depOptions);
                                 api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
                                     api.ui.editTable(actionTableOptions);
