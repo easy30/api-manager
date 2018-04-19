@@ -169,6 +169,42 @@
                         $default.css('border-color','');
                     }
                 }
+                //校验日期
+                if($tr.find('select[name=type]').val()==0){
+                    var regPos = /^([1-2]\d{3})[\/|\-](0?[1-9]|10|11|12)[\/|\-]([1-2]?[0-9]|0[1-9]|30|31)$/; // 浮点数
+                    var $default = $tr.find('input[name=defaultVal]');
+                    if(!regPos.test($default.val())){
+                        var options = {
+                            content: '请输入yyyy-mm-dd格式日期！'
+                        };
+                        api.ui.dialog(options).open();
+                        that.defaultFlag = 1;
+                        var date = new Date();
+                        $default.val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+                        $default.css('border-color','red');
+                        return false;
+                    }else {
+                        delete that.defaultFlag;
+                        $default.css('border-color','');
+                    }
+                }
+                //校验boolean
+                if($tr.find('select[name=type]').val()==3){
+                    var $default = $tr.find('input[name=defaultVal]');
+                    if($default.val().toUpperCase() != 'TRUE' && $default.val().toUpperCase() != 'FALSE'){
+                        var options = {
+                            content: '请输入"true"或者"false"！'
+                        };
+                        api.ui.dialog(options).open();
+                        that.defaultFlag = 1;
+                        $default.val('false');
+                        $default.css('border-color','red');
+                        return false;
+                    }else {
+                        delete that.defaultFlag;
+                        $default.css('border-color','');
+                    }
+                }
             })
             jq.find('tbody').append($tr);
             return this;
@@ -322,6 +358,42 @@
                         $default.css('border-color','');
                     }
                 }
+                //校验日期
+                if($tr.find('select[name=type]').val()==0){
+                    var regPos = /^([1-2]\d{3})[\/|\-](0?[1-9]|10|11|12)[\/|\-]([1-2]?[0-9]|0[1-9]|30|31)$/; // 浮点数
+                    var $default = $tr.find('input[name=defaultVal]');
+                    if(!regPos.test($default.val())){
+                        var options = {
+                            content: '请输入yyyy-mm-dd格式日期！'
+                        };
+                        api.ui.dialog(options).open();
+                        that.defaultFlag = 1;
+                        var date = new Date();
+                        $default.val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+                        $default.css('border-color','red');
+                        return false;
+                    }else {
+                        delete that.defaultFlag;
+                        $default.css('border-color','');
+                    }
+                }
+                //校验boolean
+                if($tr.find('select[name=type]').val()==3){
+                    var $default = $tr.find('input[name=defaultVal]');
+                    if($default.val().toUpperCase() != 'TRUE' && $default.val().toUpperCase() != 'FALSE'){
+                        var options = {
+                            content: '请输入"true"或者"false"！'
+                        };
+                        api.ui.dialog(options).open();
+                        that.defaultFlag = 1;
+                        $default.val('false');
+                        $default.css('border-color','red');
+                        return false;
+                    }else {
+                        delete that.defaultFlag;
+                        $default.css('border-color','');
+                    }
+                }
             })
             $row.after($tr);
             $row.attr('childrenCount', parseInt($row.attr('childrenCount')) + 1);
@@ -431,6 +503,42 @@
                         api.ui.dialog(options).open();
                         that.defaultFlag = 1;
                         $default.val(0);
+                        $default.css('border-color','red');
+                        return false;
+                    }else {
+                        delete that.defaultFlag;
+                        $default.css('border-color','');
+                    }
+                }
+                //校验日期
+                if($tr.find('select[name=type]').val()==0){
+                    var regPos = /^([1-2]\d{3})[\/|\-](0?[1-9]|10|11|12)[\/|\-]([1-2]?[0-9]|0[1-9]|30|31)$/; // 浮点数
+                    var $default = $tr.find('input[name=defaultVal]');
+                    if(!regPos.test($default.val())){
+                        var options = {
+                            content: '请输入yyyy-mm-dd格式日期！'
+                        };
+                        api.ui.dialog(options).open();
+                        that.defaultFlag = 1;
+                        var date = new Date();
+                        $default.val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+                        $default.css('border-color','red');
+                        return false;
+                    }else {
+                        delete that.defaultFlag;
+                        $default.css('border-color','');
+                    }
+                }
+                //校验boolean
+                if($tr.find('select[name=type]').val()==3){
+                    var $default = $tr.find('input[name=defaultVal]');
+                    if($default.val().toUpperCase() != 'TRUE' && $default.val().toUpperCase() != 'FALSE'){
+                        var options = {
+                            content: '请输入"true"或者"false"！'
+                        };
+                        api.ui.dialog(options).open();
+                        that.defaultFlag = 1;
+                        $default.val('false');
                         $default.css('border-color','red');
                         return false;
                     }else {
@@ -559,6 +667,42 @@
                                 api.ui.dialog(options).open();
                                 that.defaultFlag = 1;
                                 $default.val(0);
+                                $default.css('border-color','red');
+                                return false;
+                            }else {
+                                delete that.defaultFlag;
+                                $default.css('border-color','');
+                            }
+                        }
+                        //校验日期
+                        if($tr.find('select[name=type]').val()==0){
+                            var regPos = /^([1-2]\d{3})[\/|\-](0?[1-9]|10|11|12)[\/|\-]([1-2]?[0-9]|0[1-9]|30|31)$/; // 浮点数
+                            var $default = $tr.find('input[name=defaultVal]');
+                            if(!regPos.test($default.val())){
+                                var options = {
+                                    content: '请输入yyyy-mm-dd格式日期！'
+                                };
+                                api.ui.dialog(options).open();
+                                that.defaultFlag = 1;
+                                var date = new Date();
+                                $default.val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+                                $default.css('border-color','red');
+                                return false;
+                            }else {
+                                delete that.defaultFlag;
+                                $default.css('border-color','');
+                            }
+                        }
+                        //校验boolean
+                        if($tr.find('select[name=type]').val()==3){
+                            var $default = $tr.find('input[name=defaultVal]');
+                            if($default.val().toUpperCase() != 'TRUE' && $default.val().toUpperCase() != 'FALSE'){
+                                var options = {
+                                    content: '请输入"true"或者"false"！'
+                                };
+                                api.ui.dialog(options).open();
+                                that.defaultFlag = 1;
+                                $default.val('false');
                                 $default.css('border-color','red');
                                 return false;
                             }else {
