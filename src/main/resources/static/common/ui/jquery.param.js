@@ -52,6 +52,10 @@
                         });
                         $tFoot.find('td').append($addBtn);
                     }
+                    if(type == 'import') {
+                        var $importBtn = $('<button class="btn btn-success btn-sm" type="button"  data-toggle="modal" data-target="#responseModal"  style="margin-left:6px;"></button>').append('&nbsp;' + footBtn.text);
+                        $tFoot.find('td').append($importBtn);
+                    }
                 })
             }
 

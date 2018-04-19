@@ -113,6 +113,10 @@ var responseOptions = {
         {
             type: 'add', text: '添加参数', fn: function (row) {
             }
+        },
+        {
+            type: 'import', text: '导入参数', fn: function (row) {
+            }
         }
     ]
 };

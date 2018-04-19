@@ -119,6 +119,29 @@ var actionTableOptions = {
                                                 requestParam.disable();
                                                 responseParam.disable();
                                             });
+                                            var $import = $('#importBtn');
+                                            $import.on('click',function () {
+                                                if($('textarea[name=responseJson]').val()){
+                                                    $.ajax({
+                                                        url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                        type: 'post',
+                                                        data : $('textarea[name=responseJson]').val(),
+                                                        contentType : 'application/json;charset=utf-8',
+                                                        dataType: 'json',
+                                                        success: function (result) {
+                                                            var data = result.data;
+                                                            $.each(JSON.parse(data), function (index, rowData) {
+                                                                responseParam._showRow(rowData);
+                                                            })
+                                                            $('#responseModal').map(function () {
+                                                                if (!$(this).is(":hidden")){
+                                                                    $(this).modal('hide');
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            })
                                         }
                                     });
                                 }
@@ -460,8 +483,8 @@ headBtn: [
                 async: false,
                 preLoad: function () {},
                 loaded: function () {
-                    var $cancelSave = $('#cancelSave'),$editChange = $('#editChange');
-                    var $cancelButton = $('#cancelButton'),$editButton = $('#editButton'),$saveButton = $('#saveButton');
+                    var $editChange = $('#editChange');
+                    var $cancelButton = $('#cancelButton'),$saveButton = $('#saveButton');
                     $editChange.css('display','none');
                     $('#actionPage').css('margin-top','90px');
 
@@ -496,19 +519,33 @@ headBtn: [
                                     requestParam = api.ui.param(requestOptions);
                                     responseParam = api.ui.param(responseOptions);
                                 });
+                                var $import = $('#importBtn');
+                                $import.on('click',function () {
+                                    if($('textarea[name=responseJson]').val()){
+                                        $.ajax({
+                                            url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                            type: 'post',
+                                            data : $('textarea[name=responseJson]').val(),
+                                            contentType : 'application/json;charset=utf-8',
+                                            dataType: 'json',
+                                            success: function (result) {
+                                                var data = result.data;
+                                                $.each(JSON.parse(data), function (index, rowData) {
+                                                    responseParam._showRow(rowData);
+                                                })
+                                                $('#responseModal').map(function () {
+                                                    if (!$(this).is(":hidden")){
+                                                        $(this).modal('hide');
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                })
                             }
                         }]
                     };
                     var actionTabConfObject = api.ui.tabs(actionTabConf);
-                    //切换
-                    $('#headButton button:first').on('click', function () {
-                        actionInfoFormObject.enable();
-                        headParam.enable();
-                        requestParam.enable();
-                        responseParam.enable();
-                        $('#headButton button:first').css('display','none');
-                        $('#headButton button:last').css('display','');
-                    });
                     //退出添加
                     $cancelButton.mousedown(function () {
                         $('#depart').parent('.container').css('display', '');
