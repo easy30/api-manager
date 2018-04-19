@@ -561,7 +561,9 @@
                             }
                         }
                     })
+
                     $parentTr.after($tr);
+                    $parentTr.attr('childrenCount', parseInt($parentTr.attr('childrenCount')) + 1);
                     var children = childFiledData.child;
                     if(children && children.length > 0){
                         $addLink.css('display', '');
