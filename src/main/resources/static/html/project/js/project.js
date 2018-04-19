@@ -36,6 +36,7 @@ var projectTableOptions = {
                     var depOptions = {
                         selector: '[name=depId]',
                         width: '70%',
+                        selectedVal:1,
                         optionField: {value: 'id', text: 'depName'},
                         url: api.util.getUrl('apimanager/department/list'),
                         change: function (e) {
@@ -49,6 +50,7 @@ var projectTableOptions = {
                     var projectOptions = {
                         selector: '[name=projectId]',
                         width: '70%',
+                        selectedVal:1,
                         optionField: {value: 'id', text: 'projectName'},
                         url: api.util.getUrl('apimanager/project/list')
                     };

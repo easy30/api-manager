@@ -13,3 +13,22 @@
         <p style="text-align: center; font-family: Microsoft YaHei; font-size: 18px; background-color: #9fcdff; margin-bottom: 0px;">响应列表</p>
     </div>
 </div>
+<div id="responseModal" class="modal fade" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">响应参数</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea class="col-12 form-control" name="responseJson" style="width: 100%; height: 100px;"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="importBtn" type="button" class="btn btn-primary">导入</button>
+            </div>
+        </div>
+    </div>
+</div>
