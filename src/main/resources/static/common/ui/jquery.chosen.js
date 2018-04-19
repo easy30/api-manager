@@ -43,6 +43,10 @@
                 });
             }
         },
+        doChange: function () {
+            var jq = this.jq.trigger('change');
+            return this;
+        },
         selected: function () {
             var selected = {};
             this.jq.find('option').each(function () {

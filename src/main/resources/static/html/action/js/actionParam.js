@@ -5,7 +5,7 @@ var headOptions = {
         {text: '名称', width: '15%'},
         {text: '类型', width: '20%'},
         {text: '备注', width: '20%'},
-        {text: '默认值', width: '20%'}
+        {text: '样值', width: '20%'}
     ],
     fields: [
         {name: 'name', type: 'input'},
@@ -41,7 +41,7 @@ var requestOptions = {
         {text: '必填', width: '10%'},
         {text: '备注', width: '20%'},
         {text: 'Mock规则', width: '15%'},
-        {text: '默认值', width: '20%'}
+        {text: '样值', width: '20%'}
     ],
     fields: [
         {name: 'name', type: 'input'},
@@ -89,7 +89,7 @@ var responseOptions = {
         {text: '类型', width: '20%'},
         {text: '备注', width: '20%'},
         {text: 'Mock规则', width: '20%'},
-        {text: '默认值', width: '20%'}
+        {text: '样值', width: '20%'}
     ],
     fields: [
         {name: 'name', type: 'input'},

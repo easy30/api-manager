@@ -106,40 +106,42 @@
                     var chosenOptions = field.options, $selector = $('<select class="form-control"></select>');
                     $selector.attr('name', field.name);
                     chosenOptions.selector = $selector;
-                    chosenOptions.change = function (event) {
-                        var value = event.target.value;
-                        if(value > 3){
-                            $addLink.css('display', '');
-                            $addLink.attr('oldDisplay', '');
-                            $tr.find('input[name=defaultVal]').val('');
-                        } else {
-                            $addLink.attr('oldDisplay', 'none');
-                            $addLink.css('display', 'none');
-                            if(value == 3){
-                                $tr.find('input[name=defaultVal]').val(false);
-                            } else if(value == 2){
+                    if(field.name == 'type'){
+                        chosenOptions.change = function (event) {
+                            var value = event.target.value;
+                            if(value > 3){
+                                $addLink.css('display', '');
+                                $addLink.attr('oldDisplay', '');
                                 $tr.find('input[name=defaultVal]').val('');
-                            } else if(value == 1){
-                                $tr.find('input[name=defaultVal]').val(0);
-                            } else if(value == 0){
-                                var date = new Date();
-                                $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+                            } else {
+                                $addLink.attr('oldDisplay', 'none');
+                                $addLink.css('display', 'none');
+                                if(value == 3){
+                                    $tr.find('input[name=defaultVal]').val(false);
+                                } else if(value == 2){
+                                    $tr.find('input[name=defaultVal]').val('');
+                                } else if(value == 1){
+                                    $tr.find('input[name=defaultVal]').val(0);
+                                } else if(value == 0){
+                                    var date = new Date();
+                                    $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+                                }
                             }
+                            if(value < 5){
+                                $tr.find('input[name=name]').attr('disabled', false);
+                            }
+                            function removeChildren(identity) {
+                                var children = jq.find('tbody tr[parent=' + identity + ']');
+                                $.each(children, function (index, child) {
+                                    var $child = $(child);
+                                    var identity = $child.attr('identity');
+                                    removeChildren(identity);
+                                    $child.remove();
+                                })
+                            }
+                            removeChildren($tr.attr('identity'));
+                            $tr.attr('childrenCount', 0);
                         }
-                        if(value < 5){
-                            $tr.find('input[name=name]').attr('disabled', false);
-                        }
-                        function removeChildren(identity) {
-                            var children = jq.find('tbody tr[parent=' + identity + ']');
-                            $.each(children, function (index, child) {
-                                var $child = $(child);
-                                var identity = $child.attr('identity');
-                                removeChildren(identity);
-                                $child.remove();
-                            })
-                        }
-                        removeChildren($tr.attr('identity'));
-                        $tr.attr('childrenCount', 0);
                     }
                     api.ui.chosenSelect(chosenOptions);
                     $tr.append($td.append($selector));
