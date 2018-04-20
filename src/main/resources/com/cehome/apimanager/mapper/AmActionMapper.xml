@@ -7,6 +7,7 @@
 		<result column="action_name" property="actionName" jdbcType="VARCHAR" />
 		<result column="action_desc" property="actionDesc" jdbcType="VARCHAR" />
 		<result column="request_type" property="requestType" jdbcType="VARCHAR" />
+		<result column="domain_id" property="domainId" jdbcType="INTEGER" />
 		<result column="request_url" property="requestUrl" jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="INTEGER" />
 		<result column="request_head_definition" property="requestHeadDefinition" jdbcType="LONGVARCHAR" />
@@ -22,7 +23,7 @@
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		id,module_id,action_name,action_desc,request_type,request_url,status,request_head_definition,
+		id,module_id,action_name,action_desc,request_type,domain_id,request_url,status,request_head_definition,
 		request_definition,response_definition,request_head_mock,request_mock,response_mock,create_user,
 		create_time,update_user,update_time
 	</sql>
@@ -115,6 +116,9 @@
 			<if test="requestType != null">
 			request_type,
 			</if>
+			<if test="domainId != null">
+				domain_id,
+			</if>
 			<if test="requestUrl != null">
 			request_url,
 			</if>
@@ -167,6 +171,9 @@
 			</if>
 			<if test="requestType != null">
 			#{requestType,jdbcType=VARCHAR},
+			</if>
+			<if test="domainId != null">
+			#{domainId,jdbcType=INTEGER},
 			</if>
 			<if test="requestUrl != null">
 			#{requestUrl,jdbcType=VARCHAR},
@@ -221,6 +228,9 @@
 			</if>
 			<if test="requestType != null">
 			request_type = #{requestType,jdbcType=VARCHAR},
+			</if>
+			<if test="domainId != null">
+			domain_id = #{domainId,jdbcType=INTEGER},
 			</if>
 			<if test="requestUrl != null">
 			request_url = #{requestUrl,jdbcType=VARCHAR},
