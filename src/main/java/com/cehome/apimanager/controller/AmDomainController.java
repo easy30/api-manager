@@ -36,4 +36,21 @@ public class AmDomainController extends BaseController {
             return toFail(e.getMessage());
         }
     }
+
+    /**
+     * 根据主键id查询domain
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping("findById")
+    public Map<String, Object> findById(Integer id) {
+        try {
+            AmDomain domain = domainService.findById(id);
+            return toSuccess(domain);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return toFail(e.getMessage());
+        }
+    }
 }
