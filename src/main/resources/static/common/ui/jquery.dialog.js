@@ -29,7 +29,7 @@
             this.modalId = modalId;
 
             jq.append($modalHtml.clone().attr('id', modalId)).find('.modal-body').empty().append(this.options.content);
-            var myModalLabel = jq.find('#myModalLabel');
+            var myModalLabel = jq.find('#' + modalId).find('#myModalLabel');
             if(options.iTitle){
                 myModalLabel.append(modalTitle);
             } else {
