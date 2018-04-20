@@ -70,10 +70,23 @@ var testRequestOptions = {
 
 var requestTypeOptions = {
     selector: '[name=testRequestType]',
-    width: '70%',
+    width: '50%',
     params: {metaId: 2},
     blank: false,
     cache: true,
     optionField: {value: 'k', text: 'v'},
     url: api.util.getUrl('apimanager/meta/findMeta')
 };
+var domainEditOptions = {
+    container: '#testDomainEdit',
+    selectName: 'domainId',
+    selectCodeField: 'id',
+    selectValueField: 'domainName',
+    content: {},
+    param: {},
+    url: api.util.getUrl('apimanager/domain/list'),
+    width: '270px',
+    change: function (param) {
+        // alert(param['oldVal']);
+    }
+}

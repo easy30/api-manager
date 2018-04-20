@@ -35,7 +35,7 @@ var actionTableOptions = {
     rowButtons: [
         {type: 'more', text: '更多', icon: 'glyphicon glyphicon-option-horizontal', fn: function (param) {
                 $('#depart').parent('.container').css('display', 'none');
-                var actionInfoFormObject, headParam, requestParam, responseParam;
+                var actionInfoFormObject, headParam, requestParam, responseParam, domainSelect;
                 var parentId = $('select[name=moduleId]').val();
                 var depId = $('select[name=depId]').val();
                 var projectId = $('select[name=projectId]').val();
@@ -74,7 +74,8 @@ var actionTableOptions = {
                                                     moduleId: data['moduleId'],
                                                     requestType: data['requestType'],
                                                     status: data['status'],
-                                                    actionDesc: data['actionDesc']
+                                                    actionDesc: data['actionDesc'],
+                                                    domainId: data['domainId']
                                                 });
                                                 actionInfoFormObject.disable();
                                             });
@@ -118,35 +119,51 @@ var actionTableOptions = {
                                                         responseParam._showRow(data);
                                                     })
                                                 }
+                                                var $importBtn = $('#responseParam').find('#importBtn');
+                                                $importBtn.on('click',function () {
+                                                    var dialogOptions = {
+                                                        container: 'body',
+                                                        content: '<textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                                        iTitle: false,
+                                                        title: '响应参数',
+                                                        width: '150%',
+                                                        buttons:[
+                                                            {
+                                                                type: 'close', text: '关闭', fn: function () {}
+                                                            },{
+                                                                type: 'sure', text: '导入', fn: function () {
+                                                                    $.ajax({
+                                                                        url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                                        type: 'post',
+                                                                        data : $('textarea[name=responseJson]').val(),
+                                                                        contentType : 'application/json;charset=utf-8',
+                                                                        dataType: 'json',
+                                                                        success: function (result) {
+                                                                            var data = result.data;
+                                                                            $.each(JSON.parse(data), function (index, rowData) {
+                                                                                responseParam._showRow(rowData);
+                                                                            })
+                                                                            $('#responseModal').map(function () {
+                                                                                if (!$(this).is(":hidden")){
+                                                                                    $(this).modal('hide');
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    });
+                                                                }
+                                                            }
+                                                        ]
+                                                    };
+                                                    api.ui.dialog(dialogOptions).open();
+                                                })
                                                 headParam.disable();
                                                 requestParam.disable();
                                                 responseParam.disable();
                                             });
-                                            var $import = $('#importBtn');
-                                            $import.on('click',function () {
-                                                if($('textarea[name=responseJson]').val()){
-                                                    $.ajax({
-                                                        url: api.util.getUrl('apimanager/params/convertJsonToRows'),
-                                                        type: 'post',
-                                                        data : $('textarea[name=responseJson]').val(),
-                                                        contentType : 'application/json;charset=utf-8',
-                                                        dataType: 'json',
-                                                        success: function (result) {
-                                                            var data = result.data;
-                                                            $.each(JSON.parse(data), function (index, rowData) {
-                                                                responseParam._showRow(rowData);
-                                                            })
-                                                            $('#responseModal').map(function () {
-                                                                if (!$(this).is(":hidden")){
-                                                                    $(this).modal('hide');
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                            })
+
                                         }
                                     });
+
                                 }
                             }, {
                                 title: '接口测试',
@@ -174,7 +191,18 @@ var actionTableOptions = {
                                                 if (data) {
                                                     requestTypeSelect.val(data['requestType']);
                                                     $('[name=testRequestUrl]').val(data['requestUrl']);
-
+                                                    $.ajax({
+                                                        url: api.util.getUrl('apimanager/domain/findById'),
+                                                        type: 'GET',
+                                                        data: {id: data['domainId']},
+                                                        dataType: 'json',
+                                                        success: function (result) {
+                                                            var resultData = result.data;
+                                                            domainEditOptions.param={domainCode: resultData.domainCode};
+                                                            var domainEditSelect = api.ui.editSelect(domainEditOptions);
+                                                            domainEditSelect._val(resultData.id);
+                                                        }
+                                                    })
                                                     if (data['requestHeadDefinition']) {
                                                         var rowData = JSON.parse(data['requestHeadDefinition']);
                                                         $.each(rowData, function (index, data) {
@@ -510,6 +538,7 @@ headBtn: [
                             href: api.util.getUrl('html/action/actionInfo.html'),
                             loaded: function () {
                                 api.util.loadScript(api.util.getUrl('html/action/js/actionInfo.js'), function () {
+                                    api.ui.chosenSelect(domainSelectOptions);
                                     api.ui.chosenSelect(typeSelectOption);
                                     var statusSelect = api.ui.chosenSelect(statusSelectOption);
                                     api.ui.chosenSelect(moduleOptions);
@@ -532,30 +561,44 @@ headBtn: [
                                     headParam = api.ui.param(headOptions);
                                     requestParam = api.ui.param(requestOptions);
                                     responseParam = api.ui.param(responseOptions);
-                                });
-                                var $import = $('#importBtn');
-                                $import.on('click',function () {
-                                    if($('textarea[name=responseJson]').val()){
-                                        $.ajax({
-                                            url: api.util.getUrl('apimanager/params/convertJsonToRows'),
-                                            type: 'post',
-                                            data : $('textarea[name=responseJson]').val(),
-                                            contentType : 'application/json;charset=utf-8',
-                                            dataType: 'json',
-                                            success: function (result) {
-                                                var data = result.data;
-                                                $.each(JSON.parse(data), function (index, rowData) {
-                                                    responseParam._showRow(rowData);
-                                                })
-                                                $('#responseModal').map(function () {
-                                                    if (!$(this).is(":hidden")){
-                                                        $(this).modal('hide');
+                                    var $importBtn = $('#responseParam').find('#importBtn');
+                                    $importBtn.on('click',function () {
+                                        var dialogOptions = {
+                                            container: 'body',
+                                            content: '<textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                            iTitle: false,
+                                            title: '响应参数',
+                                            width: '150%',
+                                            buttons:[
+                                                {
+                                                    type: 'close', text: '关闭', fn: function () {}
+                                                },{
+                                                    type: 'sure', text: '导入', fn: function () {
+                                                        $.ajax({
+                                                            url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                            type: 'post',
+                                                            data : $('textarea[name=responseJson]').val(),
+                                                            contentType : 'application/json;charset=utf-8',
+                                                            dataType: 'json',
+                                                            success: function (result) {
+                                                                var data = result.data;
+                                                                $.each(JSON.parse(data), function (index, rowData) {
+                                                                    responseParam._showRow(rowData);
+                                                                })
+                                                                $('#responseModal').map(function () {
+                                                                    if (!$(this).is(":hidden")){
+                                                                        $(this).modal('hide');
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
                                                     }
-                                                });
-                                            }
-                                        });
-                                    }
-                                })
+                                                }
+                                            ]
+                                        };
+                                        api.ui.dialog(dialogOptions).open();
+                                    })
+                                });
                             }
                         }]
                     };
