@@ -227,7 +227,8 @@
                 }
                 removeChildren($tr.attr('identity'));
                 $tr.remove();
-                if(parseInt($row.attr('childrenCount')) > 0){
+                var parentTypeValue = $row.find('input[name=type]').val();
+                if(parentTypeValue >= 5 && parseInt($row.attr('childrenCount')) > 0){
                     var children = jq.find('tbody tr[parent=' + $row.attr('identity') + ']'), len = children.length;
                     $.each(children, function (index, child) {
                         var $child = $(child);
