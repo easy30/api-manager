@@ -15,7 +15,7 @@
         '    </div>\n' +
         '  </div>\n' +
         '</div>';
-    var modalTitle = $('<span class="glyphicon glyphicon-info-sign"></span>&nbsp;系统提示');
+    var modalTitle = '<span class="glyphicon glyphicon-info-sign"></span>&nbsp;系统提示';
 
     var dialog = function (options) {
         var options = this.options = $.extend({}, dialog.defaults, options);
