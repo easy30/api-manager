@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>editselect</title>
+    <link href="../plugins/bootstrap/css/bootstrap.css" rel="stylesheet"></link>
+    <script src="../common/js/jquery-3.3.1.min.js"></script>
+    <script src="../common/js/popper.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../common/js/namespace.js"></script>
+    <script src="../common/js/util.js"></script>
+    <script src="../common/ui/jquery.editSelect.js"></script>
+</head>
+<body>
+<div style="margin-left: 500px;">
+    <div id="domainName"></div>
+</div>
+<script>
+    var options = {
+        container: '#domainName',
+        selectName: 'domainName',
+        selectCodeField: 'id',
+        selectValueField: 'domainName',
+        content: {},
+        param: {},
+        url: api.util.getUrl('apimanager/domain/list'),
+        width: '40%',
+        change: function (param) {
+            // alert(param['oldVal']);
+        }
+    }
+    var editSelect = api.ui.editSelect(options);
+    editSelect._val(2);
+</script>
+</body>
+</html>
