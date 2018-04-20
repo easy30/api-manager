@@ -55,7 +55,9 @@ var projectTableOptions = {
                         url: api.util.getUrl('apimanager/project/list')
                     };
                     var projectSelect = api.ui.chosenSelect(projectOptions);
-                    api.ui.chosenSelect(depOptions).val(depId);
+                    var depSelect= api.ui.chosenSelect(depOptions);
+                    depSelect.val(depId);
+                    depSelect.doChange();
                     api.util.loadScript(api.util.getUrl('html/module/js/module.js') ,function () {
                         api.ui.editTable(moduleTableOptions);
                     });

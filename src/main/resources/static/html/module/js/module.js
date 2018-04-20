@@ -44,6 +44,7 @@ var moduleTableOptions = {
                             params['depId'] = e.target.value;
                             projectSelect.load(params);
                             projectSelect.val(projectId);
+                            projectSelect.doChange();
                         }
                     };
                     var projectOptions = {
@@ -66,9 +67,10 @@ var moduleTableOptions = {
                         url: api.util.getUrl('apimanager/module/list')
                     };
                     var moduleSelect = api.ui.chosenSelect(moduleOptions);
-                    moduleSelect.val(parentId);
                     var projectSelect = api.ui.chosenSelect(projectOptions);
-                    api.ui.chosenSelect(depOptions).val(depId);
+                    var depSelect = api.ui.chosenSelect(depOptions);
+                    depSelect.val(depId);
+                    depSelect.doChange();
                     api.util.loadScript(api.util.getUrl('html/action/js/action.js') ,function () {
                         api.ui.editTable(actionTableOptions);
                     });

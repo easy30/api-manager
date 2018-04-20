@@ -36,6 +36,9 @@ var actionTableOptions = {
         {type: 'more', text: '更多', icon: 'glyphicon glyphicon-option-horizontal', fn: function (param) {
                 $('#depart').parent('.container').css('display', 'none');
                 var actionInfoFormObject, headParam, requestParam, responseParam;
+                var parentId = $('select[name=moduleId]').val();
+                var depId = $('select[name=depId]').val();
+                var projectId = $('select[name=projectId]').val();
                 var conf = {
                     container: '#container',
                     url: api.util.getUrl('html/action/actionTab.html'),
@@ -303,7 +306,6 @@ var actionTableOptions = {
                         //退出查看页面
                         $editCancel.mousedown(function () {
                             $('#depart').parent('.container').css('display', '');
-                            var moduleId = $('select[name=moduleId]').val();
                             //跳转到action列表
                             var conf = {
                                 container: '#container',
@@ -327,6 +329,8 @@ var actionTableOptions = {
                                             var params = {};
                                             params['depId']=e.target.value;
                                             projectSelect.load(params);
+                                            projectSelect.val(projectId);
+                                            projectSelect.doChange();
                                         }
                                     };
                                     var projectOptions = {
@@ -339,6 +343,7 @@ var actionTableOptions = {
                                             var params = {};
                                             params['projectId']=e.target.value;
                                             moduleSelect.load(params);
+                                            moduleSelect.val(parentId);
                                         }
                                     };
                                     var moduleOptions = {
@@ -349,8 +354,10 @@ var actionTableOptions = {
                                     };
                                     var projectSelect = api.ui.chosenSelect(projectOptions);
                                     var moduleSelect = api.ui.chosenSelect(moduleOptions);
-                                    moduleSelect.val(moduleId);
-                                    api.ui.chosenSelect(depOptions);
+                                    moduleSelect.val(parentId);
+                                    var depSelect = api.ui.chosenSelect(depOptions);
+                                    depSelect.val(depId);
+                                    depSelect.doChange();
                                     api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
                                         api.ui.editTable(actionTableOptions);
                                     });
@@ -431,6 +438,8 @@ var actionTableOptions = {
                                                     var params = {};
                                                     params['depId']=e.target.value;
                                                     projectSelect.load(params);
+                                                    projectSelect.val(projectId);
+                                                    projectSelect.doChange();
                                                 }
                                             };
                                             var projectOptions = {
@@ -443,6 +452,7 @@ var actionTableOptions = {
                                                     var params = {};
                                                     params['projectId']=e.target.value;
                                                     moduleSelect.load(params);
+                                                    moduleSelect.val(parentId);
                                                 }
                                             };
                                             var moduleOptions = {
@@ -453,7 +463,9 @@ var actionTableOptions = {
                                             };
                                             var projectSelect = api.ui.chosenSelect(projectOptions);
                                             var moduleSelect = api.ui.chosenSelect(moduleOptions);
-                                            api.ui.chosenSelect(depOptions);
+                                            var depSelect = api.ui.chosenSelect(depOptions);
+                                            depSelect.val(depId);
+                                            depSelect.doChange();
                                             api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
                                                 api.ui.editTable(actionTableOptions);
                                             });
@@ -475,6 +487,8 @@ headBtn: [
         type: 'add-jump', text: '添加', icon: 'glyphicon glyphicon-plus', fn: function () {
             $('#depart').parent('.container').css('display','none');
             var parentId = $('select[name=moduleId]').val();
+            var depId = $('select[name=depId]').val();
+            var projectId = $('select[name=projectId]').val();
             var actionInfoFormObject, headParam, requestParam, responseParam;
             var conf = {
                 container: '#container',
@@ -549,11 +563,11 @@ headBtn: [
                     //退出添加
                     $cancelButton.mousedown(function () {
                         $('#depart').parent('.container').css('display', '');
-                        var moduleId = $('select[name=moduleId]');
                         //跳转到action列表
                         var conf = {
                             container: '#container',
                             url: api.util.getUrl('html/action/action.html'),
+                            content: "",
                             async: false,
                             preLoad: function () {
                                 $("#depart").empty();
@@ -562,17 +576,19 @@ headBtn: [
                                 $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"moduleClick1()\">Module</a></li>");
                                 $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"actionClick1()\">Action</a></li>");
                             },
-                            loaded: function () {
+                            loaded: function (param) {
                                 var depOptions = {
                                     selector: '[name=depId]',
                                     optionField: {value: 'id', text: 'depName'},
                                     width: '70%',
                                     url: api.util.getUrl('apimanager/department/list'),
-                                    change: function (e, p) {
+                                    change: function (e) {
                                         projectSelect.clear();
                                         var params = {};
-                                        params['depId']=e.target.value;
+                                        params['depId'] = e.target.value;
                                         projectSelect.load(params);
+                                        projectSelect.val(projectId);
+                                        projectSelect.doChange();
                                     }
                                 };
                                 var projectOptions = {
@@ -580,11 +596,12 @@ headBtn: [
                                     optionField: {value: 'id', text: 'projectName'},
                                     width: '70%',
                                     url: api.util.getUrl('apimanager/project/list'),
-                                    change: function (e, p) {
+                                    change: function (e) {
                                         moduleSelect.clear();
                                         var params = {};
-                                        params['projectId']=e.target.value;
+                                        params['projectId'] = e.target.value;
                                         moduleSelect.load(params);
+                                        moduleSelect.val(parentId);
                                     }
                                 };
                                 var moduleOptions = {
@@ -593,10 +610,11 @@ headBtn: [
                                     width: '70%',
                                     url: api.util.getUrl('apimanager/module/list')
                                 };
-                                var projectSelect = api.ui.chosenSelect(projectOptions);
                                 var moduleSelect = api.ui.chosenSelect(moduleOptions);
-                                moduleSelect.val(moduleId);
-                                api.ui.chosenSelect(depOptions);
+                                var projectSelect = api.ui.chosenSelect(projectOptions);
+                                var depSelect = api.ui.chosenSelect(depOptions);
+                                depSelect.val(depId);
+                                depSelect.doChange();
                                 api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
                                     api.ui.editTable(actionTableOptions);
                                 });
@@ -678,6 +696,8 @@ headBtn: [
                                                 var params = {};
                                                 params['depId']=e.target.value;
                                                 projectSelect.load(params);
+                                                projectSelect.val(projectId);
+                                                projectSelect.doChange();
                                             }
                                         };
                                         var projectOptions = {
@@ -690,6 +710,7 @@ headBtn: [
                                                 var params = {};
                                                 params['projectId']=e.target.value;
                                                 moduleSelect.load(params);
+                                                moduleSelect.val(parentId);
                                             }
                                         };
                                         var moduleOptions = {
@@ -700,7 +721,9 @@ headBtn: [
                                         };
                                         var projectSelect = api.ui.chosenSelect(projectOptions);
                                         var moduleSelect = api.ui.chosenSelect(moduleOptions);
-                                        api.ui.chosenSelect(depOptions);
+                                        var depSelect = api.ui.chosenSelect(depOptions);
+                                        depSelect.val(depId);
+                                        depSelect.doChange();
                                         api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
                                             api.ui.editTable(actionTableOptions);
                                         });
