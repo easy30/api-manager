@@ -82,19 +82,13 @@ function moduleClick(){
             $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"moduleClick1()\">Module</a></li>");
         },
         loaded: function () {
-            var depOptions = {
-                selector: '[name=depId]',
-                optionField: {value: 'id', text: 'depName'},
-                width: '70%',
-                url: api.util.getUrl('apimanager/department/list'),
-                change: function (e) {
-                    projectSelect.clear();
-                    var param = {};
-                    param['depId'] = e.target.value;
-                    projectSelect.load(param);
-                }
-            };
-            api.ui.chosenSelect(depOptions);
+            // var depOptions = {
+            //     selector: '[name=depId]',
+            //     optionField: {value: 'id', text: 'depName'},
+            //     width: '70%',
+            //     url: api.util.getUrl('apimanager/department/list'),
+            // };
+            // api.ui.chosenSelect(depOptions);
             var projectOptions = {
                 selector: '[name=projectId]',
                 optionField: {value: 'id', text: 'projectName'},
@@ -147,7 +141,9 @@ function moduleClick1(){
                 url: api.util.getUrl('apimanager/project/list')
             };
             var projectSelect = api.ui.chosenSelect(projectOptions);
-            api.ui.chosenSelect(depOptions).val(param.depId);
+            var depSelect = api.ui.chosenSelect(depOptions);
+            depSelect.val(param.depId);
+            depSelect.doChange();
             api.util.loadScript(api.util.getUrl("html/module/js/module.js"), function () {
                 api.ui.editTable(moduleTableOptions);
             });
@@ -169,39 +165,27 @@ function actionClick(){
             $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"actionClick1()\">Action</a></li>");
         },
         loaded: function () {
-            var depOptions = {
-                selector: '[name=depId]',
-                optionField: {value: 'id', text: 'depName'},
-                width: '70%',
-                url: api.util.getUrl('apimanager/department/list'),
-                change: function (e) {
-                    projectSelect.clear();
-                    var params = {};
-                    params['depId'] = e.target.value;
-                    projectSelect.load(params);
-                }
-            };
-            var projectOptions = {
-                selector: '[name=projectId]',
-                optionField: {value: 'id', text: 'projectName'},
-                width: '70%',
-                url: api.util.getUrl('apimanager/project/list'),
-                change: function (e) {
-                    moduleSelect.clear();
-                    var params = {};
-                    params['projectId'] = e.target.value;
-                    moduleSelect.load(params);
-                }
-            };
+            // var depOptions = {
+            //     selector: '[name=depId]',
+            //     optionField: {value: 'id', text: 'depName'},
+            //     width: '70%',
+            //     url: api.util.getUrl('apimanager/department/list'),
+            // };
+            // var projectOptions = {
+            //     selector: '[name=projectId]',
+            //     optionField: {value: 'id', text: 'projectName'},
+            //     width: '70%',
+            //     url: api.util.getUrl('apimanager/project/list'),
+            // };
             var moduleOptions = {
                 selector: '[name=moduleId]',
                 optionField: {value: 'id', text: 'moduleName'},
                 width: '70%',
                 url: api.util.getUrl('apimanager/module/list')
             };
-            var projectSelect = api.ui.chosenSelect(projectOptions);
+            // var projectSelect = api.ui.chosenSelect(projectOptions);
             var moduleSelect = api.ui.chosenSelect(moduleOptions);
-            api.ui.chosenSelect(depOptions);
+            // api.ui.chosenSelect(depOptions);
             api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
                 api.ui.editTable(actionTableOptions);
             });
@@ -240,6 +224,7 @@ function actionClick1(){
                     params['depId'] = e.target.value;
                     projectSelect.load(params);
                     projectSelect.val(projectId);
+                    projectSelect.doChange();
                 }
             };
             var projectOptions = {
@@ -263,7 +248,9 @@ function actionClick1(){
             };
             var moduleSelect = api.ui.chosenSelect(moduleOptions);
             var projectSelect = api.ui.chosenSelect(projectOptions);
-            api.ui.chosenSelect(depOptions).val(depId);
+            var depSelect = api.ui.chosenSelect(depOptions);
+            depSelect.val(depId);
+            depSelect.doChange();
             api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
                 api.ui.editTable(actionTableOptions);
             });
