@@ -35,7 +35,7 @@ public class RedirectFilter implements Filter {
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		StringBuffer requestURL = httpRequest.getRequestURL();
 		//对本系统请求进行登录验证
-		if(!requestURL.toString().contains("/mock/")){
+		if(!requestURL.toString().contains("/mockData/")){
 			String requestURI = httpRequest.getRequestURI();
 			HttpSession session = httpRequest.getSession();
 			if (whileList(requestURI) || WebUtils.isLogin(session)) {
