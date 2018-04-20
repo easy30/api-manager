@@ -18,4 +18,10 @@ public class AmDomainServiceImpl implements IAmDomainService{
     public List<AmDomain> list(AmDomainQueryReqDto dto) {
         return domainDao.list(dto);
     }
+
+    @Override
+    public AmDomain findById(Integer id) {
+        return domainDao.get(id);
+    }
+
 }

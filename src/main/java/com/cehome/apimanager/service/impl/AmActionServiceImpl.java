@@ -41,6 +41,10 @@ public class AmActionServiceImpl implements IAmActionService {
         buildMock(dto);
         dto.setCreateTime(new Date());
         dto.setUpdateTime(new Date());
+        String requestUrl = dto.getRequestUrl();
+        if(requestUrl.charAt(0) != '/'){
+            dto.setRequestUrl("/" + requestUrl);
+        }
         actionDao.add(dto);
 
         cacheProvider.addActionUrlCache(dto);
@@ -58,12 +62,15 @@ public class AmActionServiceImpl implements IAmActionService {
         action.setId(dto.getId());
         cacheProvider.removeActionUrlCache(action);
 
+        if(dto.getRequestUrl().charAt(0) != '/'){
+            dto.setRequestUrl("/" + dto.getRequestUrl());
+        }
+        cacheProvider.addActionUrlCache(dto);
+
         buildMock(dto);
         dto.setUpdateTime(new Date());
         actionDao.update(dto);
 
-        action.setRequestUrl(dto.getRequestUrl());
-        cacheProvider.addActionUrlCache(action);
     }
 
     @Override
@@ -128,16 +135,27 @@ public class AmActionServiceImpl implements IAmActionService {
                 String name = column.getString("name");
                 String rule = StringUtils.isEmpty(column.getString("rule")) ? "" : "|" + column.getString("rule");
                 Object value = column.get("defaultVal");
+                Object mockValueType = null;
                 if(CommonMeta.FieldType.NUMBER.getCode() == columnType){
-                    if(value != null){
-                        if(value.toString().contains(".")){
-                            value = Double.valueOf(value.toString());
-                        } else {
-                            value = Integer.valueOf(value.toString());
-                        }
-                    }
+                    mockValueType = 0;
+                } else if(CommonMeta.FieldType.STRING.getCode() == columnType){
+                    mockValueType = "";
+                } else if(CommonMeta.FieldType.BOOLEAN.getCode() == columnType){
+                    mockValueType = false;
+                } else if(CommonMeta.FieldType.ARRAY_NUMBER.getCode() == columnType){
+                    mockValueType = 0;
+                } else if(CommonMeta.FieldType.ARRAY_STRING.getCode() == columnType){
+                    mockValueType = "";
+                } else if(CommonMeta.FieldType.ARRAY_BOOLEAN.getCode() == columnType){
+                    mockValueType = false;
+                } else if(CommonMeta.FieldType.DATE.getCode() == columnType){
+//                    mockValueType =
                 }
-                mockObject.put(name + rule, value);
+                if(value != null){
+                    mockObject.put(name, value);
+                } else {
+                    mockObject.put(name + rule, value);
+                }
             } else if (CommonMeta.FieldType.OBJECT.getCode() == columnType) {
                 String name = column.getString("name");
                 List<JSONObject> children = column.getJSONArray("child").toJavaList(JSONObject.class);

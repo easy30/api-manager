@@ -25,15 +25,17 @@ public class AmActionTesterServiceImpl implements IAmActionTesterService {
 		Integer requestType = dto.getRequestType();
 		String requestHeadData = dto.getRequestHeadData();
 		String requestData = dto.getRequestData();
+		String requestUrl = dto.getRequestUrl();
+		String domainName = dto.getDomainName();
+		String url = "http://" + domainName + (requestUrl.charAt(0) == '/' ? requestUrl : "/" + requestUrl);
 		HttpUtils httpUtils = HttpUtils.getInstance();
 		HttpEntity responseEntity = null;
 		String responseText = "";
 		try {
 			if (CommonMeta.RequestType.GET.getCode() == requestType) {
-				responseEntity = httpUtils.execute(dto.getRequestUrl(), JSON.parseObject(requestHeadData),
-						JSON.parseObject(requestData));
+				responseEntity = httpUtils.execute(url, JSON.parseObject(requestHeadData), JSON.parseObject(requestData));
 			} else if (CommonMeta.RequestType.POST.getCode() == requestType) {
-				responseEntity = httpUtils.execute(dto.getRequestUrl(), JSON.parseObject(requestHeadData), requestData);
+				responseEntity = httpUtils.execute(url, JSON.parseObject(requestHeadData), requestData);
 			}
 			responseText = EntityUtils.toString(responseEntity, "UTF-8");
 		} catch (Exception e) {

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface IAmDomainService {
     List<AmDomain> list(AmDomainQueryReqDto dto);
+    AmDomain findById(Integer id);
 }

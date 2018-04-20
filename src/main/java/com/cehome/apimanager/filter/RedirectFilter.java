@@ -3,7 +3,9 @@ package com.cehome.apimanager.filter;
 import com.alibaba.fastjson.JSONObject;
 import com.cehome.apimanager.common.CommonMeta;
 import com.cehome.apimanager.model.dto.AmActionResDto;
+import com.cehome.apimanager.model.po.AmDomain;
 import com.cehome.apimanager.service.IAmActionService;
+import com.cehome.apimanager.service.IAmDomainService;
 import com.cehome.apimanager.utils.ApplicationContextUtils;
 import com.cehome.apimanager.utils.HttpUtils;
 import com.cehome.apimanager.utils.MockUtils;
@@ -33,7 +35,7 @@ public class RedirectFilter implements Filter {
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		StringBuffer requestURL = httpRequest.getRequestURL();
 		//对本系统请求进行登录验证
-		if(requestURL.indexOf("localhost") > 0 || requestURL.indexOf("apimanager.tiebaobei.com") > 0){
+		if(!requestURL.toString().contains("/mock/")){
 			String requestURI = httpRequest.getRequestURI();
 			HttpSession session = httpRequest.getSession();
 			if (whileList(requestURI) || WebUtils.isLogin(session)) {
@@ -42,44 +44,30 @@ public class RedirectFilter implements Filter {
 				httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.html");
 			}
 		} else {
+
+			String[] splitUrl = requestURL.toString().split("/mock");
+			String subUrl = splitUrl[1];
 			IAmActionService actionService = ApplicationContextUtils.getBean(IAmActionService.class);
-			Integer actionId = actionService.findIdByRequestUrl(requestURL.toString());
+			IAmDomainService domainService = ApplicationContextUtils.getBean(IAmDomainService.class);
+			Integer actionId = actionService.findIdByRequestUrl(subUrl);
 			AmActionResDto actionResDto = actionService.findById(actionId);
 			String responseText = "";
-			if(actionResDto != null && actionResDto.getStatus() == CommonMeta.Status.DOING.getCode()){
-				String responseMock = actionResDto.getResponseMock();
-				responseText = MockUtils.buildMockData(responseMock);
+			if(actionResDto != null){
+				Integer domainId = actionResDto.getDomainId();
+				AmDomain domain = domainService.findById(domainId);
+				String domainName = domain.getDomainName();
+				String url = "http://" + domainName + (subUrl.charAt(0) == '/' ? subUrl : "/" + subUrl);
+				if(actionResDto.getStatus() == CommonMeta.Status.DOING.getCode()){
+					String responseMock = actionResDto.getResponseMock();
+					responseText = MockUtils.buildMockData(responseMock);
+				} else {
+					responseText = sendRequest(httpRequest, url);
+				}
 			} else {
-				JSONObject headers = new JSONObject();
-				Enumeration<String> headerNames = httpRequest.getHeaderNames();
-				while(headerNames.hasMoreElements()){
-					String headerName = headerNames.nextElement();
-					if(isValidHeader(headerName)){
-						headers.put(headerName, httpRequest.getHeader(headerName));
-					}
-				}
-				HttpEntity responseEntity = null;
-				String method = httpRequest.getMethod();
-				if("GET".equals(method)){
-					Enumeration<String> parameterNames = httpRequest.getParameterNames();
-					JSONObject nameValuePair = new JSONObject();
-					while(parameterNames.hasMoreElements()){
-						String parameterName = parameterNames.nextElement();
-						nameValuePair.put(parameterName, httpRequest.getParameter(parameterName));
-					}
-					HttpUtils httpUtils = HttpUtils.getInstance();
-					responseEntity = httpUtils.execute(requestURL.toString(), null, nameValuePair);
-				} else if("POST".equals(method)){
-					BufferedReader reader = new BufferedReader(new InputStreamReader(httpRequest.getInputStream()));
-					StringBuffer buffer = new StringBuffer();
-					String line = "";
-					while ((line = reader.readLine()) != null){
-						buffer.append(line);
-					}
-					HttpUtils httpUtils = HttpUtils.getInstance();
-					responseEntity = httpUtils.execute(requestURL.toString(), headers, buffer.toString());
-				}
-				responseText = EntityUtils.toString(responseEntity, ENCODING);
+				JSONObject responseObject = new JSONObject();
+				responseObject.put("ret", -1);
+				responseObject.put("msg", "接口没有在平台维护！");
+				responseText = responseObject.toJSONString();
 			}
 
 			response.setContentType(CONTENT_TYPE);
@@ -89,6 +77,40 @@ public class RedirectFilter implements Filter {
 			outputStream.flush();
 			outputStream.close();
 		}
+	}
+
+	private String sendRequest(HttpServletRequest httpRequest, String requestURL) throws IOException {
+		String responseText;Enumeration<String> headerNames = httpRequest.getHeaderNames();
+		JSONObject headers = new JSONObject();
+		while(headerNames.hasMoreElements()){
+            String headerName = headerNames.nextElement();
+            if(isValidHeader(headerName)){
+                headers.put(headerName, httpRequest.getHeader(headerName));
+            }
+        }
+		HttpEntity responseEntity = null;
+		String method = httpRequest.getMethod();
+		if("GET".equals(method)){
+            Enumeration<String> parameterNames = httpRequest.getParameterNames();
+            JSONObject nameValuePair = new JSONObject();
+            while(parameterNames.hasMoreElements()){
+                String parameterName = parameterNames.nextElement();
+                nameValuePair.put(parameterName, httpRequest.getParameter(parameterName));
+            }
+            HttpUtils httpUtils = HttpUtils.getInstance();
+            responseEntity = httpUtils.execute(requestURL, null, nameValuePair);
+        } else if("POST".equals(method)){
+            BufferedReader reader = new BufferedReader(new InputStreamReader(httpRequest.getInputStream()));
+            StringBuffer buffer = new StringBuffer();
+            String line = "";
+            while ((line = reader.readLine()) != null){
+                buffer.append(line);
+            }
+            HttpUtils httpUtils = HttpUtils.getInstance();
+            responseEntity = httpUtils.execute(requestURL, headers, buffer.toString());
+        }
+		responseText = EntityUtils.toString(responseEntity, ENCODING);
+		return responseText;
 	}
 
 	@Override

@@ -227,7 +227,7 @@
                 }
                 removeChildren($tr.attr('identity'));
                 $tr.remove();
-                var parentTypeValue = $row.find('input[name=type]').val();
+                var parentTypeValue = $row.find('select[name=type]').val();
                 if(parentTypeValue >= 5 && parseInt($row.attr('childrenCount')) > 0){
                     var children = jq.find('tbody tr[parent=' + $row.attr('identity') + ']'), len = children.length;
                     $.each(children, function (index, child) {
@@ -568,10 +568,18 @@
                             })
                         }
                         removeChildren($tr.attr('identity'));
-                        if($tr.attr('arrayElement')){
-                            $parentTr.attr('childrenCount', parseInt($row.attr('childrenCount')) - 1);
-                        }
                         $tr.remove();
+
+                        var parentTypeValue = $parentTr.find('select[name=type]').val();
+                        if(parentTypeValue >= 5 && parseInt($parentTr.attr('childrenCount')) > 0){
+                            var children = jq.find('tbody tr[parent=' + $parentTr.attr('identity') + ']'), len = children.length;
+                            $.each(children, function (index, child) {
+                                var $child = $(child);
+                                $child.find('input[name=name]').val('array[' + (len - index - 1) + ']')
+                            })
+                            $parentTr.attr('childrenCount', parseInt($parentTr.attr('childrenCount')) - 1);
+                        }
+
                     });
                     $addLink.on('click', function () {
                         if(that._checkEmpty()){
@@ -647,13 +655,18 @@
                                         })
                                     }
                                     removeChildren($tr.attr('identity'));
+                                    $tr.attr('childrenCount', 0);
                                 }
                                 if(requestType >= 5){
                                     $selector.attr('arrayElement', true);
                                 }
+                                $tr.attr('childrenCount', 0);
                             }
                             var chosen = api.ui.chosenSelect(chosenOptions);
                             chosen.val(childFiledData[field.name]);
+                            if($selector.attr('arrayElement')){
+                                chosen.disable();
+                            }
                             $tr.append($td.append($selector));
                         }
                     });
