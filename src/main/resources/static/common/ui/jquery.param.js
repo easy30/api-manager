@@ -128,7 +128,7 @@
                                     $tr.find('input[name=defaultVal]').val(0);
                                 } else if(value == 0){
                                     var date = new Date();
-                                    $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+                                    $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds());
                                 }
                             }
                             if(value < 5){
@@ -171,21 +171,23 @@
                 }
                 //校验日期
                 if($tr.find('select[name=type]').val()==0){
-                    var regPos = /^([1-2]\d{3})[\/|\-](0?[1-9]|10|11|12)[\/|\-]([1-2]?[0-9]|0[1-9]|30|31)$/; // 浮点数
+                    var regPos = /^([1-2]\d{3})[\/|\-](0?[1-9]|10|11|12)[\/|\-]([1-2]?[0-9]|0[1-9]|30|31) ([0-1]?[0-9]|2[0-3]):([0-5]?[0-9]):([0-5]?[0-9])$/; // 浮点数
                     var $default = $tr.find('input[name=defaultVal]');
-                    if(!regPos.test($default.val())){
-                        var options = {
-                            content: '请输入yyyy-mm-dd格式日期！'
-                        };
-                        api.ui.dialog(options).open();
-                        that.defaultFlag = 1;
-                        var date = new Date();
-                        $default.val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
-                        $default.css('border-color','red');
-                        return false;
-                    }else {
-                        delete that.defaultFlag;
-                        $default.css('border-color','');
+                    if($default.val()){
+                        if(!regPos.test($default.val())){
+                            var options = {
+                                content: '请输入yyyy-mm-dd HH:MM:ss格式日期！'
+                            };
+                            api.ui.dialog(options).open();
+                            that.defaultFlag = 1;
+                            var date = new Date();
+                            $default.val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds());
+                            $default.css('border-color','red');
+                            return false;
+                        }else {
+                            delete that.defaultFlag;
+                            $default.css('border-color','');
+                        }
                     }
                 }
                 //校验boolean
@@ -294,7 +296,7 @@
                                     $tr.find('input[name=defaultVal]').val(0);
                                 } else if(value == 0){
                                     var date = new Date();
-                                    $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+                                    $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds());
                                 }
                             }
                             if(value < 5){
@@ -361,21 +363,23 @@
                 }
                 //校验日期
                 if($tr.find('select[name=type]').val()==0){
-                    var regPos = /^([1-2]\d{3})[\/|\-](0?[1-9]|10|11|12)[\/|\-]([1-2]?[0-9]|0[1-9]|30|31)$/; // 浮点数
+                    var regPos = /^([1-2]\d{3})[\/|\-](0?[1-9]|10|11|12)[\/|\-]([1-2]?[0-9]|0[1-9]|30|31) ([0-1]?[0-9]|2[0-3]):([0-5]?[0-9]):([0-5]?[0-9])$/; // 浮点数
                     var $default = $tr.find('input[name=defaultVal]');
-                    if(!regPos.test($default.val())){
-                        var options = {
-                            content: '请输入yyyy-mm-dd格式日期！'
-                        };
-                        api.ui.dialog(options).open();
-                        that.defaultFlag = 1;
-                        var date = new Date();
-                        $default.val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
-                        $default.css('border-color','red');
-                        return false;
-                    }else {
-                        delete that.defaultFlag;
-                        $default.css('border-color','');
+                    if($default.val()){
+                        if(!regPos.test($default.val())){
+                            var options = {
+                                content: '请输入yyyy-mm-dd HH:MM:ss格式日期！'
+                            };
+                            api.ui.dialog(options).open();
+                            that.defaultFlag = 1;
+                            var date = new Date();
+                            $default.val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds());
+                            $default.css('border-color','red');
+                            return false;
+                        }else {
+                            delete that.defaultFlag;
+                            $default.css('border-color','');
+                        }
                     }
                 }
                 //校验boolean
@@ -466,7 +470,7 @@
                                     $tr.find('input[name=defaultVal]').val(0);
                                 } else if(value == 0){
                                     var date = new Date();
-                                    $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+                                    $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds());
                                 }
                             }
                             if(value < 5){
@@ -513,21 +517,23 @@
                 }
                 //校验日期
                 if($tr.find('select[name=type]').val()==0){
-                    var regPos = /^([1-2]\d{3})[\/|\-](0?[1-9]|10|11|12)[\/|\-]([1-2]?[0-9]|0[1-9]|30|31)$/; // 浮点数
+                    var regPos = /^([1-2]\d{3})[\/|\-](0?[1-9]|10|11|12)[\/|\-]([1-2]?[0-9]|0[1-9]|30|31) ([0-1]?[0-9]|2[0-3]):([0-5]?[0-9]):([0-5]?[0-9])$/; // 浮点数
                     var $default = $tr.find('input[name=defaultVal]');
-                    if(!regPos.test($default.val())){
-                        var options = {
-                            content: '请输入yyyy-mm-dd格式日期！'
-                        };
-                        api.ui.dialog(options).open();
-                        that.defaultFlag = 1;
-                        var date = new Date();
-                        $default.val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
-                        $default.css('border-color','red');
-                        return false;
-                    }else {
-                        delete that.defaultFlag;
-                        $default.css('border-color','');
+                    if($default.val()){
+                        if(!regPos.test($default.val())){
+                            var options = {
+                                content: '请输入yyyy-mm-dd HH:MM:ss格式日期！'
+                            };
+                            api.ui.dialog(options).open();
+                            that.defaultFlag = 1;
+                            var date = new Date();
+                            $default.val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds());
+                            $default.css('border-color','red');
+                            return false;
+                        }else {
+                            delete that.defaultFlag;
+                            $default.css('border-color','');
+                        }
                     }
                 }
                 //校验boolean
@@ -637,7 +643,7 @@
                                             $tr.find('input[name=defaultVal]').val(0);
                                         } else if(value == 0){
                                             var date = new Date();
-                                            $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate());
+                                            $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds());
                                         }
                                     }
                                     if(value < 5){
@@ -690,21 +696,23 @@
                         }
                         //校验日期
                         if($tr.find('select[name=type]').val()==0){
-                            var regPos = /^([1-2]\d{3})[\/|\-](0?[1-9]|10|11|12)[\/|\-]([1-2]?[0-9]|0[1-9]|30|31)$/; // 浮点数
+                            var regPos = /^([1-2]\d{3})[\/|\-](0?[1-9]|10|11|12)[\/|\-]([1-2]?[0-9]|0[1-9]|30|31) ([0-1]?[0-9]|2[0-3]):([0-5]?[0-9]):([0-5]?[0-9])$/; // 浮点数
                             var $default = $tr.find('input[name=defaultVal]');
-                            if(!regPos.test($default.val())){
-                                var options = {
-                                    content: '请输入yyyy-mm-dd格式日期！'
-                                };
-                                api.ui.dialog(options).open();
-                                that.defaultFlag = 1;
-                                var date = new Date();
-                                $default.val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
-                                $default.css('border-color','red');
-                                return false;
-                            }else {
-                                delete that.defaultFlag;
-                                $default.css('border-color','');
+                            if($default.val()){
+                                if(!regPos.test($default.val())){
+                                    var options = {
+                                        content: '请输入yyyy-mm-dd MM:MM:ss格式日期！'
+                                    };
+                                    api.ui.dialog(options).open();
+                                    that.defaultFlag = 1;
+                                    var date = new Date();
+                                    $default.val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds());
+                                    $default.css('border-color','red');
+                                    return false;
+                                }else {
+                                    delete that.defaultFlag;
+                                    $default.css('border-color','');
+                                }
                             }
                         }
                         //校验boolean
