@@ -23,6 +23,7 @@
         },
         _data: function (data) {
             var editSelect = this, jq = this.jq, options = this.options;
+            editSelect.dropdownMenu.empty();
             if(data) {
                 var dropdownItem = jq.find('.dropdown-menu');
                 $.each(data, function (index, value) {
