@@ -27,7 +27,7 @@
             if(data) {
                 var dropdownItem = jq.find('.dropdown-menu');
                 $.each(data, function (index, value) {
-                    var $dropdownItem = $('<a class="dropdown-item" href="#"></a>');
+                    var $dropdownItem = $('<a class="dropdown-item" href="#" style="padding: 0.2rem 1.0rem"></a>');
                     $dropdownItem.text(value[options.selectValueField]);
                     $dropdownItem.attr('optionCode', value[options.selectCodeField]);
                     $dropdownItem.on('click', function () {

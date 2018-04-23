@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 public class AmActionTesterServiceImpl implements IAmActionTesterService {
 
 	@Override
-	public JSONObject send(ActionTesterReqDto dto) { 
+	public JSONObject send(ActionTesterReqDto dto) {
 		Integer requestType = dto.getRequestType();
 		String requestHeadData = dto.getRequestHeadData();
 		String requestData = dto.getRequestData();
