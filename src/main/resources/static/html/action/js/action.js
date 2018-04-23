@@ -66,6 +66,7 @@ var actionTableOptions = {
                                                 api.ui.chosenSelect(typeSelectOption);
                                                 api.ui.chosenSelect(statusSelectOption);
                                                 api.ui.chosenSelect(moduleOptions);
+                                                api.ui.chosenSelect(domainSelectOptions);
                                                 actionInfoFormObject = api.ui.form(actionInfoFormOptions);
                                                 actionInfoFormObject.giveVal({
                                                     id: data['id'],
@@ -228,6 +229,7 @@ var actionTableOptions = {
                                         $('#requestJsonArea').val(requestDataStr);
 
                                         var requestBody = {};
+                                        requestBody['domainName'] = $('[name=testDomainId]').val();
                                         requestBody['requestType'] = $('[name=testRequestType]').val();
                                         requestBody['requestUrl'] = $('[name=testRequestUrl]').val();
                                         requestBody['requestHeadData'] = headDataStr;

@@ -282,6 +282,7 @@ function actionTestClick() {
                 $('#requestJsonArea').val(requestDataStr);
 
                 var requestBody = {};
+                requestBody['domainName'] = $('[name=testDomainId]').val();
                 requestBody['requestType'] = $('[name=testRequestType]').val();
                 requestBody['requestUrl'] = $('[name=testRequestUrl]').val();
                 requestBody['requestHeadData'] = headDataStr;
