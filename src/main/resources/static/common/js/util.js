@@ -71,13 +71,31 @@ api.util = {
         for (var j = 0, len = array.length; j < len; j++) {
             var element = array[j];
             var columnType = element['type'];
-            if (columnType == '1' || columnType == '2' || columnType == '3'
+            if (columnType == '0' || columnType == '1' || columnType == '2' || columnType == '3'
                 || columnType == '6' || columnType == '7' || columnType == '8') {
-                var name = element['name'], rule = !element['rule'] ? '' : '|' +    element['rule'], value = element['defaultVal'];
-                if(columnType == '1' || columnType == '6'){
-                    value = Number(value);
+                var name = element['name'], rule = element['rule'], ruleDesc = '', value = element['defaultVal'];
+                if(rule){
+                    if(columnType == '0'){
+                        value = Mock.mock(rule);
+                        mockObject[name] = value;
+                    } else {
+                        var ruleItem = rule.split(':');
+                        var expression = ruleItem[0];
+                        var itemValue = ruleItem[1];
+                        if(columnType == '1' || columnType == '6'){
+                            value = Number(itemValue);
+                        } else {
+                            value = itemValue;
+                        }
+                        ruleDesc = '|' + expression;
+                        mockObject[name + ruleDesc] = value;
+                    }
+                } else {
+                    if(columnType == '1' || columnType == '6'){
+                        value = Number(value);
+                    }
+                    mockObject[name] = value;
                 }
-                mockObject[name + rule] = value;
             } else if (columnType == '4') {
                 var name = element['name'], children = element['child'], columnObject = this.buildMockTemplate(children);
                 mockObject[name] = columnObject;
