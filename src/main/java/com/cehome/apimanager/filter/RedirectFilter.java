@@ -34,8 +34,7 @@ public class RedirectFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		StringBuffer requestURL = httpRequest.getRequestURL();
-		//对本系统请求进行登录验证
-		if(!requestURL.toString().contains("/mockData/")){
+		if(!requestURL.toString().contains("apimanager.tiebaobei.com/mockData/")){
 			String requestURI = httpRequest.getRequestURI();
 			HttpSession session = httpRequest.getSession();
 			if (whileList(requestURI) || WebUtils.isLogin(session)) {
@@ -44,8 +43,7 @@ public class RedirectFilter implements Filter {
 				httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.html");
 			}
 		} else {
-
-			String[] splitUrl = requestURL.toString().split("/mock");
+			String[] splitUrl = requestURL.toString().split("/mockData");
 			String subUrl = splitUrl[1];
 			IAmActionService actionService = ApplicationContextUtils.getBean(IAmActionService.class);
 			IAmDomainService domainService = ApplicationContextUtils.getBean(IAmDomainService.class);

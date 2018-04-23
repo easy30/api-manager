@@ -39,7 +39,7 @@ var testRequestOptions = {
         {text: '名称', width: '15%'},
         {text: '类型', width: '20%'},
         {text: '备注', width: '20%'},
-        // {text: 'Mock规则', width: '20%'},
+        {text: 'Mock规则', width: '20%'},
         {text: '值', width: '20%'}
     ],
     fields: [
@@ -57,7 +57,7 @@ var testRequestOptions = {
             }
         },
         {name: 'desc', type: 'input'},
-        // {name: 'rule', type: 'input'},
+        {name: 'rule', type: 'input'},
         {name: 'defaultVal', type: 'input'}
     ],
     footBtn: [
@@ -70,7 +70,7 @@ var testRequestOptions = {
 
 var requestTypeOptions = {
     selector: '[name=testRequestType]',
-    width: '50%',
+    width: '60%',
     params: {metaId: 2},
     blank: false,
     cache: true,

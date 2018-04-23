@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -70,7 +71,6 @@ public class AmActionServiceImpl implements IAmActionService {
         buildMock(dto);
         dto.setUpdateTime(new Date());
         actionDao.update(dto);
-
     }
 
     @Override
@@ -133,28 +133,45 @@ public class AmActionServiceImpl implements IAmActionService {
                     || CommonMeta.FieldType.ARRAY_STRING.getCode() == columnType
                     || CommonMeta.FieldType.ARRAY_BOOLEAN.getCode() == columnType) {
                 String name = column.getString("name");
-                String rule = StringUtils.isEmpty(column.getString("rule")) ? "" : "|" + column.getString("rule");
+                String rule = column.getString("rule");
                 Object value = column.get("defaultVal");
-                Object mockValueType = null;
-                if(CommonMeta.FieldType.NUMBER.getCode() == columnType){
-                    mockValueType = 0;
-                } else if(CommonMeta.FieldType.STRING.getCode() == columnType){
-                    mockValueType = "";
-                } else if(CommonMeta.FieldType.BOOLEAN.getCode() == columnType){
-                    mockValueType = false;
-                } else if(CommonMeta.FieldType.ARRAY_NUMBER.getCode() == columnType){
-                    mockValueType = 0;
-                } else if(CommonMeta.FieldType.ARRAY_STRING.getCode() == columnType){
-                    mockValueType = "";
-                } else if(CommonMeta.FieldType.ARRAY_BOOLEAN.getCode() == columnType){
-                    mockValueType = false;
-                } else if(CommonMeta.FieldType.DATE.getCode() == columnType){
-//                    mockValueType =
-                }
-                if(value != null){
-                    mockObject.put(name, value);
+                String ruleDesc = "";
+                if(!StringUtils.isEmpty(rule)){
+                    if(CommonMeta.FieldType.DATE.getCode() == columnType){
+                        if("@date".equals(rule)){
+                            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+                            value = sf.format(new Date());
+                        } else if("@datetime".equals(rule)){
+                            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            value = sf.format(new Date());
+                        }
+                        mockObject.put(name, value);
+                    } else {
+                        String[] ruleItem = rule.split(":");
+                        String expression = ruleItem[0];
+                        String itemValue = ruleItem[1];
+                        if(columnType == CommonMeta.FieldType.NUMBER.getCode() || columnType == CommonMeta.FieldType.ARRAY_NUMBER.getCode()){
+                            if(itemValue.contains(".")){
+                                value = Double.valueOf(itemValue);
+                            } else {
+                                value = Integer.valueOf(itemValue);
+                            }
+                        } else {
+                            value = itemValue;
+                        }
+                        ruleDesc = '|' + expression;
+                        mockObject.put(name + ruleDesc, value);
+                    }
                 } else {
-                    mockObject.put(name + rule, value);
+                    if(columnType == CommonMeta.FieldType.NUMBER.getCode() || columnType == CommonMeta.FieldType.ARRAY_NUMBER.getCode()){
+                        String valueStr = value.toString();
+                        if(valueStr.contains(".")){
+                            value = Double.valueOf(valueStr);
+                        } else {
+                            value = Integer.valueOf(valueStr);
+                        }
+                    }
+                    mockObject.put(name, value);
                 }
             } else if (CommonMeta.FieldType.OBJECT.getCode() == columnType) {
                 String name = column.getString("name");
