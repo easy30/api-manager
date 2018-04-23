@@ -79,7 +79,7 @@ var requestTypeOptions = {
 };
 var domainEditOptions = {
     container: '#testDomainEdit',
-    selectName: 'domainId',
+    selectName: 'testDomainId',
     selectCodeField: 'id',
     selectValueField: 'domainName',
     content: {},

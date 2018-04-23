@@ -25,3 +25,9 @@ var moduleOptions = {
 var actionInfoFormOptions={
     container:'#actionInfoForm'
 };
+var domainSelectOptions = {
+    selector: '[name=domainId]',
+    optionField: {value: 'id', text: 'domainName'},
+    width: '88.5%',
+    url: api.util.getUrl('/apimanager/domain/list')
+}
