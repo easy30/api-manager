@@ -199,8 +199,8 @@ var actionTableOptions = {
                                                         dataType: 'json',
                                                         success: function (result) {
                                                             var resultData = result.data;
-                                                            domainEditOptions.param={domainCode: resultData.domainCode};
                                                             var domainEditSelect = api.ui.editSelect(domainEditOptions);
+                                                            domainEditSelect._load({domainCode: resultData.domainCode});
                                                             domainEditSelect._val(resultData.id);
                                                         }
                                                     })
