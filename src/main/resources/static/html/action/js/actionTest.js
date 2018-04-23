@@ -70,7 +70,7 @@ var testRequestOptions = {
 
 var requestTypeOptions = {
     selector: '[name=testRequestType]',
-    width: '50%',
+    width: '60%',
     params: {metaId: 2},
     blank: false,
     cache: true,
