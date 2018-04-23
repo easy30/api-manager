@@ -65,8 +65,8 @@
         _addRow: function () {
             var that = this, jq = this.jq, conf = this.options, fields = conf.fields, $tr = $('<tr childrenCount="0"></tr>');
             var $operate = $('<td class="td-item-operate" align="right"></td>');
-            var $addLink = $('<a class="glyphicon glyphicon-plus" href="#" style="text-decoration: none; margin-top: 10px; color: #1e7e34; display: none;"></a>');
-            var $removeLink = $('<a class="glyphicon glyphicon-remove" href="#" style="text-decoration: none; margin-left: 10px; margin-top: 10px; color: #ab1e1e"></a>');
+            var $addLink = $('<span class="glyphicon glyphicon-plus" style="margin-top: 10px; color: #1e7e34; cursor: pointer; display: none;"></span>');
+            var $removeLink = $('<span class="glyphicon glyphicon-remove" style="margin-left: 10px; margin-top: 10px; cursor: pointer; color: #ab1e1e"></span>');
             $removeLink.mousedown(function () {
                 delete that.defaultFlag;
                 function removeChildren(identity) {
@@ -214,8 +214,8 @@
         _after: function ($row) {
             var that = this, jq = this.jq, conf = this.options, fields = conf.fields, $tr = $('<tr childrenCount="0"></tr>'), parentType = $row.find('select[name=type]').val();
             var $operate = $('<td class="td-item-operate" align="right"></td>');
-            var $addLink = $('<a class="glyphicon glyphicon-plus" href="#" style="text-decoration: none; margin-top: 10px; color: #1e7e34; display: none;"></a>');
-            var $removeLink = $('<a class="glyphicon glyphicon-remove" href="#" style="text-decoration: none; margin-left: 10px; margin-top: 10px; color: #ab1e1e"></a>');
+            var $addLink = $('<span class="glyphicon glyphicon-plus" style="margin-top: 10px; color: #1e7e34; cursor: pointer; display: none;"></span>');
+            var $removeLink = $('<span class="glyphicon glyphicon-remove" style="margin-left: 10px; margin-top: 10px; cursor: pointer; color: #ab1e1e"></span>');
             $removeLink.mousedown(function () {
                 delete that.defaultFlag;
                 function removeChildren(identity) {
@@ -407,8 +407,8 @@
         _showRow: function (rowData) {
             var that = this, jq = this.jq, conf = this.options, fields = conf.fields, $tr = $('<tr childrenCount="0"></tr>');
             var $operate = $('<td class="td-item-operate" align="right"></td>');
-            var $addLink = $('<a class="glyphicon glyphicon-plus" href="#" style="text-decoration: none; margin-top: 10px; color: #1e7e34; display: none;"></a>');
-            var $removeLink = $('<a class="glyphicon glyphicon-remove" href="#" style="text-decoration: none; margin-left: 10px; margin-top: 10px; color: #ab1e1e"></a>');
+            var $addLink = $('<span class="glyphicon glyphicon-plus" style="margin-top: 10px; color: #1e7e34; cursor: pointer; display: none;"></span>');
+            var $removeLink = $('<span class="glyphicon glyphicon-remove" style="cursor: pointer; margin-left: 10px; margin-top: 10px; color: #ab1e1e"></span>');
             $removeLink.mousedown(function () {
                 delete that.defaultFlag;
                 function removeChildren(identity) {
@@ -560,8 +560,8 @@
                 $.each(childRowData, function (index, childFiledData) {
                     var $tr = $('<tr childrenCount="0"></tr>');
                     var $operate = $('<td class="td-item-operate" align="right"></td>');
-                    var $addLink = $('<a class="glyphicon glyphicon-plus" href="#" style="text-decoration: none; margin-top: 10px; color: #1e7e34; display: none;"></a>');
-                    var $removeLink = $('<a class="glyphicon glyphicon-remove" href="#" style="text-decoration: none; margin-left: 10px; margin-top: 10px; color: #ab1e1e"></a>');
+                    var $addLink = $('<span class="glyphicon glyphicon-plus" style="cursor: pointer; margin-top: 10px; color: #1e7e34; display: none;"></span>');
+                    var $removeLink = $('<span class="glyphicon glyphicon-remove" style="cursor: pointer; margin-left: 10px; margin-top: 10px; color: #ab1e1e"></span>');
                     $removeLink.mousedown(function () {
                         delete that.defaultFlag;
                         function removeChildren(identity) {
@@ -796,7 +796,7 @@
             var jq = this.jq;
             jq.find('input,select,textarea').attr('disabled', true).css('background-color', 'white');
             jq.find('tfoot button').css('display', 'none');
-            jq.find('.td-item-operate a').each(function () {
+            jq.find('.td-item-operate span').each(function () {
                 var $this = $(this);
                 // 判断属性是否存在
                 if(typeof $this.attr("oldDisplay") == "undefined"){
@@ -811,7 +811,7 @@
             var jq = this.jq;
             jq.find('input[arrayElement!=true],select[arrayElement!=true],textarea').attr('disabled', false);
             jq.find('tfoot button').css('display', '');
-            jq.find('.td-item-operate a').each(function () {
+            jq.find('.td-item-operate span').each(function () {
                 var $this = $(this);
                 $this.css('display', $this.attr('oldDisplay'));
             });
