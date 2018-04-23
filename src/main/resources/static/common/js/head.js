@@ -268,7 +268,7 @@ function actionTestClick() {
             $('#testPage').css('margin-top','90px');
             var testHeadParam, testRequestParam;
             api.util.loadScript(api.util.getUrl('html/action/js/actionTest.js'), function () {
-                api.ui.editSelect(domainEditOptions)._val(1);
+                api.ui.editSelect(domainEditOptions);
                 var requestTypeSelect = api.ui.chosenSelect(requestTypeOptions);
                 testHeadParam = api.ui.param(testHeadOptions);
                 testRequestParam = api.ui.param(testRequestOptions);
