@@ -122,9 +122,10 @@ var actionTableOptions = {
                                                 }
                                                 var $importBtn = $('#responseParam').find('#importBtn');
                                                 $importBtn.on('click',function () {
+                                                    var templateA = {'ret': '0', 'result': {}};
                                                     var dialogOptions = {
                                                         container: 'body',
-                                                        content: '<textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                                        content: '<button type="button" class="btn btn-info btn-sm templateA">模板一</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
                                                         iTitle: false,
                                                         title: '响应参数',
                                                         width: '150%',
@@ -151,7 +152,13 @@ var actionTableOptions = {
                                                                     }
                                                                 }
                                                             }
-                                                        ]
+                                                        ],
+                                                        opened: function (modalBody) {
+                                                            modalBody.find('.templateA').on('click', function () {
+                                                                var templateAString = JSON.stringify(templateA, null, 2);
+                                                                modalBody.find('textarea[name=responseJson]').val(templateAString);
+                                                            });
+                                                        }
                                                     };
                                                     api.ui.dialog(dialogOptions).open();
                                                 })
@@ -532,7 +539,6 @@ var actionTableOptions = {
                 var conf = {
                     container: '#container',
                     url: api.util.getUrl('html/action/actionTab.html'),
-                    content: "",
                     async: false,
                     preLoad: function () {},
                     loaded: function () {
@@ -612,9 +618,10 @@ var actionTableOptions = {
                                                 }
                                                 var $importBtn = $('#responseParam').find('#importBtn');
                                                 $importBtn.on('click',function () {
+                                                    var templateA = {'ret': '0', 'result': {}};
                                                     var dialogOptions = {
                                                         container: 'body',
-                                                        content: '<textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                                        content: '<button type="button" class="btn btn-info btn-sm templateA">模板一</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
                                                         iTitle: false,
                                                         title: '响应参数',
                                                         width: '150%',
@@ -641,7 +648,13 @@ var actionTableOptions = {
                                                                     }
                                                                 }
                                                             }
-                                                        ]
+                                                        ],
+                                                        opened: function (modalBody) {
+                                                            modalBody.find('.templateA').on('click', function () {
+                                                                var templateAString = JSON.stringify(templateA, null, 2);
+                                                                modalBody.find('textarea[name=responseJson]').val(templateAString);
+                                                            });
+                                                        }
                                                     };
                                                     api.ui.dialog(dialogOptions).open();
                                                 })
@@ -759,9 +772,8 @@ var actionTableOptions = {
                                 contentType : 'application/json;charset=utf-8',
                                 success: function (data) {
                                     if(data.code == -1){
-                                        var option={content: '保存失败'};
+                                        var option = {content: '保存失败'};
                                         api.ui.dialog(option).open();
-
                                         return;
                                     }
                                     $('#depart').parent('.container').css('display','');
@@ -885,9 +897,10 @@ headBtn: [
                                     responseParam = api.ui.param(responseOptions);
                                     var $importBtn = $('#responseParam').find('#importBtn');
                                     $importBtn.on('click',function () {
+                                        var templateA = {'ret': '0', 'result': {}};
                                         var dialogOptions = {
                                             container: 'body',
-                                            content: '<textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                            content: '<button type="button" class="btn btn-info btn-sm templateA">模板一</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
                                             iTitle: false,
                                             title: '响应参数',
                                             width: '150%',
@@ -914,7 +927,13 @@ headBtn: [
                                                         }
                                                     }
                                                 }
-                                            ]
+                                            ],
+                                            opened: function (modalBody) {
+                                                modalBody.find('.templateA').on('click', function () {
+                                                    var templateAString = JSON.stringify(templateA, null, 2);
+                                                    modalBody.find('textarea[name=responseJson]').val(templateAString);
+                                                });
+                                            }
                                         };
                                         api.ui.dialog(dialogOptions).open();
                                     })
@@ -1004,14 +1023,14 @@ headBtn: [
 
                         });
                         if(i == 1){
-                            var option={content: '请完善接口基本信息'};
+                            var option = {content: '请完善接口基本信息'};
                             api.ui.dialog(option).open();
                             actionTabConfObject.show('基本信息');
                             return;
                         }
                         if (headParam._checkEmpty() || requestParam._checkEmpty() || responseParam._checkEmpty()
                             || headParam.defaultFlag == 1 || requestParam.defaultFlag == 1 || responseParam.defaultFlag == 1) {
-                            var option={content: '请完善接口参数信息'};
+                            var option = {content: '请完善接口参数信息'};
                             api.ui.dialog(option).open();
                             return;
                         }
@@ -1029,10 +1048,9 @@ headBtn: [
                             data : JSON.stringify(requestData),
                             contentType : 'application/json;charset=utf-8',
                             success: function (data) {
-                                if (data.code == -1) {
-                                    var option={content: '保存失败'};
+                                if (data.code == '-1') {
+                                    var option = {content: '保存失败'};
                                     api.ui.dialog(option).open();
-
                                     return;
                                 }
                                 $('#depart').parent('.container').css('display','');

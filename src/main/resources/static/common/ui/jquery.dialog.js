@@ -70,7 +70,9 @@
             return this;
         },
         open: function () {
-            this.jq.find('#' + this.modalId).modal('show');
+            var jq = this.jq, options = this.options;
+            jq.find('#' + this.modalId).modal('show');
+            options.opened && options.opened(jq.find('#' + this.modalId).find('.modal-body'));
             return this;
         },
         close: function () {
@@ -82,7 +84,8 @@
         container: 'body',
         content: '系统提示',
         iTitle: true,
-        title: ''
+        title: '',
+        opened: undefined
     };
 
     api.ui.dialog = function (options) {
