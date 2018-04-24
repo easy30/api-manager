@@ -323,15 +323,19 @@
                     if(field.name == 'type'){
                         if(parentType == 6){
                             chosen.val(1);
+                            chosen.doChange();
                             chosen.disable();
                         } else if(parentType == 7){
                             chosen.val(2);
+                            chosen.doChange();
                             chosen.disable();
                         } else if(parentType == 8){
                             chosen.val(3);
+                            chosen.doChange();
                             chosen.disable();
                         } else if(parentType == 9){
                             chosen.val(4);
+                            chosen.doChange();
                             chosen.disable();
                         }
                         if(chosen.val() == 4){
@@ -493,6 +497,7 @@
                     }
                     var chosen = api.ui.chosenSelect(chosenOptions);
                     chosen.val(rowData[field.name]);
+                    chosen.doChange();
                     $tr.append($td.append($selector));
                 }
             });
@@ -670,6 +675,7 @@
                             }
                             var chosen = api.ui.chosenSelect(chosenOptions);
                             chosen.val(childFiledData[field.name]);
+                            chosen.doChange();
                             if($selector.attr('arrayElement')){
                                 chosen.disable();
                             }
