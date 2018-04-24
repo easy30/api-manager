@@ -247,12 +247,37 @@ function actionTestClick() {
             $('#testPage').css('margin-top','90px');
             var testHeadParam, testRequestParam;
             api.util.loadScript(api.util.getUrl('html/action/js/actionTest.js'), function () {
-                api.ui.editSelect(domainEditOptions);
+                envOptions.change = function (event) {
+                    var value = event.target.value;
+                    domainEditSelect._empty();
+                    if(value && $.trim(value) != ''){
+                        domainEditSelect._load({envId: value})
+                    } else {
+                        domainEditSelect._load({});
+                    }
+                };
+                var envSelect = api.ui.chosenSelect(envOptions);
+                var domainEditSelect = api.ui.editSelect(domainEditOptions);
                 var requestTypeSelect = api.ui.chosenSelect(requestTypeOptions);
                 testHeadParam = api.ui.param(testHeadOptions);
                 testRequestParam = api.ui.param(testRequestOptions);
             });
             $('#sendRequest').on('click', function () {
+                var domainName = $('[name=testDomainId]').val(), requestType = $('[name=testRequestType]').val(), requestUrl = $('[name=testRequestUrl]').val();
+                if(!domainName || $.trim(domainName) == ''){
+                    var options = {
+                        content: '服务地址不能为空！'
+                    };
+                    api.ui.dialog(options).open();
+                    return;
+                }
+                if(!requestUrl || $.trim(requestUrl) == ''){
+                    var options = {
+                        content: '接口地址不能为空！'
+                    };
+                    api.ui.dialog(options).open();
+                    return;
+                }
                 var requestMockTemplate = api.util.buildMockTemplate(testRequestParam.toData());
                 var headMockTemplate = api.util.buildMockTemplate(testHeadParam.toData());
                 var requestData = Mock.mock(requestMockTemplate), headData = Mock.mock(headMockTemplate);
@@ -261,9 +286,9 @@ function actionTestClick() {
                 $('#requestJsonArea').val(requestDataStr);
 
                 var requestBody = {};
-                requestBody['domainName'] = $('[name=testDomainId]').val();
-                requestBody['requestType'] = $('[name=testRequestType]').val();
-                requestBody['requestUrl'] = $('[name=testRequestUrl]').val();
+                requestBody['domainName'] = domainName;
+                requestBody['requestType'] = requestType;
+                requestBody['requestUrl'] = requestUrl;
                 requestBody['requestHeadData'] = headDataStr;
                 requestBody['requestData'] = requestDataStr;
                 $.ajax({

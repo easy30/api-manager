@@ -68,15 +68,23 @@ var testRequestOptions = {
     ]
 };
 
+var envOptions = {
+    selector: '[name=testEnv]',
+    width: '30%',
+    optionField: {value: 'id', text: 'envName'},
+    url: api.util.getUrl('apimanager/env/list')
+};
+
 var requestTypeOptions = {
     selector: '[name=testRequestType]',
-    width: '60%',
+    width: '20%',
     params: {metaId: 2},
     blank: false,
     cache: true,
     optionField: {value: 'k', text: 'v'},
     url: api.util.getUrl('apimanager/meta/findMeta')
 };
+
 var domainEditOptions = {
     container: '#testDomainEdit',
     selectName: 'testDomainId',
@@ -84,9 +92,8 @@ var domainEditOptions = {
     selectValueField: 'domainName',
     content: {},
     param: {},
+    width: '150%',
     url: api.util.getUrl('apimanager/domain/list'),
-    width: '270px',
     change: function (param) {
-        // alert(param['oldVal']);
     }
 }

@@ -55,6 +55,10 @@
                 return editSelect.input.val();
             }
         },
+        _empty: function () {
+            this.dropdownMenu.empty();
+            this.input.val('');
+        },
         _load: function (param) {
             var editSelect = this, jq = this.jq, options = this.options;
             $.ajax({
@@ -78,7 +82,7 @@
         content: {},
         param: {},
         url: '',
-        width: '',
+        width: '100%',
         change: undefined
     }
     api.ui.editSelect = function (options) {
