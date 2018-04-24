@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/apimanager/evn")
+@RequestMapping("/apimanager/env")
 public class AmEnvController extends BaseController {
     private static Logger logger = LoggerFactory.getLogger(AmEnvController.class);
     @Autowired

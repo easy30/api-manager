@@ -82,13 +82,6 @@ function moduleClick(){
             $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"moduleClick1()\">Module</a></li>");
         },
         loaded: function () {
-            // var depOptions = {
-            //     selector: '[name=depId]',
-            //     optionField: {value: 'id', text: 'depName'},
-            //     width: '70%',
-            //     url: api.util.getUrl('apimanager/department/list'),
-            // };
-            // api.ui.chosenSelect(depOptions);
             var projectOptions = {
                 selector: '[name=projectId]',
                 optionField: {value: 'id', text: 'projectName'},
@@ -165,27 +158,13 @@ function actionClick(){
             $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"actionClick1()\">Action</a></li>");
         },
         loaded: function () {
-            // var depOptions = {
-            //     selector: '[name=depId]',
-            //     optionField: {value: 'id', text: 'depName'},
-            //     width: '70%',
-            //     url: api.util.getUrl('apimanager/department/list'),
-            // };
-            // var projectOptions = {
-            //     selector: '[name=projectId]',
-            //     optionField: {value: 'id', text: 'projectName'},
-            //     width: '70%',
-            //     url: api.util.getUrl('apimanager/project/list'),
-            // };
             var moduleOptions = {
                 selector: '[name=moduleId]',
                 optionField: {value: 'id', text: 'moduleName'},
                 width: '70%',
                 url: api.util.getUrl('apimanager/module/list')
             };
-            // var projectSelect = api.ui.chosenSelect(projectOptions);
             var moduleSelect = api.ui.chosenSelect(moduleOptions);
-            // api.ui.chosenSelect(depOptions);
             api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
                 api.ui.editTable(actionTableOptions);
             });
@@ -330,6 +309,34 @@ function actionTestClick() {
     }
     api.ui.load(conf);
 }
+
+function domainClick() {
+    $('#depart').parent('.container').css('display','none');
+    var conf = {
+        container: '#container',
+        url: api.util.getUrl('html/domain/domain.html'),
+        async: false,
+        preLoad: function () {
+            var param = {};
+            param['envId'] = $("select[name=envId]").val();
+            return param;
+        },
+        loaded: function (param) {
+            var envOptions = {
+                selector: '[name=envId]',
+                optionField: {value: 'id', text: 'envName'},
+                width: '50%',
+                url: api.util.getUrl('apimanager/env/list')
+            };
+            var envSelect = api.ui.chosenSelect(envOptions);
+            api.util.loadScript(api.util.getUrl("html/domain/js/domain.js") ,function () {
+                api.ui.editTable(domainTableOptions);
+            });
+        }
+    }
+    api.ui.load(conf);
+}
+
 function logOut() {
     $.ajax({
         url: api.util.getUrl('apimanager/user/loginOut'),

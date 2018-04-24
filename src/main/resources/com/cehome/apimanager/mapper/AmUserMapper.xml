@@ -51,7 +51,7 @@
 		FROM am_user
 		WHERE
 			1=1
-		<if test="userName != null">
+		<if test="userName != null and userName != ''">
 		AND
 			user_name LIKE CONCAT('%',#{userName},'%')
 		</if>
@@ -67,7 +67,7 @@
 		SELECT COUNT(1) FROM am_user
 		WHERE
 			1=1
-		<if test="userName != null">
+		<if test="userName != null and userName != ''">
 		AND
 			user_name LIKE CONCAT('%',#{userName},'%')
 		</if>
@@ -83,7 +83,7 @@
 		FROM am_user
 		WHERE
 			1=1
-		<if test="userName != null">
+		<if test="userName != null and userName != ''">
 		AND
 			user_name LIKE CONCAT('%',#{userName},'%')
 		</if>

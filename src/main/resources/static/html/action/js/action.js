@@ -200,7 +200,7 @@ var actionTableOptions = {
                                                         success: function (result) {
                                                             var resultData = result.data;
                                                             var domainEditSelect = api.ui.editSelect(domainEditOptions);
-                                                            domainEditSelect._load({domainCode: resultData.domainCode});
+                                                            domainEditSelect._load({domainName: resultData.domainName.split('.')[0]});
                                                             domainEditSelect._val(resultData.id);
                                                         }
                                                     })

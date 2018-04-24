@@ -28,7 +28,7 @@
 		FROM am_department
 		WHERE
 			1=1
-		<if test="depName != null">
+		<if test="depName != null and depName != ''">
 		AND
 			dep_name LIKE CONCAT('%',#{depName},'%')
 		</if>
@@ -40,7 +40,7 @@
 		SELECT COUNT(1) FROM am_department
 		WHERE
 			1=1
-		<if test="depName != null">
+		<if test="depName != null and depName != ''">
 		AND
 			dep_name LIKE CONCAT('%',#{depName},'%')
 		</if>
@@ -52,7 +52,7 @@
 		FROM am_department
 		WHERE
 			1=1
-		<if test="depName != null">
+		<if test="depName != null and depName != ''">
 		AND
 			dep_name LIKE CONCAT('%',#{depName},'%')
 		</if>

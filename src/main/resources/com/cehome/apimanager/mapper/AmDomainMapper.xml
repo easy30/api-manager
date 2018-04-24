@@ -32,11 +32,11 @@
 		AND
 			env_id = #{envId,jdbcType=INTEGER}
 		</if>
-		<if test="domainCode != null">
-        AND
-			domain_code = #{domainCode,jdbcType=INTEGER}
+		<if test="domainName != null and domainName != ''">
+		AND
+			domain_name LIKE CONCAT('%', #{domainName,jdbcType=VARCHAR},'%')
 		</if>
-		ORDER BY sort_code
+		ORDER BY env_id, sort_code
 		LIMIT #{pageOffset},#{pageSize}
 	</select>
 	
@@ -48,9 +48,9 @@
         AND
 			env_id = #{envId,jdbcType=INTEGER}
 		</if>
-		<if test="domainCode != null">
-        AND
-			domain_code = #{domainCode,jdbcType=INTEGER}
+		<if test="domainName != null and domainName != ''">
+		AND
+			domain_name LIKE CONCAT('%', #{domainName,jdbcType=VARCHAR},'%')
 		</if>
 	</select>
 	
@@ -68,6 +68,73 @@
         AND
 			domain_code = #{domainCode,jdbcType=INTEGER}
 		</if>
+		<if test="domainName != null and domainName != ''">
+		AND
+			domain_name LIKE CONCAT(#{domainName,jdbcType=VARCHAR},'.%')
+		</if>
 		ORDER BY sort_code
 	</select>
+
+	<insert id="insertSelective" parameterType="com.cehome.apimanager.model.po.AmDomain"
+			useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO am_domain
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="envId != null">
+				env_id,
+			</if>
+			<if test="domainCode != null">
+				domain_code,
+			</if>
+			<if test="domainName != null">
+				domain_name,
+			</if>
+			<if test="sortCode != null">
+				sort_code
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="envId != null">
+				#{envId,jdbcType=INTEGER},
+			</if>
+			<if test="domainCode != null">
+				#{domainCode,jdbcType=INTEGER},
+			</if>
+			<if test="domainName != null">
+				#{domainName,jdbcType=VARCHAR},
+			</if>
+			<if test="sortCode != null">
+				#{sortCode,jdbcType=INTEGER}
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="com.cehome.apimanager.model.po.AmDomain">
+		UPDATE am_domain
+		<set>
+			<if test="envId != null">
+				env_id = #{envId,jdbcType=INTEGER},
+			</if>
+			<if test="domainName != null">
+				domain_name = #{domainName,jdbcType=VARCHAR},
+			</if>
+			<if test="domainCode != null">
+				domain_code = #{domainCode,jdbcType=VARCHAR},
+			</if>
+			<if test="sortCode != null">
+				sort_code = #{sortCode,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE
+		id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		DELETE FROM am_domain WHERE id = #{id}
+	</delete>
 </mapper>

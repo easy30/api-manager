@@ -47,7 +47,7 @@
 		AND
 			id = #{id}
 		</if>
-		<if test="actionName != null">
+		<if test="actionName != null and actionName != ''">
 		AND
 			action_name LIKE CONCAT('%',#{actionName},'%')
 		</if>
@@ -67,7 +67,7 @@
 		AND
 			id = #{id}
 		</if>
-		<if test="actionName != null">
+		<if test="actionName != null and actionName != ''">
 		AND
 			action_name LIKE CONCAT('%',#{actionName},'%')
 		</if>
@@ -83,7 +83,7 @@
 		FROM am_action
 		WHERE
 			1=1
-		<if test="actionName != null">
+		<if test="actionName != null and actionName != ''">
 		AND
 			action_name LIKE CONCAT('%',#{actionName},'%')
 		</if>
