@@ -170,7 +170,7 @@ var actionTableOptions = {
                                                     var templateA = {'ret': '0', 'result': {}};
                                                     var dialogOptions = {
                                                         container: 'body',
-                                                        content: '<button type="button" class="btn btn-info btn-sm templateA">模板一</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                                        content: '<button type="button" class="btn btn-info btn-sm templateA">ret-result</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
                                                         iTitle: false,
                                                         title: '响应参数',
                                                         width: '150%',
@@ -200,8 +200,13 @@ var actionTableOptions = {
                                                         ],
                                                         opened: function (modalBody) {
                                                             modalBody.find('.templateA').on('click', function () {
-                                                                var templateAString = JSON.stringify(templateA, null, 2);
-                                                                modalBody.find('textarea[name=responseJson]').val(templateAString);
+                                                                var content = modalBody.find('textarea[name=responseJson]').val();
+                                                                if(content && $.trim(content).length > 0){
+                                                                    var contentObj = JSON.parse(content);
+                                                                    templateA['result'] = contentObj;
+                                                                    var templateAString = JSON.stringify(templateA, null, 4);
+                                                                    modalBody.find('textarea[name=responseJson]').val(templateAString);
+                                                                }
                                                             });
                                                         }
                                                     };
@@ -725,7 +730,7 @@ var actionTableOptions = {
                                                     var templateA = {'ret': '0', 'result': {}};
                                                     var dialogOptions = {
                                                         container: 'body',
-                                                        content: '<button type="button" class="btn btn-info btn-sm templateA">模板一</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                                        content: '<button type="button" class="btn btn-info btn-sm templateA">ret-result</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
                                                         iTitle: false,
                                                         title: '响应参数',
                                                         width: '150%',
@@ -755,8 +760,13 @@ var actionTableOptions = {
                                                         ],
                                                         opened: function (modalBody) {
                                                             modalBody.find('.templateA').on('click', function () {
-                                                                var templateAString = JSON.stringify(templateA, null, 2);
-                                                                modalBody.find('textarea[name=responseJson]').val(templateAString);
+                                                                var content = modalBody.find('textarea[name=responseJson]').val();
+                                                                if(content && $.trim(content).length > 0){
+                                                                    var contentObj = JSON.parse(content);
+                                                                    templateA['result'] = contentObj;
+                                                                    var templateAString = JSON.stringify(templateA, null, 4);
+                                                                    modalBody.find('textarea[name=responseJson]').val(templateAString);
+                                                                }
                                                             });
                                                         }
                                                     };
@@ -1051,7 +1061,7 @@ headBtn: [
                                         var templateA = {'ret': '0', 'result': {}};
                                         var dialogOptions = {
                                             container: 'body',
-                                            content: '<button type="button" class="btn btn-info btn-sm templateA">模板一</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                            content: '<button type="button" class="btn btn-info btn-sm templateA">ret-result</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
                                             iTitle: false,
                                             title: '响应参数',
                                             width: '150%',
@@ -1081,8 +1091,13 @@ headBtn: [
                                             ],
                                             opened: function (modalBody) {
                                                 modalBody.find('.templateA').on('click', function () {
-                                                    var templateAString = JSON.stringify(templateA, null, 2);
-                                                    modalBody.find('textarea[name=responseJson]').val(templateAString);
+                                                    var content = modalBody.find('textarea[name=responseJson]').val();
+                                                    if(content && $.trim(content).length > 0){
+                                                        var contentObj = JSON.parse(content);
+                                                        templateA['result'] = contentObj;
+                                                        var templateAString = JSON.stringify(templateA, null, 4);
+                                                        modalBody.find('textarea[name=responseJson]').val(templateAString);
+                                                    }
                                                 });
                                             }
                                         };

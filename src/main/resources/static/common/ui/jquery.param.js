@@ -51,10 +51,19 @@
                             footBtn.fn && footBtn.fn();
                         });
                         $tFoot.find('td').append($addBtn);
-                    }
-                    if(type == 'import') {
-                        var $importBtn = $('<button class="btn btn-success btn-sm importBtn" type="button"  data-toggle="modal" data-target="#responseModal"  style="margin-left:6px;"></button>').append('&nbsp;' + footBtn.text);
+                    } else if(type == 'import') {
+                        var $importBtn = $('<button class="btn btn-success btn-sm importBtn" type="button" style="margin-left:6px;"></button>').append('&nbsp;' + footBtn.text);
                         $tFoot.find('td').append($importBtn);
+                    } else if(type == 'clear'){
+                        var $clearBtn = $('<button class="btn btn-success btn-sm cleartBtn" type="button" style="margin-left:6px;"></button>').append('&nbsp;' + footBtn.text);
+                        $clearBtn.on('click', function () {
+                            that._empty();
+                        });
+                        $tFoot.find('td').append($clearBtn);
+                    } else {
+                        var $footBtn = $('<button class="btn btn-success btn-sm" type="button" style="margin-left:6px;"></button>').append('&nbsp;' + footBtn.text);
+                        $footBtn.addClass(footBtn.className);
+                        $tFoot.find('td').append($footBtn);
                     }
                 })
             }

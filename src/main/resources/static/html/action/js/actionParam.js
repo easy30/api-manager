@@ -29,6 +29,10 @@ var headOptions = {
         {
             type: 'add', text: '添加参数', fn: function (row) {
             }
+        },
+        {
+            type: 'clear', text: '清空参数', fn: function (row) {
+            }
         }
     ]
 };
@@ -82,6 +86,10 @@ var requestOptions = {
         {
             type: 'import', text: '导入参数', fn: function (row) {
             }
+        },
+        {
+            type: 'clear', text: '清空参数', fn: function (row) {
+            }
         }
     ]
 };
@@ -121,6 +129,10 @@ var responseOptions = {
         {
             type: 'import', text: '导入参数', fn: function (row) {
             }
+        },
+        {
+            type: 'clear', text: '清空参数', fn: function (row) {
+            }
         }
     ]
 };
@@ -153,6 +165,10 @@ var responseFailOptions = {
     footBtn: [
         {
             type: 'add', text: '添加参数', fn: function (row) {
+            }
+        },
+        {
+            type: 'clear', text: '清空参数', fn: function (row) {
             }
         }
     ]
