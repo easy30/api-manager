@@ -35,7 +35,7 @@ var actionTableOptions = {
     rowButtons: [
         {type: 'more', text: '更多', icon: 'glyphicon glyphicon-option-horizontal', fn: function (param) {
                 $('#depart').parent('.container').css('display', 'none');
-                var actionInfoFormObject, headParam, requestParam, responseParam, domainSelect;
+                var actionInfoFormObject, headParam, requestParam, responseParam, responseFailParam;
                 var parentId = $('select[name=moduleId]').val();
                 var depId = $('select[name=depId]').val();
                 var projectId = $('select[name=projectId]').val();
@@ -102,6 +102,7 @@ var actionTableOptions = {
                                                 headParam = api.ui.param(headOptions);
                                                 requestParam = api.ui.param(requestOptions);
                                                 responseParam = api.ui.param(responseOptions);
+                                                responseFailParam = api.ui.param(responseFailOptions);
                                                 if (data && data['requestHeadDefinition']) {
                                                     var rowData = JSON.parse(data['requestHeadDefinition']);
                                                     $.each(rowData, function (index, data) {
@@ -120,8 +121,52 @@ var actionTableOptions = {
                                                         responseParam._showRow(data);
                                                     })
                                                 }
-                                                var $importBtn = $('#responseParam').find('#importBtn');
-                                                $importBtn.on('click',function () {
+                                                if (data && data['responseFailDefinition']) {
+                                                    var rowData = JSON.parse(data['responseFailDefinition']);
+                                                    $.each(rowData, function (index, data) {
+                                                        responseFailParam._showRow(data);
+                                                    })
+                                                }
+                                                var $requestImportBtn = $('#requestParam').find('.importBtn');
+                                                $requestImportBtn.on('click',function () {
+                                                    var dialogOptions = {
+                                                        container: 'body',
+                                                        content: '<textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                                        iTitle: false,
+                                                        title: '请求参数',
+                                                        width: '150%',
+                                                        buttons:[
+                                                            {
+                                                                type: 'close', text: '关闭', fn: function () {}
+                                                            },{
+                                                                type: 'sure', text: '导入', fn: function () {
+                                                                    var importJson = $('textarea[name=responseJson]').val();
+                                                                    if(importJson && $.trim(importJson) != ''){
+                                                                        $.ajax({
+                                                                            url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                                            type: 'post',
+                                                                            data : importJson,
+                                                                            contentType : 'application/json;charset=utf-8',
+                                                                            dataType: 'json',
+                                                                            success: function (result) {
+                                                                                var data = result.data;
+                                                                                $.each(JSON.parse(data), function (index, rowData) {
+                                                                                    requestParam._showRow(rowData);
+                                                                                })
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                }
+                                                            }
+                                                        ],
+                                                        opened: function (modalBody) {
+
+                                                        }
+                                                    };
+                                                    api.ui.dialog(dialogOptions).open();
+                                                })
+                                                var $responseImportBtn = $('#responseParam').find('.importBtn');
+                                                $responseImportBtn.on('click',function () {
                                                     var templateA = {'ret': '0', 'result': {}};
                                                     var dialogOptions = {
                                                         container: 'body',
@@ -165,6 +210,7 @@ var actionTableOptions = {
                                                 headParam.disable();
                                                 requestParam.disable();
                                                 responseParam.disable();
+                                                responseFailParam.disable();
                                             });
 
                                         }
@@ -300,6 +346,7 @@ var actionTableOptions = {
                             headParam.enable();
                             requestParam.enable();
                             responseParam.enable();
+                            responseFailParam.enable();
                             $editChange.css('display','none');
                             $cancelSave.css('display','');
                             var activeTabTitle = actionTabConfObject.activeTabTitle();
@@ -326,6 +373,7 @@ var actionTableOptions = {
                                         headParam._empty();
                                         requestParam._empty();
                                         responseParam._empty();
+                                        responseFailParam._empty();
                                         if (data && data['requestHeadDefinition']) {
                                             var rowData = JSON.parse(data['requestHeadDefinition']);
                                             $.each(rowData, function (index, data) {
@@ -344,9 +392,16 @@ var actionTableOptions = {
                                                 responseParam._showRow(data);
                                             })
                                         }
+                                        if (data && data['responseFailDefinition']) {
+                                            var rowData = JSON.parse(data['responseFailDefinition']);
+                                            $.each(rowData, function (index, data) {
+                                                responseFailParam._showRow(data);
+                                            })
+                                        }
                                         headParam.disable();
                                         requestParam.disable();
                                         responseParam.disable();
+                                        responseFailParam.disable();
                                     });
                                 }
                             });
@@ -438,8 +493,10 @@ var actionTableOptions = {
                                 api.ui.dialog(option).open();
                                 return;
                             }
-                            if(headParam._checkEmpty() || requestParam._checkEmpty() || responseParam._checkEmpty()||
-                                headParam.defaultFlag==1||requestParam.defaultFlag==1||responseParam.defaultFlag==1){
+                            if (headParam._checkEmpty() || requestParam._checkEmpty()
+                                || responseParam._checkEmpty() || responseFailParam._checkEmpty()
+                                || headParam.defaultFlag == 1 || requestParam.defaultFlag == 1
+                                || responseParam.defaultFlag == 1 || responseFailParam.defaultFlag == 1) {
                                 var option = {content: '请完善接口参数信息'};
                                 api.ui.dialog(option).open();
                                 return;
@@ -447,11 +504,13 @@ var actionTableOptions = {
                             var headArr = headParam.toData();
                             var requestArr = requestParam.toData();
                             var responseArr = responseParam.toData();
+                            var responseFailAttr = responseFailParam.toData();
                             var requestData = actionInfoFormObject.toJson();
                             requestData['id'] = param.id;
                             requestData['requestHeadDefinition'] = JSON.stringify(headArr);
                             requestData['requestDefinition'] = JSON.stringify(requestArr);
                             requestData['responseDefinition'] = JSON.stringify(responseArr);
+                            requestData['responseFailDefinition'] = JSON.stringify(responseFailAttr);
                             $.ajax({
                                 url: api.util.getUrl('apimanager/action/update'),
                                 type: 'post',
@@ -535,7 +594,7 @@ var actionTableOptions = {
                 var parentId = $('select[name=moduleId]').val();
                 var depId = $('select[name=depId]').val();
                 var projectId = $('select[name=projectId]').val();
-                var actionInfoFormObject, headParam, requestParam, responseParam;
+                var actionInfoFormObject, headParam, requestParam, responseParam, responseFailParam;
                 var conf = {
                     container: '#container',
                     url: api.util.getUrl('html/action/actionTab.html'),
@@ -598,6 +657,7 @@ var actionTableOptions = {
                                                 headParam = api.ui.param(headOptions);
                                                 requestParam = api.ui.param(requestOptions);
                                                 responseParam = api.ui.param(responseOptions);
+                                                responseFailParam = api.ui.param(responseFailOptions);
                                                 if (data && data['requestHeadDefinition']) {
                                                     var rowData = JSON.parse(data['requestHeadDefinition']);
                                                     $.each(rowData, function (index, data) {
@@ -616,8 +676,52 @@ var actionTableOptions = {
                                                         responseParam._showRow(data);
                                                     })
                                                 }
-                                                var $importBtn = $('#responseParam').find('#importBtn');
-                                                $importBtn.on('click',function () {
+                                                if (data && data['responseFailDefinition']) {
+                                                    var rowData = JSON.parse(data['responseFailDefinition']);
+                                                    $.each(rowData, function (index, data) {
+                                                        responseFailParam._showRow(data);
+                                                    })
+                                                }
+                                                var $requestImportBtn = $('#requestParam').find('.importBtn');
+                                                $requestImportBtn.on('click',function () {
+                                                    var dialogOptions = {
+                                                        container: 'body',
+                                                        content: '<textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                                        iTitle: false,
+                                                        title: '请求参数',
+                                                        width: '150%',
+                                                        buttons:[
+                                                            {
+                                                                type: 'close', text: '关闭', fn: function () {}
+                                                            },{
+                                                                type: 'sure', text: '导入', fn: function () {
+                                                                    var importJson = $('textarea[name=responseJson]').val();
+                                                                    if(importJson && $.trim(importJson) != ''){
+                                                                        $.ajax({
+                                                                            url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                                            type: 'post',
+                                                                            data : importJson,
+                                                                            contentType : 'application/json;charset=utf-8',
+                                                                            dataType: 'json',
+                                                                            success: function (result) {
+                                                                                var data = result.data;
+                                                                                $.each(JSON.parse(data), function (index, rowData) {
+                                                                                    requestParam._showRow(rowData);
+                                                                                })
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                }
+                                                            }
+                                                        ],
+                                                        opened: function (modalBody) {
+
+                                                        }
+                                                    };
+                                                    api.ui.dialog(dialogOptions).open();
+                                                })
+                                                var $responseImportBtn = $('#responseParam').find('.importBtn');
+                                                $responseImportBtn.on('click',function () {
                                                     var templateA = {'ret': '0', 'result': {}};
                                                     var dialogOptions = {
                                                         container: 'body',
@@ -751,8 +855,10 @@ var actionTableOptions = {
                                 actionTabConfObject.show('基本信息');
                                 return;
                             }
-                            if(headParam._checkEmpty() || requestParam._checkEmpty() || responseParam._checkEmpty()
-                                || headParam.defaultFlag == 1 || requestParam.defaultFlag == 1 || responseParam.defaultFlag == 1){
+                            if(headParam._checkEmpty() || requestParam._checkEmpty()
+                                || responseParam._checkEmpty() || responseFailParam._checkEmpty()
+                                || headParam.defaultFlag == 1 || requestParam.defaultFlag == 1
+                                || responseParam.defaultFlag == 1 || responseFailParam.defaultFlag == 1){
                                 var option = {content: '请完善接口参数信息'};
                                 api.ui.dialog(option).open();
                                 return;
@@ -760,10 +866,12 @@ var actionTableOptions = {
                             var headArr = headParam.toData();
                             var requestArr = requestParam.toData();
                             var responseArr = responseParam.toData();
+                            var responseFailAttr = responseFailParam.toData();
                             var requestData = actionInfoFormObject.toJson();
                             requestData['requestHeadDefinition'] = JSON.stringify(headArr);
                             requestData['requestDefinition'] = JSON.stringify(requestArr);
                             requestData['responseDefinition'] = JSON.stringify(responseArr);
+                            requestData['responseFailDefinition'] = JSON.stringify(responseFailAttr);
                             $.ajax({
                                 type: 'post',
                                 url: api.util.getUrl('apimanager/action/add'),
@@ -851,7 +959,7 @@ headBtn: [
             var parentId = $('select[name=moduleId]').val();
             var depId = $('select[name=depId]').val();
             var projectId = $('select[name=projectId]').val();
-            var actionInfoFormObject, headParam, requestParam, responseParam;
+            var actionInfoFormObject, headParam, requestParam, responseParam, responseFailParam;
             var conf = {
                 container: '#container',
                 url: api.util.getUrl('html/action/actionTab.html'),
@@ -895,8 +1003,51 @@ headBtn: [
                                     headParam = api.ui.param(headOptions);
                                     requestParam = api.ui.param(requestOptions);
                                     responseParam = api.ui.param(responseOptions);
-                                    var $importBtn = $('#responseParam').find('#importBtn');
-                                    $importBtn.on('click',function () {
+                                    responseFailParam = api.ui.param(responseFailOptions);
+                                    var responseFailDataTemplate = [{'name': 'code', 'type': 1, 'desc': '错误码', 'defaultVal': -1}, {'name': 'msg', 'type': 2, 'desc': '错误提示语', 'defaultVal': '服务处理异常'}];
+                                    $.each(responseFailDataTemplate, function (index, data) {
+                                        responseFailParam._showRow(data);
+                                    })
+                                    var $requestImportBtn = $('#requestParam').find('.importBtn');
+                                    $requestImportBtn.on('click',function () {
+                                        var dialogOptions = {
+                                            container: 'body',
+                                            content: '<textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                            iTitle: false,
+                                            title: '请求参数',
+                                            width: '150%',
+                                            buttons:[
+                                                {
+                                                    type: 'close', text: '关闭', fn: function () {}
+                                                },{
+                                                    type: 'sure', text: '导入', fn: function () {
+                                                        var importJson = $('textarea[name=responseJson]').val();
+                                                        if(importJson && $.trim(importJson) != ''){
+                                                            $.ajax({
+                                                                url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                                type: 'post',
+                                                                data : importJson,
+                                                                contentType : 'application/json;charset=utf-8',
+                                                                dataType: 'json',
+                                                                success: function (result) {
+                                                                    var data = result.data;
+                                                                    $.each(JSON.parse(data), function (index, rowData) {
+                                                                        requestParam._showRow(rowData);
+                                                                    })
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+                                                }
+                                            ],
+                                            opened: function (modalBody) {
+
+                                            }
+                                        };
+                                        api.ui.dialog(dialogOptions).open();
+                                    })
+                                    var $responseImportBtn = $('#responseParam').find('.importBtn');
+                                    $responseImportBtn.on('click',function () {
                                         var templateA = {'ret': '0', 'result': {}};
                                         var dialogOptions = {
                                             container: 'body',
@@ -1028,8 +1179,10 @@ headBtn: [
                             actionTabConfObject.show('基本信息');
                             return;
                         }
-                        if (headParam._checkEmpty() || requestParam._checkEmpty() || responseParam._checkEmpty()
-                            || headParam.defaultFlag == 1 || requestParam.defaultFlag == 1 || responseParam.defaultFlag == 1) {
+                        if (headParam._checkEmpty() || requestParam._checkEmpty()
+                            || responseParam._checkEmpty() || responseFailParam._checkEmpty()
+                            || headParam.defaultFlag == 1 || requestParam.defaultFlag == 1
+                            || responseParam.defaultFlag == 1 || responseFailParam.defaultFlag == 1) {
                             var option = {content: '请完善接口参数信息'};
                             api.ui.dialog(option).open();
                             return;
@@ -1037,10 +1190,12 @@ headBtn: [
                         var headArr = headParam.toData();
                         var requestArr = requestParam.toData();
                         var responseArr = responseParam.toData();
+                        var responseFailAttr = responseFailParam.toData();
                         var requestData = actionInfoFormObject.toJson();
                         requestData['requestHeadDefinition'] = JSON.stringify(headArr);
                         requestData['requestDefinition'] = JSON.stringify(requestArr);
                         requestData['responseDefinition'] = JSON.stringify(responseArr);
+                        requestData['responseFailDefinition'] = JSON.stringify(responseFailAttr);
                         $.ajax({
                             type: 'post',
                             url: api.util.getUrl('apimanager/action/add'),

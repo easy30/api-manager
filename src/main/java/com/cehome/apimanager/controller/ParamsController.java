@@ -3,6 +3,7 @@ package com.cehome.apimanager.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.cehome.apimanager.common.BaseController;
 import com.cehome.apimanager.utils.ParamsUtils;
 import org.slf4j.Logger;
@@ -29,7 +30,7 @@ public class ParamsController extends BaseController {
     public Map<String, Object> convertJsonToRows(@RequestBody JSONObject jsonObject) {
         try {
             JSONArray rows = new JSONArray();
-            String json = JSON.toJSONString(jsonObject);
+            String json = JSON.toJSONString(jsonObject, SerializerFeature.WriteNullStringAsEmpty);
             ParamsUtils.convertJsonToRows(JSON.parseObject(json), rows);
             return toSuccess(rows.toJSONString());
         } catch (Exception e) {

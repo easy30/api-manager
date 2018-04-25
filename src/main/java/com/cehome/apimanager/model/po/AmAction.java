@@ -55,6 +55,10 @@ public class AmAction implements Serializable {
      */
     private String responseDefinition;
     /**
+     * 响应失败结果定义
+     */
+    private String responseFailDefinition;
+    /**
      * 接口请求头mock模板定义
      */
     private String requestHeadMock;
@@ -225,5 +229,13 @@ public class AmAction implements Serializable {
 
     public void setDomainId(Integer domainId) {
         this.domainId = domainId;
+    }
+
+    public String getResponseFailDefinition() {
+        return responseFailDefinition;
+    }
+
+    public void setResponseFailDefinition(String responseFailDefinition) {
+        this.responseFailDefinition = responseFailDefinition;
     }
 }

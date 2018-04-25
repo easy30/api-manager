@@ -78,6 +78,10 @@ var requestOptions = {
         {
             type: 'add', text: '添加参数', fn: function (row) {
             }
+        },
+        {
+            type: 'import', text: '导入参数', fn: function (row) {
+            }
         }
     ]
 };
@@ -116,6 +120,39 @@ var responseOptions = {
         },
         {
             type: 'import', text: '导入参数', fn: function (row) {
+            }
+        }
+    ]
+};
+var responseFailOptions = {
+    container: '#responseFailParam',
+    headers: [
+        {text: '操作', width: '5%'},
+        {text: '名称', width: '15%'},
+        {text: '类型', width: '20%'},
+        {text: '备注', width: '20%'},
+        {text: '样值', width: '20%'}
+    ],
+    fields: [
+        {name: 'name', type: 'input'},
+        {
+            name: 'type', type: 'select', options: {
+                width: '100%',
+                height: '100%',
+                blank: false,
+                selectedVal: 2,
+                cache: true,
+                optionField: {value: 'k', text: 'v'},
+                url: api.util.getUrl('/apimanager/meta/findMeta'),
+                params: {metaId: 1}
+            }
+        },
+        {name: 'desc', type: 'input'},
+        {name: 'defaultVal', type: 'input'}
+    ],
+    footBtn: [
+        {
+            type: 'add', text: '添加参数', fn: function (row) {
             }
         }
     ]

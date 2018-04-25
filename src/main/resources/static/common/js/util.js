@@ -79,16 +79,20 @@ api.util = {
                         value = Mock.mock(rule);
                         mockObject[name] = value;
                     } else {
-                        var ruleItem = rule.split(':');
-                        var expression = ruleItem[0];
-                        var itemValue = ruleItem[1];
-                        if(columnType == '1' || columnType == '6'){
-                            value = Number(itemValue);
+                        if(rule.indexOf(':') > 0){
+                            var ruleItem = rule.split(':');
+                            var expression = ruleItem[0];
+                            var itemValue = ruleItem[1];
+                            if(columnType == '1' || columnType == '6'){
+                                value = Number(itemValue);
+                            } else {
+                                value = itemValue;
+                            }
+                            ruleDesc = '|' + expression;
+                            mockObject[name + ruleDesc] = value;
                         } else {
-                            value = itemValue;
+                            mockObject[name] = value;
                         }
-                        ruleDesc = '|' + expression;
-                        mockObject[name + ruleDesc] = value;
                     }
                 } else {
                     if(columnType == '1' || columnType == '6'){

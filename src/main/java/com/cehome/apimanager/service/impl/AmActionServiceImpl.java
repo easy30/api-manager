@@ -147,20 +147,24 @@ public class AmActionServiceImpl implements IAmActionService {
                         }
                         mockObject.put(name, value);
                     } else {
-                        String[] ruleItem = rule.split(":");
-                        String expression = ruleItem[0];
-                        String itemValue = ruleItem[1];
-                        if(columnType == CommonMeta.FieldType.NUMBER.getCode() || columnType == CommonMeta.FieldType.ARRAY_NUMBER.getCode()){
-                            if(itemValue.contains(".")){
-                                value = Double.valueOf(itemValue);
+                        if(rule.contains(":")){
+                            String[] ruleItem = rule.split(":");
+                            String expression = ruleItem[0];
+                            String itemValue = ruleItem[1];
+                            if(columnType == CommonMeta.FieldType.NUMBER.getCode() || columnType == CommonMeta.FieldType.ARRAY_NUMBER.getCode()){
+                                if(itemValue.contains(".")){
+                                    value = Double.valueOf(itemValue);
+                                } else {
+                                    value = Integer.valueOf(itemValue);
+                                }
                             } else {
-                                value = Integer.valueOf(itemValue);
+                                value = itemValue;
                             }
+                            ruleDesc = '|' + expression;
+                            mockObject.put(name + ruleDesc, value);
                         } else {
-                            value = itemValue;
+                            mockObject.put(name, value);
                         }
-                        ruleDesc = '|' + expression;
-                        mockObject.put(name + ruleDesc, value);
                     }
                 } else {
                     if(columnType == CommonMeta.FieldType.NUMBER.getCode() || columnType == CommonMeta.FieldType.ARRAY_NUMBER.getCode()){

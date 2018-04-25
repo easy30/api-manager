@@ -13,6 +13,7 @@
 		<result column="request_head_definition" property="requestHeadDefinition" jdbcType="LONGVARCHAR" />
 		<result column="request_definition" property="requestDefinition" jdbcType="LONGVARCHAR" />
 		<result column="response_definition" property="responseDefinition" jdbcType="LONGVARCHAR" />
+		<result column="response_fail_definition" property="responseFailDefinition" jdbcType="LONGVARCHAR" />
 		<result column="request_head_mock" property="requestHeadMock" jdbcType="VARCHAR" />
 		<result column="request_mock" property="requestMock" jdbcType="LONGVARCHAR" />
 		<result column="response_mock" property="responseMock" jdbcType="LONGVARCHAR" />
@@ -24,7 +25,7 @@
 	
 	<sql id="Base_Column_List">
 		id,module_id,action_name,action_desc,request_type,domain_id,request_url,status,request_head_definition,
-		request_definition,response_definition,request_head_mock,request_mock,response_mock,create_user,
+		request_definition,response_definition,response_fail_definition,request_head_mock,request_mock,response_mock,create_user,
 		create_time,update_user,update_time
 	</sql>
 	
@@ -134,6 +135,9 @@
 			<if test="responseDefinition != null">
 			response_definition,
 			</if>
+			<if test="responseFailDefinition != null">
+			response_fail_definition,
+			</if>
 			<if test="requestHeadMock != null">
 			request_head_mock,
 			</if>
@@ -189,6 +193,9 @@
 			</if>
 			<if test="responseDefinition != null">
 			#{responseDefinition,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="responseFailDefinition != null">
+			#{responseFailDefinition,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="requestHeadMock != null">
 			#{requestHeadMock,jdbcType=VARCHAR},
@@ -246,6 +253,9 @@
 			</if>
 			<if test="responseDefinition != null">
 			response_definition = #{responseDefinition,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="responseFailDefinition != null">
+			response_fail_definition = #{responseFailDefinition,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="requestHeadMock != null">
 			request_head_mock = #{requestHeadMock,jdbcType=VARCHAR},
