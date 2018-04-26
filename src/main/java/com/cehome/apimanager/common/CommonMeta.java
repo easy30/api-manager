@@ -169,7 +169,7 @@ public class CommonMeta {
 	 * 接口状态
 	 */
 	public enum Status {
-		DOING(1, "进行中"), 
+		DOING(1, "开发中"),
 		DONE(2, "已完成");
 
 		public static Map<String, String> MAP;

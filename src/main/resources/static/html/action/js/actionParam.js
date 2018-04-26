@@ -168,6 +168,10 @@ var responseFailOptions = {
             }
         },
         {
+            type: 'import', text: '导入参数', fn: function (row) {
+            }
+        },
+        {
             type: 'clear', text: '清空参数', fn: function (row) {
             }
         }

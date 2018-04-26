@@ -4,9 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cehome.apimanager.common.CommonMeta;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 参数列表工具类
@@ -23,17 +21,17 @@ public class ParamsUtils {
             row.put("name", entry.getKey());
             row.put("rule", "");
             row.put("desc", "");
-            if ("com.alibaba.fastjson.JSONObject".equals(className)) {
+            if ("java.util.LinkedHashMap".equals(className)) {
                 JSONArray array = new JSONArray();
                 row.put("child", array);
                 row.put("type", CommonMeta.FieldType.OBJECT.getCode());
-                convertJsonToRows((JSONObject) value, array);
-            } else if ("com.alibaba.fastjson.JSONArray".equals(className)) {
+                convertJsonToRows(new JSONObject((LinkedHashMap)value), array);
+            } else if ("java.util.ArrayList".equals(className)) {
                 JSONArray array = new JSONArray();
                 Set<Integer> types = new HashSet<>();
                 row.put("defaultVal", "");
                 row.put("child", array);
-                JSONArray arrayValue = (JSONArray) value;
+                ArrayList arrayValue = (ArrayList) value;
                 for (int i = 0; i < arrayValue.size(); i++) {
                     Object o = arrayValue.get(i);
                     JSONObject object = new JSONObject();

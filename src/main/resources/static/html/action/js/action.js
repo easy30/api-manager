@@ -1,8 +1,8 @@
 var actionTableOptions = {
     container: '#editTable',
     headers: [
-        {text: '接口编号', width: '10%'},
-        {text: '接口名称', width: '10%'},
+        {text: '编号', width: '5%'},
+        {text: '接口地址', width: '15%'},
         {text: '所属模块', width: '15%'},
         {text: '请求类型', width: '8%'},
         {text: '状态', width: '7%'},
@@ -11,7 +11,7 @@ var actionTableOptions = {
     form: '#form',
     fields: [
         {name: 'id', type: 'input', inputDesc: '接口编号', required: false},
-        {name: 'actionName', type: 'input', inputDesc: '接口名称', required: true},
+        {name: 'requestUrl', type: 'input', inputDesc: '接口地址', required: true},
         {name: 'moduleId', type:'select', inputDesc: '所属模块', required: true, options:{
                 optionField: {value: 'id', text: 'moduleName'},
                 url: api.util.getUrl('apimanager/module/list')
@@ -168,9 +168,10 @@ var actionTableOptions = {
                                                 var $responseImportBtn = $('#responseParam').find('.importBtn');
                                                 $responseImportBtn.on('click',function () {
                                                     var templateA = {'ret': '0', 'result': {}};
+                                                    var templateB = {'ret': '0', 'data': {}};
                                                     var dialogOptions = {
                                                         container: 'body',
-                                                        content: '<button type="button" class="btn btn-info btn-sm templateA">ret-result</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                                        content: '<button type="button" class="btn btn-info btn-sm templateA">ret-result</button><button type="button" class="btn btn-info btn-sm templateB" style="margin-left: 10px;">ret-data</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
                                                         iTitle: false,
                                                         title: '响应参数',
                                                         width: '150%',
@@ -200,13 +201,75 @@ var actionTableOptions = {
                                                         ],
                                                         opened: function (modalBody) {
                                                             modalBody.find('.templateA').on('click', function () {
-                                                                var content = modalBody.find('textarea[name=responseJson]').val();
+                                                                var content = '';
+                                                                if(modalBody.attr('content')){
+                                                                    content = modalBody.attr('content');
+                                                                } else {
+                                                                    content = modalBody.find('textarea[name=responseJson]').val();
+                                                                    modalBody.attr('content', content);
+                                                                }
                                                                 if(content && $.trim(content).length > 0){
                                                                     var contentObj = JSON.parse(content);
                                                                     templateA['result'] = contentObj;
                                                                     var templateAString = JSON.stringify(templateA, null, 4);
                                                                     modalBody.find('textarea[name=responseJson]').val(templateAString);
                                                                 }
+                                                            });
+                                                            modalBody.find('.templateB').on('click', function () {
+                                                                var content = '';
+                                                                if(modalBody.attr('content')){
+                                                                    content = modalBody.attr('content');
+                                                                } else {
+                                                                    content = modalBody.find('textarea[name=responseJson]').val();
+                                                                    modalBody.attr('content', content);
+                                                                }
+                                                                if(content && $.trim(content).length > 0){
+                                                                    var contentObj = JSON.parse(content);
+                                                                    templateB['data'] = contentObj;
+                                                                    var templateBString = JSON.stringify(templateB, null, 4);
+                                                                    modalBody.find('textarea[name=responseJson]').val(templateBString);
+                                                                }
+                                                            });
+                                                        }
+                                                    };
+                                                    api.ui.dialog(dialogOptions).open();
+                                                })
+                                                var $responseFailImportBtn = $('#responseFailParam').find('.importBtn');
+                                                $responseFailImportBtn.on('click',function () {
+                                                    var templateA = {'code': '-1', 'msg': '服务处理异常'};
+                                                    var dialogOptions = {
+                                                        container: 'body',
+                                                        content: '<button type="button" class="btn btn-info btn-sm templateA">code-msg</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                                        iTitle: false,
+                                                        title: '响应参数',
+                                                        width: '150%',
+                                                        buttons:[
+                                                            {
+                                                                type: 'close', text: '关闭', fn: function () {}
+                                                            },{
+                                                                type: 'sure', text: '导入', fn: function () {
+                                                                    var importJson = $('textarea[name=responseJson]').val();
+                                                                    if(importJson && $.trim(importJson) != ''){
+                                                                        $.ajax({
+                                                                            url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                                            type: 'post',
+                                                                            data : importJson,
+                                                                            contentType : 'application/json;charset=utf-8',
+                                                                            dataType: 'json',
+                                                                            success: function (result) {
+                                                                                var data = result.data;
+                                                                                $.each(JSON.parse(data), function (index, rowData) {
+                                                                                    responseFailParam._showRow(rowData);
+                                                                                })
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                }
+                                                            }
+                                                        ],
+                                                        opened: function (modalBody) {
+                                                            modalBody.find('.templateA').on('click', function () {
+                                                                modalBody.find('textarea[name=responseJson]').val(JSON.stringify(templateA, null, 4));
                                                             });
                                                         }
                                                     };
@@ -523,7 +586,7 @@ var actionTableOptions = {
                                 data: JSON.stringify(requestData),
                                 dataType: 'json',
                                 success: function (data) {
-                                    if(data.code==-1){
+                                    if(data.code == -1){
                                         var option={content: '保存失败'};
                                         api.ui.dialog(option).open();
                                         return;
@@ -728,9 +791,10 @@ var actionTableOptions = {
                                                 var $responseImportBtn = $('#responseParam').find('.importBtn');
                                                 $responseImportBtn.on('click',function () {
                                                     var templateA = {'ret': '0', 'result': {}};
+                                                    var templateB = {'ret': '0', 'data': {}};
                                                     var dialogOptions = {
                                                         container: 'body',
-                                                        content: '<button type="button" class="btn btn-info btn-sm templateA">ret-result</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                                        content: '<button type="button" class="btn btn-info btn-sm templateA">ret-result</button><button type="button" class="btn btn-info btn-sm templateB" style="margin-left: 10px;">ret-data</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
                                                         iTitle: false,
                                                         title: '响应参数',
                                                         width: '150%',
@@ -760,13 +824,75 @@ var actionTableOptions = {
                                                         ],
                                                         opened: function (modalBody) {
                                                             modalBody.find('.templateA').on('click', function () {
-                                                                var content = modalBody.find('textarea[name=responseJson]').val();
+                                                                var content = '';
+                                                                if(modalBody.attr('content')){
+                                                                    content = modalBody.attr('content');
+                                                                } else {
+                                                                    content = modalBody.find('textarea[name=responseJson]').val();
+                                                                    modalBody.attr('content', content);
+                                                                }
                                                                 if(content && $.trim(content).length > 0){
                                                                     var contentObj = JSON.parse(content);
                                                                     templateA['result'] = contentObj;
                                                                     var templateAString = JSON.stringify(templateA, null, 4);
                                                                     modalBody.find('textarea[name=responseJson]').val(templateAString);
                                                                 }
+                                                            });
+                                                            modalBody.find('.templateB').on('click', function () {
+                                                                var content = '';
+                                                                if(modalBody.attr('content')){
+                                                                    content = modalBody.attr('content');
+                                                                } else {
+                                                                    content = modalBody.find('textarea[name=responseJson]').val();
+                                                                    modalBody.attr('content', content);
+                                                                }
+                                                                if(content && $.trim(content).length > 0){
+                                                                    var contentObj = JSON.parse(content);
+                                                                    templateB['data'] = contentObj;
+                                                                    var templateBString = JSON.stringify(templateB, null, 4);
+                                                                    modalBody.find('textarea[name=responseJson]').val(templateBString);
+                                                                }
+                                                            });
+                                                        }
+                                                    };
+                                                    api.ui.dialog(dialogOptions).open();
+                                                })
+                                                var $responseFailImportBtn = $('#responseFailParam').find('.importBtn');
+                                                $responseFailImportBtn.on('click',function () {
+                                                    var templateA = {'code': '-1', 'msg': '服务处理异常'};
+                                                    var dialogOptions = {
+                                                        container: 'body',
+                                                        content: '<button type="button" class="btn btn-info btn-sm templateA">code-msg</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                                        iTitle: false,
+                                                        title: '响应参数',
+                                                        width: '150%',
+                                                        buttons:[
+                                                            {
+                                                                type: 'close', text: '关闭', fn: function () {}
+                                                            },{
+                                                                type: 'sure', text: '导入', fn: function () {
+                                                                    var importJson = $('textarea[name=responseJson]').val();
+                                                                    if(importJson && $.trim(importJson) != ''){
+                                                                        $.ajax({
+                                                                            url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                                            type: 'post',
+                                                                            data : importJson,
+                                                                            contentType : 'application/json;charset=utf-8',
+                                                                            dataType: 'json',
+                                                                            success: function (result) {
+                                                                                var data = result.data;
+                                                                                $.each(JSON.parse(data), function (index, rowData) {
+                                                                                    responseFailParam._showRow(rowData);
+                                                                                })
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                }
+                                                            }
+                                                        ],
+                                                        opened: function (modalBody) {
+                                                            modalBody.find('.templateA').on('click', function () {
+                                                                modalBody.find('textarea[name=responseJson]').val(JSON.stringify(templateA, null, 4));
                                                             });
                                                         }
                                                     };
@@ -1059,9 +1185,10 @@ headBtn: [
                                     var $responseImportBtn = $('#responseParam').find('.importBtn');
                                     $responseImportBtn.on('click',function () {
                                         var templateA = {'ret': '0', 'result': {}};
+                                        var templateB = {'ret': '0', 'data': {}};
                                         var dialogOptions = {
                                             container: 'body',
-                                            content: '<button type="button" class="btn btn-info btn-sm templateA">ret-result</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                            content: '<button type="button" class="btn btn-info btn-sm templateA">ret-result</button><button type="button" class="btn btn-info btn-sm templateB" style="margin-left: 10px;">ret-data</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
                                             iTitle: false,
                                             title: '响应参数',
                                             width: '150%',
@@ -1091,13 +1218,75 @@ headBtn: [
                                             ],
                                             opened: function (modalBody) {
                                                 modalBody.find('.templateA').on('click', function () {
-                                                    var content = modalBody.find('textarea[name=responseJson]').val();
+                                                    var content = '';
+                                                    if(modalBody.attr('content')){
+                                                        content = modalBody.attr('content');
+                                                    } else {
+                                                        content = modalBody.find('textarea[name=responseJson]').val();
+                                                        modalBody.attr('content', content);
+                                                    }
                                                     if(content && $.trim(content).length > 0){
                                                         var contentObj = JSON.parse(content);
                                                         templateA['result'] = contentObj;
                                                         var templateAString = JSON.stringify(templateA, null, 4);
                                                         modalBody.find('textarea[name=responseJson]').val(templateAString);
                                                     }
+                                                });
+                                                modalBody.find('.templateB').on('click', function () {
+                                                    var content = '';
+                                                    if(modalBody.attr('content')){
+                                                        content = modalBody.attr('content');
+                                                    } else {
+                                                        content = modalBody.find('textarea[name=responseJson]').val();
+                                                        modalBody.attr('content', content);
+                                                    }
+                                                    if(content && $.trim(content).length > 0){
+                                                        var contentObj = JSON.parse(content);
+                                                        templateB['data'] = contentObj;
+                                                        var templateBString = JSON.stringify(templateB, null, 4);
+                                                        modalBody.find('textarea[name=responseJson]').val(templateBString);
+                                                    }
+                                                });
+                                            }
+                                        };
+                                        api.ui.dialog(dialogOptions).open();
+                                    })
+                                    var $responseFailImportBtn = $('#responseFailParam').find('.importBtn');
+                                    $responseFailImportBtn.on('click',function () {
+                                        var templateA = {'code': '-1', 'msg': '服务处理异常'};
+                                        var dialogOptions = {
+                                            container: 'body',
+                                            content: '<button type="button" class="btn btn-info btn-sm templateA">code-msg</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                            iTitle: false,
+                                            title: '响应参数',
+                                            width: '150%',
+                                            buttons:[
+                                                {
+                                                    type: 'close', text: '关闭', fn: function () {}
+                                                },{
+                                                    type: 'sure', text: '导入', fn: function () {
+                                                        var importJson = $('textarea[name=responseJson]').val();
+                                                        if(importJson && $.trim(importJson) != ''){
+                                                            $.ajax({
+                                                                url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                                type: 'post',
+                                                                data : importJson,
+                                                                contentType : 'application/json;charset=utf-8',
+                                                                dataType: 'json',
+                                                                success: function (result) {
+                                                                    var data = result.data;
+                                                                    $.each(JSON.parse(data), function (index, rowData) {
+                                                                        responseFailParam._showRow(rowData);
+                                                                    })
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+                                                }
+                                            ],
+                                            opened: function (modalBody) {
+                                                modalBody.find('.templateA').on('click', function () {
+                                                    modalBody.find('textarea[name=responseJson]').val(JSON.stringify(templateA, null, 4));
                                                 });
                                             }
                                         };

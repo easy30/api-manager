@@ -1,9 +1,7 @@
 package com.cehome.apimanager.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.cehome.apimanager.common.BaseController;
 import com.cehome.apimanager.utils.ParamsUtils;
 import org.slf4j.Logger;
@@ -23,15 +21,14 @@ public class ParamsController extends BaseController {
     /**
      * 参数列表导入
      *
-     * @param jsonObject
+     * @param map
      * @return
      */
     @RequestMapping(value = "convertJsonToRows", method = RequestMethod.POST)
-    public Map<String, Object> convertJsonToRows(@RequestBody JSONObject jsonObject) {
+    public Map<String, Object> convertJsonToRows(@RequestBody Map<String, Object> map) {
         try {
             JSONArray rows = new JSONArray();
-            String json = JSON.toJSONString(jsonObject, SerializerFeature.WriteNullStringAsEmpty);
-            ParamsUtils.convertJsonToRows(JSON.parseObject(json), rows);
+            ParamsUtils.convertJsonToRows(new JSONObject(map), rows);
             return toSuccess(rows.toJSONString());
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
