@@ -2,8 +2,8 @@ var headOptions = {
     container: '#requestHead',
     headers: [
         {text: '操作', width: '5%'},
-        {text: '名称', width: '15%'},
-        {text: '类型', width: '20%'},
+        {text: '名称', width: '20%'},
+        {text: '类型', width: '15%'},
         {text: '备注', width: '20%'},
         {text: '样值', width: '20%'}
     ],
@@ -40,12 +40,12 @@ var requestOptions = {
     container: '#requestParam',
     headers: [
         {text: '操作', width: '5%'},
-        {text: '名称', width: '15%'},
+        {text: '名称', width: '20%'},
         {text: '类型', width: '15%'},
         {text: '必填', width: '10%'},
         {text: '备注', width: '20%'},
         {text: 'Mock规则', width: '15%'},
-        {text: '样值', width: '20%'}
+        {text: '样值', width: '15%'}
     ],
     fields: [
         {name: 'name', type: 'input'},
@@ -97,8 +97,8 @@ var responseOptions = {
     container: '#responseParam',
     headers: [
         {text: '操作', width: '5%'},
-        {text: '名称', width: '15%'},
-        {text: '类型', width: '20%'},
+        {text: '名称', width: '20%'},
+        {text: '类型', width: '15%'},
         {text: '备注', width: '20%'},
         {text: 'Mock规则', width: '20%'},
         {text: '样值', width: '20%'}
@@ -140,8 +140,8 @@ var responseFailOptions = {
     container: '#responseFailParam',
     headers: [
         {text: '操作', width: '5%'},
-        {text: '名称', width: '15%'},
-        {text: '类型', width: '20%'},
+        {text: '名称', width: '20%'},
+        {text: '类型', width: '15%'},
         {text: '备注', width: '20%'},
         {text: '样值', width: '20%'}
     ],

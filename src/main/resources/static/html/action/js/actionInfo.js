@@ -3,6 +3,7 @@ var typeSelectOption = {
     width: '95%',
     params: {metaId: 2},
     cache: true,
+    async: false,
     blank: false,
     optionField: {value: 'k', text: 'v'},
     url: api.util.getUrl('apimanager/meta/findMeta')
@@ -12,6 +13,7 @@ var statusSelectOption = {
     width: '95%',
     params: {metaId: 3},
     cache: true,
+    async: false,
     blank: false,
     optionField: {value: 'k', text: 'v'},
     url: api.util.getUrl('apimanager/meta/findMeta')
@@ -20,6 +22,7 @@ var moduleOptions = {
     selector: '[name=moduleId]',
     optionField: {value: 'id', text: 'moduleName'},
     width: '90%',
+    async: false,
     url: api.util.getUrl('/apimanager/module/list')
 };
 var actionInfoFormOptions={
@@ -29,6 +32,7 @@ var domainSelectOptions = {
     selector: '[name=domainId]',
     optionField: {value: 'id', text: 'domainName'},
     width: '88.5%',
+    async: false,
     params: {envId: 1},
     url: api.util.getUrl('/apimanager/domain/list')
 }

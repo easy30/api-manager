@@ -22,7 +22,6 @@
                 conf.tabs[i].activeIndex = conf.activeIndex;
                 this.add(conf.tabs[i]);
             }
-
         }
     };
 
@@ -61,15 +60,15 @@
                 that.show(title);
             });
 
-            //判断是否需要延迟加载标签
-            if (!tabConf.lazy) {
-                that.load(tabConf);
-            }
-
             //活动tab需要加载内容和显示
             if (tabConf.activeIndex == tabConf.index) {
                 that.load(tabConf);
                 that.show(title);
+            }
+
+            //判断是否需要延迟加载标签
+            if (!tabConf.lazy) {
+                that.load(tabConf);
             }
 
             if (tabConf.disabled) {

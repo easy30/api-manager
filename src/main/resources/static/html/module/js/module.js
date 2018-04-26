@@ -13,6 +13,7 @@ var moduleTableOptions = {
         {name: 'moduleName', type: 'input', inputDesc: '模块名称', required: true},
         {name: 'projectId', type:'select', inputDesc: '所属项目', required: true, options:{
                 optionField: {value: 'id', text: 'projectName'},
+                async: false,
                 url: api.util.getUrl('apimanager/project/list')
             }},
         {name: 'moduleDesc', type: 'input', inputDesc: '模块描述', required: false}

@@ -13,6 +13,7 @@ var projectTableOptions = {
         {name: 'projectName', type: 'input', inputDesc: '项目名称', required: true},
         {name: 'depId', type:'select', inputDesc: '所属部门', required: true, options:{
                 optionField: {value: 'id', text: 'depName'},
+                async: false,
                 url: api.util.getUrl('apimanager/department/list')
         }},
         {name: 'projectDesc', type: 'input', inputDesc: '项目描述', required: false}

@@ -72,7 +72,7 @@
         },
         _cache: {},
         load: function (param) {
-            var chosenSelect = this, url = this.options.url, cache = this.options.cache;
+            var chosenSelect = this, options = this.options, url = options.url, cache = options.cache;
             if(cache){
                 var key = $.md5(JSON.stringify(param) + ':' + url);
                 if(this._cache[key]){
@@ -83,7 +83,7 @@
             $.ajax({
                 url: url,
                 type: 'GET',
-                async: false,
+                async: options.async,
                 data: param,
                 dataType: 'json',
                 success: function (result) {
@@ -101,6 +101,7 @@
     chosenSelect.defaults = {
         selector: '',
         url: '',
+        async: true,
         data: {},
         width: '100%',
         height: '100%',
