@@ -4,7 +4,6 @@ import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.dao.AmDomainDao;
 import com.cehome.apimanager.model.dto.AmDomainQueryReqDto;
 import com.cehome.apimanager.model.dto.AmDomainReqDto;
-import com.cehome.apimanager.model.dto.AmModuleReqDto;
 import com.cehome.apimanager.model.po.AmDomain;
 import com.cehome.apimanager.service.IAmDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,7 @@ public class AmDomainServiceImpl implements IAmDomainService {
     }
 
     @Override
-    public void delete(AmModuleReqDto dto) {
+    public void delete(AmDomainReqDto dto) {
         domainDao.delete(dto.getId());
     }
 }

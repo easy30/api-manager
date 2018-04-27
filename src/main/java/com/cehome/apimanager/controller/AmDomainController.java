@@ -4,7 +4,6 @@ import com.cehome.apimanager.common.BaseController;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.model.dto.AmDomainQueryReqDto;
 import com.cehome.apimanager.model.dto.AmDomainReqDto;
-import com.cehome.apimanager.model.dto.AmModuleReqDto;
 import com.cehome.apimanager.model.po.AmDomain;
 import com.cehome.apimanager.service.IAmDomainService;
 import org.slf4j.Logger;
@@ -115,7 +114,7 @@ public class AmDomainController extends BaseController {
      * @return
      */
     @RequestMapping("delete")
-    public Map<String, Object> delete(AmModuleReqDto dto) {
+    public Map<String, Object> delete(AmDomainReqDto dto) {
         try {
             domainService.delete(dto);
             return toSuccess();

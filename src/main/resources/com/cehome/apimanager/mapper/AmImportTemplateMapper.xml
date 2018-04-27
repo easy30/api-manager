@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cehome.apimanager.model.po.AmImportTemplate">
+	<resultMap id="BaseResultMap" type="com.cehome.apimanager.model.po.AmImportTemplate">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="template_name" property="templateName" jdbcType="VARCHAR" />
+		<result column="template_content" property="templateContent" jdbcType="VARCHAR" />
+		<result column="template_type" property="templateType" jdbcType="INTEGER" />
+		<result column="sort_code" property="sortCode" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,template_name,template_content,template_type,sort_code
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_import_template
+		WHERE
+		id = #{id,jdbcType=INTEGER}
+		LIMIT 1
+	</select>
+	
+	<select id="find" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_import_template
+		WHERE
+			1=1
+		<if test="templateType != null">
+		AND
+			template_type = #{templateType}
+		</if>
+		ORDER BY sort_code
+		LIMIT #{pageOffset},#{pageSize}
+	</select>
+	
+	<select id="findCount" parameterType="map" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM am_import_template
+		WHERE
+			1=1
+		<if test="templateType != null">
+		AND
+			template_type = #{templateType}
+		</if>
+	</select>
+	
+	<select id="list" parameterType="com.cehome.apimanager.model.po.AmImportTemplate" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_import_template
+		WHERE
+			1=1
+		<if test="templateType != null">
+		AND
+			template_type = #{templateType}
+		</if>
+		ORDER BY sort_code
+	</select>
+
+	<insert id="insertSelective" parameterType="com.cehome.apimanager.model.po.AmImportTemplate"
+			useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO am_import_template
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="templateName != null">
+				template_name,
+			</if>
+			<if test="templateContent != null">
+				template_content,
+			</if>
+			<if test="templateType != null">
+				template_type,
+			</if>
+			<if test="sortCode != null">
+				sort_code
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="templateName != null">
+				#{templateName,jdbcType=VARCHAR},
+			</if>
+			<if test="templateContent != null">
+				#{templateContent,jdbcType=VARCHAR},
+			</if>
+			<if test="templateType != null">
+				#{templateType,jdbcType=INTEGER},
+			</if>
+			<if test="sortCode != null">
+				#{sortCode,jdbcType=INTEGER}
+			</if>
+		</trim>
+	</insert>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		DELETE FROM am_import_template WHERE id = #{id}
+	</delete>
+</mapper>

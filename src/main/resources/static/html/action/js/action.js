@@ -166,11 +166,29 @@ var actionTableOptions = {
                                         })
                                         var $responseImportBtn = $('#responseParam').find('.importBtn');
                                         $responseImportBtn.on('click',function () {
-                                            var templateA = {'ret': '0', 'result': {}};
-                                            var templateB = {'ret': '0', 'data': {}};
+                                            var $templateBtnDiv = $('<div></div>');
+                                            var $addTempBtn = $('<button type="button" class="btn btn-success btn-sm addTempBtn">生成模板</button>');
+                                            $templateBtnDiv.append($addTempBtn);
+                                            $.ajax({
+                                                url: api.util.getUrl('apimanager/template/list'),
+                                                type: 'get',
+                                                data : {'templateType': 2},
+                                                dataType: 'json',
+                                                async: false,
+                                                success: function (result) {
+                                                    var datas = result.data;
+                                                    $.each(datas, function (index, data) {
+                                                        var $templateBtn = $('<button type="button" class="btn btn-info btn-sm templateBtn" style="margin-left: 10px;"></button>');
+                                                        $templateBtn.text(data['templateName']);
+                                                        $templateBtn.attr('primaryId', data['id']);
+                                                        $templateBtn.attr('templateContent', data['templateContent']);
+                                                        $templateBtnDiv.append($templateBtn);
+                                                    })
+                                                }
+                                            });
                                             var dialogOptions = {
                                                 container: 'body',
-                                                content: '<button type="button" class="btn btn-info btn-sm templateA">ret-result</button><button type="button" class="btn btn-info btn-sm templateB" style="margin-left: 10px;">ret-data</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                                content: $templateBtnDiv.html() + '<textarea class="col-12 form-control" name="responseJson" style="height: 300px; margin-top: 2px;"></textarea>',
                                                 iTitle: false,
                                                 title: '响应参数',
                                                 width: '150%',
@@ -199,46 +217,119 @@ var actionTableOptions = {
                                                     }
                                                 ],
                                                 opened: function (modalBody) {
-                                                    modalBody.find('.templateA').on('click', function () {
-                                                        var content = '';
-                                                        if(modalBody.attr('content')){
-                                                            content = modalBody.attr('content');
-                                                        } else {
-                                                            content = modalBody.find('textarea[name=responseJson]').val();
-                                                            modalBody.attr('content', content);
+                                                    modalBody.find('.addTempBtn').on('click', function () {
+                                                        var that = $(this);
+                                                        var content = modalBody.find('textarea[name=responseJson]').val();
+                                                        if(!content || $.trim(content).length == 0){
+                                                            var options = {
+                                                                content: '模板内容不能为空！'
+                                                            };
+                                                            api.ui.dialog(options).open();
+                                                            return;
                                                         }
-                                                        if(content && $.trim(content).length > 0){
-                                                            var contentObj = JSON.parse(content);
-                                                            templateA['result'] = contentObj;
-                                                            var templateAString = JSON.stringify(templateA, null, 4);
-                                                            modalBody.find('textarea[name=responseJson]').val(templateAString);
-                                                        }
+                                                        var options = {
+                                                            content: '<input type="text" class="form-control" name="templateName" placeholder="模板名称，如：ret-result">',
+                                                            buttons: [
+                                                                {
+                                                                    text: '确定', type: 'sure', fn: function (innerModalBody) {
+                                                                        var templateName = innerModalBody.find('input[name=templateName]').val();
+                                                                        if(templateName && $.trim(templateName).length > 0){
+                                                                            $.ajax({
+                                                                                url: api.util.getUrl('apimanager/template/add'),
+                                                                                type: 'GET',
+                                                                                data: {'templateName': templateName,'templateContent': content, 'templateType': 2},
+                                                                                dataType: 'json',
+                                                                                success: function (result) {
+                                                                                    var $templateBtn = $('<button type="button" class="btn btn-info btn-sm templateBtn" style="margin-left: 10px;"></button>');
+                                                                                    $templateBtn.text(templateName);
+                                                                                    $templateBtn.attr('primaryId', result['data']);
+                                                                                    $templateBtn.attr('templateContent', content);
+                                                                                    modalBody.find('textarea[name=responseJson]').before($templateBtn);
+                                                                                    modalBody.find('textarea[name=responseJson]').val('');
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    }
+                                                                },
+                                                                {
+                                                                    text: '取消', type: 'cancel'
+                                                                }
+                                                            ]
+                                                        };
+                                                        api.ui.dialog(options).open();
                                                     });
-                                                    modalBody.find('.templateB').on('click', function () {
-                                                        var content = '';
-                                                        if(modalBody.attr('content')){
-                                                            content = modalBody.attr('content');
-                                                        } else {
-                                                            content = modalBody.find('textarea[name=responseJson]').val();
-                                                            modalBody.attr('content', content);
-                                                        }
+                                                    modalBody.on('click', '.templateBtn', function () {
+                                                        var content = modalBody.find('textarea[name=responseJson]').val(), that = $(this);
                                                         if(content && $.trim(content).length > 0){
                                                             var contentObj = JSON.parse(content);
-                                                            templateB['data'] = contentObj;
-                                                            var templateBString = JSON.stringify(templateB, null, 4);
+                                                            var templateContent = JSON.parse(that.attr('templateContent'));
+                                                            Object.keys(templateContent).forEach(function(key) {
+                                                                if(typeof templateContent[key] === 'object'){
+                                                                    templateContent[key] = contentObj;
+                                                                };
+                                                            });
+                                                            var templateBString = JSON.stringify(templateContent, null, 4);
+                                                            modalBody.find('textarea[name=responseJson]').val(templateBString);
+                                                        } else {
+                                                            var templateContent = JSON.parse(that.attr('templateContent'));
+                                                            var templateBString = JSON.stringify(templateContent, null, 4);
                                                             modalBody.find('textarea[name=responseJson]').val(templateBString);
                                                         }
                                                     });
+                                                    modalBody.on('dblclick', '.templateBtn', function () {
+                                                        var that = $(this);
+                                                        var options = {
+                                                            content: '确认删除模板？',
+                                                            buttons: [
+                                                                {
+                                                                    text: '确定', type: 'sure', fn: function () {
+                                                                        $.ajax({
+                                                                            url: api.util.getUrl('apimanager/template/delete'),
+                                                                            type: 'GET',
+                                                                            data: {'id': that.attr('primaryId')},
+                                                                            dataType: 'json',
+                                                                            success: function (result) {
+                                                                                that.remove();
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                },
+                                                                {
+                                                                    text: '取消', type: 'cancel'
+                                                                }
+                                                            ]
+                                                        };
+                                                        api.ui.dialog(options).open();
+                                                    });
                                                 }
                                             };
-                                            api.ui.dialog(dialogOptions).open();
+                                            var importDialog = api.ui.dialog(dialogOptions).open();
                                         })
                                         var $responseFailImportBtn = $('#responseFailParam').find('.importBtn');
                                         $responseFailImportBtn.on('click',function () {
-                                            var templateA = {'code': '-1', 'msg': '服务处理异常'};
+                                            var $templateBtnDiv = $('<div></div>');
+                                            var $addTempBtn = $('<button type="button" class="btn btn-success btn-sm addTempBtn">生成模板</button>');
+                                            $templateBtnDiv.append($addTempBtn);
+                                            $.ajax({
+                                                url: api.util.getUrl('apimanager/template/list'),
+                                                type: 'get',
+                                                data : {'templateType': 3},
+                                                dataType: 'json',
+                                                async: false,
+                                                success: function (result) {
+                                                    var datas = result.data;
+                                                    $.each(datas, function (index, data) {
+                                                        var $templateBtn = $('<button type="button" class="btn btn-info btn-sm templateBtn" style="margin-left: 10px;"></button>');
+                                                        $templateBtn.text(data['templateName']);
+                                                        $templateBtn.attr('primaryId', data['id']);
+                                                        $templateBtn.attr('templateContent', data['templateContent']);
+                                                        $templateBtnDiv.append($templateBtn);
+                                                    })
+                                                }
+                                            });
                                             var dialogOptions = {
                                                 container: 'body',
-                                                content: '<button type="button" class="btn btn-info btn-sm templateA">code-msg</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                                content: $templateBtnDiv.html() + '<textarea class="col-12 form-control" name="responseJson" style="height: 300px; margin-top: 2px;"></textarea>',
                                                 iTitle: false,
                                                 title: '响应参数',
                                                 width: '150%',
@@ -267,12 +358,82 @@ var actionTableOptions = {
                                                     }
                                                 ],
                                                 opened: function (modalBody) {
-                                                    modalBody.find('.templateA').on('click', function () {
-                                                        modalBody.find('textarea[name=responseJson]').val(JSON.stringify(templateA, null, 4));
+                                                    modalBody.find('.addTempBtn').on('click', function () {
+                                                        var that = $(this);
+                                                        var content = modalBody.find('textarea[name=responseJson]').val();
+                                                        if(!content || $.trim(content).length == 0){
+                                                            var options = {
+                                                                content: '模板内容不能为空！'
+                                                            };
+                                                            api.ui.dialog(options).open();
+                                                            return;
+                                                        }
+                                                        var options = {
+                                                            content: '<input type="text" class="form-control" name="templateName" placeholder="模板名称，如：ret-result">',
+                                                            buttons: [
+                                                                {
+                                                                    text: '确定', type: 'sure', fn: function (innerModalBody) {
+                                                                        var templateName = innerModalBody.find('input[name=templateName]').val();
+                                                                        if(templateName && $.trim(templateName).length > 0){
+                                                                            $.ajax({
+                                                                                url: api.util.getUrl('apimanager/template/add'),
+                                                                                type: 'GET',
+                                                                                data: {'templateName': templateName,'templateContent': content, 'templateType': 3},
+                                                                                dataType: 'json',
+                                                                                success: function (result) {
+                                                                                    var $templateBtn = $('<button type="button" class="btn btn-info btn-sm templateBtn" style="margin-left: 10px;"></button>');
+                                                                                    $templateBtn.text(templateName);
+                                                                                    $templateBtn.attr('primaryId', result['data']);
+                                                                                    $templateBtn.attr('templateContent', content);
+                                                                                    modalBody.find('textarea[name=responseJson]').before($templateBtn);
+                                                                                    modalBody.find('textarea[name=responseJson]').val('');
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    }
+                                                                },
+                                                                {
+                                                                    text: '取消', type: 'cancel'
+                                                                }
+                                                            ]
+                                                        };
+                                                        api.ui.dialog(options).open();
+                                                    });
+                                                    modalBody.on('click', '.templateBtn', function () {
+                                                        var $textAreaObj = modalBody.find('textarea[name=responseJson]'), that = $(this);
+                                                        $textAreaObj.val('');
+                                                        var templateContent = JSON.parse(that.attr('templateContent'));
+                                                        var templateBString = JSON.stringify(templateContent, null, 4);
+                                                        $textAreaObj.val(templateBString);
+                                                    });
+                                                    modalBody.on('dblclick', '.templateBtn', function () {
+                                                        var that = $(this);
+                                                        var options = {
+                                                            content: '确认删除模板？',
+                                                            buttons: [
+                                                                {
+                                                                    text: '确定', type: 'sure', fn: function () {
+                                                                        $.ajax({
+                                                                            url: api.util.getUrl('apimanager/template/delete'),
+                                                                            type: 'GET',
+                                                                            data: {'id': that.attr('primaryId')},
+                                                                            dataType: 'json',
+                                                                            success: function (result) {
+                                                                                that.remove();
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                },
+                                                                {
+                                                                    text: '取消', type: 'cancel'
+                                                                }
+                                                            ]
+                                                        };
+                                                        api.ui.dialog(options).open();
                                                     });
                                                 }
                                             };
-                                            api.ui.dialog(dialogOptions).open();
+                                            var importDialog = api.ui.dialog(dialogOptions).open();
                                         })
                                         headParam.disable();
                                         requestParam.disable();
@@ -339,6 +500,7 @@ var actionTableOptions = {
                                             api.ui.dialog(options).open();
                                             return;
                                         }
+                                        var progress = api.ui.progress({});
                                         var requestMockTemplate = api.util.buildMockTemplate(testRequestParam.toData());
                                         var headMockTemplate = api.util.buildMockTemplate(testHeadParam.toData());
                                         var requestData = Mock.mock(requestMockTemplate), headData = Mock.mock(headMockTemplate);
@@ -359,6 +521,7 @@ var actionTableOptions = {
                                             data: JSON.stringify(requestBody),//解决400问题
                                             dataType: 'json',
                                             success: function (result) {
+                                                progress._hide();
                                                 var code = result.code;
                                                 if(code == '-1'){
                                                     $('#responseJsonArea').val(JSON.stringify(result));
@@ -763,11 +926,29 @@ var actionTableOptions = {
                                         })
                                         var $responseImportBtn = $('#responseParam').find('.importBtn');
                                         $responseImportBtn.on('click',function () {
-                                            var templateA = {'ret': '0', 'result': {}};
-                                            var templateB = {'ret': '0', 'data': {}};
+                                            var $templateBtnDiv = $('<div></div>');
+                                            var $addTempBtn = $('<button type="button" class="btn btn-success btn-sm addTempBtn">生成模板</button>');
+                                            $templateBtnDiv.append($addTempBtn);
+                                            $.ajax({
+                                                url: api.util.getUrl('apimanager/template/list'),
+                                                type: 'get',
+                                                data : {'templateType': 2},
+                                                dataType: 'json',
+                                                async: false,
+                                                success: function (result) {
+                                                    var datas = result.data;
+                                                    $.each(datas, function (index, data) {
+                                                        var $templateBtn = $('<button type="button" class="btn btn-info btn-sm templateBtn" style="margin-left: 10px;"></button>');
+                                                        $templateBtn.text(data['templateName']);
+                                                        $templateBtn.attr('primaryId', data['id']);
+                                                        $templateBtn.attr('templateContent', data['templateContent']);
+                                                        $templateBtnDiv.append($templateBtn);
+                                                    })
+                                                }
+                                            });
                                             var dialogOptions = {
                                                 container: 'body',
-                                                content: '<button type="button" class="btn btn-info btn-sm templateA">ret-result</button><button type="button" class="btn btn-info btn-sm templateB" style="margin-left: 10px;">ret-data</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                                content: $templateBtnDiv.html() + '<textarea class="col-12 form-control" name="responseJson" style="height: 300px; margin-top: 2px;"></textarea>',
                                                 iTitle: false,
                                                 title: '响应参数',
                                                 width: '150%',
@@ -796,46 +977,119 @@ var actionTableOptions = {
                                                     }
                                                 ],
                                                 opened: function (modalBody) {
-                                                    modalBody.find('.templateA').on('click', function () {
-                                                        var content = '';
-                                                        if(modalBody.attr('content')){
-                                                            content = modalBody.attr('content');
-                                                        } else {
-                                                            content = modalBody.find('textarea[name=responseJson]').val();
-                                                            modalBody.attr('content', content);
+                                                    modalBody.find('.addTempBtn').on('click', function () {
+                                                        var that = $(this);
+                                                        var content = modalBody.find('textarea[name=responseJson]').val();
+                                                        if(!content || $.trim(content).length == 0){
+                                                            var options = {
+                                                                content: '模板内容不能为空！'
+                                                            };
+                                                            api.ui.dialog(options).open();
+                                                            return;
                                                         }
-                                                        if(content && $.trim(content).length > 0){
-                                                            var contentObj = JSON.parse(content);
-                                                            templateA['result'] = contentObj;
-                                                            var templateAString = JSON.stringify(templateA, null, 4);
-                                                            modalBody.find('textarea[name=responseJson]').val(templateAString);
-                                                        }
+                                                        var options = {
+                                                            content: '<input type="text" class="form-control" name="templateName" placeholder="模板名称，如：ret-result">',
+                                                            buttons: [
+                                                                {
+                                                                    text: '确定', type: 'sure', fn: function (innerModalBody) {
+                                                                        var templateName = innerModalBody.find('input[name=templateName]').val();
+                                                                        if(templateName && $.trim(templateName).length > 0){
+                                                                            $.ajax({
+                                                                                url: api.util.getUrl('apimanager/template/add'),
+                                                                                type: 'GET',
+                                                                                data: {'templateName': templateName,'templateContent': content, 'templateType': 2},
+                                                                                dataType: 'json',
+                                                                                success: function (result) {
+                                                                                    var $templateBtn = $('<button type="button" class="btn btn-info btn-sm templateBtn" style="margin-left: 10px;"></button>');
+                                                                                    $templateBtn.text(templateName);
+                                                                                    $templateBtn.attr('primaryId', result['data']);
+                                                                                    $templateBtn.attr('templateContent', content);
+                                                                                    modalBody.find('textarea[name=responseJson]').before($templateBtn);
+                                                                                    modalBody.find('textarea[name=responseJson]').val('');
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    }
+                                                                },
+                                                                {
+                                                                    text: '取消', type: 'cancel'
+                                                                }
+                                                            ]
+                                                        };
+                                                        api.ui.dialog(options).open();
                                                     });
-                                                    modalBody.find('.templateB').on('click', function () {
-                                                        var content = '';
-                                                        if(modalBody.attr('content')){
-                                                            content = modalBody.attr('content');
-                                                        } else {
-                                                            content = modalBody.find('textarea[name=responseJson]').val();
-                                                            modalBody.attr('content', content);
-                                                        }
+                                                    modalBody.on('click', '.templateBtn', function () {
+                                                        var content = modalBody.find('textarea[name=responseJson]').val(), that = $(this);
                                                         if(content && $.trim(content).length > 0){
                                                             var contentObj = JSON.parse(content);
-                                                            templateB['data'] = contentObj;
-                                                            var templateBString = JSON.stringify(templateB, null, 4);
+                                                            var templateContent = JSON.parse(that.attr('templateContent'));
+                                                            Object.keys(templateContent).forEach(function(key) {
+                                                                if(typeof templateContent[key] === 'object'){
+                                                                    templateContent[key] = contentObj;
+                                                                };
+                                                            });
+                                                            var templateBString = JSON.stringify(templateContent, null, 4);
+                                                            modalBody.find('textarea[name=responseJson]').val(templateBString);
+                                                        } else {
+                                                            var templateContent = JSON.parse(that.attr('templateContent'));
+                                                            var templateBString = JSON.stringify(templateContent, null, 4);
                                                             modalBody.find('textarea[name=responseJson]').val(templateBString);
                                                         }
                                                     });
+                                                    modalBody.on('dblclick', '.templateBtn', function () {
+                                                        var that = $(this);
+                                                        var options = {
+                                                            content: '确认删除模板？',
+                                                            buttons: [
+                                                                {
+                                                                    text: '确定', type: 'sure', fn: function () {
+                                                                        $.ajax({
+                                                                            url: api.util.getUrl('apimanager/template/delete'),
+                                                                            type: 'GET',
+                                                                            data: {'id': that.attr('primaryId')},
+                                                                            dataType: 'json',
+                                                                            success: function (result) {
+                                                                                that.remove();
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                },
+                                                                {
+                                                                    text: '取消', type: 'cancel'
+                                                                }
+                                                            ]
+                                                        };
+                                                        api.ui.dialog(options).open();
+                                                    });
                                                 }
                                             };
-                                            api.ui.dialog(dialogOptions).open();
+                                            var importDialog = api.ui.dialog(dialogOptions).open();
                                         })
                                         var $responseFailImportBtn = $('#responseFailParam').find('.importBtn');
                                         $responseFailImportBtn.on('click',function () {
-                                            var templateA = {'code': '-1', 'msg': '服务处理异常'};
+                                            var $templateBtnDiv = $('<div></div>');
+                                            var $addTempBtn = $('<button type="button" class="btn btn-success btn-sm addTempBtn">生成模板</button>');
+                                            $templateBtnDiv.append($addTempBtn);
+                                            $.ajax({
+                                                url: api.util.getUrl('apimanager/template/list'),
+                                                type: 'get',
+                                                data : {'templateType': 3},
+                                                dataType: 'json',
+                                                async: false,
+                                                success: function (result) {
+                                                    var datas = result.data;
+                                                    $.each(datas, function (index, data) {
+                                                        var $templateBtn = $('<button type="button" class="btn btn-info btn-sm templateBtn" style="margin-left: 10px;"></button>');
+                                                        $templateBtn.text(data['templateName']);
+                                                        $templateBtn.attr('primaryId', data['id']);
+                                                        $templateBtn.attr('templateContent', data['templateContent']);
+                                                        $templateBtnDiv.append($templateBtn);
+                                                    })
+                                                }
+                                            });
                                             var dialogOptions = {
                                                 container: 'body',
-                                                content: '<button type="button" class="btn btn-info btn-sm templateA">code-msg</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                                content: $templateBtnDiv.html() + '<textarea class="col-12 form-control" name="responseJson" style="height: 300px; margin-top: 2px;"></textarea>',
                                                 iTitle: false,
                                                 title: '响应参数',
                                                 width: '150%',
@@ -864,12 +1118,82 @@ var actionTableOptions = {
                                                     }
                                                 ],
                                                 opened: function (modalBody) {
-                                                    modalBody.find('.templateA').on('click', function () {
-                                                        modalBody.find('textarea[name=responseJson]').val(JSON.stringify(templateA, null, 4));
+                                                    modalBody.find('.addTempBtn').on('click', function () {
+                                                        var that = $(this);
+                                                        var content = modalBody.find('textarea[name=responseJson]').val();
+                                                        if(!content || $.trim(content).length == 0){
+                                                            var options = {
+                                                                content: '模板内容不能为空！'
+                                                            };
+                                                            api.ui.dialog(options).open();
+                                                            return;
+                                                        }
+                                                        var options = {
+                                                            content: '<input type="text" class="form-control" name="templateName" placeholder="模板名称，如：ret-result">',
+                                                            buttons: [
+                                                                {
+                                                                    text: '确定', type: 'sure', fn: function (innerModalBody) {
+                                                                        var templateName = innerModalBody.find('input[name=templateName]').val();
+                                                                        if(templateName && $.trim(templateName).length > 0){
+                                                                            $.ajax({
+                                                                                url: api.util.getUrl('apimanager/template/add'),
+                                                                                type: 'GET',
+                                                                                data: {'templateName': templateName,'templateContent': content, 'templateType': 3},
+                                                                                dataType: 'json',
+                                                                                success: function (result) {
+                                                                                    var $templateBtn = $('<button type="button" class="btn btn-info btn-sm templateBtn" style="margin-left: 10px;"></button>');
+                                                                                    $templateBtn.text(templateName);
+                                                                                    $templateBtn.attr('primaryId', result['data']);
+                                                                                    $templateBtn.attr('templateContent', content);
+                                                                                    modalBody.find('textarea[name=responseJson]').before($templateBtn);
+                                                                                    modalBody.find('textarea[name=responseJson]').val('');
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    }
+                                                                },
+                                                                {
+                                                                    text: '取消', type: 'cancel'
+                                                                }
+                                                            ]
+                                                        };
+                                                        api.ui.dialog(options).open();
+                                                    });
+                                                    modalBody.on('click', '.templateBtn', function () {
+                                                        var $textAreaObj = modalBody.find('textarea[name=responseJson]'), that = $(this);
+                                                        $textAreaObj.val('');
+                                                        var templateContent = JSON.parse(that.attr('templateContent'));
+                                                        var templateBString = JSON.stringify(templateContent, null, 4);
+                                                        $textAreaObj.val(templateBString);
+                                                    });
+                                                    modalBody.on('dblclick', '.templateBtn', function () {
+                                                        var that = $(this);
+                                                        var options = {
+                                                            content: '确认删除模板？',
+                                                            buttons: [
+                                                                {
+                                                                    text: '确定', type: 'sure', fn: function () {
+                                                                        $.ajax({
+                                                                            url: api.util.getUrl('apimanager/template/delete'),
+                                                                            type: 'GET',
+                                                                            data: {'id': that.attr('primaryId')},
+                                                                            dataType: 'json',
+                                                                            success: function (result) {
+                                                                                that.remove();
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                },
+                                                                {
+                                                                    text: '取消', type: 'cancel'
+                                                                }
+                                                            ]
+                                                        };
+                                                        api.ui.dialog(options).open();
                                                     });
                                                 }
                                             };
-                                            api.ui.dialog(dialogOptions).open();
+                                            var importDialog = api.ui.dialog(dialogOptions).open();
                                         })
                                     });
                                     progress._hide();
@@ -958,7 +1282,7 @@ var actionTableOptions = {
 
                             });
                             if(i == 1){
-                                var option={content: '请完善接口基本信息'};
+                                var option = {content: '请完善接口基本信息'};
                                 api.ui.dialog(option).open();
                                 actionTabConfObject.show('基本信息');
                                 return;
@@ -1112,10 +1436,6 @@ headBtn: [
                                     requestParam = api.ui.param(requestOptions);
                                     responseParam = api.ui.param(responseOptions);
                                     responseFailParam = api.ui.param(responseFailOptions);
-                                    var responseFailDataTemplate = [{'name': 'code', 'type': 1, 'desc': '错误码', 'defaultVal': -1}, {'name': 'msg', 'type': 2, 'desc': '错误提示语', 'defaultVal': '服务处理异常'}];
-                                    $.each(responseFailDataTemplate, function (index, data) {
-                                        responseFailParam._showRow(data);
-                                    })
                                     var $requestImportBtn = $('#requestParam').find('.importBtn');
                                     $requestImportBtn.on('click',function () {
                                         var dialogOptions = {
@@ -1156,11 +1476,29 @@ headBtn: [
                                     })
                                     var $responseImportBtn = $('#responseParam').find('.importBtn');
                                     $responseImportBtn.on('click',function () {
-                                        var templateA = {'ret': '0', 'result': {}};
-                                        var templateB = {'ret': '0', 'data': {}};
+                                        var $templateBtnDiv = $('<div></div>');
+                                        var $addTempBtn = $('<button type="button" class="btn btn-success btn-sm addTempBtn">生成模板</button>');
+                                        $templateBtnDiv.append($addTempBtn);
+                                        $.ajax({
+                                            url: api.util.getUrl('apimanager/template/list'),
+                                            type: 'get',
+                                            data : {'templateType': 2},
+                                            dataType: 'json',
+                                            async: false,
+                                            success: function (result) {
+                                                var datas = result.data;
+                                                $.each(datas, function (index, data) {
+                                                    var $templateBtn = $('<button type="button" class="btn btn-info btn-sm templateBtn" style="margin-left: 10px;"></button>');
+                                                    $templateBtn.text(data['templateName']);
+                                                    $templateBtn.attr('primaryId', data['id']);
+                                                    $templateBtn.attr('templateContent', data['templateContent']);
+                                                    $templateBtnDiv.append($templateBtn);
+                                                })
+                                            }
+                                        });
                                         var dialogOptions = {
                                             container: 'body',
-                                            content: '<button type="button" class="btn btn-info btn-sm templateA">ret-result</button><button type="button" class="btn btn-info btn-sm templateB" style="margin-left: 10px;">ret-data</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                            content: $templateBtnDiv.html() + '<textarea class="col-12 form-control" name="responseJson" style="height: 300px; margin-top: 2px;"></textarea>',
                                             iTitle: false,
                                             title: '响应参数',
                                             width: '150%',
@@ -1189,46 +1527,119 @@ headBtn: [
                                                 }
                                             ],
                                             opened: function (modalBody) {
-                                                modalBody.find('.templateA').on('click', function () {
-                                                    var content = '';
-                                                    if(modalBody.attr('content')){
-                                                        content = modalBody.attr('content');
-                                                    } else {
-                                                        content = modalBody.find('textarea[name=responseJson]').val();
-                                                        modalBody.attr('content', content);
+                                                modalBody.find('.addTempBtn').on('click', function () {
+                                                    var that = $(this);
+                                                    var content = modalBody.find('textarea[name=responseJson]').val();
+                                                    if(!content || $.trim(content).length == 0){
+                                                        var options = {
+                                                            content: '模板内容不能为空！'
+                                                        };
+                                                        api.ui.dialog(options).open();
+                                                        return;
                                                     }
-                                                    if(content && $.trim(content).length > 0){
-                                                        var contentObj = JSON.parse(content);
-                                                        templateA['result'] = contentObj;
-                                                        var templateAString = JSON.stringify(templateA, null, 4);
-                                                        modalBody.find('textarea[name=responseJson]').val(templateAString);
-                                                    }
+                                                    var options = {
+                                                        content: '<input type="text" class="form-control" name="templateName" placeholder="模板名称，如：ret-result">',
+                                                        buttons: [
+                                                            {
+                                                                text: '确定', type: 'sure', fn: function (innerModalBody) {
+                                                                    var templateName = innerModalBody.find('input[name=templateName]').val();
+                                                                    if(templateName && $.trim(templateName).length > 0){
+                                                                        $.ajax({
+                                                                            url: api.util.getUrl('apimanager/template/add'),
+                                                                            type: 'GET',
+                                                                            data: {'templateName': templateName,'templateContent': content, 'templateType': 2},
+                                                                            dataType: 'json',
+                                                                            success: function (result) {
+                                                                                var $templateBtn = $('<button type="button" class="btn btn-info btn-sm templateBtn" style="margin-left: 10px;"></button>');
+                                                                                $templateBtn.text(templateName);
+                                                                                $templateBtn.attr('primaryId', result['data']);
+                                                                                $templateBtn.attr('templateContent', content);
+                                                                                modalBody.find('textarea[name=responseJson]').before($templateBtn);
+                                                                                modalBody.find('textarea[name=responseJson]').val('');
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                }
+                                                            },
+                                                            {
+                                                                text: '取消', type: 'cancel'
+                                                            }
+                                                        ]
+                                                    };
+                                                    api.ui.dialog(options).open();
                                                 });
-                                                modalBody.find('.templateB').on('click', function () {
-                                                    var content = '';
-                                                    if(modalBody.attr('content')){
-                                                        content = modalBody.attr('content');
-                                                    } else {
-                                                        content = modalBody.find('textarea[name=responseJson]').val();
-                                                        modalBody.attr('content', content);
-                                                    }
+                                                modalBody.on('click', '.templateBtn', function () {
+                                                    var content = modalBody.find('textarea[name=responseJson]').val(), that = $(this);
                                                     if(content && $.trim(content).length > 0){
                                                         var contentObj = JSON.parse(content);
-                                                        templateB['data'] = contentObj;
-                                                        var templateBString = JSON.stringify(templateB, null, 4);
+                                                        var templateContent = JSON.parse(that.attr('templateContent'));
+                                                        Object.keys(templateContent).forEach(function(key) {
+                                                            if(typeof templateContent[key] === 'object'){
+                                                                templateContent[key] = contentObj;
+                                                            };
+                                                        });
+                                                        var templateBString = JSON.stringify(templateContent, null, 4);
+                                                        modalBody.find('textarea[name=responseJson]').val(templateBString);
+                                                    } else {
+                                                        var templateContent = JSON.parse(that.attr('templateContent'));
+                                                        var templateBString = JSON.stringify(templateContent, null, 4);
                                                         modalBody.find('textarea[name=responseJson]').val(templateBString);
                                                     }
                                                 });
+                                                modalBody.on('dblclick', '.templateBtn', function () {
+                                                    var that = $(this);
+                                                    var options = {
+                                                        content: '确认删除模板？',
+                                                        buttons: [
+                                                            {
+                                                                text: '确定', type: 'sure', fn: function () {
+                                                                    $.ajax({
+                                                                        url: api.util.getUrl('apimanager/template/delete'),
+                                                                        type: 'GET',
+                                                                        data: {'id': that.attr('primaryId')},
+                                                                        dataType: 'json',
+                                                                        success: function (result) {
+                                                                            that.remove();
+                                                                        }
+                                                                    });
+                                                                }
+                                                            },
+                                                            {
+                                                                text: '取消', type: 'cancel'
+                                                            }
+                                                        ]
+                                                    };
+                                                    api.ui.dialog(options).open();
+                                                });
                                             }
                                         };
-                                        api.ui.dialog(dialogOptions).open();
+                                        var importDialog = api.ui.dialog(dialogOptions).open();
                                     })
                                     var $responseFailImportBtn = $('#responseFailParam').find('.importBtn');
                                     $responseFailImportBtn.on('click',function () {
-                                        var templateA = {'code': '-1', 'msg': '服务处理异常'};
+                                        var $templateBtnDiv = $('<div></div>');
+                                        var $addTempBtn = $('<button type="button" class="btn btn-success btn-sm addTempBtn">生成模板</button>');
+                                        $templateBtnDiv.append($addTempBtn);
+                                        $.ajax({
+                                            url: api.util.getUrl('apimanager/template/list'),
+                                            type: 'get',
+                                            data : {'templateType': 3},
+                                            dataType: 'json',
+                                            async: false,
+                                            success: function (result) {
+                                                var datas = result.data;
+                                                $.each(datas, function (index, data) {
+                                                    var $templateBtn = $('<button type="button" class="btn btn-info btn-sm templateBtn" style="margin-left: 10px;"></button>');
+                                                    $templateBtn.text(data['templateName']);
+                                                    $templateBtn.attr('primaryId', data['id']);
+                                                    $templateBtn.attr('templateContent', data['templateContent']);
+                                                    $templateBtnDiv.append($templateBtn);
+                                                })
+                                            }
+                                        });
                                         var dialogOptions = {
                                             container: 'body',
-                                            content: '<button type="button" class="btn btn-info btn-sm templateA">code-msg</button><textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                            content: $templateBtnDiv.html() + '<textarea class="col-12 form-control" name="responseJson" style="height: 300px; margin-top: 2px;"></textarea>',
                                             iTitle: false,
                                             title: '响应参数',
                                             width: '150%',
@@ -1257,12 +1668,82 @@ headBtn: [
                                                 }
                                             ],
                                             opened: function (modalBody) {
-                                                modalBody.find('.templateA').on('click', function () {
-                                                    modalBody.find('textarea[name=responseJson]').val(JSON.stringify(templateA, null, 4));
+                                                modalBody.find('.addTempBtn').on('click', function () {
+                                                    var that = $(this);
+                                                    var content = modalBody.find('textarea[name=responseJson]').val();
+                                                    if(!content || $.trim(content).length == 0){
+                                                        var options = {
+                                                            content: '模板内容不能为空！'
+                                                        };
+                                                        api.ui.dialog(options).open();
+                                                        return;
+                                                    }
+                                                    var options = {
+                                                        content: '<input type="text" class="form-control" name="templateName" placeholder="模板名称，如：ret-result">',
+                                                        buttons: [
+                                                            {
+                                                                text: '确定', type: 'sure', fn: function (innerModalBody) {
+                                                                    var templateName = innerModalBody.find('input[name=templateName]').val();
+                                                                    if(templateName && $.trim(templateName).length > 0){
+                                                                        $.ajax({
+                                                                            url: api.util.getUrl('apimanager/template/add'),
+                                                                            type: 'GET',
+                                                                            data: {'templateName': templateName,'templateContent': content, 'templateType': 3},
+                                                                            dataType: 'json',
+                                                                            success: function (result) {
+                                                                                var $templateBtn = $('<button type="button" class="btn btn-info btn-sm templateBtn" style="margin-left: 10px;"></button>');
+                                                                                $templateBtn.text(templateName);
+                                                                                $templateBtn.attr('primaryId', result['data']);
+                                                                                $templateBtn.attr('templateContent', content);
+                                                                                modalBody.find('textarea[name=responseJson]').before($templateBtn);
+                                                                                modalBody.find('textarea[name=responseJson]').val('');
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                }
+                                                            },
+                                                            {
+                                                                text: '取消', type: 'cancel'
+                                                            }
+                                                        ]
+                                                    };
+                                                    api.ui.dialog(options).open();
+                                                });
+                                                modalBody.on('click', '.templateBtn', function () {
+                                                    var $textAreaObj = modalBody.find('textarea[name=responseJson]'), that = $(this);
+                                                    $textAreaObj.val('');
+                                                    var templateContent = JSON.parse(that.attr('templateContent'));
+                                                    var templateBString = JSON.stringify(templateContent, null, 4);
+                                                    $textAreaObj.val(templateBString);
+                                                });
+                                                modalBody.on('dblclick', '.templateBtn', function () {
+                                                    var that = $(this);
+                                                    var options = {
+                                                        content: '确认删除模板？',
+                                                        buttons: [
+                                                            {
+                                                                text: '确定', type: 'sure', fn: function () {
+                                                                    $.ajax({
+                                                                        url: api.util.getUrl('apimanager/template/delete'),
+                                                                        type: 'GET',
+                                                                        data: {'id': that.attr('primaryId')},
+                                                                        dataType: 'json',
+                                                                        success: function (result) {
+                                                                            that.remove();
+                                                                        }
+                                                                    });
+                                                                }
+                                                            },
+                                                            {
+                                                                text: '取消', type: 'cancel'
+                                                            }
+                                                        ]
+                                                    };
+                                                    api.ui.dialog(options).open();
                                                 });
                                             }
                                         };
-                                        api.ui.dialog(dialogOptions).open();
+                                        var importDialog = api.ui.dialog(dialogOptions).open();
                                     })
                                 });
                             }

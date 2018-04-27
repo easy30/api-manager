@@ -278,6 +278,7 @@ function actionTestClick() {
                     api.ui.dialog(options).open();
                     return;
                 }
+                var progress = api.ui.progress({});
                 var requestMockTemplate = api.util.buildMockTemplate(testRequestParam.toData());
                 var headMockTemplate = api.util.buildMockTemplate(testHeadParam.toData());
                 var requestData = Mock.mock(requestMockTemplate), headData = Mock.mock(headMockTemplate);
@@ -298,6 +299,7 @@ function actionTestClick() {
                     data: JSON.stringify(requestBody),//解决400问题
                     dataType: 'json',
                     success: function (result) {
+                        progress._hide();
                         var code = result.code;
                         if(code == '-1'){
                             $('#responseJsonArea').val(JSON.stringify(result));

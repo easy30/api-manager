@@ -28,7 +28,8 @@
             var dialog = this, options = this.options, jq = this.jq, buttons = options.buttons, $modalHtml = $(modalHtml), modalId = 'modal-' + api.util.generateId();
             this.modalId = modalId;
 
-            jq.append($modalHtml.clone().attr('id', modalId)).find('.modal-body').empty().append(this.options.content);
+            var modal = jq.append($modalHtml.clone().attr('id', modalId)).find('#' + modalId);
+            modal.find('.modal-body').empty().append(this.options.content)
             var myModalLabel = jq.find('#' + modalId).find('#myModalLabel');
             if(options.iTitle){
                 myModalLabel.append(modalTitle);
@@ -51,9 +52,9 @@
                     }
                     $btn.on('click', function () {
                         dialog.close();
-                        button.fn && button.fn();
+                        button.fn && button.fn(modal.find('.modal-body'));
                     });
-                    jq.find('.modal-footer').append($btn);
+                    jq.find('#' + modalId).find('.modal-footer').append($btn);
                 })
             }
 
