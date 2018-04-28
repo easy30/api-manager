@@ -258,26 +258,31 @@ var actionTableOptions = {
                                                         };
                                                         api.ui.dialog(options).open();
                                                     });
-                                                    modalBody.on('click', '.templateBtn', function () {
-                                                        var content = modalBody.find('textarea[name=responseJson]').val(), that = $(this);
-                                                        if(content && $.trim(content).length > 0){
-                                                            var contentObj = JSON.parse(content);
-                                                            var templateContent = JSON.parse(that.attr('templateContent'));
-                                                            Object.keys(templateContent).forEach(function(key) {
-                                                                if(typeof templateContent[key] === 'object'){
-                                                                    templateContent[key] = contentObj;
-                                                                };
-                                                            });
-                                                            var templateBString = JSON.stringify(templateContent, null, 4);
-                                                            modalBody.find('textarea[name=responseJson]').val(templateBString);
-                                                        } else {
-                                                            var templateContent = JSON.parse(that.attr('templateContent'));
-                                                            var templateBString = JSON.stringify(templateContent, null, 4);
-                                                            modalBody.find('textarea[name=responseJson]').val(templateBString);
-                                                        }
-                                                    });
-                                                    modalBody.on('dblclick', '.templateBtn', function () {
-                                                        var that = $(this);
+                                                    var clickTimeId;
+                                                    var templateBtnClick = function (event) {
+                                                        clearTimeout(clickTimeId);
+                                                        clickTimeId = setTimeout(function () {
+                                                            var content = modalBody.find('textarea[name=responseJson]').val(), that = $(event.target);
+                                                            if(content && $.trim(content).length > 0){
+                                                                var contentObj = JSON.parse(content);
+                                                                var templateContent = JSON.parse(that.attr('templateContent'));
+                                                                Object.keys(templateContent).forEach(function(key) {
+                                                                    if(typeof templateContent[key] === 'object'){
+                                                                        templateContent[key] = contentObj;
+                                                                    };
+                                                                });
+                                                                var templateBString = JSON.stringify(templateContent, null, 4);
+                                                                modalBody.find('textarea[name=responseJson]').val(templateBString);
+                                                            } else {
+                                                                var templateContent = JSON.parse(that.attr('templateContent'));
+                                                                var templateBString = JSON.stringify(templateContent, null, 4);
+                                                                modalBody.find('textarea[name=responseJson]').val(templateBString);
+                                                            }
+                                                        }, 250);
+                                                    }
+                                                    var templateBtnDbClick = function (event) {
+                                                        clearTimeout(clickTimeId);
+                                                        var that = $(event.target);
                                                         var options = {
                                                             content: '确认删除模板？',
                                                             buttons: [
@@ -300,7 +305,9 @@ var actionTableOptions = {
                                                             ]
                                                         };
                                                         api.ui.dialog(options).open();
-                                                    });
+                                                    }
+                                                    modalBody.on('click', '.templateBtn', templateBtnClick);
+                                                    modalBody.on('dblclick', '.templateBtn', templateBtnDbClick);
                                                 }
                                             };
                                             var importDialog = api.ui.dialog(dialogOptions).open();
@@ -399,15 +406,20 @@ var actionTableOptions = {
                                                         };
                                                         api.ui.dialog(options).open();
                                                     });
-                                                    modalBody.on('click', '.templateBtn', function () {
-                                                        var $textAreaObj = modalBody.find('textarea[name=responseJson]'), that = $(this);
-                                                        $textAreaObj.val('');
-                                                        var templateContent = JSON.parse(that.attr('templateContent'));
-                                                        var templateBString = JSON.stringify(templateContent, null, 4);
-                                                        $textAreaObj.val(templateBString);
-                                                    });
-                                                    modalBody.on('dblclick', '.templateBtn', function () {
-                                                        var that = $(this);
+                                                    var clickTimeId;
+                                                    var templateBtnClick = function (event) {
+                                                        clearTimeout(clickTimeId);
+                                                        clickTimeId = setTimeout(function () {
+                                                            var $textAreaObj = modalBody.find('textarea[name=responseJson]'), that = $(event.target);
+                                                            $textAreaObj.val('');
+                                                            var templateContent = JSON.parse(that.attr('templateContent'));
+                                                            var templateBString = JSON.stringify(templateContent, null, 4);
+                                                            $textAreaObj.val(templateBString);
+                                                        }, 250);
+                                                    };
+                                                    var templateBtnDbClick = function (event) {
+                                                        clearTimeout(clickTimeId);
+                                                        var that = $(event.target);
                                                         var options = {
                                                             content: '确认删除模板？',
                                                             buttons: [
@@ -430,7 +442,9 @@ var actionTableOptions = {
                                                             ]
                                                         };
                                                         api.ui.dialog(options).open();
-                                                    });
+                                                    }
+                                                    modalBody.on('click', '.templateBtn', templateBtnClick);
+                                                    modalBody.on('dblclick', '.templateBtn', templateBtnDbClick);
                                                 }
                                             };
                                             var importDialog = api.ui.dialog(dialogOptions).open();
@@ -1018,26 +1032,31 @@ var actionTableOptions = {
                                                         };
                                                         api.ui.dialog(options).open();
                                                     });
-                                                    modalBody.on('click', '.templateBtn', function () {
-                                                        var content = modalBody.find('textarea[name=responseJson]').val(), that = $(this);
-                                                        if(content && $.trim(content).length > 0){
-                                                            var contentObj = JSON.parse(content);
-                                                            var templateContent = JSON.parse(that.attr('templateContent'));
-                                                            Object.keys(templateContent).forEach(function(key) {
-                                                                if(typeof templateContent[key] === 'object'){
-                                                                    templateContent[key] = contentObj;
-                                                                };
-                                                            });
-                                                            var templateBString = JSON.stringify(templateContent, null, 4);
-                                                            modalBody.find('textarea[name=responseJson]').val(templateBString);
-                                                        } else {
-                                                            var templateContent = JSON.parse(that.attr('templateContent'));
-                                                            var templateBString = JSON.stringify(templateContent, null, 4);
-                                                            modalBody.find('textarea[name=responseJson]').val(templateBString);
-                                                        }
-                                                    });
-                                                    modalBody.on('dblclick', '.templateBtn', function () {
-                                                        var that = $(this);
+                                                    var clickTimeId;
+                                                    var templateBtnClick = function (event) {
+                                                        clearTimeout(clickTimeId);
+                                                        clickTimeId = setTimeout(function () {
+                                                            var content = modalBody.find('textarea[name=responseJson]').val(), that = $(event.target);
+                                                            if(content && $.trim(content).length > 0){
+                                                                var contentObj = JSON.parse(content);
+                                                                var templateContent = JSON.parse(that.attr('templateContent'));
+                                                                Object.keys(templateContent).forEach(function(key) {
+                                                                    if(typeof templateContent[key] === 'object'){
+                                                                        templateContent[key] = contentObj;
+                                                                    };
+                                                                });
+                                                                var templateBString = JSON.stringify(templateContent, null, 4);
+                                                                modalBody.find('textarea[name=responseJson]').val(templateBString);
+                                                            } else {
+                                                                var templateContent = JSON.parse(that.attr('templateContent'));
+                                                                var templateBString = JSON.stringify(templateContent, null, 4);
+                                                                modalBody.find('textarea[name=responseJson]').val(templateBString);
+                                                            }
+                                                        }, 250);
+                                                    }
+                                                    var templateBtnDbClick = function (event) {
+                                                        clearTimeout(clickTimeId);
+                                                        var that = $(event.target);
                                                         var options = {
                                                             content: '确认删除模板？',
                                                             buttons: [
@@ -1060,7 +1079,9 @@ var actionTableOptions = {
                                                             ]
                                                         };
                                                         api.ui.dialog(options).open();
-                                                    });
+                                                    }
+                                                    modalBody.on('click', '.templateBtn', templateBtnClick);
+                                                    modalBody.on('dblclick', '.templateBtn', templateBtnDbClick);
                                                 }
                                             };
                                             var importDialog = api.ui.dialog(dialogOptions).open();
@@ -1159,15 +1180,20 @@ var actionTableOptions = {
                                                         };
                                                         api.ui.dialog(options).open();
                                                     });
-                                                    modalBody.on('click', '.templateBtn', function () {
-                                                        var $textAreaObj = modalBody.find('textarea[name=responseJson]'), that = $(this);
-                                                        $textAreaObj.val('');
-                                                        var templateContent = JSON.parse(that.attr('templateContent'));
-                                                        var templateBString = JSON.stringify(templateContent, null, 4);
-                                                        $textAreaObj.val(templateBString);
-                                                    });
-                                                    modalBody.on('dblclick', '.templateBtn', function () {
-                                                        var that = $(this);
+                                                    var clickTimeId;
+                                                    var templateBtnClick = function (event) {
+                                                        clearTimeout(clickTimeId);
+                                                        clickTimeId = setTimeout(function () {
+                                                            var $textAreaObj = modalBody.find('textarea[name=responseJson]'), that = $(event.target);
+                                                            $textAreaObj.val('');
+                                                            var templateContent = JSON.parse(that.attr('templateContent'));
+                                                            var templateBString = JSON.stringify(templateContent, null, 4);
+                                                            $textAreaObj.val(templateBString);
+                                                        }, 250);
+                                                    };
+                                                    var templateBtnDbClick = function (event) {
+                                                        clearTimeout(clickTimeId);
+                                                        var that = $(event.target);
                                                         var options = {
                                                             content: '确认删除模板？',
                                                             buttons: [
@@ -1190,7 +1216,9 @@ var actionTableOptions = {
                                                             ]
                                                         };
                                                         api.ui.dialog(options).open();
-                                                    });
+                                                    }
+                                                    modalBody.on('click', '.templateBtn', templateBtnClick);
+                                                    modalBody.on('dblclick', '.templateBtn', templateBtnDbClick);
                                                 }
                                             };
                                             var importDialog = api.ui.dialog(dialogOptions).open();
@@ -1568,26 +1596,31 @@ headBtn: [
                                                     };
                                                     api.ui.dialog(options).open();
                                                 });
-                                                modalBody.on('click', '.templateBtn', function () {
-                                                    var content = modalBody.find('textarea[name=responseJson]').val(), that = $(this);
-                                                    if(content && $.trim(content).length > 0){
-                                                        var contentObj = JSON.parse(content);
-                                                        var templateContent = JSON.parse(that.attr('templateContent'));
-                                                        Object.keys(templateContent).forEach(function(key) {
-                                                            if(typeof templateContent[key] === 'object'){
-                                                                templateContent[key] = contentObj;
-                                                            };
-                                                        });
-                                                        var templateBString = JSON.stringify(templateContent, null, 4);
-                                                        modalBody.find('textarea[name=responseJson]').val(templateBString);
-                                                    } else {
-                                                        var templateContent = JSON.parse(that.attr('templateContent'));
-                                                        var templateBString = JSON.stringify(templateContent, null, 4);
-                                                        modalBody.find('textarea[name=responseJson]').val(templateBString);
-                                                    }
-                                                });
-                                                modalBody.on('dblclick', '.templateBtn', function () {
-                                                    var that = $(this);
+                                                var clickTimeId;
+                                                var templateBtnClick = function (event) {
+                                                    clearTimeout(clickTimeId);
+                                                    clickTimeId = setTimeout(function () {
+                                                        var content = modalBody.find('textarea[name=responseJson]').val(), that = $(event.target);
+                                                        if(content && $.trim(content).length > 0){
+                                                            var contentObj = JSON.parse(content);
+                                                            var templateContent = JSON.parse(that.attr('templateContent'));
+                                                            Object.keys(templateContent).forEach(function(key) {
+                                                                if(typeof templateContent[key] === 'object'){
+                                                                    templateContent[key] = contentObj;
+                                                                };
+                                                            });
+                                                            var templateBString = JSON.stringify(templateContent, null, 4);
+                                                            modalBody.find('textarea[name=responseJson]').val(templateBString);
+                                                        } else {
+                                                            var templateContent = JSON.parse(that.attr('templateContent'));
+                                                            var templateBString = JSON.stringify(templateContent, null, 4);
+                                                            modalBody.find('textarea[name=responseJson]').val(templateBString);
+                                                        }
+                                                    }, 250);
+                                                }
+                                                var templateBtnDbClick = function (event) {
+                                                    clearTimeout(clickTimeId);
+                                                    var that = $(event.target);
                                                     var options = {
                                                         content: '确认删除模板？',
                                                         buttons: [
@@ -1610,7 +1643,9 @@ headBtn: [
                                                         ]
                                                     };
                                                     api.ui.dialog(options).open();
-                                                });
+                                                }
+                                                modalBody.on('click', '.templateBtn', templateBtnClick);
+                                                modalBody.on('dblclick', '.templateBtn', templateBtnDbClick);
                                             }
                                         };
                                         var importDialog = api.ui.dialog(dialogOptions).open();
@@ -1709,15 +1744,21 @@ headBtn: [
                                                     };
                                                     api.ui.dialog(options).open();
                                                 });
-                                                modalBody.on('click', '.templateBtn', function () {
-                                                    var $textAreaObj = modalBody.find('textarea[name=responseJson]'), that = $(this);
-                                                    $textAreaObj.val('');
-                                                    var templateContent = JSON.parse(that.attr('templateContent'));
-                                                    var templateBString = JSON.stringify(templateContent, null, 4);
-                                                    $textAreaObj.val(templateBString);
-                                                });
-                                                modalBody.on('dblclick', '.templateBtn', function () {
-                                                    var that = $(this);
+
+                                                var clickTimeId;
+                                                var templateBtnClick = function (event) {
+                                                    clearTimeout(clickTimeId);
+                                                    clickTimeId = setTimeout(function () {
+                                                        var $textAreaObj = modalBody.find('textarea[name=responseJson]'), that = $(event.target);
+                                                        $textAreaObj.val('');
+                                                        var templateContent = JSON.parse(that.attr('templateContent'));
+                                                        var templateBString = JSON.stringify(templateContent, null, 4);
+                                                        $textAreaObj.val(templateBString);
+                                                    }, 250);
+                                                };
+                                                var templateBtnDbClick = function (event) {
+                                                    clearTimeout(clickTimeId);
+                                                    var that = $(event.target);
                                                     var options = {
                                                         content: '确认删除模板？',
                                                         buttons: [
@@ -1740,7 +1781,9 @@ headBtn: [
                                                         ]
                                                     };
                                                     api.ui.dialog(options).open();
-                                                });
+                                                }
+                                                modalBody.on('click', '.templateBtn', templateBtnClick);
+                                                modalBody.on('dblclick', '.templateBtn', templateBtnDbClick);
                                             }
                                         };
                                         var importDialog = api.ui.dialog(dialogOptions).open();
