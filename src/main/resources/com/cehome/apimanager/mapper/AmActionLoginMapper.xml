@@ -9,7 +9,7 @@
 		<result column="account_param" property="accountParam" jdbcType="VARCHAR" />
 		<result column="ext_param" property="extParam" jdbcType="VARCHAR" />
 	</resultMap>
-	
+
 	<sql id="Base_Column_List">
 		id,domain_id,request_type,request_url,account_param,ext_param
 	</sql>

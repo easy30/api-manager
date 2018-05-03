@@ -4,11 +4,29 @@ import java.io.Serializable;
 
 public class ActionTesterReqDto implements Serializable {
     private static final long serialVersionUID = -2605480638104880624L;
+    private Integer actionId;
+    private Integer envId;
     private Integer requestType;
     private String domainName;
     private String requestUrl;
     private String requestHeadData;
     private String requestData;
+
+    public Integer getActionId() {
+        return actionId;
+    }
+
+    public Integer getEnvId() {
+        return envId;
+    }
+
+    public void setEnvId(Integer envId) {
+        this.envId = envId;
+    }
+
+    public void setActionId(Integer actionId) {
+        this.actionId = actionId;
+    }
 
     public Integer getRequestType() {
         return requestType;

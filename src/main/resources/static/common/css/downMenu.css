@@ -1,0 +1,51 @@
+.downMenu {
+    margin-top: 11px;
+}
+.downMenu ul {
+    padding-left: 15px;
+}
+
+.downMenu .main {
+    list-style: none;
+    float: left;
+}
+
+.downMenu .main li {
+    list-style: none;
+    text-align: left;
+}
+
+.downMenu .main ul {
+    display: none;
+}
+
+.downMenu .main div {
+    background-color: #00b4ef;
+    width: 80px;
+    margin-left: -6px;
+    border-radius: 2px;
+}
+
+.downMenu .main div ul{
+    padding-left: 0px;
+}
+
+.downMenu .main > a {
+    text-decoration: none;
+    font-family: 'Microsoft YaHei';
+    font-size: 16px;
+    font-weight: bold;
+    cursor: default;
+}
+
+.downMenu .main li {
+    padding-top: 7px;
+    cursor: pointer;
+    padding-left: 9px;
+    border-radius: 2px;
+    font-size: 15px;
+}
+
+.downMenu .main li:hover {
+    background-color: #e9ecef;
+}

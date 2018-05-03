@@ -8,7 +8,7 @@ public class AmActionLogin implements Serializable {
     private Integer domainId;
     private String requestUrl;
     private Integer requestType;
-    private String accoundParam;
+    private String accountParam;
     private String extParam;
 
     public Integer getId() {
@@ -43,12 +43,12 @@ public class AmActionLogin implements Serializable {
         this.requestType = requestType;
     }
 
-    public String getAccoundParam() {
-        return accoundParam;
+    public String getAccountParam() {
+        return accountParam;
     }
 
-    public void setAccoundParam(String accoundParam) {
-        this.accoundParam = accoundParam;
+    public void setAccountParam(String accountParam) {
+        this.accountParam = accountParam;
     }
 
     public String getExtParam() {

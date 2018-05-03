@@ -29,6 +29,7 @@ var departmentOptions = {
                         selector: '[name=depId]',
                         optionField: {value: 'id', text: 'depName'},
                         width: '70%',
+                        async: false,
                         url: api.util.getUrl('apimanager/department/list')
                     }
                     api.ui.chosenSelect(options).val(parentId);

@@ -6,7 +6,7 @@ import com.cehome.apimanager.model.dto.AmActionResDto;
 import com.cehome.apimanager.model.po.AmDomain;
 import com.cehome.apimanager.service.IAmActionService;
 import com.cehome.apimanager.service.IAmDomainService;
-import com.cehome.apimanager.utils.ApplicationContextUtils;
+import com.cehome.apimanager.utils.AppUtils;
 import com.cehome.apimanager.utils.HttpUtils;
 import com.cehome.apimanager.utils.MockUtils;
 import com.cehome.apimanager.utils.WebUtils;
@@ -45,8 +45,8 @@ public class RedirectFilter implements Filter {
 		} else {
 			String[] splitUrl = requestURL.toString().split("/mockData");
 			String subUrl = splitUrl[1];
-			IAmActionService actionService = ApplicationContextUtils.getBean(IAmActionService.class);
-			IAmDomainService domainService = ApplicationContextUtils.getBean(IAmDomainService.class);
+			IAmActionService actionService = AppUtils.getBean(IAmActionService.class);
+			IAmDomainService domainService = AppUtils.getBean(IAmDomainService.class);
 			Integer actionId = actionService.findIdByRequestUrl(subUrl);
 			AmActionResDto actionResDto = actionService.findById(actionId);
 			String responseText = "";

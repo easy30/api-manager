@@ -59,6 +59,7 @@ function projectClick1(){
                 selector: '[name=depId]',
                 optionField: {value: 'id', text: 'depName'},
                 width: '70%',
+                async: false,
                 url: api.util.getUrl('/apimanager/department/list')
             }
             api.ui.chosenSelect(options).val(param);
@@ -118,22 +119,24 @@ function moduleClick1(){
                 selector: '[name=depId]',
                 optionField: {value: 'id', text: 'depName'},
                 width: '70%',
+                async: false,
                 url: api.util.getUrl('apimanager/department/list'),
                 change: function (e) {
-                    projectSelect.clear();
                     var params = {};
                     params['depId'] = e.target.value;
-                    projectSelect.load(params);
+                    var projectOptions = {
+                        selector: '[name=projectId]',
+                        optionField: {value: 'id', text: 'projectName'},
+                        width: '70%',
+                        async: false,
+                        params: params,
+                        url: api.util.getUrl('apimanager/project/list')
+                    };
+                    var projectSelect = api.ui.chosenSelect(projectOptions);
                     projectSelect.val(param.projectId);
                 }
             };
-            var projectOptions = {
-                selector: '[name=projectId]',
-                optionField: {value: 'id', text: 'projectName'},
-                width: '70%',
-                url: api.util.getUrl('apimanager/project/list')
-            };
-            var projectSelect = api.ui.chosenSelect(projectOptions);
+
             var depSelect = api.ui.chosenSelect(depOptions);
             depSelect.val(param.depId);
             depSelect.doChange();
@@ -358,6 +361,67 @@ function domainClick() {
             var envSelect = api.ui.chosenSelect(envOptions);
             api.util.loadScript(api.util.getUrl("html/domain/js/domain.js") ,function () {
                 api.ui.editTable(domainTableOptions);
+            });
+        }
+    }
+    api.ui.load(conf);
+}
+
+function batchTestClick() {
+    $('#depart').parent('.container').css('display','none');
+    var conf = {
+        container: '#container',
+        url: api.util.getUrl('html/action/actionBatchTest.html'),
+        async: false,
+        preLoad: function () {
+            var param = {};
+            return param;
+        },
+        loaded: function (param) {
+            var envOptions = {
+                selector: '[name=envId]',
+                optionField: {value: 'id', text: 'envName'},
+                width: '50%',
+                blank: false,
+                url: api.util.getUrl('apimanager/env/list')
+            };
+            var envSelect = api.ui.chosenSelect(envOptions);
+            var moduleOptions = {
+                selector: '[name=moduleId]',
+                optionField: {value: 'id', text: 'moduleName'},
+                width: '70%',
+                url: api.util.getUrl('apimanager/module/list')
+            };
+            var moduleSelect = api.ui.chosenSelect(moduleOptions);
+            api.util.loadScript(api.util.getUrl("html/action/js/actionBatchTest.js") ,function () {
+                api.ui.editTable(batchTestActionTableOptions);
+            });
+
+            $('#batchSend').on('click', function () {
+                var buttons = $('#selectedActionArea').find('button');
+                if(!buttons || buttons.length == 0){
+                    var options = {
+                        content: '请选择要测试的接口！'
+                    };
+                    api.ui.dialog(options).open();
+                    return;
+                }
+                var envId = $('select[name=envId]').val(), actionIds = '', data = {};
+                data['envId'] = envId;
+                $.each(buttons, function (index, btn) {
+                    var $this = $(btn), actionId = $this.attr('actionId');
+                    data['actionId'] = actionId;
+                    $.ajax({
+                        url: api.util.getUrl('apimanager/tester/sendByActionId'),
+                        type: 'GET',
+                        async: false,
+                        data: data,
+                        dataType: 'json',
+                        success: function (result) {
+                            
+                        }
+                    });
+                })
             });
         }
     }

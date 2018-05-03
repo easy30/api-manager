@@ -38,24 +38,25 @@ var projectTableOptions = {
                         selector: '[name=depId]',
                         width: '70%',
                         selectedVal:1,
+                        async: false,
                         optionField: {value: 'id', text: 'depName'},
                         url: api.util.getUrl('apimanager/department/list'),
                         change: function (e) {
-                            projectSelect.clear();
                             var param = {};
                             param['depId'] = e.target.value;
-                            projectSelect.load(param);
+                            var projectOptions = {
+                                selector: '[name=projectId]',
+                                width: '70%',
+                                selectedVal:1,
+                                async: false,
+                                params: param,
+                                optionField: {value: 'id', text: 'projectName'},
+                                url: api.util.getUrl('apimanager/project/list')
+                            };
+                            var projectSelect = api.ui.chosenSelect(projectOptions);
                             projectSelect.val(parentId);
                         }
                     };
-                    var projectOptions = {
-                        selector: '[name=projectId]',
-                        width: '70%',
-                        selectedVal:1,
-                        optionField: {value: 'id', text: 'projectName'},
-                        url: api.util.getUrl('apimanager/project/list')
-                    };
-                    var projectSelect = api.ui.chosenSelect(projectOptions);
                     var depSelect= api.ui.chosenSelect(depOptions);
                     depSelect.val(depId);
                     depSelect.doChange();

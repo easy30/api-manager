@@ -1,0 +1,46 @@
+<form id="form" class="form-inline" style="margin-top:100px; width: 100%; margin-bottom: 10px;">
+    <div class="input-group col-3" style="display: none">
+        <label>所属部门：</label>
+        <select name="depId" class="form-control"></select>
+    </div>
+    <div class="input-group col-3" style="display: none">
+        <label>所属项目：</label>
+        <select name="projectId" class="form-control"></select>
+    </div>
+    <div class="input-group col-3" style="padding-left: 0px;">
+        <label>接口编号：</label>
+        <input type="text" name="id" class="form-control" style="height: 35px;"/>
+    </div>
+    <div class="input-group col-4" style="padding-left: 0px;">
+        <label>所属模块：</label>
+        <select name="moduleId" class="form-control"></select>
+    </div>
+    <div class="input-group col-5">
+        <label>接口名称：</label>
+        <input type="text" name="actionName" class="form-control" style="height: 35px;"/>
+        <span class="input-group-btn">&nbsp;
+            <button class="btn btn-primary btn-sm" style="height: 34px;" type="button">
+                <span class="glyphicon glyphicon-search"/>&nbsp;搜 索
+            </button>
+        </span>
+    </div>
+</form>
+<div class="row">
+    <div class="col-12">
+        <div id="editTable"></div>
+    </div>
+</div>
+<hr style="width: 100%; margin-bottom: 0px; margin-top: 0px;">
+<div id="selectedActionArea"></div>
+<hr style="width: 100%; margin-top: 5px;">
+<div class="row" style="margin-top: 10px;">
+    <div class="input-group col-4">
+        <label>环境选择：</label>
+        <select name="envId" class="form-control"></select>
+    </div>
+    <div class="input-group col-1" style="padding-left: 0px;">
+        <button id="batchSend" class="btn btn-info">批量测试</button>
+    </div>
+</div>
+<hr style="width: 100%; margin-top: 5px;">
+<p></p>

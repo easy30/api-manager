@@ -17,7 +17,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -109,12 +108,12 @@ public class HttpUtils {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
         CloseableHttpClient httpclient = httpClientBuilder.build();
         try {
-            if(requestUrl.charAt(0) != '/'){
+            if (requestUrl.charAt(0) != '/') {
                 requestUrl = "/" + requestUrl;
             }
             String url = "http://" + domainName + requestUrl;
             HttpPost httpPost = new HttpPost(url);
-            if(CommonMeta.RequestType.GET.getCode() == requestType){
+            if (CommonMeta.RequestType.GET.getCode() == requestType) {
                 JSONObject nameValuePair = JSON.parseObject(requestBody);
                 List<NameValuePair> nvps = new ArrayList<>();
                 if (nameValuePair != null && !nameValuePair.isEmpty()) {
@@ -145,23 +144,7 @@ public class HttpUtils {
         cookieStore.addCookie(cookie);
     }
 
-    public void clearCookieStore(){
+    public void clearCookieStore() {
         cookieStore.clear();
-    }
-
-    public static void main(String[] args) throws Exception{
-        HttpUtils httpUtils = HttpUtils.getInstance();
-        httpUtils.clearCookieStore();
-        JSONObject nameValuePair = new JSONObject();
-        nameValuePair.put("realname", "李童");
-        nameValuePair.put("password", "123456");
-        httpUtils.loginForCookie("manage.test.tiebaobei.com", "/login" , 1, nameValuePair.toJSONString());
-
-        JSONObject nameValuePair2 = new JSONObject();
-        nameValuePair2.put("pageIndex", 1);
-        nameValuePair2.put("pageSize", 20);
-        HttpEntity responseEntity = httpUtils.execute("http://manage.test.tiebaobei.com/view/seoShielding/list", null, nameValuePair2);
-        String s = EntityUtils.toString(responseEntity, "UTF-8");
-        System.out.println(s);
     }
 }

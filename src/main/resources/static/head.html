@@ -7,27 +7,28 @@
                     <span style="vertical-align: middle; color: #f0ad4e; margin-left: 5px; font-size: 18px; font-weight: bold">API Manager</span>
                 </a>
             </div>
-            <div class="col-6 offset-1">
-                <a class="navbar-brand" href="javasript:void(0)" style="margin-top: 12px;" onclick="departmentClick()">
+            <div class="col-1 offset-1">
+                <a class="navbar-brand" href="javasript:void(0)" onclick="departmentClick()">
                     <span style="font-family: 'Microsoft YaHei'; vertical-align: middle; color: black; margin-left: 5px; font-size: 16px; font-weight: bold">部门管理</span>
                 </a>
+            </div>
+            <div class="col-1">
                 <a class="navbar-brand" href="javasript:void(0)" onclick="projectClick()">
                     <span style="font-family: 'Microsoft YaHei'; vertical-align: middle; color: black; margin-left: 5px; font-size: 16px; font-weight: bold">项目管理</span>
                 </a>
+            </div>
+            <div class="col-1">
                 <a class="navbar-brand" href="javasript:void(0)" onclick="moduleClick()">
                     <span style="font-family: 'Microsoft YaHei'; vertical-align: middle; color: black; margin-left: 5px; font-size: 16px; font-weight: bold">模块管理</span>
                 </a>
-                <a class="navbar-brand" href="javasript:void(0)" onclick="actionClick()">
-                    <span style="font-family: 'Microsoft YaHei'; vertical-align: middle; color: black; margin-left: 5px; font-size: 16px; font-weight: bold">接口管理</span>
-                </a>
+            </div>
+            <div id="actionDownMenu" class="downMenu"/>
+            <div class="col-1">
                 <a class="navbar-brand" href="javasript:void(0)" onclick="domainClick()">
                     <span style="font-family: 'Microsoft YaHei'; vertical-align: middle; color: black; margin-left: 5px; font-size: 16px; font-weight: bold">服务管理</span>
                 </a>
-                <a class="navbar-brand" href="javasript:void(0)" onclick="actionTestClick()">
-                    <span style="font-family: 'Microsoft YaHei'; vertical-align: middle; color: black; margin-left: 5px; font-size: 16px; font-weight: bold">接口测试</span>
-                </a>
             </div>
-            <div class="col-3">
+            <div class="col-2 offset-2">
                 <div class="dropdown" style="float: right; margin-top: 10px;">
                     <button class="btn btn-secondary dropdown-toggle" style="background-color: #d1ecf1; border-color: #00b4ef;" type="button" id="dropdownMenuButton" data-toggle="dropdown">
                         <span style="font-family: Microsoft YaHei; color: #5a6268; font-weight: 600;">杰克苏</span>
@@ -47,6 +48,3 @@
         <li class="breadcrumb-item active" aria-current="page"><a href="javasript:void(0)" onclick="departmentClick()">Department</a></li>
     </ol>
 </div>
-<script>
-    api.util.loadScript(api.util.getUrl('common/js/head.js'))
-</script>

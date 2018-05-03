@@ -37,38 +37,40 @@ var moduleTableOptions = {
                     var depOptions = {
                         selector: '[name=depId]',
                         width: '60%',
+                        async: false,
                         optionField: {value: 'id', text: 'depName'},
                         url: api.util.getUrl('apimanager/department/list'),
                         change: function (e) {
-                            projectSelect.clear();
                             var params = {};
                             params['depId'] = e.target.value;
-                            projectSelect.load(params);
+                            var projectOptions = {
+                                selector: '[name=projectId]',
+                                width: '70%',
+                                async: false,
+                                params: params,
+                                optionField: {value: 'id', text: 'projectName'},
+                                url: api.util.getUrl('apimanager/project/list'),
+                                change: function (e) {
+                                    var params = {};
+                                    params['projectId'] = e.target.value;
+                                    var moduleOptions = {
+                                        selector: '[name=moduleId]',
+                                        width: '70%',
+                                        params: params,
+                                        async: false,
+                                        optionField: {value: 'id', text: 'moduleName'},
+                                        url: api.util.getUrl('apimanager/module/list')
+                                    };
+                                    var moduleSelect = api.ui.chosenSelect(moduleOptions);
+                                    moduleSelect.val(parentId);
+                                }
+                            };
+                            var projectSelect = api.ui.chosenSelect(projectOptions);
                             projectSelect.val(projectId);
                             projectSelect.doChange();
                         }
                     };
-                    var projectOptions = {
-                        selector: '[name=projectId]',
-                        width: '70%',
-                        optionField: {value: 'id', text: 'projectName'},
-                        url: api.util.getUrl('apimanager/project/list'),
-                        change: function (e) {
-                            moduleSelect.clear();
-                            var params = {};
-                            params['projectId'] = e.target.value;
-                            moduleSelect.load(params);
-                            moduleSelect.val(parentId);
-                        }
-                    };
-                    var moduleOptions = {
-                        selector: '[name=moduleId]',
-                        width: '70%',
-                        optionField: {value: 'id', text: 'moduleName'},
-                        url: api.util.getUrl('apimanager/module/list')
-                    };
-                    var moduleSelect = api.ui.chosenSelect(moduleOptions);
-                    var projectSelect = api.ui.chosenSelect(projectOptions);
+
                     var depSelect = api.ui.chosenSelect(depOptions);
                     depSelect.val(depId);
                     depSelect.doChange();

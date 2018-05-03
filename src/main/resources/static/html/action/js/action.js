@@ -1412,7 +1412,7 @@ var actionTableOptions = {
         },
         {type: 'delete', text: '删除', url: api.util.getUrl('apimanager/action/delete')}
 ],
-headBtn: [
+    headBtn: [
     {
         type: 'add-jump', text: '添加', icon: 'glyphicon glyphicon-plus', fn: function () {
             $('#depart').parent('.container').css('display','none');
