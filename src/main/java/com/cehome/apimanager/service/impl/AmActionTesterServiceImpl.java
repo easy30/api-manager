@@ -68,8 +68,10 @@ public class AmActionTesterServiceImpl implements IAmActionTesterService {
 		if(actionResDto == null){
 			responseInfo.put("code", -1);
 			responseInfo.put("result", "接口不存在，接口编号【" + actionId + "】");
+			responseInfo.put("requestUrl", dto.getRequestUrl());
 			return responseInfo;
 		}
+		responseInfo.put("requestUrl", actionResDto.getRequestUrl());
 		AmDomain domain = domainService.findById(actionResDto.getDomainId());
 		AmDomainQueryReqDto domainQueryReqDto = new AmDomainQueryReqDto();
 		domainQueryReqDto.setEnvId(envId);
@@ -99,14 +101,14 @@ public class AmActionTesterServiceImpl implements IAmActionTesterService {
 				responseEntity = httpUtils.execute(url, JSON.parseObject(requestHeadData), requestData);
 			}
 			responseText = EntityUtils.toString(responseEntity, "UTF-8");
-			JSONObject responseObject = JSON.parseObject(responseText);
 			responseInfo.put("result", responseText);
 			responseInfo.put("requestHeadData", requestHeadData);
 			responseInfo.put("requestData", requestData);
+			JSONObject responseObject = JSON.parseObject(responseText);
 			responseInfo.put("code", StringUtils.isEmpty(responseObject.getString("ret")) ? responseObject.getString("code") : responseObject.getString("ret"));
-			responseInfo.put("requestUrl", requestUrl);
 		} catch (Exception e) {
-			throw new BizValidationException("服务处理异常！", e);
+			responseInfo.put("code", -1);
+			return responseInfo;
 		}
 		return responseInfo;
 	}

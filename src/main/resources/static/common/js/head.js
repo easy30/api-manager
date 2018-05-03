@@ -409,8 +409,9 @@ function batchTestClick() {
                 var envId = $('select[name=envId]').val(), actionIds = '', data = {};
                 data['envId'] = envId;
                 $.each(buttons, function (index, btn) {
-                    var $this = $(btn), actionId = $this.attr('actionId');
+                    var $this = $(btn), actionId = $this.attr('actionId'), requestUrl = $this.attr('requestUrl');
                     data['actionId'] = actionId;
+                    data['requestUrl'] = requestUrl;
                     $.ajax({
                         url: api.util.getUrl('apimanager/tester/sendByActionId'),
                         type: 'GET',
@@ -418,10 +419,36 @@ function batchTestClick() {
                         data: data,
                         dataType: 'json',
                         success: function (result) {
-                            
+                            var resultItem = $('<a style="margin: 2px 1px; cursor: pointer; display: block;"></a>');
+                            if(result['code'] == 0){
+                                if(result['data']['code'] == 0){
+                                    resultItem.css('color', 'green');
+                                } else {
+                                    resultItem.css('color', 'red');
+                                }
+                            } else {
+                                resultItem.css('color', 'red');
+                            }
+                            resultItem.hover(function () {
+                                resultItem.css('background-color', '#d1ecf1');
+                            }, function () {
+                                resultItem.css('background-color', '');
+                            })
+                            resultItem.text(result.data.requestUrl);
+                            resultItem.on('click', function () {
+                                $('#resultContent').empty();
+                                $('#resultContent').append('<p><span style="color: red">请求头参数：</span>' + result.data.requestHeadData + '</p>');
+                                $('#resultContent').append('<p><span style="color: red">请求参数：</span>' + result.data.requestData + '</p>');
+                                $('#resultContent').append('<p><span style="color: red">返回结果：</span>' + result.data.result + '</p>');
+                            });
+                            $('#resultList').append(resultItem);
                         }
                     });
                 })
+            });
+            $('#clearResultList').on('click', function () {
+                $('#resultList').empty();
+                $('#resultContent').empty();
             });
         }
     }

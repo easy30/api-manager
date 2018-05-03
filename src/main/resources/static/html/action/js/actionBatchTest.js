@@ -15,7 +15,6 @@ var batchTestActionTableOptions = {
         {
             name: 'moduleId', type: 'select', inputDesc: '所属模块', required: true, options: {
                 optionField: {value: 'id', text: 'moduleName'},
-                async: false,
                 url: api.util.getUrl('apimanager/module/list')
             }
         },
@@ -43,6 +42,7 @@ var batchTestActionTableOptions = {
             var $selectAction = $('<button type="button" class="btn btn-success btn-sm" style="margin-left: 10px; margin-top: 10px;"></button>');
                 $selectAction.text(params.requestUrl);
                 $selectAction.attr('actionId', params.id);
+                $selectAction.attr('requestUrl', params.requestUrl);
                 $selectAction.on('dblclick', function () {
                     $(this).remove();
                 });
