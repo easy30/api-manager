@@ -401,11 +401,7 @@ function batchTestClick() {
         container: '#container',
         url: api.util.getUrl('html/action/actionBatchTest.html'),
         async: false,
-        preLoad: function () {
-            var param = {};
-            return param;
-        },
-        loaded: function (param) {
+        loaded: function () {
             var envOptions = {
                 selector: '[name=envId]',
                 optionField: {value: 'id', text: 'envName'},
@@ -448,7 +444,7 @@ function batchTestClick() {
                         data: data,
                         dataType: 'json',
                         success: function (result) {
-                            var resultItem = $('<a style="margin: 2px 1px; cursor: pointer; display: block; font-size: 14px;"></a>');
+                            var resultItem = $('<a style="margin: 2px 2px; cursor: pointer; display: block; font-size: 14px; font-weight: bold;"></a>');
                             if(result['code'] == 0){
                                 if(result['data']['code'] == 0){
                                     resultItem.css('color', 'green');
