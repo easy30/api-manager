@@ -366,7 +366,35 @@ function domainClick() {
     }
     api.ui.load(conf);
 }
-
+function envClick() {
+    $('#depart').parent('.container').css('display','none');
+    var conf = {
+        container: '#container',
+        url: api.util.getUrl('html/env/env.html'),
+        async: false,
+        loaded: function (param) {
+            api.util.loadScript(api.util.getUrl("html/env/js/env.js") ,function () {
+                api.ui.editTable(envTableOptions);
+            });
+        }
+    }
+    api.ui.load(conf);
+}
+function actionLoginClick() {
+    $('#depart').parent('.container').css('display','none');
+    var conf = {
+        container: '#container',
+        url: api.util.getUrl('html/actionlogin/actionLogin.html'),
+        async: false,
+        loaded: function () {
+            api.util.loadScript(api.util.getUrl("html/actionlogin/js/actionLogin.js") ,function () {
+                api.ui.chosenSelect(actionLoginDomainSelectOptions);
+                api.ui.editTable(actionLoginTableOptions);
+            });
+        }
+    }
+    api.ui.load(conf);
+}
 function batchTestClick() {
     $('#depart').parent('.container').css('display','none');
     var conf = {
@@ -406,6 +434,8 @@ function batchTestClick() {
                     api.ui.dialog(options).open();
                     return;
                 }
+                $('#resultList').empty();
+                $('#resultContent').empty();
                 var envId = $('select[name=envId]').val(), actionIds = '', data = {};
                 data['envId'] = envId;
                 $.each(buttons, function (index, btn) {
@@ -415,11 +445,10 @@ function batchTestClick() {
                     $.ajax({
                         url: api.util.getUrl('apimanager/tester/sendByActionId'),
                         type: 'GET',
-                        async: false,
                         data: data,
                         dataType: 'json',
                         success: function (result) {
-                            var resultItem = $('<a style="margin: 2px 1px; cursor: pointer; display: block;"></a>');
+                            var resultItem = $('<a style="margin: 2px 1px; cursor: pointer; display: block; font-size: 14px;"></a>');
                             if(result['code'] == 0){
                                 if(result['data']['code'] == 0){
                                     resultItem.css('color', 'green');
@@ -437,14 +466,20 @@ function batchTestClick() {
                             resultItem.text(result.data.requestUrl);
                             resultItem.on('click', function () {
                                 $('#resultContent').empty();
-                                $('#resultContent').append('<p><span style="color: red">请求头参数：</span>' + result.data.requestHeadData + '</p>');
-                                $('#resultContent').append('<p><span style="color: red">请求参数：</span>' + result.data.requestData + '</p>');
-                                $('#resultContent').append('<p><span style="color: red">返回结果：</span>' + result.data.result + '</p>');
+                                $('#resultContent').append('<p><span style="color: #17a2b8">服务地址：</span><br/>' + result.data['wholeUrl'] + '</p>');
+                                $('#resultContent').append('<p><span style="color: #17a2b8">请求头参数：</span><br/>' + result.data['requestHeadData'] + '</p>');
+                                $('#resultContent').append('<p><span style="color: #17a2b8">请求参数：</span><br/>' + result.data['requestData'] + '</p>');
+                                var resultContent = $('<p><span style="color: #17a2b8">返回结果：</span><br/><span id="resultContent"></span></p>');
+                                resultContent.find('#resultContent').text(result.data['result']);
+                                $('#resultContent').append(resultContent);
                             });
                             $('#resultList').append(resultItem);
                         }
                     });
                 })
+            });
+            $('#clearSelectedList').on('click', function () {
+                $('#selectedActionArea').empty();
             });
             $('#clearResultList').on('click', function () {
                 $('#resultList').empty();

@@ -2,10 +2,10 @@ package com.cehome.apimanager.controller;
 
 import com.cehome.apimanager.common.BaseController;
 import com.cehome.apimanager.common.Page;
-import com.cehome.apimanager.model.dto.AmEnvQueryReqDto;
-import com.cehome.apimanager.model.dto.AmEnvReqDto;
-import com.cehome.apimanager.model.po.AmEnv;
-import com.cehome.apimanager.service.IAmEnvService;
+import com.cehome.apimanager.model.dto.AmActionLoginQueryReqDto;
+import com.cehome.apimanager.model.dto.AmActionLoginReqDto;
+import com.cehome.apimanager.model.po.AmActionLogin;
+import com.cehome.apimanager.service.IAmActionLoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,22 +16,23 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/apimanager/env")
-public class AmEnvController extends BaseController {
-    private static Logger logger = LoggerFactory.getLogger(AmEnvController.class);
+@RequestMapping("/apimanager/actionlogin")
+public class AmActionLoginController extends BaseController {
+    private static Logger logger = LoggerFactory.getLogger(AmActionLoginController.class);
+
     @Autowired
-    private IAmEnvService envService;
+    private IAmActionLoginService actionLoginService;
 
     /**
-     * 获取环境列表
+     * 获取认证接口列表
      *
      * @param dto
      * @return
      */
     @RequestMapping("/list")
-    public Map<String, Object> list(AmEnvQueryReqDto dto) {
+    public Map<String, Object> list(AmActionLoginQueryReqDto dto) {
         try {
-            List<AmEnv> list = envService.list(dto);
+            List<AmActionLogin> list = actionLoginService.list(dto);
             return toSuccess(list);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -40,15 +41,15 @@ public class AmEnvController extends BaseController {
     }
 
     /**
-     * 保存环境信息
+     * 保存认证接口信息
      *
      * @param dto
      * @return
      */
     @RequestMapping("add")
-    public Map<String, Object> add(AmEnvReqDto dto) {
+    public Map<String, Object> add(AmActionLoginReqDto dto) {
         try {
-            envService.add(dto);
+            actionLoginService.add(dto);
             return toSuccess();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -57,15 +58,15 @@ public class AmEnvController extends BaseController {
     }
 
     /**
-     * 更新环境信息
+     * 更新接口认证信息
      *
      * @param dto
      * @return
      */
     @RequestMapping("update")
-    public Map<String, Object> update(AmEnvReqDto dto) {
+    public Map<String, Object> update(AmActionLoginReqDto dto) {
         try {
-            envService.update(dto);
+            actionLoginService.update(dto);
             return toSuccess();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -74,15 +75,15 @@ public class AmEnvController extends BaseController {
     }
 
     /**
-     * 分页查询环境列表
+     * 分页查询接口认证列表
      *
      * @param dto
      * @return
      */
     @RequestMapping("findPage")
-    public Map<String, Object> findPage(AmEnvQueryReqDto dto) {
+    public Map<String, Object> findPage(AmActionLoginQueryReqDto dto) {
         try {
-            Page<AmEnv> page = envService.findPage(dto);
+            Page<AmActionLogin> page = actionLoginService.findPage(dto);
             return toSuccess(page);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -91,7 +92,7 @@ public class AmEnvController extends BaseController {
     }
 
     /**
-     * 根据主键id查询环境
+     * 根据主键id查询认证接口
      *
      * @param id
      * @return
@@ -99,7 +100,7 @@ public class AmEnvController extends BaseController {
     @RequestMapping("findById")
     public Map<String, Object> findById(Integer id) {
         try {
-            AmEnv env = envService.findById(id);
+            AmActionLogin env = actionLoginService.findById(id);
             return toSuccess(env);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -108,15 +109,15 @@ public class AmEnvController extends BaseController {
     }
 
     /**
-     * 删除环境
+     * 删除认证接口
      *
      * @param dto
      * @return
      */
     @RequestMapping("delete")
-    public Map<String, Object> delete(AmEnvReqDto dto) {
+    public Map<String, Object> delete(AmActionLoginReqDto dto) {
         try {
-            envService.delete(dto);
+            actionLoginService.delete(dto);
             return toSuccess();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

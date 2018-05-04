@@ -18,10 +18,8 @@
                 liItem.on('click', function () {
                     item.fn && item.fn();
                 });
+                ul.append('<hr style="margin: 0px 0px">');
                 ul.append(liItem);
-                if(index < len - 1){
-                    ul.append('<hr style="margin: 0px 0px">');
-                }
             })
             var div = $('<div></div>');
             div.append(ul);

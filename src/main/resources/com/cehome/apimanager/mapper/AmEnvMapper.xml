@@ -56,4 +56,49 @@
 		</if>
 		ORDER BY sort_code
 	</select>
+
+	<insert id="insertSelective" parameterType="com.cehome.apimanager.model.po.AmEnv"
+			useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO am_env
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="envName != null">
+				env_name,
+			</if>
+			<if test="sortCode != null">
+				sort_code
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="envName != null">
+				#{envName,jdbcType=VARCHAR},
+			</if>
+			<if test="sortCode != null">
+				#{sortCode,jdbcType=INTEGER}
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="com.cehome.apimanager.model.po.AmEnv">
+		UPDATE am_env
+		<set>
+			<if test="envName != null">
+				env_name = #{envName,jdbcType=VARCHAR},
+			</if>
+			<if test="sortCode != null">
+				sort_code = #{sortCode,jdbcType=INTEGER}
+			</if>
+		</set>
+		WHERE
+		id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		DELETE FROM am_env WHERE id = #{id}
+	</delete>
 </mapper>

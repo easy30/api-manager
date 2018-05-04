@@ -127,7 +127,7 @@
 				domain_code = #{domainCode,jdbcType=VARCHAR},
 			</if>
 			<if test="sortCode != null">
-				sort_code = #{sortCode,jdbcType=VARCHAR}
+				sort_code = #{sortCode,jdbcType=INTEGER}
 			</if>
 		</set>
 		WHERE

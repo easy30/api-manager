@@ -62,16 +62,15 @@ public class AmActionTesterServiceImpl implements IAmActionTesterService {
 	@Override
 	public JSONObject sendByActionId(ActionTesterReqDto dto) {
 		JSONObject responseInfo = new JSONObject();
+		responseInfo.put("requestUrl", dto.getRequestUrl());
 		Integer envId = dto.getEnvId();
 		Integer actionId = dto.getActionId();
 		AmActionResDto actionResDto = actionService.findById(actionId);
 		if(actionResDto == null){
 			responseInfo.put("code", -1);
 			responseInfo.put("result", "接口不存在，接口编号【" + actionId + "】");
-			responseInfo.put("requestUrl", dto.getRequestUrl());
 			return responseInfo;
 		}
-		responseInfo.put("requestUrl", actionResDto.getRequestUrl());
 		AmDomain domain = domainService.findById(actionResDto.getDomainId());
 		AmDomainQueryReqDto domainQueryReqDto = new AmDomainQueryReqDto();
 		domainQueryReqDto.setEnvId(envId);
@@ -104,6 +103,7 @@ public class AmActionTesterServiceImpl implements IAmActionTesterService {
 			responseInfo.put("result", responseText);
 			responseInfo.put("requestHeadData", requestHeadData);
 			responseInfo.put("requestData", requestData);
+			responseInfo.put("wholeUrl", url);
 			JSONObject responseObject = JSON.parseObject(responseText);
 			responseInfo.put("code", StringUtils.isEmpty(responseObject.getString("ret")) ? responseObject.getString("code") : responseObject.getString("ret"));
 		} catch (Exception e) {

@@ -34,4 +34,99 @@
 			domain_id = #{domainId,jdbcType=INTEGER}
 		</if>
 	</select>
+
+	<select id="find" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_action_login
+		WHERE
+		1=1
+		<if test="domainId != null">
+		AND
+			domain_id = #{domainId,jdbcType=INTEGER}
+		</if>
+		LIMIT #{pageOffset},#{pageSize}
+	</select>
+
+	<select id="findCount" parameterType="map" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM am_action_login
+		WHERE
+		1=1
+		<if test="domainId != null">
+			AND
+			domain_id = #{domainId,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<insert id="insertSelective" parameterType="com.cehome.apimanager.model.po.AmActionLogin"
+			useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO am_action_login
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="domainId != null">
+				domain_id,
+			</if>
+			<if test="requestUrl != null">
+				request_url,
+			</if>
+			<if test="requestType != null">
+				requestType,
+			</if>
+			<if test="accountParam != null">
+				account_param,
+			</if>
+			<if test="extParam != null">
+				ext_param
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="domainId != null">
+				#{domainId,jdbcType=INTEGER},
+			</if>
+			<if test="requestUrl != null">
+				#{requestUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="requestType != null">
+				#{requestType,jdbcType=INTEGER},
+			</if>
+			<if test="accountParam != null">
+				#{accountParam,jdbcType=VARCHAR},
+			</if>
+			<if test="extParam != null">
+				#{extParam,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="com.cehome.apimanager.model.po.AmActionLogin">
+		UPDATE am_action_login
+		<set>
+			<if test="domainId != null">
+				domain_id = #{domainId,jdbcType=INTEGER}
+			</if>
+			<if test="requestUrl != null">
+				request_url = #{requestUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="requestType != null">
+				request_type = #{requestType,jdbcType=INTEGER},
+			</if>
+			<if test="accountParam != null">
+				account_param = #{accountParam,jdbcType=VARCHAR},
+			</if>
+			<if test="extParam != null">
+				ext_param = #{extParam,jdbcType=VARCHAR}
+			</if>
+		</set>
+		WHERE
+		id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		DELETE FROM am_action_login WHERE id = #{id}
+	</delete>
 </mapper>

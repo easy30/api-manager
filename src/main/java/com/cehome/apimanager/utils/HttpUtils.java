@@ -33,6 +33,7 @@ public class HttpUtils {
     private static final String CHARSET = "UTF-8";
     private static final String APPLICATION_JSON = "application/json;charset=" + CHARSET;
     private static CookieStore cookieStore = new BasicCookieStore();
+    private static List<Header> headers = new ArrayList<>();
     private static HttpUtils httpUtils = null;
 
     private HttpUtils() {
@@ -144,6 +145,9 @@ public class HttpUtils {
         cookieStore.addCookie(cookie);
     }
 
+    private void setHeader(HttpResponse httpResponse){
+
+    }
     public void clearCookieStore() {
         cookieStore.clear();
     }

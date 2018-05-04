@@ -5,10 +5,10 @@ var headConf = {
         api.util.loadScript(api.util.getUrl('common/js/head.js'), function () {
             var config = {
                 container: '#actionDownMenu',
-                title: '接口管理',
+                title: '接口功能',
                 items: [
                     {
-                        name: '接口列表', fn: function () {
+                        name: '接口管理', fn: function () {
                             actionClick();
                         }
                     },{
@@ -18,6 +18,28 @@ var headConf = {
                     },{
                         name: '批量测试', fn: function () {
                             batchTestClick();
+                        }
+                    }
+                ]
+            }
+            api.ui.downMenu(config);
+
+            var config = {
+                container: '#extendModule',
+                title: '扩展功能',
+                items: [
+                    {
+                        name: '环境管理', fn: function () {
+                            envClick();
+                        }
+                    },
+                    {
+                        name: '服务管理', fn: function () {
+                            domainClick();
+                        }
+                    },{
+                        name: '服务认证', fn: function () {
+                            actionLoginClick();
                         }
                     }
                 ]
