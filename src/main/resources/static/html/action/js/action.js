@@ -1294,9 +1294,9 @@ var actionTableOptions = {
                         //保存
                         $('#headButton button:last').on('click', function () {
                             //表单非空校验
-                            var i = 0, $this = $(this);
+                            var i = 0;
                             $('#actionInfoForm').find('input,select').each(function(){
-                                var value = $.trim($this.val());
+                                var $this = $(this), value = $.trim($this.val());
                                 if(!value){
                                     i = 1;
                                     $this.css('border-color','red');
@@ -1860,13 +1860,13 @@ var actionTableOptions = {
                         //表单非空校验
                         var i = 0;
                         $('#actionInfoForm').find('input,select').each(function(){
-                            var value = $.trim($(this).val());
+                            var $this = $(this), value = $.trim($(this).val());
                             if(!value){
                                 i = 1;
-                                $(this).css('border-color','red');
-                                $(this).on('blur',function () {
-                                    if($.trim($(this).val())){
-                                        $(this).css('border-color','');
+                                $this.css('border-color','red');
+                                $this.on('blur',function () {
+                                    if($.trim($this.val())){
+                                        $this.css('border-color','');
                                     }
                                 })
                                 return true;

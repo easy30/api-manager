@@ -55,7 +55,7 @@ api.util = {
                 return;
             }
             url = urls[i++];
-            api.util.loadScript(url, load);
+            api.util.loadScript(api.util.getUrl(url), load);
         }
 
         load();
