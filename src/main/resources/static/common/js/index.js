@@ -24,7 +24,7 @@ api.util.loadScripts([
                     title: '接口功能',
                     items: [
                         {
-                            name: '接口管理', fn: function () {
+                            name: '列表管理', fn: function () {
                                 actionClick();
                             }
                         },{
@@ -42,19 +42,19 @@ api.util.loadScripts([
 
                 var config = {
                     container: '#extendModule',
-                    title: '扩展功能',
+                    title: '系统配置',
                     items: [
                         {
-                            name: '环境管理', fn: function () {
+                            name: '环境配置', fn: function () {
                                 envClick();
                             }
                         },
                         {
-                            name: '服务管理', fn: function () {
+                            name: '服务配置', fn: function () {
                                 domainClick();
                             }
                         },{
-                            name: '服务认证', fn: function () {
+                            name: '认证列表', fn: function () {
                                 actionLoginClick();
                             }
                         }

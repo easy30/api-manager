@@ -39,7 +39,7 @@ var batchTestActionTableOptions = {
     ],
     rowButtons: [
         {type: 'choose', text: '选择', icon: 'glyphicon glyphicon-ok', fn: function (params) {
-                var $selectAction = $('<button type="button" class="btn btn-success btn-sm" style="margin-left: 10px; margin-top: 10px;"></button>');
+                var $selectAction = $('<button type="button" class="btn btn-success btn-sm" style="margin-left: 10px; margin-top: 10px; display: block;"></button>');
                 $selectAction.text(params.requestUrl);
                 $selectAction.attr('actionId', params.id);
                 $selectAction.attr('requestUrl', params.requestUrl);

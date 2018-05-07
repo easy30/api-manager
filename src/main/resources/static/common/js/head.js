@@ -437,6 +437,7 @@ function batchTestClick() {
                     api.ui.dialog(options).open();
                     return;
                 }
+                var progress = api.ui.progress({});
                 $('#resultList').empty();
                 $('#resultContent').empty();
                 var envId = $('select[name=envId]').val(), actionIds = '', data = {};
@@ -477,6 +478,7 @@ function batchTestClick() {
                                 $('#resultContent').append(resultContent);
                             });
                             $('#resultList').append(resultItem);
+                            progress._hide();
                         }
                     });
                 })
