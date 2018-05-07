@@ -72,7 +72,7 @@
 				request_url,
 			</if>
 			<if test="requestType != null">
-				requestType,
+				request_type,
 			</if>
 			<if test="accountParam != null">
 				account_param,
@@ -107,7 +107,7 @@
 		UPDATE am_action_login
 		<set>
 			<if test="domainId != null">
-				domain_id = #{domainId,jdbcType=INTEGER}
+				domain_id = #{domainId,jdbcType=INTEGER},
 			</if>
 			<if test="requestUrl != null">
 				request_url = #{requestUrl,jdbcType=VARCHAR},

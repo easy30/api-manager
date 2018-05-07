@@ -9,6 +9,7 @@ import com.cehome.apimanager.model.po.AmDomain;
 import com.cehome.apimanager.service.IAmActionLoginService;
 import com.cehome.apimanager.service.IAmDomainService;
 import com.cehome.apimanager.utils.HttpUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +50,12 @@ public class AmActionLoginServiceImpl implements IAmActionLoginService {
 
     @Override
     public AmActionLogin findById(Integer id) {
-        return actionLoginDao.get(id);
+        AmActionLogin actionLogin = actionLoginDao.get(id);
+        AmDomain domain = domainService.findById(actionLogin.getDomainId());
+        AmActionLoginReqDto actionLoginReqDto = new AmActionLoginReqDto();
+        BeanUtils.copyProperties(actionLogin, actionLoginReqDto);
+        actionLoginReqDto.setDomainName(domain.getDomainName());
+        return actionLoginReqDto;
     }
 
     @Override

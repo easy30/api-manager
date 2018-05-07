@@ -50,9 +50,14 @@
                     } else {
                         var $btn = $('<button type="button" class="btn btn-primary"></button>').text(button.text);
                     }
-                    $btn.on('click', function () {
-                        dialog.close();
-                        button.fn && button.fn(modal.find('.modal-body'));
+
+                    $btn && $btn.on('click', function () {
+                        if(button.fn){
+                            button.fn(modal.find('.modal-body'));
+                        }
+                        if(btnType == 'cancel' || !options.formCheck){
+                            dialog.close();
+                        }
                     });
                     jq.find('#' + modalId).find('.modal-footer').append($btn);
                 })
@@ -86,6 +91,7 @@
         content: '系统提示',
         iTitle: true,
         title: '',
+        formCheck: false,
         opened: undefined
     };
 

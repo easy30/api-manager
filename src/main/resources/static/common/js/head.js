@@ -388,6 +388,13 @@ function actionLoginClick() {
         async: false,
         loaded: function () {
             api.util.loadScript(api.util.getUrl("html/actionlogin/js/actionLogin.js") ,function () {
+                var actionLoginDomainSelectOptions = {
+                    selector: '[name=domainId]',
+                    optionField: {value: 'id', text: 'domainName'},
+                    width: '60%',
+                    async: false,
+                    url: api.util.getUrl('/apimanager/domain/list')
+                }
                 api.ui.chosenSelect(actionLoginDomainSelectOptions);
                 api.ui.editTable(actionLoginTableOptions);
             });

@@ -1,0 +1,48 @@
+<form id="actionLoginInfoForm">
+    <input type="text" name="id" style="display: none;">
+    <div class="row">
+        <div class="col-2">
+            <label>服务选择：</label>
+        </div>
+        <div class="col-10">
+            <select class="form-control" style="display: inline" name="domainId"></select><span style="color: red;"> *</span>
+        </div>
+    </div>
+    <p/>
+    <div class="row ">
+        <div class="col-2">
+            <label>接口地址：</label>
+        </div>
+        <div class="col-10">
+            <input class="form-control" style="width: 90%; display: inline" name="requestUrl" type="text" placeholder="例如 /login"><span style="color: red;"> *</span>
+        </div>
+    </div>
+    <p/>
+    <div class="row">
+        <div class="col-2">
+            <label>请求类型：</label>
+        </div>
+        <div class="col-10">
+            <select class="form-control" style="display: inline" name="requestType"></select><span style="color: red;"> *</span>
+        </div>
+    </div>
+    <p/>
+    <div class="row">
+        <div class="col-2">
+            <label>认证参数：</label>
+        </div>
+        <div class="col-10">
+            <textarea class="form-control" name="accountParam"  style="width: 90%; height: 100px; display: inline;"></textarea><span style="color: red;"> *</span>
+        </div>
+    </div>
+    <p/>
+    <div class="row">
+        <div class="col-2">
+            <label>其他参数：</label>
+        </div>
+        <div class="col-10">
+            <textarea class="form-control" name="extParam"  style="width: 90%; height: 100px; display: inline;"></textarea>
+        </div>
+    </div>
+    <p/>
+</form>

@@ -650,38 +650,39 @@ var actionTableOptions = {
                                         selector: '[name=depId]',
                                         optionField: {value: 'id', text: 'depName'},
                                         width: '70%',
+                                        async: false,
                                         url: api.util.getUrl('apimanager/department/list'),
                                         change: function (e, p) {
-                                            projectSelect.clear();
                                             var params = {};
                                             params['depId'] = e.target.value;
-                                            projectSelect.load(params);
+                                            var projectOptions = {
+                                                selector: '[name=projectId]',
+                                                optionField: {value: 'id', text: 'projectName'},
+                                                width: '70%',
+                                                async: false,
+                                                params: params,
+                                                url: api.util.getUrl('apimanager/project/list'),
+                                                change: function (e, p) {
+                                                    var params = {};
+                                                    params['projectId'] = e.target.value;
+                                                    var moduleOptions = {
+                                                        selector: '[name=moduleId]',
+                                                        optionField: {value: 'id', text: 'moduleName'},
+                                                        width: '70%',
+                                                        params: params,
+                                                        async: false,
+                                                        url: api.util.getUrl('apimanager/module/list')
+                                                    };
+                                                    var moduleSelect = api.ui.chosenSelect(moduleOptions);
+                                                    moduleSelect.val(parentId);
+                                                }
+                                            };
+                                            var projectSelect = api.ui.chosenSelect(projectOptions);
                                             projectSelect.val(projectId);
                                             projectSelect.doChange();
                                         }
                                     };
-                                    var projectOptions = {
-                                        selector: '[name=projectId]',
-                                        optionField: {value: 'id', text: 'projectName'},
-                                        width: '70%',
-                                        url: api.util.getUrl('apimanager/project/list'),
-                                        change: function (e, p) {
-                                            moduleSelect.clear();
-                                            var params = {};
-                                            params['projectId'] = e.target.value;
-                                            moduleSelect.load(params);
-                                            moduleSelect.val(parentId);
-                                        }
-                                    };
-                                    var moduleOptions = {
-                                        selector: '[name=moduleId]',
-                                        optionField: {value: 'id', text: 'moduleName'},
-                                        width: '70%',
-                                        url: api.util.getUrl('apimanager/module/list')
-                                    };
-                                    var projectSelect = api.ui.chosenSelect(projectOptions);
-                                    var moduleSelect = api.ui.chosenSelect(moduleOptions);
-                                    moduleSelect.val(parentId);
+
                                     var depSelect = api.ui.chosenSelect(depOptions);
                                     depSelect.val(depId);
                                     depSelect.doChange();
@@ -763,37 +764,39 @@ var actionTableOptions = {
                                                 selector: '[name=depId]',
                                                 optionField: {value: 'id', text: 'depName'},
                                                 width: '70%',
+                                                async: false,
                                                 url: api.util.getUrl('apimanager/department/list'),
                                                 change: function (e, p) {
-                                                    projectSelect.clear();
                                                     var params = {};
-                                                    params['depId']=e.target.value;
-                                                    projectSelect.load(params);
+                                                    params['depId'] = e.target.value;
+                                                    var projectOptions = {
+                                                        selector: '[name=projectId]',
+                                                        optionField: {value: 'id', text: 'projectName'},
+                                                        width: '70%',
+                                                        async: false,
+                                                        params: params,
+                                                        url: api.util.getUrl('apimanager/project/list'),
+                                                        change: function (e, p) {
+                                                            var params = {};
+                                                            params['projectId'] = e.target.value;
+                                                            var moduleOptions = {
+                                                                selector: '[name=moduleId]',
+                                                                optionField: {value: 'id', text: 'moduleName'},
+                                                                width: '70%',
+                                                                async: false,
+                                                                params: params,
+                                                                url: api.util.getUrl('apimanager/module/list')
+                                                            };
+                                                            var moduleSelect = api.ui.chosenSelect(moduleOptions);
+                                                            moduleSelect.val(parentId);
+                                                        }
+                                                    };
+                                                    var projectSelect = api.ui.chosenSelect(projectOptions);
                                                     projectSelect.val(projectId);
                                                     projectSelect.doChange();
                                                 }
                                             };
-                                            var projectOptions = {
-                                                selector: '[name=projectId]',
-                                                optionField: {value: 'id', text: 'projectName'},
-                                                width: '70%',
-                                                url: api.util.getUrl('apimanager/project/list'),
-                                                change: function (e, p) {
-                                                    moduleSelect.clear();
-                                                    var params = {};
-                                                    params['projectId']=e.target.value;
-                                                    moduleSelect.load(params);
-                                                    moduleSelect.val(parentId);
-                                                }
-                                            };
-                                            var moduleOptions = {
-                                                selector: '[name=moduleId]',
-                                                optionField: {value: 'id', text: 'moduleName'},
-                                                width: '70%',
-                                                url: api.util.getUrl('apimanager/module/list')
-                                            };
-                                            var projectSelect = api.ui.chosenSelect(projectOptions);
-                                            var moduleSelect = api.ui.chosenSelect(moduleOptions);
+
                                             var depSelect = api.ui.chosenSelect(depOptions);
                                             depSelect.val(depId);
                                             depSelect.doChange();
@@ -1250,37 +1253,39 @@ var actionTableOptions = {
                                         selector: '[name=depId]',
                                         optionField: {value: 'id', text: 'depName'},
                                         width: '70%',
+                                        async: false,
                                         url: api.util.getUrl('apimanager/department/list'),
-                                        change: function (e) {
-                                            projectSelect.clear();
+                                        change: function (e, p) {
                                             var params = {};
                                             params['depId'] = e.target.value;
-                                            projectSelect.load(params);
+                                            var projectOptions = {
+                                                selector: '[name=projectId]',
+                                                optionField: {value: 'id', text: 'projectName'},
+                                                width: '70%',
+                                                async: false,
+                                                params: params,
+                                                url: api.util.getUrl('apimanager/project/list'),
+                                                change: function (e, p) {
+                                                    var params = {};
+                                                    params['projectId'] = e.target.value;
+                                                    var moduleOptions = {
+                                                        selector: '[name=moduleId]',
+                                                        optionField: {value: 'id', text: 'moduleName'},
+                                                        width: '70%',
+                                                        async: false,
+                                                        params: params,
+                                                        url: api.util.getUrl('apimanager/module/list')
+                                                    };
+                                                    var moduleSelect = api.ui.chosenSelect(moduleOptions);
+                                                    moduleSelect.val(parentId);
+                                                }
+                                            };
+                                            var projectSelect = api.ui.chosenSelect(projectOptions);
                                             projectSelect.val(projectId);
                                             projectSelect.doChange();
                                         }
                                     };
-                                    var projectOptions = {
-                                        selector: '[name=projectId]',
-                                        optionField: {value: 'id', text: 'projectName'},
-                                        width: '70%',
-                                        url: api.util.getUrl('apimanager/project/list'),
-                                        change: function (e) {
-                                            moduleSelect.clear();
-                                            var params = {};
-                                            params['projectId'] = e.target.value;
-                                            moduleSelect.load(params);
-                                            moduleSelect.val(parentId);
-                                        }
-                                    };
-                                    var moduleOptions = {
-                                        selector: '[name=moduleId]',
-                                        optionField: {value: 'id', text: 'moduleName'},
-                                        width: '70%',
-                                        url: api.util.getUrl('apimanager/module/list')
-                                    };
-                                    var moduleSelect = api.ui.chosenSelect(moduleOptions);
-                                    var projectSelect = api.ui.chosenSelect(projectOptions);
+
                                     var depSelect = api.ui.chosenSelect(depOptions);
                                     depSelect.val(depId);
                                     depSelect.doChange();
@@ -1362,37 +1367,39 @@ var actionTableOptions = {
                                                 selector: '[name=depId]',
                                                 optionField: {value: 'id', text: 'depName'},
                                                 width: '70%',
+                                                async: false,
                                                 url: api.util.getUrl('apimanager/department/list'),
                                                 change: function (e, p) {
-                                                    projectSelect.clear();
                                                     var params = {};
                                                     params['depId'] = e.target.value;
-                                                    projectSelect.load(params);
+                                                    var projectOptions = {
+                                                        selector: '[name=projectId]',
+                                                        optionField: {value: 'id', text: 'projectName'},
+                                                        width: '70%',
+                                                        async: false,
+                                                        params: params,
+                                                        url: api.util.getUrl('apimanager/project/list'),
+                                                        change: function (e, p) {
+                                                            var params = {};
+                                                            params['projectId'] = e.target.value;
+                                                            var moduleOptions = {
+                                                                selector: '[name=moduleId]',
+                                                                optionField: {value: 'id', text: 'moduleName'},
+                                                                width: '70%',
+                                                                async: false,
+                                                                params: params,
+                                                                url: api.util.getUrl('apimanager/module/list')
+                                                            };
+                                                            var moduleSelect = api.ui.chosenSelect(moduleOptions);
+                                                            moduleSelect.val(parentId);
+                                                        }
+                                                    };
+                                                    var projectSelect = api.ui.chosenSelect(projectOptions);
                                                     projectSelect.val(projectId);
                                                     projectSelect.doChange();
                                                 }
                                             };
-                                            var projectOptions = {
-                                                selector: '[name=projectId]',
-                                                optionField: {value: 'id', text: 'projectName'},
-                                                width: '70%',
-                                                url: api.util.getUrl('apimanager/project/list'),
-                                                change: function (e, p) {
-                                                    moduleSelect.clear();
-                                                    var params = {};
-                                                    params['projectId'] = e.target.value;
-                                                    moduleSelect.load(params);
-                                                    moduleSelect.val(parentId);
-                                                }
-                                            };
-                                            var moduleOptions = {
-                                                selector: '[name=moduleId]',
-                                                optionField: {value: 'id', text: 'moduleName'},
-                                                width: '70%',
-                                                url: api.util.getUrl('apimanager/module/list')
-                                            };
-                                            var projectSelect = api.ui.chosenSelect(projectOptions);
-                                            var moduleSelect = api.ui.chosenSelect(moduleOptions);
+
                                             var depSelect = api.ui.chosenSelect(depOptions);
                                             depSelect.val(depId);
                                             depSelect.doChange();
@@ -1814,37 +1821,39 @@ var actionTableOptions = {
                                     selector: '[name=depId]',
                                     optionField: {value: 'id', text: 'depName'},
                                     width: '70%',
+                                    async: false,
                                     url: api.util.getUrl('apimanager/department/list'),
-                                    change: function (e) {
-                                        projectSelect.clear();
+                                    change: function (e, p) {
                                         var params = {};
                                         params['depId'] = e.target.value;
-                                        projectSelect.load(params);
+                                        var projectOptions = {
+                                            selector: '[name=projectId]',
+                                            optionField: {value: 'id', text: 'projectName'},
+                                            width: '70%',
+                                            async: false,
+                                            params: params,
+                                            url: api.util.getUrl('apimanager/project/list'),
+                                            change: function (e, p) {
+                                                var params = {};
+                                                params['projectId'] = e.target.value;
+                                                var moduleOptions = {
+                                                    selector: '[name=moduleId]',
+                                                    optionField: {value: 'id', text: 'moduleName'},
+                                                    width: '70%',
+                                                    async: false,
+                                                    params: params,
+                                                    url: api.util.getUrl('apimanager/module/list')
+                                                };
+                                                var moduleSelect = api.ui.chosenSelect(moduleOptions);
+                                                moduleSelect.val(parentId);
+                                            }
+                                        };
+                                        var projectSelect = api.ui.chosenSelect(projectOptions);
                                         projectSelect.val(projectId);
                                         projectSelect.doChange();
                                     }
                                 };
-                                var projectOptions = {
-                                    selector: '[name=projectId]',
-                                    optionField: {value: 'id', text: 'projectName'},
-                                    width: '70%',
-                                    url: api.util.getUrl('apimanager/project/list'),
-                                    change: function (e) {
-                                        moduleSelect.clear();
-                                        var params = {};
-                                        params['projectId'] = e.target.value;
-                                        moduleSelect.load(params);
-                                        moduleSelect.val(parentId);
-                                    }
-                                };
-                                var moduleOptions = {
-                                    selector: '[name=moduleId]',
-                                    optionField: {value: 'id', text: 'moduleName'},
-                                    width: '70%',
-                                    url: api.util.getUrl('apimanager/module/list')
-                                };
-                                var moduleSelect = api.ui.chosenSelect(moduleOptions);
-                                var projectSelect = api.ui.chosenSelect(projectOptions);
+
                                 var depSelect = api.ui.chosenSelect(depOptions);
                                 depSelect.val(depId);
                                 depSelect.doChange();
@@ -1926,37 +1935,39 @@ var actionTableOptions = {
                                             selector: '[name=depId]',
                                             optionField: {value: 'id', text: 'depName'},
                                             width: '70%',
+                                            async: false,
                                             url: api.util.getUrl('apimanager/department/list'),
                                             change: function (e, p) {
-                                                projectSelect.clear();
                                                 var params = {};
-                                                params['depId']=e.target.value;
-                                                projectSelect.load(params);
+                                                params['depId'] = e.target.value;
+                                                var projectOptions = {
+                                                    selector: '[name=projectId]',
+                                                    optionField: {value: 'id', text: 'projectName'},
+                                                    width: '70%',
+                                                    async: false,
+                                                    params: params,
+                                                    url: api.util.getUrl('apimanager/project/list'),
+                                                    change: function (e, p) {
+                                                        var params = {};
+                                                        params['projectId'] = e.target.value;
+                                                        var moduleOptions = {
+                                                            selector: '[name=moduleId]',
+                                                            optionField: {value: 'id', text: 'moduleName'},
+                                                            width: '70%',
+                                                            async: false,
+                                                            params: params,
+                                                            url: api.util.getUrl('apimanager/module/list')
+                                                        };
+                                                        var moduleSelect = api.ui.chosenSelect(moduleOptions);
+                                                        moduleSelect.val(parentId);
+                                                    }
+                                                };
+                                                var projectSelect = api.ui.chosenSelect(projectOptions);
                                                 projectSelect.val(projectId);
                                                 projectSelect.doChange();
                                             }
                                         };
-                                        var projectOptions = {
-                                            selector: '[name=projectId]',
-                                            optionField: {value: 'id', text: 'projectName'},
-                                            width: '70%',
-                                            url: api.util.getUrl('apimanager/project/list'),
-                                            change: function (e, p) {
-                                                moduleSelect.clear();
-                                                var params = {};
-                                                params['projectId']=e.target.value;
-                                                moduleSelect.load(params);
-                                                moduleSelect.val(parentId);
-                                            }
-                                        };
-                                        var moduleOptions = {
-                                            selector: '[name=moduleId]',
-                                            optionField: {value: 'id', text: 'moduleName'},
-                                            width: '70%',
-                                            url: api.util.getUrl('apimanager/module/list')
-                                        };
-                                        var projectSelect = api.ui.chosenSelect(projectOptions);
-                                        var moduleSelect = api.ui.chosenSelect(moduleOptions);
+
                                         var depSelect = api.ui.chosenSelect(depOptions);
                                         depSelect.val(depId);
                                         depSelect.doChange();
