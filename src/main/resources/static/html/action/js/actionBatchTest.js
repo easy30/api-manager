@@ -15,6 +15,7 @@ var batchTestActionTableOptions = {
         {
             name: 'moduleId', type: 'select', inputDesc: '所属模块', required: true, options: {
                 optionField: {value: 'id', text: 'moduleName'},
+                async: false,
                 url: api.util.getUrl('apimanager/module/list')
             }
         },
