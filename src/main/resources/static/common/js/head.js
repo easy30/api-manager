@@ -1,5 +1,5 @@
 function departmentClick(){
-    $('#depart').parent('.container').css('display','');
+    $('#depart').parent('.container-fluid').css('display','');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/department/department.html'),
@@ -17,7 +17,7 @@ function departmentClick(){
     api.ui.load(conf);
 }
 function projectClick(){
-    $('#depart').parent('.container').css('display','');
+    $('#depart').parent('.container-fluid').css('display','');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/project/project.html'),
@@ -71,7 +71,7 @@ function projectClick1(){
     api.ui.load(conf);
 }
 function moduleClick(){
-    $('#depart').parent('.container').css('display','');
+    $('#depart').parent('.container-fluid').css('display','');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/module/module.html'),
@@ -148,7 +148,7 @@ function moduleClick1(){
     api.ui.load(conf);
 }
 function actionClick(){
-    $('#depart').parent('.container').css('display','');
+    $('#depart').parent('.container-fluid').css('display','');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/action/action.html'),
@@ -241,7 +241,7 @@ function actionClick1(){
     api.ui.load(conf);
 }
 function actionTestClick() {
-    $('#depart').parent('.container').css('display','none');
+    $('#depart').parent('.container-fluid').css('display','none');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/action/actionTest.html'),
@@ -341,7 +341,7 @@ function actionTestClick() {
 }
 
 function domainClick() {
-    $('#depart').parent('.container').css('display','none');
+    $('#depart').parent('.container-fluid').css('display','none');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/domain/domain.html'),
@@ -367,7 +367,7 @@ function domainClick() {
     api.ui.load(conf);
 }
 function envClick() {
-    $('#depart').parent('.container').css('display','none');
+    $('#depart').parent('.container-fluid').css('display','none');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/env/env.html'),
@@ -381,7 +381,7 @@ function envClick() {
     api.ui.load(conf);
 }
 function actionLoginClick() {
-    $('#depart').parent('.container').css('display','none');
+    $('#depart').parent('.container-fluid').css('display','none');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/actionlogin/actionLogin.html'),
@@ -403,7 +403,7 @@ function actionLoginClick() {
     api.ui.load(conf);
 }
 function batchTestClick() {
-    $('#depart').parent('.container').css('display','none');
+    $('#depart').parent('.container-fluid').css('display','none');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/action/actionBatchTest.html'),

@@ -37,7 +37,7 @@ var actionTableOptions = {
     ],
     rowButtons: [
         {type: 'more', text: '更多', icon: 'glyphicon glyphicon-option-horizontal', fn: function (param) {
-                $('#depart').parent('.container').css('display', 'none');
+                $('#depart').parent('.container-fluid').css('display', 'none');
                 var actionInfoFormObject, headParam, requestParam, responseParam, responseFailParam;
                 var parentId = $('select[name=moduleId]').val();
                 var depId = $('select[name=depId]').val();
@@ -462,7 +462,7 @@ var actionTableOptions = {
                                 lazy: true,
                                 href: api.util.getUrl('html/action/actionInnerTest.html'),
                                 loaded: function () {
-                                    $('#depart').parent('.container').css('display','none');
+                                    $('#depart').parent('.container-fluid').css('display','none');
                                     var testHeadParam, testRequestParam;
                                     var data = actionResult['data'];
                                     api.util.loadScript(api.util.getUrl('html/action/js/actionTest.js'), function () {
@@ -632,7 +632,7 @@ var actionTableOptions = {
                         });
                         //退出查看页面
                         $editCancel.mousedown(function () {
-                            $('#depart').parent('.container').css('display', '');
+                            $('#depart').parent('.container-fluid').css('display', '');
                             //跳转到action列表
                             var conf = {
                                 container: '#container',
@@ -746,7 +746,7 @@ var actionTableOptions = {
                                         api.ui.dialog(option).open();
                                         return;
                                     }
-                                    $('#depart').parent('.container').css('display','');
+                                    $('#depart').parent('.container-fluid').css('display','');
                                     //跳转到action列表
                                     var conf = {
                                         container: '#container',
@@ -815,7 +815,7 @@ var actionTableOptions = {
             }
         },
         {type: 'copy', text: '复制', icon: 'glyphicon glyphicon-share', fn: function (param) {
-                $('#depart').parent('.container').css('display','none');
+                $('#depart').parent('.container-fluid').css('display','none');
                 var parentId = $('select[name=moduleId]').val();
                 var depId = $('select[name=depId]').val();
                 var projectId = $('select[name=projectId]').val();
@@ -1234,7 +1234,7 @@ var actionTableOptions = {
                         var actionTabConfObject = api.ui.tabs(actionTabConf);
                         //退出添加
                         $cancelButton.mousedown(function () {
-                            $('#depart').parent('.container').css('display', '');
+                            $('#depart').parent('.container-fluid').css('display', '');
                             //跳转到action列表
                             var conf = {
                                 container: '#container',
@@ -1349,7 +1349,7 @@ var actionTableOptions = {
                                         api.ui.dialog(option).open();
                                         return;
                                     }
-                                    $('#depart').parent('.container').css('display','');
+                                    $('#depart').parent('.container-fluid').css('display','');
                                     //跳转到action列表
                                     var conf = {
                                         container: '#container',
@@ -1422,7 +1422,7 @@ var actionTableOptions = {
     headBtn: [
     {
         type: 'add-jump', text: '添加', icon: 'glyphicon glyphicon-plus', fn: function () {
-            $('#depart').parent('.container').css('display','none');
+            $('#depart').parent('.container-fluid').css('display','none');
             var parentId = $('select[name=moduleId]').val();
             var depId = $('select[name=depId]').val();
             var projectId = $('select[name=projectId]').val();
@@ -1802,7 +1802,7 @@ var actionTableOptions = {
                     var actionTabConfObject = api.ui.tabs(actionTabConf);
                     //退出添加
                     $cancelButton.mousedown(function () {
-                        $('#depart').parent('.container').css('display', '');
+                        $('#depart').parent('.container-fluid').css('display', '');
                         //跳转到action列表
                         var conf = {
                             container: '#container',
@@ -1917,7 +1917,7 @@ var actionTableOptions = {
                                     api.ui.dialog(option).open();
                                     return;
                                 }
-                                $('#depart').parent('.container').css('display','');
+                                $('#depart').parent('.container-fluid').css('display','');
                                 //跳转到action列表
                                 var conf = {
                                     container: '#container',
