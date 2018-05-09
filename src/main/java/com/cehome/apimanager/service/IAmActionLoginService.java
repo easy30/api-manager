@@ -20,4 +20,6 @@ public interface IAmActionLoginService {
     void update(AmActionLoginReqDto dto);
 
     void add(AmActionLoginReqDto dto);
+
+    void authenticate(AmActionLoginReqDto dto);
 }

@@ -123,40 +123,59 @@ var actionLoginTableOptions = {
                 };
                 var editDialog = api.ui.dialog(dialogOptions).open();
             }},
-        {type: 'doTest', text: '调用', icon: 'glyphicon glyphicon-play', fn: function (param) {
+        {type: 'authenticate', text: '认证', icon: 'glyphicon glyphicon-play', fn: function (param) {
+                // $.ajax({
+                //     url: api.util.getUrl('apimanager/actionlogin/findById'),
+                //     type: 'GET',
+                //     data: {id: param.id},
+                //     dataType: 'json',
+                //     success: function (result) {
+                //         var data = result['data'];
+                //         var requestBody = {
+                //             'requestType': data.requestType,
+                //             'requestUrl': data.requestUrl,
+                //             'requestData': data.accountParam,
+                //             'domainName': data.domainName
+                //         };
+                //         $.ajax({
+                //             url: api.util.getUrl('apimanager/actionlogin/authenticate'),
+                //             type: 'post',
+                //             contentType: 'application/json;charset=UTF-8', //解决415问题
+                //             data: JSON.stringify(requestBody),//解决400问题
+                //             dataType: 'json',
+                //             success: function (result) {
+                //                 if(result.code == 0){
+                //                     var options = {
+                //                         content: '调用处理成功！'
+                //                     };
+                //                     api.ui.dialog(options).open();
+                //                 } else {
+                //                     var options = {
+                //                         content: result['msg']
+                //                     };
+                //                     api.ui.dialog(options).open();
+                //                 }
+                //             }
+                //         });
+                //     }
+                // });
                 $.ajax({
-                    url: api.util.getUrl('apimanager/actionlogin/findById'),
-                    type: 'GET',
+                    url: api.util.getUrl('apimanager/actionlogin/authenticate'),
+                    type: 'get',
                     data: {id: param.id},
                     dataType: 'json',
                     success: function (result) {
-                        var data = result['data'];
-                        var requestBody = {
-                            'requestType': data.requestType,
-                            'requestUrl': data.requestUrl,
-                            'requestData': data.accountParam,
-                            'domainName': data.domainName
-                        };
-                        $.ajax({
-                            url: api.util.getUrl('apimanager/tester/send'),
-                            type: 'post',
-                            contentType: 'application/json;charset=UTF-8', //解决415问题
-                            data: JSON.stringify(requestBody),//解决400问题
-                            dataType: 'json',
-                            success: function (result) {
-                                if(result.code == 0){
-                                    var options = {
-                                        content: '调用处理成功！'
-                                    };
-                                    api.ui.dialog(options).open();
-                                } else {
-                                    var options = {
-                                        content: result['msg']
-                                    };
-                                    api.ui.dialog(options).open();
-                                }
-                            }
-                        });
+                        if(result.code == 0){
+                            var options = {
+                                content: '调用处理成功！'
+                            };
+                            api.ui.dialog(options).open();
+                        } else {
+                            var options = {
+                                content: result['msg']
+                            };
+                            api.ui.dialog(options).open();
+                        }
                     }
                 });
             }},

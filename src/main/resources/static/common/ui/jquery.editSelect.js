@@ -14,10 +14,10 @@
     editSelect.prototype = {
         _build: function () {
             var jq = this.jq, options = this.options;
-            var $input = $('<input type="text" class="form-control" data-toggle="dropdown">');
-            var $dropdownMenu = $('<div class="dropdown-menu" style="margin-top: 0px;"></div>');
-            $input.css('width', options.width).attr('name', options.selectName);
-            $dropdownMenu.css('width', options.width);
+            var $input = $('<input type="text" class="form-control" data-toggle="dropdown" style="width: 100%;">');
+            var $dropdownMenu = $('<div class="dropdown-menu" style="margin-top: 0px; width: 100%;"></div>');
+            jq.css('width', options.width);
+            $input.attr('name', options.selectName);
             this.input = $input, this.dropdownMenu = $dropdownMenu;
             jq.append($input).append($dropdownMenu);
         },

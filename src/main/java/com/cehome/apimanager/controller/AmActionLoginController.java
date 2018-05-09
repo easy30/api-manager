@@ -24,6 +24,23 @@ public class AmActionLoginController extends BaseController {
     private IAmActionLoginService actionLoginService;
 
     /**
+     * 认证处理
+     *
+     * @param dto
+     * @return
+     */
+    @RequestMapping(value = "/authenticate")
+    public Map<String, Object> authenticate(AmActionLoginReqDto dto) {
+        try {
+            actionLoginService.authenticate(dto);
+            return toSuccess();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return toFail(e.getMessage());
+        }
+    }
+
+    /**
      * 获取认证接口列表
      *
      * @param dto

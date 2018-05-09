@@ -2,8 +2,10 @@ package com.cehome.apimanager.service.impl;
 
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.dao.AmActionLoginDao;
+import com.cehome.apimanager.exception.BizValidationException;
 import com.cehome.apimanager.model.dto.AmActionLoginQueryReqDto;
 import com.cehome.apimanager.model.dto.AmActionLoginReqDto;
+import com.cehome.apimanager.model.dto.AmActionLoginResDto;
 import com.cehome.apimanager.model.po.AmActionLogin;
 import com.cehome.apimanager.model.po.AmDomain;
 import com.cehome.apimanager.service.IAmActionLoginService;
@@ -52,10 +54,10 @@ public class AmActionLoginServiceImpl implements IAmActionLoginService {
     public AmActionLogin findById(Integer id) {
         AmActionLogin actionLogin = actionLoginDao.get(id);
         AmDomain domain = domainService.findById(actionLogin.getDomainId());
-        AmActionLoginReqDto actionLoginReqDto = new AmActionLoginReqDto();
-        BeanUtils.copyProperties(actionLogin, actionLoginReqDto);
-        actionLoginReqDto.setDomainName(domain.getDomainName());
-        return actionLoginReqDto;
+        AmActionLoginResDto actionLoginResDto = new AmActionLoginResDto();
+        BeanUtils.copyProperties(actionLogin, actionLoginResDto);
+        actionLoginResDto.setDomainName(domain.getDomainName());
+        return actionLoginResDto;
     }
 
     @Override
@@ -71,5 +73,22 @@ public class AmActionLoginServiceImpl implements IAmActionLoginService {
     @Override
     public void add(AmActionLoginReqDto dto) {
         actionLoginDao.add(dto);
+    }
+
+    @Override
+    public void authenticate(AmActionLoginReqDto dto) {
+        AmActionLoginResDto actionLogin = (AmActionLoginResDto)this.findById(dto.getId());
+        if(actionLogin == null){
+            throw new BizValidationException("认证接口不存在，认证接口编号【" + dto.getId() + "】");
+        }
+        Integer requestType = actionLogin.getRequestType();
+        String accountParam = actionLogin.getAccountParam();
+        String requestUrl = actionLogin.getRequestUrl();
+        String domainName = actionLogin.getDomainName();
+        HttpUtils httpUtils = HttpUtils.getInstance();
+        boolean result = httpUtils.loginForCookie(domainName, requestUrl, requestType, accountParam);
+        if(!result){
+            throw new BizValidationException("认证失败！");
+        }
     }
 }

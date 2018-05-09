@@ -90,9 +90,7 @@ var domainEditOptions = {
     selectName: 'testDomainId',
     selectCodeField: 'id',
     selectValueField: 'domainName',
-    content: {},
-    param: {},
-    width: '142%',
+    width: '78%',
     url: api.util.getUrl('apimanager/domain/list'),
     change: function (param) {
     }

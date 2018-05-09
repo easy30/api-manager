@@ -105,7 +105,7 @@ public class HttpUtils {
         return null;
     }
 
-    public void loginForCookie(String domainName, String requestUrl, Integer requestType, String requestBody) {
+    public boolean loginForCookie(String domainName, String requestUrl, Integer requestType, String requestBody) {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
         CloseableHttpClient httpclient = httpClientBuilder.build();
         try {
@@ -134,7 +134,9 @@ public class HttpUtils {
             setCookieStore(response, domainName);
         } catch (Exception e) {
             logger.error("sendRequest error!", e);
+            return false;
         }
+        return true;
     }
 
     private void setCookieStore(HttpResponse httpResponse, String domain) {
