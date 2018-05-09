@@ -32,6 +32,10 @@ public class AmUser implements Serializable {
 	 */
 	private String email;
 	/**
+	 * 角色编号
+	 */
+	private Integer roleId;
+	/**
 	 * 创建时间
 	 */
 	private Date createTime;
@@ -92,7 +96,16 @@ public class AmUser implements Serializable {
 		return updateTime;
 	}
 
+	public Integer getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
+
 	public void setUpdateTime(Date updateTime) {
+
 		this.updateTime = updateTime;
 	}
 }
