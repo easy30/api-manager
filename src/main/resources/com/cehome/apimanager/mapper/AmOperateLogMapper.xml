@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cehome.apimanager.model.po.AmOperateLog">
+	<resultMap id="BaseResultMap" type="com.cehome.apimanager.model.po.AmOperateLog">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="module_code" property="moduleCode" jdbcType="INTEGER" />
+		<result column="operate_type" property="operateType" jdbcType="INTEGER" />
+		<result column="operate_desc" property="operateDesc" jdbcType="VARCHAR" />
+		<result column="content_change" property="contentChange" jdbcType="LONGVARCHAR" />
+		<result column="operate_user" property="operateUser" jdbcType="INTEGER" />
+		<result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,module_code,operate_type,operate_desc,content_change,operate_user,operate_time
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_operate_log
+		WHERE
+		id = #{id,jdbcType=INTEGER}
+		LIMIT 1
+	</select>
+	
+	<select id="find" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_operate_log
+		WHERE
+			1=1
+		<if test="moduleCode != null">
+		AND
+			module_code = #{moduleCode,jdbcType=INTEGER}
+		</if>
+		<if test="operateType != null">
+		AND
+			operate_type = #{operateType,jdbcType=INTEGER}
+		</if>
+		ORDER BY operate_time DESC
+		LIMIT #{pageOffset},#{pageSize}
+	</select>
+	
+	<select id="findCount" parameterType="map" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM am_operate_log
+		WHERE
+		1=1
+		<if test="moduleCode != null">
+			AND
+			module_code = #{moduleCode,jdbcType=INTEGER}
+		</if>
+		<if test="operateType != null">
+			AND
+			operate_type = #{operateType,jdbcType=INTEGER}
+		</if>
+	</select>
+	
+	<select id="list" parameterType="com.cehome.apimanager.model.po.AmOperateLog" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_operate_log
+		WHERE
+		1=1
+		<if test="moduleCode != null">
+			AND
+			module_code = #{moduleCode,jdbcType=INTEGER}
+		</if>
+		<if test="operateType != null">
+			AND
+			operate_type = #{operateType,jdbcType=INTEGER}
+		</if>
+		ORDER BY operate_time DESC
+	</select>
+
+	<insert id="insertSelective" parameterType="com.cehome.apimanager.model.po.AmOperateLog"
+			useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO am_operate_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="moduleCode != null">
+				module_code,
+			</if>
+			<if test="operateType != null">
+				operate_type,
+			</if>
+			<if test="operateDesc != null">
+				operate_desc,
+			</if>
+			<if test="contentChange != null">
+				content_change,
+			</if>
+			<if test="operateUser != null">
+				operate_user,
+			</if>
+			<if test="operateTime != null">
+				operate_time
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="moduleCode != null">
+				#{moduleCode,jdbcType=INTEGER},
+			</if>
+			<if test="operateType != null">
+				#{operateType,jdbcType=INTEGER},
+			</if>
+			<if test="operateDesc != null">
+				#{operateDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="contentChange != null">
+				#{contentChange,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="operateUser != null">
+				#{operateUser,jdbcType=INTEGER},
+			</if>
+			<if test="operateTime != null">
+				#{operateTime,jdbcType=TIMESTAMP}
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="com.cehome.apimanager.model.po.AmOperateLog">
+		UPDATE am_operate_log
+		<set>
+			<if test="moduleCode != null">
+				module_code = #{moduleCode,jdbcType=INTEGER},
+			</if>
+			<if test="operateType != null">
+				operate_type = #{operateType,jdbcType=INTEGER},
+			</if>
+			<if test="operateDesc != null">
+				operate_desc = #{operateDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="contentChange != null">
+				conent_change = #{contentChange,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="operateUser != null">
+				operate_user = #{operateUser,jdbcType=INTEGER},
+			</if>
+			<if test="operateTime != null">
+				operate_time = #{operateTime,jdbcType=TIMESTAMP}
+			</if>
+		</set>
+		WHERE
+		id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		DELETE FROM am_operate_log WHERE id = #{id}
+	</delete>
+</mapper>
