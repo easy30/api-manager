@@ -31,9 +31,10 @@ public class AmUserController extends BaseController {
      * @return
      */
     @RequestMapping("register")
-    public Map<String, Object> register(AmUserReqDto dto) {
+    public Map<String, Object> register(HttpSession session, AmUserReqDto dto) {
         try {
             userService.add(dto);
+            WebUtils.setLoginManager(session, dto);
             return toSuccess();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

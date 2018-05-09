@@ -5,12 +5,15 @@
     <title>regist</title>
     <link href="plugins/bootstrap/css/bootstrap.css" rel="stylesheet"/>
     <link href="common/css/style.css" rel="stylesheet"/>
+    <script src="common/js/jquery-3.3.1.min.js"></script>
+    <script src="common/js/namespace.js"></script>
+    <script src="common/js/util.js"></script>
 </head>
 <body>
 <div class="container-fluid">
     <div class="row" style="background: #00b4ef; padding: 40px 0px;">
         <div class="col-4 offset-4">
-            <form class="form-login" style="height: 460px;">
+            <form id="registerForm" class="form-login" style="height: 405px;">
                 <span class="heading">用户注册</span>
                 <div class="form-group">
                     <input type="text" class="form-control" name="userName" placeholder="中文名称">
@@ -22,14 +25,15 @@
                     <input type="password" class="form-control" name="password" placeholder="密　码">
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" name="depId" placeholder="所属部门">
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-default">注册</button>
+                    <span id="msg" style="color: red;"></span>
+                    <button id="registerBtn" type="button" class="btn btn-default">注册</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 </body>
+<script>
+    api.util.loadScript(api.util.getUrl('common/js/register.js'));
+</script>
 </html>

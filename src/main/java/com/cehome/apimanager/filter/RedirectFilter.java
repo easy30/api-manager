@@ -142,6 +142,12 @@ public class RedirectFilter implements Filter {
 		if (requestURI.contains("/login.html")) {
 			return true;
 		}
+		if (requestURI.contains("/regist.html")) {
+			return true;
+		}
+		if (requestURI.contains("/user/regist")) {
+			return true;
+		}
 		if (requestURI.contains("/user/login")) {
 			return true;
 		}

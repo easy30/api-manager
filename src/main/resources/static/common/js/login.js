@@ -25,6 +25,10 @@ $('#loginBtn').on('click', function () {
         }
     });
 });
+//跳转到注册页面
+$('#registerLoginBtn').on('click',function () {
+    window.location.href = 'regist.html';
+})
 // 监听回车事件，并且屏蔽回车后浏览器刷新
 $(document).keydown(function (event) {
     if(event.keyCode == 13){
