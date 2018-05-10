@@ -1,16 +1,16 @@
 package com.cehome.apimanager.service.impl;
 
+import com.cehome.apimanager.common.CommonMeta;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.dao.AmModuleDao;
 import com.cehome.apimanager.exception.BizValidationException;
-import com.cehome.apimanager.model.dto.AmActionQueryReqDto;
-import com.cehome.apimanager.model.dto.AmModuleQueryReqDto;
-import com.cehome.apimanager.model.dto.AmModuleReqDto;
-import com.cehome.apimanager.model.dto.AmModuleResDto;
+import com.cehome.apimanager.model.dto.*;
 import com.cehome.apimanager.model.po.AmAction;
 import com.cehome.apimanager.model.po.AmModule;
 import com.cehome.apimanager.service.IAmActionService;
 import com.cehome.apimanager.service.IAmModuleService;
+import com.cehome.apimanager.service.IAmOperateLogService;
+import com.cehome.apimanager.utils.ThreadUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,11 +33,26 @@ public class AmModuleServiceImpl implements IAmModuleService {
 	@Autowired
 	private IAmActionService actionService;
 
+	@Autowired
+	private IAmOperateLogService operateLogService;
+
 	@Override
 	public void add(AmModuleReqDto dto) {
 		dto.setCreateTime(new Date());
 		dto.setUpdateTime(new Date());
 		moduleDao.add(dto);
+		ThreadUtils.execute(new ThreadUtils.Task() {
+			@Override
+			public void invoke() {
+				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
+				operateLogReqDto.setModuleCode(CommonMeta.Module.MODULE.getCode());
+				operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
+				operateLogReqDto.setOperateDesc("增加模块【" + dto.getModuleName() + "】");
+				operateLogReqDto.setOperateUser(dto.getOperateUser());
+				operateLogReqDto.setOperateTime(new Date());
+				operateLogService.add(operateLogReqDto);
+			}
+		});
 	}
 
 	@Override
@@ -66,6 +81,19 @@ public class AmModuleServiceImpl implements IAmModuleService {
 			throw new BizValidationException("模块下存在其他接口，不能删除！");
 		}
 		moduleDao.delete(dto.getId());
+
+		ThreadUtils.execute(new ThreadUtils.Task() {
+			@Override
+			public void invoke() {
+				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
+				operateLogReqDto.setModuleCode(CommonMeta.Module.MODULE.getCode());
+				operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());
+				operateLogReqDto.setOperateDesc("删除模块【" + dto.getModuleName() + "】");
+				operateLogReqDto.setOperateUser(dto.getOperateUser());
+				operateLogReqDto.setOperateTime(new Date());
+				operateLogService.add(operateLogReqDto);
+			}
+		});
 	}
 
 	@Override

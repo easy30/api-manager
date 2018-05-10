@@ -1,21 +1,23 @@
 package com.cehome.apimanager.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.cehome.apimanager.common.BaseController;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.model.dto.AmProjectQueryReqDto;
 import com.cehome.apimanager.model.dto.AmProjectReqDto;
 import com.cehome.apimanager.model.dto.AmProjectResDto;
 import com.cehome.apimanager.model.po.AmProject;
+import com.cehome.apimanager.model.po.AmUser;
 import com.cehome.apimanager.service.IAmProjectService;
+import com.cehome.apimanager.utils.WebUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/apimanager/project")
@@ -32,8 +34,10 @@ public class AmProjectController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("add")
-	public Map<String, Object> add(AmProjectReqDto dto) {
+	public Map<String, Object> add(HttpSession session, AmProjectReqDto dto) {
 		try {
+			AmUser loginUser = WebUtils.getLoginUser(session);
+			dto.setOperateUser(loginUser.getId());
 			projectService.add(dto);
 			return toSuccess();
 		} catch (Exception e) {
@@ -49,8 +53,10 @@ public class AmProjectController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("update")
-	public Map<String, Object> update(AmProjectReqDto dto) {
+	public Map<String, Object> update(HttpSession session, AmProjectReqDto dto) {
 		try {
+			AmUser loginUser = WebUtils.getLoginUser(session);
+			dto.setOperateUser(loginUser.getId());
 			projectService.update(dto);
 			return toSuccess();
 		} catch (Exception e) {
@@ -83,8 +89,10 @@ public class AmProjectController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("delete")
-	public Map<String, Object> delete(AmProjectReqDto dto) {
+	public Map<String, Object> delete(HttpSession session, AmProjectReqDto dto) {
 		try {
+			AmUser loginUser = WebUtils.getLoginUser(session);
+			dto.setOperateUser(loginUser.getId());
 			projectService.delete(dto);
 			return toSuccess();
 		} catch (Exception e) {

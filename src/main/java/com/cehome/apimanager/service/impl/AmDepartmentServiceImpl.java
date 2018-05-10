@@ -30,6 +30,7 @@ import java.util.List;
 public class AmDepartmentServiceImpl implements IAmDepartmentService {
 	@Autowired
 	private AmDepartmentDao departmentDao;
+
 	@Autowired
 	private IAmProjectService projectService;
 
