@@ -144,4 +144,18 @@ public class AmUserController extends BaseController {
             return toFail(e.getMessage());
         }
     }
+
+    /**
+     * 查询是否登录
+     */
+    @RequestMapping("findBySession")
+    public Map<String, Object> getSession(HttpSession session, AmUserReqDto dto) {
+        try {
+            AmUser user = WebUtils.getLoginUser(session);
+            return toSuccess(user);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return toFail(e.getMessage());
+        }
+    }
 }

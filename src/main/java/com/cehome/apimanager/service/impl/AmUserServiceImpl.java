@@ -60,10 +60,10 @@ public class AmUserServiceImpl implements IAmUserService {
 
 	@Override
 	public void update(AmUserReqDto dto) {
-		AmUser user = userDao.findByAccount(dto.getAccount());
-		if(user != null){
-			throw new BizValidationException("账号" + dto.getAccount() + "已存在！");
-		}
+//		AmUser user = userDao.findByAccount(dto.getAccount());
+//		if(user != null){
+//			throw new BizValidationException("账号" + dto.getAccount() + "已存在！");
+//		}
 		dto.setUpdateTime(new Date());
 		userDao.update(dto);
 		

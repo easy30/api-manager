@@ -505,3 +505,73 @@ function logOut() {
         }
     });
 }
+
+function userInfo() {
+    var userConf = {
+        container: '#container',
+        url: api.util.getUrl('html/user/userInfo.html'),
+        async: false,
+        preLoad: function (content) {
+            $("#depart").css('display','none');
+        },
+        loaded: function () {
+            $('#userInfoForm').css('margin-top','100px');
+            $.ajax({
+                url: api.util.getUrl('/apimanager/user/findBySession'),
+                type: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    if(result.code == '0') {
+                        var data = result.data;
+                        api.util.loadScript(api.util.getUrl('html/user/js/userInfo.js'),function () {
+                            var userForm = api.ui.form(userInfoOptions);
+                            userForm.giveVal(data);
+                        })
+                    }else {
+                        var dialConf = {
+                            container: 'body',
+                            content: result.msg,
+                            iTitle: true,
+                            title: '提示',
+                        }
+                        api.ui.dialog(dialConf).open();
+                    }
+                }
+            })
+            //cancel
+            $('#userCancelBtn').on('click',function () {
+                window.location.href = 'index.html';
+            })
+            //save
+            $('#userSaveBtn').on('click',function () {
+                var userFormData = $('#userInfoForm').serialize();
+                $.ajax({
+                    url: api.util.getUrl('/apimanager/user/update'),
+                    data: userFormData,
+                    dataType: 'json',
+                    success: function (result) {
+                        if(result.code == '0'){
+                            $.ajax({
+                                url: api.util.getUrl('apimanager/user/loginOut'),
+                                type: 'get',
+                                dataType: 'json',
+                                success: function (result) {
+                                    window.location.href = '/login.html';
+                                }
+                            })
+                        }else{
+                            var dialConf = {
+                                container: 'body',
+                                content: result.msg,
+                                iTitle: true,
+                                title: '提示',
+                            }
+                            api.ui.dialog(dialConf).open();
+                        }
+                    }
+                })
+            })
+        }
+    }
+    api.ui.load(userConf);
+}
