@@ -1,9 +1,11 @@
 package com.cehome.apimanager.model.po;
 
+import com.cehome.apimanager.common.BaseEntity;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class AmOperateLog implements Serializable {
+public class AmOperateLog extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -2104579239739603297L;
     private Integer id;
     /**

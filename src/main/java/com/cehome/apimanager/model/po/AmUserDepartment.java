@@ -1,8 +1,10 @@
 package com.cehome.apimanager.model.po;
 
+import com.cehome.apimanager.common.BaseEntity;
+
 import java.io.Serializable;
 
-public class AmUserDepartment implements Serializable {
+public class AmUserDepartment extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = -3191793747869050453L;
 	/**
 	 * 主键id

@@ -1,5 +1,7 @@
 package com.cehome.apimanager.model.po;
 
+import com.cehome.apimanager.common.BaseEntity;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -9,7 +11,7 @@ import java.util.Date;
  * @author sunlei
  *
  */
-public class AmActionCase implements Serializable {
+public class AmActionCase extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 8906274330372177061L;
 	/**
 	 * 用例编号

@@ -34,7 +34,7 @@ public class AmUserController extends BaseController {
     public Map<String, Object> register(HttpSession session, AmUserReqDto dto) {
         try {
             userService.add(dto);
-            WebUtils.setLoginManager(session, dto);
+            WebUtils.setLoginUser(session, dto);
             return toSuccess();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -52,7 +52,7 @@ public class AmUserController extends BaseController {
     public Map<String, Object> login(HttpSession session, AmUserReqDto dto) {
         try {
             AmUser amUser = userService.login(dto);
-            WebUtils.setLoginManager(session, amUser);
+            WebUtils.setLoginUser(session, amUser);
             return toSuccess(amUser);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -69,7 +69,7 @@ public class AmUserController extends BaseController {
     @RequestMapping("loginOut")
     public Map<String, Object> loginOut(HttpSession session) {
         try {
-            WebUtils.removeLoginManager(session);
+            WebUtils.removeLoginUser(session);
             return toSuccess();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

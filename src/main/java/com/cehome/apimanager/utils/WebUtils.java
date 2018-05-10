@@ -10,15 +10,15 @@ public class WebUtils {
         return session.getAttribute(BaseVar.SESSION_LOGIN_USER) != null;
     }
 
-    public static void setLoginManager(HttpSession session, AmUser o) {
+    public static void setLoginUser(HttpSession session, AmUser o) {
         session.setAttribute(BaseVar.SESSION_LOGIN_USER, o);
     }
 
-    public static AmUser getLoginManager(HttpSession session) {
+    public static AmUser getLoginUser(HttpSession session) {
         return (AmUser)session.getAttribute(BaseVar.SESSION_LOGIN_USER);
     }
 
-    public static void removeLoginManager(HttpSession session) {
+    public static void removeLoginUser(HttpSession session) {
         session.removeAttribute(BaseVar.SESSION_LOGIN_USER);
     }
 

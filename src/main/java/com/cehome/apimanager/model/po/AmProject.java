@@ -1,7 +1,11 @@
 package com.cehome.apimanager.model.po;
 
+import com.cehome.apimanager.common.BaseEntity;
+import com.cehome.apimanager.common.FiledDesc;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * 项目
@@ -9,7 +13,7 @@ import java.util.Date;
  * @author sunlei
  *
  */
-public class AmProject implements Serializable {
+public class AmProject extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = -5800508584386595622L;
 	/**
 	 * 项目编号
@@ -18,14 +22,17 @@ public class AmProject implements Serializable {
 	/**
 	 * 项目名称
 	 */
+	@FiledDesc(desc = "项目名称")
 	private String projectName;
 	/**
 	 * 项目描述
 	 */
+	@FiledDesc(desc = "项目描述")
 	private String projectDesc;
 	/**
 	 * 所属部门编号
 	 */
+	@FiledDesc(desc = "所属部门")
 	private Integer depId;
 	/**
 	 * 创建时间
@@ -82,5 +89,21 @@ public class AmProject implements Serializable {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		AmProject amProject = (AmProject) o;
+		return Objects.equals(projectName, amProject.projectName) &&
+				Objects.equals(projectDesc, amProject.projectDesc) &&
+				Objects.equals(depId, amProject.depId);
+	}
+
+	@Override
+	public int hashCode() {
+
+		return Objects.hash(projectName, projectDesc, depId);
 	}
 }
