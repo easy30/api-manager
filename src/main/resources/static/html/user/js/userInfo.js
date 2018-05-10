@@ -1,0 +1,3 @@
+var userInfoOptions = {
+    container: '#userInfoForm'
+}
