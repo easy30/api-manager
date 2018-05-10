@@ -38,6 +38,9 @@ public class AmUserServiceImpl implements IAmUserService {
 		if(user != null){
 			throw new BizValidationException("账号" + dto.getAccount() + "已存在！");
 		}
+		String password = dto.getPassword();
+		String md5Hex = DigestUtils.md5Hex(password.getBytes());
+		dto.setPassword(md5Hex);
 		dto.setCreateTime(new Date());
 		userDao.add(dto);
 		
