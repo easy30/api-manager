@@ -10,6 +10,7 @@ import com.cehome.apimanager.model.po.AmModule;
 import com.cehome.apimanager.service.IAmActionService;
 import com.cehome.apimanager.service.IAmModuleService;
 import com.cehome.apimanager.service.IAmOperateLogService;
+import com.cehome.apimanager.utils.CompareUtils;
 import com.cehome.apimanager.utils.ThreadUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,6 @@ public class AmModuleServiceImpl implements IAmModuleService {
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
 				operateLogReqDto.setOperateDesc("增加模块【" + dto.getModuleName() + "】");
 				operateLogReqDto.setOperateUser(dto.getOperateUser());
-				operateLogReqDto.setOperateTime(new Date());
 				operateLogService.add(operateLogReqDto);
 			}
 		});
@@ -57,8 +57,23 @@ public class AmModuleServiceImpl implements IAmModuleService {
 
 	@Override
 	public void update(AmModuleReqDto dto) {
+		AmModule module = moduleDao.get(dto.getId());
 		dto.setUpdateTime(new Date());
 		moduleDao.update(dto);
+		ThreadUtils.execute(new ThreadUtils.Task() {
+			@Override
+			public void invoke() {
+				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
+				operateLogReqDto.setModuleCode(CommonMeta.Module.MODULE.getCode());
+				operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
+				operateLogReqDto.setOperateDesc("修改项目【" + dto.getModuleName() + "】");
+				operateLogReqDto.setOperateUser(dto.getOperateUser());
+				if(!module.equals(dto)){
+					operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(module, dto));
+				}
+				operateLogService.add(operateLogReqDto);
+			}
+		});
 	}
 
 	@Override
@@ -90,7 +105,6 @@ public class AmModuleServiceImpl implements IAmModuleService {
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());
 				operateLogReqDto.setOperateDesc("删除模块【" + dto.getModuleName() + "】");
 				operateLogReqDto.setOperateUser(dto.getOperateUser());
-				operateLogReqDto.setOperateTime(new Date());
 				operateLogService.add(operateLogReqDto);
 			}
 		});

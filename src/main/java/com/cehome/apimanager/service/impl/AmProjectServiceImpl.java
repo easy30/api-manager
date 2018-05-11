@@ -50,7 +50,6 @@ public class AmProjectServiceImpl implements IAmProjectService {
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
 				operateLogReqDto.setOperateDesc("增加项目【" + dto.getProjectName() + "】");
 				operateLogReqDto.setOperateUser(dto.getOperateUser());
-				operateLogReqDto.setOperateTime(new Date());
 				operateLogService.add(operateLogReqDto);
 			}
 		});
@@ -69,7 +68,6 @@ public class AmProjectServiceImpl implements IAmProjectService {
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
 				operateLogReqDto.setOperateDesc("修改项目【" + dto.getProjectName() + "】");
 				operateLogReqDto.setOperateUser(dto.getOperateUser());
-				operateLogReqDto.setOperateTime(new Date());
 				if(!project.equals(dto)){
 					operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(project, dto));
 				}
@@ -107,7 +105,6 @@ public class AmProjectServiceImpl implements IAmProjectService {
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());
 				operateLogReqDto.setOperateDesc("删除项目【" + dto.getProjectName() + "】");
 				operateLogReqDto.setOperateUser(dto.getOperateUser());
-				operateLogReqDto.setOperateTime(new Date());
 				operateLogService.add(operateLogReqDto);
 			}
 		});

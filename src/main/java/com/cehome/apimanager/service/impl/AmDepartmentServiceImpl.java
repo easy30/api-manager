@@ -55,7 +55,6 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
 				operateLogReqDto.setOperateDesc("增加部门【" + dto.getDepName() + "】");
 				operateLogReqDto.setOperateUser(dto.getOperateUser());
-				operateLogReqDto.setOperateTime(new Date());
 				operateLogService.add(operateLogReqDto);
 			}
 		});
@@ -77,7 +76,6 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
 				operateLogReqDto.setOperateDesc("修改部门【" + dto.getDepName() + "】");
 				operateLogReqDto.setOperateUser(dto.getOperateUser());
-				operateLogReqDto.setOperateTime(new Date());
 				if(!department.equals(dto)){
 					operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(department, dto));
 				}
@@ -115,7 +113,6 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());
 				operateLogReqDto.setOperateDesc("删除部门【" + dto.getDepName() + "】");
 				operateLogReqDto.setOperateUser(dto.getOperateUser());
-				operateLogReqDto.setOperateTime(new Date());
 				operateLogService.add(operateLogReqDto);
 			}
 		});

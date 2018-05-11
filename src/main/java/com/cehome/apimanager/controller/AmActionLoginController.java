@@ -5,13 +5,16 @@ import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.model.dto.AmActionLoginQueryReqDto;
 import com.cehome.apimanager.model.dto.AmActionLoginReqDto;
 import com.cehome.apimanager.model.po.AmActionLogin;
+import com.cehome.apimanager.model.po.AmUser;
 import com.cehome.apimanager.service.IAmActionLoginService;
+import com.cehome.apimanager.utils.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -64,8 +67,10 @@ public class AmActionLoginController extends BaseController {
      * @return
      */
     @RequestMapping("add")
-    public Map<String, Object> add(AmActionLoginReqDto dto) {
+    public Map<String, Object> add(HttpSession session, AmActionLoginReqDto dto) {
         try {
+            AmUser loginUser = WebUtils.getLoginUser(session);
+            dto.setOperateUser(loginUser.getId());
             actionLoginService.add(dto);
             return toSuccess();
         } catch (Exception e) {
@@ -81,8 +86,10 @@ public class AmActionLoginController extends BaseController {
      * @return
      */
     @RequestMapping("update")
-    public Map<String, Object> update(AmActionLoginReqDto dto) {
+    public Map<String, Object> update(HttpSession session, AmActionLoginReqDto dto) {
         try {
+            AmUser loginUser = WebUtils.getLoginUser(session);
+            dto.setOperateUser(loginUser.getId());
             actionLoginService.update(dto);
             return toSuccess();
         } catch (Exception e) {
@@ -132,8 +139,10 @@ public class AmActionLoginController extends BaseController {
      * @return
      */
     @RequestMapping("delete")
-    public Map<String, Object> delete(AmActionLoginReqDto dto) {
+    public Map<String, Object> delete(HttpSession session, AmActionLoginReqDto dto) {
         try {
+            AmUser loginUser = WebUtils.getLoginUser(session);
+            dto.setOperateUser(loginUser.getId());
             actionLoginService.delete(dto);
             return toSuccess();
         } catch (Exception e) {

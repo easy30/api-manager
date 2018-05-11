@@ -9,6 +9,7 @@ import com.cehome.apimanager.service.IAmOperateLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,6 +19,7 @@ public class AmOperateLogServiceImpl implements IAmOperateLogService {
 
     @Override
     public void add(AmOperateLogReqDto dto) {
+        dto.setOperateTime(new Date());
         operateLogDao.add(dto);
     }
 

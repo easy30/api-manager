@@ -5,13 +5,16 @@ import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.model.dto.AmEnvQueryReqDto;
 import com.cehome.apimanager.model.dto.AmEnvReqDto;
 import com.cehome.apimanager.model.po.AmEnv;
+import com.cehome.apimanager.model.po.AmUser;
 import com.cehome.apimanager.service.IAmEnvService;
+import com.cehome.apimanager.utils.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -46,8 +49,10 @@ public class AmEnvController extends BaseController {
      * @return
      */
     @RequestMapping("add")
-    public Map<String, Object> add(AmEnvReqDto dto) {
+    public Map<String, Object> add(HttpSession session, AmEnvReqDto dto) {
         try {
+            AmUser loginUser = WebUtils.getLoginUser(session);
+            dto.setOperateUser(loginUser.getId());
             envService.add(dto);
             return toSuccess();
         } catch (Exception e) {
@@ -63,8 +68,10 @@ public class AmEnvController extends BaseController {
      * @return
      */
     @RequestMapping("update")
-    public Map<String, Object> update(AmEnvReqDto dto) {
+    public Map<String, Object> update(HttpSession session, AmEnvReqDto dto) {
         try {
+            AmUser loginUser = WebUtils.getLoginUser(session);
+            dto.setOperateUser(loginUser.getId());
             envService.update(dto);
             return toSuccess();
         } catch (Exception e) {
@@ -114,8 +121,10 @@ public class AmEnvController extends BaseController {
      * @return
      */
     @RequestMapping("delete")
-    public Map<String, Object> delete(AmEnvReqDto dto) {
+    public Map<String, Object> delete(HttpSession session, AmEnvReqDto dto) {
         try {
+            AmUser loginUser = WebUtils.getLoginUser(session);
+            dto.setOperateUser(loginUser.getId());
             envService.delete(dto);
             return toSuccess();
         } catch (Exception e) {
