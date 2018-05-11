@@ -544,32 +544,55 @@ function userInfo() {
             })
             //save
             $('#userSaveBtn').on('click',function () {
-                var userFormData = $('#userInfoForm').serialize();
-                $.ajax({
-                    url: api.util.getUrl('/apimanager/user/update'),
-                    data: userFormData,
-                    dataType: 'json',
-                    success: function (result) {
-                        if(result.code == '0'){
-                            $.ajax({
-                                url: api.util.getUrl('apimanager/user/loginOut'),
-                                type: 'get',
-                                dataType: 'json',
-                                success: function (result) {
-                                    window.location.href = '/login.html';
-                                }
-                            })
-                        }else{
+                var params = {};
+                params['id'] = $('input[name=id]').val();
+                params['userName'] = $('input[name=userName]').val();
+                params['account'] = $('input[name=account]').val();
+                params['email'] = $('input[name=email]').val();
+                //表单非空校验
+                var flag = false;
+                $.each(params, function (name,value) {
+                    if(!$.trim(value)){
+                        if (name=='userName') {
                             var dialConf = {
                                 container: 'body',
-                                content: result.msg,
+                                content: '中文名称不能为空',
                                 iTitle: true,
                                 title: '提示',
                             }
                             api.ui.dialog(dialConf).open();
+                            flag = true;
                         }
+                        return false;
                     }
                 })
+                if (!flag) {
+                    $.ajax({
+                        url: api.util.getUrl('/apimanager/user/update'),
+                        data: params,
+                        dataType: 'json',
+                        success: function (result) {
+                            if (result.code == '0') {
+                                $.ajax({
+                                    url: api.util.getUrl('apimanager/user/loginOut'),
+                                    type: 'get',
+                                    dataType: 'json',
+                                    success: function (result) {
+                                        window.location.href = '/login.html';
+                                    }
+                                })
+                            } else {
+                                var dialConf = {
+                                    container: 'body',
+                                    content: result.msg,
+                                    iTitle: true,
+                                    title: '提示',
+                                }
+                                api.ui.dialog(dialConf).open();
+                            }
+                        }
+                    })
+                }
             })
         }
     }
