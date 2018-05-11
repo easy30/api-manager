@@ -113,4 +113,9 @@ public class AmUserServiceImpl implements IAmUserService {
 		}
 		return user;
 	}
+	
+	@Override
+	public List<AmUser> list(AmUserQueryReqDto dto) {
+		return userDao.list(dto);
+	}
 }

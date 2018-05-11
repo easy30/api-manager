@@ -5,6 +5,8 @@ import com.cehome.apimanager.model.dto.AmUserQueryReqDto;
 import com.cehome.apimanager.model.dto.AmUserReqDto;
 import com.cehome.apimanager.model.po.AmUser;
 
+import java.util.List;
+
 /**
  * 用户模块业务接口
  * 
@@ -55,4 +57,11 @@ public interface IAmUserService {
 	 * @param dto
 	 */
 	AmUser login(AmUserReqDto dto);
+
+	/**
+	 * 获取用户列表
+	 *
+	 * @param dto
+	 */
+	List<AmUser> list(AmUserQueryReqDto dto);
 }

@@ -74,6 +74,14 @@ var moduleTableOptions = {
                     var depSelect = api.ui.chosenSelect(depOptions);
                     depSelect.val(depId);
                     depSelect.doChange();
+                    var userNameOptions = {
+                        selector: '[name=createUser]',
+                        optionField: {value: 'id', text: 'userName'},
+                        width: '50%',
+                        blank: true,
+                        url: api.util.getUrl('apimanager/user/list')
+                    }
+                    var createSelect = api.ui.chosenSelect(userNameOptions);
                     api.util.loadScript(api.util.getUrl('html/action/js/action.js') ,function () {
                         api.ui.editTable(actionTableOptions);
                     });

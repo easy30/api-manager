@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -153,6 +154,23 @@ public class AmUserController extends BaseController {
         try {
             AmUser user = WebUtils.getLoginUser(session);
             return toSuccess(user);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return toFail(e.getMessage());
+        }
+    }
+
+    /**
+     * 获取用户列表
+     *
+     * @param dto
+     * @return
+     */
+    @RequestMapping("list")
+    public Map<String, Object> list(AmUserQueryReqDto dto) {
+        try {
+            List<AmUser> list = userService.list(dto);
+            return toSuccess(list);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return toFail(e.getMessage());
