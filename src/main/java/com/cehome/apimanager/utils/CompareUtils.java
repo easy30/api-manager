@@ -48,6 +48,10 @@ public class CompareUtils {
             } catch (Exception e) {
             }
         }
-        return compareResult.toString();
+        String result = compareResult.toString();
+        if("".equals(result)){
+            result = "内容未变化";
+        }
+        return result;
     }
 }

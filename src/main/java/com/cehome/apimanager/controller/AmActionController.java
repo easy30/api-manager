@@ -91,8 +91,10 @@ public class AmActionController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("delete")
-	public Map<String, Object> delete(AmActionReqDto dto) {
+	public Map<String, Object> delete(HttpSession session, AmActionReqDto dto) {
 		try {
+            AmUser loginUser = WebUtils.getLoginUser(session);
+            dto.setUpdateUser(loginUser.getId());
 			actionService.delete(dto);
 			return toSuccess();
 		} catch (Exception e) {

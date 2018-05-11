@@ -74,7 +74,7 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
 				operateLogReqDto.setModuleCode(CommonMeta.Module.DEPARTMENT.getCode());
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
-				operateLogReqDto.setOperateDesc("修改部门【" + dto.getDepName() + "】");
+				operateLogReqDto.setOperateDesc("修改部门【" + dto.getId() + "】");
 				operateLogReqDto.setOperateUser(dto.getOperateUser());
 				if(!department.equals(dto)){
 					operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(department, dto));

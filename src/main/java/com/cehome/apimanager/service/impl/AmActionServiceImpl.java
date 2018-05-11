@@ -11,8 +11,12 @@ import com.cehome.apimanager.dao.AmActionDao;
 import com.cehome.apimanager.model.dto.AmActionQueryReqDto;
 import com.cehome.apimanager.model.dto.AmActionReqDto;
 import com.cehome.apimanager.model.dto.AmActionResDto;
+import com.cehome.apimanager.model.dto.AmOperateLogReqDto;
 import com.cehome.apimanager.model.po.AmAction;
 import com.cehome.apimanager.service.IAmActionService;
+import com.cehome.apimanager.service.IAmOperateLogService;
+import com.cehome.apimanager.utils.CompareUtils;
+import com.cehome.apimanager.utils.ThreadUtils;
 import com.cehome.apimanager.utils.UrlUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +41,9 @@ public class AmActionServiceImpl implements IAmActionService {
     @Autowired
     private CacheProvider cacheProvider;
 
+    @Autowired
+    private IAmOperateLogService operateLogService;
+
     @Override
     public void add(AmActionReqDto dto) {
         buildMock(dto);
@@ -49,11 +56,23 @@ public class AmActionServiceImpl implements IAmActionService {
         actionDao.add(dto);
 
         cacheProvider.addActionUrlCache(dto);
+
+        ThreadUtils.execute(new ThreadUtils.Task() {
+            @Override
+            public void invoke() {
+                AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
+                operateLogReqDto.setModuleCode(CommonMeta.Module.ACTION.getCode());
+                operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
+                operateLogReqDto.setOperateDesc("增加接口【" + dto.getRequestUrl() + "】");
+                operateLogReqDto.setOperateUser(dto.getCreateUser());
+                operateLogService.add(operateLogReqDto);
+            }
+        });
     }
 
     @Override
     public void update(AmActionReqDto dto) {
-        AmActionResDto actionResDto = findById(dto.getId());
+        AmAction actionResDto = actionDao.get(dto.getId());
         if (actionResDto == null) {
             return;
         }
@@ -71,6 +90,21 @@ public class AmActionServiceImpl implements IAmActionService {
         buildMock(dto);
         dto.setUpdateTime(new Date());
         actionDao.update(dto);
+
+        ThreadUtils.execute(new ThreadUtils.Task() {
+            @Override
+            public void invoke() {
+                AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
+                operateLogReqDto.setModuleCode(CommonMeta.Module.ACTION.getCode());
+                operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
+                operateLogReqDto.setOperateDesc("修改接口基本信息【" + dto.getId() + "】");
+                operateLogReqDto.setOperateUser(dto.getUpdateUser());
+                if(!actionResDto.equals(dto)){
+                    operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(actionResDto, dto));
+                }
+                operateLogService.add(operateLogReqDto);
+            }
+        });
     }
 
     @Override
@@ -104,6 +138,18 @@ public class AmActionServiceImpl implements IAmActionService {
         cacheProvider.removeActionUrlCache(action);
 
         actionDao.delete(dto.getId());
+
+        ThreadUtils.execute(new ThreadUtils.Task() {
+            @Override
+            public void invoke() {
+                AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
+                operateLogReqDto.setModuleCode(CommonMeta.Module.ACTION.getCode());
+                operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());
+                operateLogReqDto.setOperateDesc("删除接口【" + dto.getRequestUrl() + "】");
+                operateLogReqDto.setOperateUser(dto.getUpdateUser());
+                operateLogService.add(operateLogReqDto);
+            }
+        });
     }
 
     @Override

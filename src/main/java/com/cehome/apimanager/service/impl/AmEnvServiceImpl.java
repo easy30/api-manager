@@ -55,7 +55,7 @@ public class AmEnvServiceImpl implements IAmEnvService{
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.ENV.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
-                operateLogReqDto.setOperateDesc("修改环境【" + dto.getEnvName() + "】");
+                operateLogReqDto.setOperateDesc("修改环境【" + dto.getId() + "】");
                 operateLogReqDto.setOperateUser(dto.getOperateUser());
                 if(!env.equals(dto)){
                     operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(env, dto));

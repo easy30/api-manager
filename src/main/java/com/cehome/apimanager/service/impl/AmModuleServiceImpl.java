@@ -66,7 +66,7 @@ public class AmModuleServiceImpl implements IAmModuleService {
 				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
 				operateLogReqDto.setModuleCode(CommonMeta.Module.MODULE.getCode());
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
-				operateLogReqDto.setOperateDesc("修改项目【" + dto.getModuleName() + "】");
+				operateLogReqDto.setOperateDesc("修改项目【" + dto.getId() + "】");
 				operateLogReqDto.setOperateUser(dto.getOperateUser());
 				if(!module.equals(dto)){
 					operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(module, dto));

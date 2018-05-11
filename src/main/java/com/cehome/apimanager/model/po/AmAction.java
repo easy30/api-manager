@@ -1,9 +1,11 @@
 package com.cehome.apimanager.model.po;
 
 import com.cehome.apimanager.common.BaseEntity;
+import com.cehome.apimanager.common.FiledDesc;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * 接口
@@ -19,26 +21,32 @@ public class AmAction extends BaseEntity implements Serializable {
     /**
      * 接口名称
      */
+    @FiledDesc(desc = "接口名称")
     private String actionName;
     /**
      * 接口描述
      */
+    @FiledDesc(desc = "接口描述")
     private String actionDesc;
     /**
      * 接口所属模块
      */
+    @FiledDesc(desc = "所属模块")
     private Integer moduleId;
     /**
      * 接口请求类型
      */
+    @FiledDesc(desc = "请求类型")
     private Integer requestType;
     /**
      * 域名的id
      */
+    @FiledDesc(desc = "域名id")
     private Integer domainId;
     /**
      * 接口请求url
      */
+    @FiledDesc(desc = "接口请求Url")
     private String requestUrl;
     /**
      * 接口状态
@@ -239,5 +247,24 @@ public class AmAction extends BaseEntity implements Serializable {
 
     public void setResponseFailDefinition(String responseFailDefinition) {
         this.responseFailDefinition = responseFailDefinition;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AmAction amAction = (AmAction) o;
+        return Objects.equals(actionName, amAction.actionName) &&
+                Objects.equals(actionDesc, amAction.actionDesc) &&
+                Objects.equals(moduleId, amAction.moduleId) &&
+                Objects.equals(requestType, amAction.requestType) &&
+                Objects.equals(domainId, amAction.domainId) &&
+                Objects.equals(requestUrl, amAction.requestUrl);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(actionName, actionDesc, moduleId, requestType, domainId, requestUrl);
     }
 }

@@ -65,7 +65,7 @@ public class AmDomainServiceImpl implements IAmDomainService {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.DOMAIN.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
-                operateLogReqDto.setOperateDesc("修改服务【" + dto.getDomainName() + "】");
+                operateLogReqDto.setOperateDesc("修改服务地址【" + dto.getId() + "】");
                 operateLogReqDto.setOperateUser(dto.getOperateUser());
                 if(!domain.equals(dto)){
                     operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(domain, dto));
