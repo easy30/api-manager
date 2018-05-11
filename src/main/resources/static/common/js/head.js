@@ -528,7 +528,8 @@ function userInfo() {
         url: api.util.getUrl('html/user/userInfo.html'),
         async: false,
         preLoad: function (content) {
-            $("#depart").css('display','none');
+            // $("#depart").css('display','none');
+            $('#depart').parent('.container-fluid').css('display','none');
         },
         loaded: function () {
             $('#userInfoForm').css('margin-top','100px');
