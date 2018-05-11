@@ -6,7 +6,9 @@ import com.cehome.apimanager.model.dto.AmActionQueryReqDto;
 import com.cehome.apimanager.model.dto.AmActionReqDto;
 import com.cehome.apimanager.model.dto.AmActionResDto;
 import com.cehome.apimanager.model.po.AmAction;
+import com.cehome.apimanager.model.po.AmUser;
 import com.cehome.apimanager.service.IAmActionService;
+import com.cehome.apimanager.utils.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -33,8 +36,10 @@ public class AmActionController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "add", method = RequestMethod.POST)
-	public Map<String, Object> add(@RequestBody AmActionReqDto dto) {
+	public Map<String, Object> add(HttpSession session, @RequestBody AmActionReqDto dto) {
 		try {
+			AmUser loginUser = WebUtils.getLoginUser(session);
+			dto.setCreateUser(loginUser.getId());
 			actionService.add(dto);
 			return toSuccess();
 		} catch (Exception e) {
@@ -50,8 +55,10 @@ public class AmActionController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "update", method = RequestMethod.POST)
-	public Map<String, Object> update(@RequestBody AmActionReqDto dto) {
+	public Map<String, Object> update(HttpSession session, @RequestBody AmActionReqDto dto) {
 		try {
+			AmUser loginUser = WebUtils.getLoginUser(session);
+			dto.setUpdateUser(loginUser.getId());
 			actionService.update(dto);
 			return toSuccess();
 		} catch (Exception e) {

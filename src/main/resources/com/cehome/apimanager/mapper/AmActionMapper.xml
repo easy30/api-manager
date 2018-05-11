@@ -56,6 +56,10 @@
 		AND
 			module_id = #{moduleId}
 		</if>
+		<if test="createUser != null">
+		AND
+			create_user = #{createUser}
+		</if>
 		ORDER BY update_time DESC
 		LIMIT #{pageOffset},#{pageSize}
 	</select>
@@ -75,7 +79,11 @@
 		<if test="moduleId != null">
 		AND
 			module_id = #{moduleId}
-		</if>		
+		</if>
+		<if test="createUser != null">
+		AND
+			create_user = #{createUser}
+		</if>
 	</select>
 	
 	<select id="list" parameterType="com.cehome.apimanager.model.po.AmAction" resultMap="BaseResultMap">
@@ -91,6 +99,10 @@
 		<if test="moduleId != null">
 		AND
 			module_id = #{moduleId}
+		</if>
+		<if test="createUser != null">
+		AND
+			create_user = #{createUser}
 		</if>
 	</select>
 	
