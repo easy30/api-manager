@@ -1,0 +1,28 @@
+.emailCompletion p {
+    width:1000px; 
+    margin-left:auto; 
+    margin-right:auto;
+}
+.emailCompletion .input{
+    border:1px solid #ced4da; 
+    border-radius:4px; 
+    box-shadow:0 0 1px #fff, inset 0 0 2px rgba(0,0,0,.15); 
+    font-size:14px;}
+.emailCompletion .emailist{
+    border:1px solid #bdbdbd; 
+    border-radius: 4px; 
+    background-color:#fff;
+    color:#666;
+    font-size:14px;
+    /*list-style-type:0;*/
+    padding:0;
+    margin:0;
+    overflow:hidden;
+}
+.emailCompletion .emailist li{
+    padding:2px 11px;
+    cursor:pointer;
+}
+.emailCompletion .emailist .on, .emailist li:hover{
+    background-color:#eee;
+}

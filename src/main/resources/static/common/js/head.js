@@ -542,6 +542,7 @@ function userInfo() {
                         var data = result.data;
                         api.util.loadScript(api.util.getUrl('html/user/js/userInfo.js'),function () {
                             var userForm = api.ui.form(userInfoOptions);
+                            $(".emailCompletion .input").mailAutoComplete();
                             userForm.giveVal(data);
                         })
                     }else {
@@ -561,13 +562,27 @@ function userInfo() {
             })
             //save
             $('#userSaveBtn').on('click',function () {
-                var params = {};
+                var flag = false,params = {};
                 params['id'] = $('input[name=id]').val();
                 params['userName'] = $('input[name=userName]').val();
                 params['account'] = $('input[name=account]').val();
-                params['email'] = $('input[name=email]').val();
+                //邮箱格式验证
+                if($('.input').val()){
+                    var pattern = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+                    if(!pattern.test($('.input').val())){
+                        var emailDialog = {
+                            container: 'body',
+                            content: '请填写正确的邮箱格式',
+                            iTitle: true,
+                            title: '邮箱验证',
+                        }
+                        api.ui.dialog(emailDialog).open();
+                        flag = true;
+                    }else{
+                        params['email'] = $('input[name=email]').val();
+                    }
+                }
                 //表单非空校验
-                var flag = false;
                 $.each(params, function (name,value) {
                     if(!$.trim(value)){
                         if (name=='userName') {
@@ -583,33 +598,34 @@ function userInfo() {
                         return false;
                     }
                 })
-                if (!flag) {
-                    $.ajax({
-                        url: api.util.getUrl('/apimanager/user/update'),
-                        data: params,
-                        dataType: 'json',
-                        success: function (result) {
-                            if (result.code == '0') {
-                                $.ajax({
-                                    url: api.util.getUrl('apimanager/user/loginOut'),
-                                    type: 'get',
-                                    dataType: 'json',
-                                    success: function (result) {
-                                        window.location.href = '/login.html';
-                                    }
-                                })
-                            } else {
-                                var dialConf = {
-                                    container: 'body',
-                                    content: result.msg,
-                                    iTitle: true,
-                                    title: '提示',
-                                }
-                                api.ui.dialog(dialConf).open();
-                            }
-                        }
-                    })
+                if(flag){
+                    return;
                 }
+                $.ajax({
+                    url: api.util.getUrl('/apimanager/user/update'),
+                    data: params,
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.code == '0') {
+                            $.ajax({
+                                url: api.util.getUrl('apimanager/user/loginOut'),
+                                type: 'get',
+                                dataType: 'json',
+                                success: function (result) {
+                                    window.location.href = '/login.html';
+                                }
+                            })
+                        } else {
+                            var dialConf = {
+                                container: 'body',
+                                content: result.msg,
+                                iTitle: true,
+                                title: '提示',
+                            }
+                            api.ui.dialog(dialConf).open();
+                        }
+                    }
+                })
             })
         }
     }
