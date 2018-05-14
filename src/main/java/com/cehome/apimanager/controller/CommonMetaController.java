@@ -34,6 +34,12 @@ public class CommonMetaController extends BaseController {
                 case "4":
                     KVS = CommonMeta.Required.KVS;
                     break;
+                case "5":
+                    KVS = CommonMeta.Module.KVS;
+                    break;
+                case "6":
+                    KVS = CommonMeta.OperateType.KVS;
+                    break;
             }
             return toSuccess(KVS);
         } catch (Exception e) {
