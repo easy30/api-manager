@@ -8,11 +8,9 @@ import com.cehome.apimanager.cache.CacheProvider;
 import com.cehome.apimanager.common.CommonMeta;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.dao.AmActionDao;
-import com.cehome.apimanager.model.dto.AmActionQueryReqDto;
-import com.cehome.apimanager.model.dto.AmActionReqDto;
-import com.cehome.apimanager.model.dto.AmActionResDto;
-import com.cehome.apimanager.model.dto.AmOperateLogReqDto;
+import com.cehome.apimanager.model.dto.*;
 import com.cehome.apimanager.model.po.AmAction;
+import com.cehome.apimanager.service.IAmActionHistoryService;
 import com.cehome.apimanager.service.IAmActionService;
 import com.cehome.apimanager.service.IAmOperateLogService;
 import com.cehome.apimanager.utils.CompareUtils;
@@ -43,6 +41,9 @@ public class AmActionServiceImpl implements IAmActionService {
 
     @Autowired
     private IAmOperateLogService operateLogService;
+
+    @Autowired
+    private IAmActionHistoryService actionHistoryService;
 
     @Override
     public void add(AmActionReqDto dto) {
@@ -103,6 +104,19 @@ public class AmActionServiceImpl implements IAmActionService {
                     operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(actionResDto, dto));
                 }
                 operateLogService.add(operateLogReqDto);
+            }
+        });
+
+        ThreadUtils.execute(new ThreadUtils.Task() {
+            @Override
+            public void invoke() {
+                AmActionHistoryReqDto actionHistoryReqDto = new AmActionHistoryReqDto();
+                BeanUtils.copyProperties(actionResDto, actionHistoryReqDto);
+                actionHistoryReqDto.setId(null);
+                actionHistoryReqDto.setActionId(actionResDto.getId());
+                actionHistoryReqDto.setUpdateUser(actionResDto.getUpdateUser());
+                actionHistoryReqDto.setUpdateTime(new Date());
+                actionHistoryService.add(actionHistoryReqDto);
             }
         });
     }

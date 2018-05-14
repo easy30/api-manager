@@ -121,7 +121,7 @@ public class AmActionController extends BaseController {
 	}
 
 	/**
-	 * 获取测试用例列表
+	 * 获取接口文档列表
 	 * 
 	 * @param dto
 	 * @return
