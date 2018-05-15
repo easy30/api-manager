@@ -42,7 +42,7 @@ api.util.loadScripts([
 
                 var config = {
                     container: '#extendModule',
-                    title: '系统配置',
+                    title: '系统功能',
                     items: [
                         {
                             name: '环境配置', fn: function () {
@@ -56,6 +56,10 @@ api.util.loadScripts([
                         },{
                             name: '认证列表', fn: function () {
                                 actionLoginClick();
+                            }
+                        },{
+                            name: '日志查看', fn: function () {
+                                loggerClick();
                             }
                         }
                     ]

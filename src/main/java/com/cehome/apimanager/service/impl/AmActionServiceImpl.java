@@ -60,7 +60,7 @@ public class AmActionServiceImpl implements IAmActionService {
 
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
-            public void invoke() {
+            public void doTask() {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.ACTION.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
@@ -95,7 +95,7 @@ public class AmActionServiceImpl implements IAmActionService {
 
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
-            public void invoke() {
+            public void doTask() {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.ACTION.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
@@ -111,7 +111,7 @@ public class AmActionServiceImpl implements IAmActionService {
 
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
-            public void invoke() {
+            public void doTask() {
                 AmActionHistoryReqDto actionHistoryReqDto = new AmActionHistoryReqDto();
                 BeanUtils.copyProperties(actionResDto, actionHistoryReqDto);
                 actionHistoryReqDto.setId(null);
@@ -158,7 +158,7 @@ public class AmActionServiceImpl implements IAmActionService {
 
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
-            public void invoke() {
+            public void doTask() {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.ACTION.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());

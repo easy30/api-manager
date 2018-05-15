@@ -34,7 +34,7 @@ var loggerTableOptions = {
                 optionField: {value: 'id', text: 'account'},
                 url: api.util.getUrl('apimanager/user/list')
             }},
-        {name: 'operateTime', type:'input', inputDesc: '操作时间', required: false}
+        {name: 'operateTimeFormat', type:'input', inputDesc: '操作时间', required: false}
     ],
     rowButtons: [
         {type: 'enter', text: '查看', fn: function (param) {
@@ -112,10 +112,9 @@ var moduleCodeSelect = {
 var operateUserSelect = {
     selector: 'select[name=operateUser]',
     width: '50%',
-    cache: true,
     async: false,
     blank: true,
-    optionField: {value: 'id', text: 'account'},
+    optionField: {value: 'id', text: 'userName'},
     url: api.util.getUrl('apimanager/user/list')
 }
 

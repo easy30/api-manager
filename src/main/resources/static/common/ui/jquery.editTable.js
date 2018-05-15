@@ -376,15 +376,8 @@
                 } else {
                     if(field.type == 'input'){
                         var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%; font-size: 15px;"/>');
-                        if(rowData[field.name].indexOf('000+0000') != -1){
-                            var date = new Date(rowData[field.name]);
-                            var dateVal = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-                            var $span = $('<span class="td-item-span">' + dateVal + '</span>');
-                            $input.attr('inputDesc', field.inputDesc).attr('required', field.required).attr('name', field.name).val(dateVal).css('display', 'none');
-                        }else{
-                            var $span = $('<span class="td-item-span">' + rowData[field.name] + '</span>');
-                            $input.attr('inputDesc', field.inputDesc).attr('required', field.required).attr('name', field.name).val(rowData[field.name]).css('display', 'none');
-                        }
+                        var $span = $('<span class="td-item-span">' + rowData[field.name] + '</span>');
+                        $input.attr('inputDesc', field.inputDesc).attr('required', field.required).attr('name', field.name).val(rowData[field.name]).css('display', 'none');
                         $tr.append($td.append($span).append($input));
                     } else if(field.type = 'select'){
                         var $span = $('<span class="td-item-span"></span>');

@@ -44,7 +44,7 @@ public class AmDomainServiceImpl implements IAmDomainService {
         domainDao.add(dto);
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
-            public void invoke() {
+            public void doTask() {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.DOMAIN.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
@@ -62,7 +62,7 @@ public class AmDomainServiceImpl implements IAmDomainService {
         domainDao.update(dto);
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
-            public void invoke() {
+            public void doTask() {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.DOMAIN.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
@@ -83,7 +83,7 @@ public class AmDomainServiceImpl implements IAmDomainService {
         domainDao.delete(dto.getId());
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
-            public void invoke() {
+            public void doTask() {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.DOMAIN.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());

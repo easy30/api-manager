@@ -34,7 +34,7 @@ public class AmEnvServiceImpl implements IAmEnvService{
         envDao.add(dto);
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
-            public void invoke() {
+            public void doTask() {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.ENV.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
@@ -52,7 +52,7 @@ public class AmEnvServiceImpl implements IAmEnvService{
         envDao.update(dto);
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
-            public void invoke() {
+            public void doTask() {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.ENV.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
@@ -83,7 +83,7 @@ public class AmEnvServiceImpl implements IAmEnvService{
         envDao.delete(dto.getId());
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
-            public void invoke() {
+            public void doTask() {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.ENV.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());

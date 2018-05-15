@@ -44,7 +44,7 @@ public class AmModuleServiceImpl implements IAmModuleService {
 		moduleDao.add(dto);
 		ThreadUtils.execute(new ThreadUtils.Task() {
 			@Override
-			public void invoke() {
+			public void doTask() {
 				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
 				operateLogReqDto.setModuleCode(CommonMeta.Module.MODULE.getCode());
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
@@ -63,7 +63,7 @@ public class AmModuleServiceImpl implements IAmModuleService {
 		moduleDao.update(dto);
 		ThreadUtils.execute(new ThreadUtils.Task() {
 			@Override
-			public void invoke() {
+			public void doTask() {
 				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
 				operateLogReqDto.setModuleCode(CommonMeta.Module.MODULE.getCode());
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
@@ -102,7 +102,7 @@ public class AmModuleServiceImpl implements IAmModuleService {
 
 		ThreadUtils.execute(new ThreadUtils.Task() {
 			@Override
-			public void invoke() {
+			public void doTask() {
 				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
 				operateLogReqDto.setModuleCode(CommonMeta.Module.MODULE.getCode());
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());

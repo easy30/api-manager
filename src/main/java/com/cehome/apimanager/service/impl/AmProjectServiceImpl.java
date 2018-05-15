@@ -44,7 +44,7 @@ public class AmProjectServiceImpl implements IAmProjectService {
 		projectDao.add(dto);
 		ThreadUtils.execute(new ThreadUtils.Task() {
 			@Override
-			public void invoke() {
+			public void doTask() {
 				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
 				operateLogReqDto.setModuleCode(CommonMeta.Module.PROJECT.getCode());
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
@@ -63,7 +63,7 @@ public class AmProjectServiceImpl implements IAmProjectService {
 		projectDao.update(dto);
 		ThreadUtils.execute(new ThreadUtils.Task() {
 			@Override
-			public void invoke() {
+			public void doTask() {
 				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
 				operateLogReqDto.setModuleCode(CommonMeta.Module.PROJECT.getCode());
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
@@ -102,7 +102,7 @@ public class AmProjectServiceImpl implements IAmProjectService {
 
 		ThreadUtils.execute(new ThreadUtils.Task() {
 			@Override
-			public void invoke() {
+			public void doTask() {
 				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
 				operateLogReqDto.setModuleCode(CommonMeta.Module.PROJECT.getCode());
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());
