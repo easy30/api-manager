@@ -2,15 +2,17 @@ var loggerTableOptions = {
     container: "#LoggerEditTable",
     headers: [
         {text: '编号', width: '10%'},
+        {text: '业务编号', width: '10%'},
         {text: '日志模块', width: '10%'},
         {text: '操作类型', width: '10%'},
         {text: '操作人', width: '15%'},
-        {text: '操作时间', width: '30%'},
-        {text: '操作', width: '25%'}
+        {text: '操作时间', width: '20%'},
+        {text: '操作', width: '10%'}
     ],
     form: '#loggerForm',
     fields: [
         {name: 'id', type:'input', inputDesc:'编号',required:false},
+        {name: 'entityId', type:'input', inputDesc:'业务ID',required:false},
         {name: 'moduleCode', type:'select', inputDesc: '日志模块', required: true, options:{
                 optionField: {value: 'k', text: 'v'},
                 params:{metaId: 5},
