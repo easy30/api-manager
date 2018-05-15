@@ -376,7 +376,7 @@
                 } else {
                     if(field.type == 'input'){
                         var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%; font-size: 15px;"/>');
-                        if(rowData[field.name].indexOf('000+0000') != -1){
+                        if((rowData[field.name].toString()).indexOf('000+0000') != -1){
                             var date = new Date(rowData[field.name]);
                             var dateVal = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
                             var $span = $('<span class="td-item-span">' + dateVal + '</span>');
