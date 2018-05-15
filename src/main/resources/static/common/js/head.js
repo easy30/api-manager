@@ -631,3 +631,23 @@ function userInfo() {
     }
     api.ui.load(userConf);
 }
+
+function loggerClick() {
+    $('#depart').parent('.container-fluid').css('display','none');
+    var conf = {
+        container: '#container',
+        url: api.util.getUrl('html/logger/logger.html'),
+        async: false,
+        /*preLoad: function (content) {},*/
+        loaded: function () {
+            $('#loggerForm').css('margin-top','90px');
+            api.util.loadScript(api.util.getUrl("html/logger/js/logger.js"), function () {
+                api.ui.chosenSelect(moduleCodeSelect);
+                api.ui.chosenSelect(operateTypeSelect);
+                api.ui.chosenSelect(operateUserSelect);
+                api.ui.editTable(loggerTableOptions);
+            });
+        }
+    }
+    api.ui.load(conf);
+}

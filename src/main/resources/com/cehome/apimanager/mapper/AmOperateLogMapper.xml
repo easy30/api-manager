@@ -38,6 +38,10 @@
 		AND
 			operate_type = #{operateType,jdbcType=INTEGER}
 		</if>
+		<if test="operateUser != null">
+			AND
+			operate_user = #{operateUser,jdbcType=INTEGER}
+		</if>
 		ORDER BY operate_time DESC
 		LIMIT #{pageOffset},#{pageSize}
 	</select>
@@ -53,6 +57,10 @@
 		<if test="operateType != null">
 			AND
 			operate_type = #{operateType,jdbcType=INTEGER}
+		</if>
+		<if test="operateUser != null">
+			AND
+			operate_user = #{operateUser,jdbcType=INTEGER}
 		</if>
 	</select>
 	
