@@ -1,0 +1,55 @@
+<form id="loggerInfoForm">
+    <div class="row form-row">
+        <h3>日志信息详情</h3>  
+    </div>
+    <p/>
+    <div class="row form-row">
+        <div class="col-1">
+            <label>日志模块：</label>
+        </div>
+        <div class="col-4">
+            <select class="form-control" style="display: inline" name="moduleCode"></select>
+        </div>
+        <div class="col-1">
+            <label>操作类型：</label>
+        </div>
+        <div class="col-4">
+            <select class="form-control" style="display: inline" name="operateType"></select>
+        </div>
+    </div>
+    <p/>
+    <div class="row form-row">
+        <div class="col-1">
+            <label>操作人员：</label>
+        </div>
+        <div class="col-4">
+            <select class="form-control" style="display: inline" name="operateUser"></select>
+        </div>
+        <div class="col-1">
+            <label>操作时间：</label>
+        </div>
+        <div class="col-4">
+            <input class="form-control" style="width: 75%; display: inline" name="operateTime" type="text">
+        </div>
+    </div>
+    <p/>
+    <div class="row form-row">
+        <div class="col-1">
+            <label>操作描述：</label>
+        </div>
+        <div class="col-10">
+            <input class="form-control" style="width: 80%; display: inline" name="operateDesc" type="text">
+        </div>
+    </div>
+    <p/>
+    <div>
+        <p>内容变化：</p>
+        <textarea class="col-10 form-control" name="contentChange"  style="width: 75%; height: 150px;"></textarea>
+    </div>
+    <p/>
+    <div class="row">
+        <div class="col-1 offset-8">
+            <button type="button" id="returnLogger" style="width: 75px;" class="btn btn-success">&nbsp;返回</button>
+        </div>
+    </div>
+</form>
