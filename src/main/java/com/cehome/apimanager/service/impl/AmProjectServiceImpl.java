@@ -67,7 +67,7 @@ public class AmProjectServiceImpl implements IAmProjectService {
 				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
 				operateLogReqDto.setModuleCode(CommonMeta.Module.PROJECT.getCode());
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
-				operateLogReqDto.setOperateDesc("修改项目【" + dto.getId() + "】");
+				operateLogReqDto.setOperateDesc("修改项目【" + dto.getProjectName() + "】");
 				operateLogReqDto.setOperateUser(dto.getOperateUser());
 				if(!project.equals(dto)){
 					operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(project, dto));

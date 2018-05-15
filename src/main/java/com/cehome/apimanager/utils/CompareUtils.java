@@ -39,11 +39,11 @@ public class CompareUtils {
                     continue;
                 }
                 if ((targetValue == null && sourceValue != null) || (targetValue != null && sourceValue == null)) {
-                    compareResult.append(desc).append("：").append(targetValue).append("--->").append(sourceValue).append("\n");
+                    compareResult.append(desc).append("：").append(targetValue).append(" ------> ").append(sourceValue).append("\n");
                 }
 
                 if (!targetValue.toString().equals(sourceValue.toString())) {
-                    compareResult.append(desc).append("：").append(targetValue).append("--->").append(sourceValue).append("\n");
+                    compareResult.append(desc).append("：").append(targetValue).append(" ------> ").append(sourceValue).append("\n");
                 }
             } catch (Exception e) {
             }

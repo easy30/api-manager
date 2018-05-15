@@ -99,7 +99,7 @@ public class AmActionServiceImpl implements IAmActionService {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.ACTION.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
-                operateLogReqDto.setOperateDesc("修改接口基本信息【" + dto.getId() + "】");
+                operateLogReqDto.setOperateDesc("修改接口基本信息【" + dto.getActionName() + "】");
                 operateLogReqDto.setOperateUser(dto.getUpdateUser());
                 if(!actionResDto.equals(dto)){
                     operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(actionResDto, dto));

@@ -96,7 +96,7 @@ public class AmActionLoginServiceImpl implements IAmActionLoginService {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.ACTION_LOGIN.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
-                operateLogReqDto.setOperateDesc("修改认证接口【" + dto.getId() + "】");
+                operateLogReqDto.setOperateDesc("修改认证接口【" + dto.getRequestUrl() + "】");
                 operateLogReqDto.setOperateUser(dto.getOperateUser());
                 if (!actionLogin.equals(dto)) {
                     operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(actionLogin, dto));
