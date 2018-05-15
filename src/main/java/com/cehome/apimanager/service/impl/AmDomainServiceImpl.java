@@ -50,6 +50,7 @@ public class AmDomainServiceImpl implements IAmDomainService {
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
                 operateLogReqDto.setOperateDesc("增加服务【" + dto.getDomainName() + "】");
                 operateLogReqDto.setOperateUser(dto.getOperateUser());
+                operateLogReqDto.setEntityId(dto.getId());
                 operateLogService.add(operateLogReqDto);
             }
         });
@@ -70,6 +71,7 @@ public class AmDomainServiceImpl implements IAmDomainService {
                 if(!domain.equals(dto)){
                     operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(domain, dto));
                 }
+                operateLogReqDto.setEntityId(dto.getId());
                 operateLogService.add(operateLogReqDto);
             }
         });
@@ -77,6 +79,7 @@ public class AmDomainServiceImpl implements IAmDomainService {
 
     @Override
     public void delete(AmDomainReqDto dto) {
+        AmDomain domain = domainDao.get(dto.getId());
         domainDao.delete(dto.getId());
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
@@ -84,8 +87,9 @@ public class AmDomainServiceImpl implements IAmDomainService {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.DOMAIN.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());
-                operateLogReqDto.setOperateDesc("删除服务【" + dto.getDomainName() + "】");
+                operateLogReqDto.setOperateDesc("删除服务【" + domain.getDomainName() + "】");
                 operateLogReqDto.setOperateUser(dto.getOperateUser());
+                operateLogReqDto.setEntityId(dto.getId());
                 operateLogService.add(operateLogReqDto);
             }
         });

@@ -40,6 +40,7 @@ public class AmEnvServiceImpl implements IAmEnvService{
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
                 operateLogReqDto.setOperateDesc("增加环境【" + dto.getEnvName() + "】");
                 operateLogReqDto.setOperateUser(dto.getOperateUser());
+                operateLogReqDto.setEntityId(dto.getId());
                 operateLogService.add(operateLogReqDto);
             }
         });
@@ -60,6 +61,7 @@ public class AmEnvServiceImpl implements IAmEnvService{
                 if(!env.equals(dto)){
                     operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(env, dto));
                 }
+                operateLogReqDto.setEntityId(dto.getId());
                 operateLogService.add(operateLogReqDto);
             }
         });
@@ -77,6 +79,7 @@ public class AmEnvServiceImpl implements IAmEnvService{
 
     @Override
     public void delete(AmEnvReqDto dto) {
+        AmEnv entity = envDao.get(dto.getId());
         envDao.delete(dto.getId());
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
@@ -84,8 +87,9 @@ public class AmEnvServiceImpl implements IAmEnvService{
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.ENV.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());
-                operateLogReqDto.setOperateDesc("删除环境【" + dto.getEnvName() + "】");
+                operateLogReqDto.setOperateDesc("删除环境【" + entity.getEnvName() + "】");
                 operateLogReqDto.setOperateUser(dto.getOperateUser());
+                operateLogReqDto.setEntityId(dto.getId());
                 operateLogService.add(operateLogReqDto);
             }
         });

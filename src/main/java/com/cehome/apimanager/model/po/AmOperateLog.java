@@ -9,6 +9,10 @@ public class AmOperateLog extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -2104579239739603297L;
     private Integer id;
     /**
+     * 业务主键id
+     */
+    private Integer entityId;
+    /**
      * 操作模块
      */
     private Integer moduleCode;
@@ -32,6 +36,14 @@ public class AmOperateLog extends BaseEntity implements Serializable {
      * 操作时间
      */
     private Date operateTime;
+
+    public Integer getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(Integer entityId) {
+        this.entityId = entityId;
+    }
 
     public Integer getId() {
         return id;

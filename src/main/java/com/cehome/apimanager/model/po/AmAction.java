@@ -267,4 +267,6 @@ public class AmAction extends BaseEntity implements Serializable {
 
         return Objects.hash(actionName, actionDesc, moduleId, requestType, domainId, requestUrl);
     }
+
+
 }

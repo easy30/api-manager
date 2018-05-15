@@ -66,6 +66,7 @@ public class AmActionServiceImpl implements IAmActionService {
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
                 operateLogReqDto.setOperateDesc("增加接口【" + dto.getRequestUrl() + "】");
                 operateLogReqDto.setOperateUser(dto.getCreateUser());
+                operateLogReqDto.setEntityId(dto.getId());
                 operateLogService.add(operateLogReqDto);
             }
         });
@@ -103,6 +104,7 @@ public class AmActionServiceImpl implements IAmActionService {
                 if(!actionResDto.equals(dto)){
                     operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(actionResDto, dto));
                 }
+                operateLogReqDto.setEntityId(dto.getId());
                 operateLogService.add(operateLogReqDto);
             }
         });
@@ -151,6 +153,7 @@ public class AmActionServiceImpl implements IAmActionService {
         action.setId(dto.getId());
         cacheProvider.removeActionUrlCache(action);
 
+        AmAction entity = actionDao.get(dto.getId());
         actionDao.delete(dto.getId());
 
         ThreadUtils.execute(new ThreadUtils.Task() {
@@ -159,8 +162,9 @@ public class AmActionServiceImpl implements IAmActionService {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.ACTION.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());
-                operateLogReqDto.setOperateDesc("删除接口【" + dto.getRequestUrl() + "】");
+                operateLogReqDto.setOperateDesc("删除接口【" + entity.getRequestUrl() + "】");
                 operateLogReqDto.setOperateUser(dto.getUpdateUser());
+                operateLogReqDto.setEntityId(dto.getId());
                 operateLogService.add(operateLogReqDto);
             }
         });

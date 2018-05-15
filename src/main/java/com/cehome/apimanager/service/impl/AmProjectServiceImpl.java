@@ -50,6 +50,7 @@ public class AmProjectServiceImpl implements IAmProjectService {
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
 				operateLogReqDto.setOperateDesc("增加项目【" + dto.getProjectName() + "】");
 				operateLogReqDto.setOperateUser(dto.getOperateUser());
+				operateLogReqDto.setEntityId(dto.getId());
 				operateLogService.add(operateLogReqDto);
 			}
 		});
@@ -71,6 +72,7 @@ public class AmProjectServiceImpl implements IAmProjectService {
 				if(!project.equals(dto)){
 					operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(project, dto));
 				}
+				operateLogReqDto.setEntityId(dto.getId());
 				operateLogService.add(operateLogReqDto);
 			}
 		});
@@ -95,6 +97,7 @@ public class AmProjectServiceImpl implements IAmProjectService {
 		if(moduleList != null && !moduleList.isEmpty()){
 			throw new BizValidationException("项目下存在其他模块，不能删除！");
 		}
+		AmProject project = projectDao.get(dto.getId());
 		projectDao.delete(dto.getId());
 
 		ThreadUtils.execute(new ThreadUtils.Task() {
@@ -103,8 +106,9 @@ public class AmProjectServiceImpl implements IAmProjectService {
 				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
 				operateLogReqDto.setModuleCode(CommonMeta.Module.PROJECT.getCode());
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());
-				operateLogReqDto.setOperateDesc("删除项目【" + dto.getProjectName() + "】");
+				operateLogReqDto.setOperateDesc("删除项目【" + project.getProjectName() + "】");
 				operateLogReqDto.setOperateUser(dto.getOperateUser());
+				operateLogReqDto.setEntityId(dto.getId());
 				operateLogService.add(operateLogReqDto);
 			}
 		});

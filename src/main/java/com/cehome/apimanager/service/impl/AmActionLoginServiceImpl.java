@@ -55,6 +55,7 @@ public class AmActionLoginServiceImpl implements IAmActionLoginService {
 
     @Override
     public void delete(AmActionLoginReqDto dto) {
+        AmActionLogin actionLogin = actionLoginDao.get(dto.getId());
         actionLoginDao.delete(dto.getId());
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
@@ -62,8 +63,9 @@ public class AmActionLoginServiceImpl implements IAmActionLoginService {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.ACTION_LOGIN.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());
-                operateLogReqDto.setOperateDesc("删除认证接口【" + dto.getRequestUrl() + "】");
+                operateLogReqDto.setOperateDesc("删除认证接口【" + actionLogin.getRequestUrl() + "】");
                 operateLogReqDto.setOperateUser(dto.getOperateUser());
+                operateLogReqDto.setEntityId(dto.getId());
                 operateLogService.add(operateLogReqDto);
             }
         });
@@ -99,6 +101,7 @@ public class AmActionLoginServiceImpl implements IAmActionLoginService {
                 if (!actionLogin.equals(dto)) {
                     operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(actionLogin, dto));
                 }
+                operateLogReqDto.setEntityId(dto.getId());
                 operateLogService.add(operateLogReqDto);
             }
         });
@@ -115,6 +118,7 @@ public class AmActionLoginServiceImpl implements IAmActionLoginService {
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
                 operateLogReqDto.setOperateDesc("增加认证接口【" + dto.getRequestUrl() + "】");
                 operateLogReqDto.setOperateUser(dto.getOperateUser());
+                operateLogReqDto.setEntityId(dto.getId());
                 operateLogService.add(operateLogReqDto);
             }
         });

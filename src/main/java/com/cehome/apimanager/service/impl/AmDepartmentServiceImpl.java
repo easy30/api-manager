@@ -55,6 +55,7 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
 				operateLogReqDto.setOperateDesc("增加部门【" + dto.getDepName() + "】");
 				operateLogReqDto.setOperateUser(dto.getOperateUser());
+				operateLogReqDto.setEntityId(entity.getId());
 				operateLogService.add(operateLogReqDto);
 			}
 		});
@@ -79,6 +80,7 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 				if(!department.equals(dto)){
 					operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(department, dto));
 				}
+				operateLogReqDto.setEntityId(entity.getId());
 				operateLogService.add(operateLogReqDto);
 			}
 		});
@@ -103,6 +105,7 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 			throw new BizValidationException("部门下存在其他项目，不能删除！");
 		}
 		userDepartmentDao.deleteByDepId(dto.getId());
+		AmDepartment department = departmentDao.get(dto.getId());
 		departmentDao.delete(dto.getId());
 
 		ThreadUtils.execute(new ThreadUtils.Task() {
@@ -111,8 +114,9 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
 				operateLogReqDto.setModuleCode(CommonMeta.Module.DEPARTMENT.getCode());
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());
-				operateLogReqDto.setOperateDesc("删除部门【" + dto.getDepName() + "】");
+				operateLogReqDto.setOperateDesc("删除部门【" + department.getDepName() + "】");
 				operateLogReqDto.setOperateUser(dto.getOperateUser());
+				operateLogReqDto.setEntityId(dto.getId());
 				operateLogService.add(operateLogReqDto);
 			}
 		});

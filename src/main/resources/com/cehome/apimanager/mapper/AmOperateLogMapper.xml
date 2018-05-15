@@ -3,6 +3,7 @@
 <mapper namespace="com.cehome.apimanager.model.po.AmOperateLog">
 	<resultMap id="BaseResultMap" type="com.cehome.apimanager.model.po.AmOperateLog">
 		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="entity_id" property="entityId" jdbcType="INTEGER" />
 		<result column="module_code" property="moduleCode" jdbcType="INTEGER" />
 		<result column="operate_type" property="operateType" jdbcType="INTEGER" />
 		<result column="operate_desc" property="operateDesc" jdbcType="VARCHAR" />
@@ -12,7 +13,7 @@
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		id,module_code,operate_type,operate_desc,content_change,operate_user,operate_time
+		id,entity_id,module_code,operate_type,operate_desc,content_change,operate_user,operate_time
 	</sql>
 	
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -30,6 +31,10 @@
 		FROM am_operate_log
 		WHERE
 			1=1
+		<if test="entityId != null">
+		AND
+			entity_id = #{entityId,jdbcType=INTEGER}
+		</if>
 		<if test="moduleCode != null">
 		AND
 			module_code = #{moduleCode,jdbcType=INTEGER}
@@ -46,6 +51,10 @@
 		SELECT COUNT(1) FROM am_operate_log
 		WHERE
 		1=1
+		<if test="entityId != null">
+		AND
+			entity_id = #{entityId,jdbcType=INTEGER}
+		</if>
 		<if test="moduleCode != null">
 			AND
 			module_code = #{moduleCode,jdbcType=INTEGER}
@@ -62,6 +71,10 @@
 		FROM am_operate_log
 		WHERE
 		1=1
+		<if test="entityId != null">
+		AND
+			entity_id = #{entityId,jdbcType=INTEGER}
+		</if>
 		<if test="moduleCode != null">
 			AND
 			module_code = #{moduleCode,jdbcType=INTEGER}
@@ -79,6 +92,9 @@
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				id,
+			</if>
+			<if test="entityId != null">
+				entity_id,
 			</if>
 			<if test="moduleCode != null">
 				module_code,
@@ -102,6 +118,9 @@
 		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="entityId != null">
+				#{entityId,jdbcType=INTEGER},
 			</if>
 			<if test="moduleCode != null">
 				#{moduleCode,jdbcType=INTEGER},
@@ -127,6 +146,9 @@
 	<update id="updateSelective" parameterType="com.cehome.apimanager.model.po.AmOperateLog">
 		UPDATE am_operate_log
 		<set>
+			<if test="entityId != null">
+				entity_id = #{entityId,jdbcType=INTEGER},
+			</if>
 			<if test="moduleCode != null">
 				module_code = #{moduleCode,jdbcType=INTEGER},
 			</if>

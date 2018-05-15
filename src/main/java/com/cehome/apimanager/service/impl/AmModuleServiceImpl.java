@@ -50,6 +50,7 @@ public class AmModuleServiceImpl implements IAmModuleService {
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
 				operateLogReqDto.setOperateDesc("增加模块【" + dto.getModuleName() + "】");
 				operateLogReqDto.setOperateUser(dto.getOperateUser());
+				operateLogReqDto.setEntityId(dto.getId());
 				operateLogService.add(operateLogReqDto);
 			}
 		});
@@ -71,6 +72,7 @@ public class AmModuleServiceImpl implements IAmModuleService {
 				if(!module.equals(dto)){
 					operateLogReqDto.setContentChange(CompareUtils.compareFieldDiff(module, dto));
 				}
+				operateLogReqDto.setEntityId(dto.getId());
 				operateLogService.add(operateLogReqDto);
 			}
 		});
@@ -95,6 +97,7 @@ public class AmModuleServiceImpl implements IAmModuleService {
 		if(actionList != null && !actionList.isEmpty()){
 			throw new BizValidationException("模块下存在其他接口，不能删除！");
 		}
+		AmModule module = moduleDao.get(dto.getId());
 		moduleDao.delete(dto.getId());
 
 		ThreadUtils.execute(new ThreadUtils.Task() {
@@ -103,8 +106,9 @@ public class AmModuleServiceImpl implements IAmModuleService {
 				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
 				operateLogReqDto.setModuleCode(CommonMeta.Module.MODULE.getCode());
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());
-				operateLogReqDto.setOperateDesc("删除模块【" + dto.getModuleName() + "】");
+				operateLogReqDto.setOperateDesc("删除模块【" + module.getModuleName() + "】");
 				operateLogReqDto.setOperateUser(dto.getOperateUser());
+				operateLogReqDto.setEntityId(dto.getId());
 				operateLogService.add(operateLogReqDto);
 			}
 		});
