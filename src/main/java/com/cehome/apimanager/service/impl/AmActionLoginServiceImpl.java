@@ -59,7 +59,7 @@ public class AmActionLoginServiceImpl implements IAmActionLoginService {
         actionLoginDao.delete(dto.getId());
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
-            public void invoke() {
+            public void doTask() {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.ACTION_LOGIN.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());
@@ -92,7 +92,7 @@ public class AmActionLoginServiceImpl implements IAmActionLoginService {
         actionLoginDao.update(dto);
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
-            public void invoke() {
+            public void doTask() {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.ACTION_LOGIN.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
@@ -112,7 +112,7 @@ public class AmActionLoginServiceImpl implements IAmActionLoginService {
         actionLoginDao.add(dto);
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
-            public void invoke() {
+            public void doTask() {
                 AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
                 operateLogReqDto.setModuleCode(CommonMeta.Module.ACTION_LOGIN.getCode());
                 operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());

@@ -49,7 +49,7 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 
 		ThreadUtils.execute(new ThreadUtils.Task() {
 			@Override
-			public void invoke() {
+			public void doTask() {
 				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
 				operateLogReqDto.setModuleCode(CommonMeta.Module.DEPARTMENT.getCode());
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.ADD.getCode());
@@ -71,7 +71,7 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 
 		ThreadUtils.execute(new ThreadUtils.Task() {
 			@Override
-			public void invoke() {
+			public void doTask() {
 				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
 				operateLogReqDto.setModuleCode(CommonMeta.Module.DEPARTMENT.getCode());
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.UPDATE.getCode());
@@ -110,7 +110,7 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 
 		ThreadUtils.execute(new ThreadUtils.Task() {
 			@Override
-			public void invoke() {
+			public void doTask() {
 				AmOperateLogReqDto operateLogReqDto = new AmOperateLogReqDto();
 				operateLogReqDto.setModuleCode(CommonMeta.Module.DEPARTMENT.getCode());
 				operateLogReqDto.setOperateType(CommonMeta.OperateType.DELETE.getCode());

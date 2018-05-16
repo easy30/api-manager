@@ -638,7 +638,6 @@ function loggerClick() {
         container: '#container',
         url: api.util.getUrl('html/logger/logger.html'),
         async: false,
-        /*preLoad: function (content) {},*/
         loaded: function () {
             $('#loggerForm').css('margin-top','90px');
             api.util.loadScript(api.util.getUrl("html/logger/js/logger.js"), function () {

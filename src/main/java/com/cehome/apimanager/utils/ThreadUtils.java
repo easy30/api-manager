@@ -10,12 +10,12 @@ public class ThreadUtils {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                task.invoke();
+                task.doTask();
             }
         });
     }
 
     public interface Task {
-        void invoke();
+        void doTask();
     }
 }
