@@ -21,6 +21,8 @@ public class AmOperateLogServiceImpl implements IAmOperateLogService {
     @Autowired
     private AmOperateLogDao operateLogDao;
 
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     @Override
     public void add(AmOperateLogReqDto dto) {
         dto.setOperateTime(new Date());
@@ -34,7 +36,17 @@ public class AmOperateLogServiceImpl implements IAmOperateLogService {
 
     @Override
     public List<AmOperateLog> list(AmOperateLogQueryReqDto dto) {
-        return operateLogDao.list(dto);
+        List<AmOperateLog> list = operateLogDao.list(dto);
+        List<AmOperateLog> operateLogResDtoList = new ArrayList<>();
+        if(list != null && !list.isEmpty()){
+            for(AmOperateLog operateLog : list){
+                AmOperateLogResDto operateLogResDto = new AmOperateLogResDto();
+                BeanUtils.copyProperties(operateLog, operateLogResDto);
+                operateLogResDto.setOperateTimeFormat(sdf.format(operateLog.getOperateTime()));
+                operateLogResDtoList.add(operateLogResDto);
+            }
+        }
+        return operateLogResDtoList;
     }
 
     @Override
@@ -43,7 +55,6 @@ public class AmOperateLogServiceImpl implements IAmOperateLogService {
         List<AmOperateLog> datas = amOperateLogPage.getDatas();
         if(datas != null && !datas.isEmpty()){
             List<AmOperateLog> operateLogResDtoList = new ArrayList<>();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             for(AmOperateLog operateLog : datas){
                 AmOperateLogResDto operateLogResDto = new AmOperateLogResDto();
                 BeanUtils.copyProperties(operateLog, operateLogResDto);
@@ -57,6 +68,10 @@ public class AmOperateLogServiceImpl implements IAmOperateLogService {
 
     @Override
     public AmOperateLog findById(Integer id){
-        return operateLogDao.get(id);
+        AmOperateLog operateLog = operateLogDao.get(id);
+        AmOperateLogResDto operateLogResDto = new AmOperateLogResDto();
+        BeanUtils.copyProperties(operateLog, operateLogResDto);
+        operateLogResDto.setOperateTimeFormat(sdf.format(operateLog.getOperateTime()));
+        return operateLogResDto;
     }
 }

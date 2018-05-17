@@ -30,7 +30,6 @@ var loggerTableOptions = {
         {name: 'operateUser', type:'select', inputDesc: '操作人', required: true, options:{
                 selector: 'select[name=operateUser]',
                 width: '90%',
-                cache: true,
                 async: false,
                 blank: false,
                 optionField: {value: 'id', text: 'account'},
@@ -47,9 +46,6 @@ var loggerTableOptions = {
                 container: '#container',
                 url: api.util.getUrl('html/logger/loggerInfo.html'),
                 async: false,
-                // preLoad: function () {
-                //    
-                // },
                 loaded: function () {
                     $('#loggerInfoForm').css('margin-top','90px');
                     api.util.loadScript(api.util.getUrl('html/logger/js/loggerInfo.js'),function () {
@@ -59,7 +55,7 @@ var loggerTableOptions = {
                         $.ajax({
                             url: api.util.getUrl('apimanager/operatelog/findById'),
                             type: 'GET',
-                            data: {id:param.id},
+                            data: {id: param.id},
                             dataType: 'json',
                             success: function (result) {
                                 if(result.code == '0') {

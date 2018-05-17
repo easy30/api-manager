@@ -4,9 +4,9 @@ var actionTableOptions = {
         {text: '编号', width: '5%'},
         {text: '接口地址', width: '15%'},
         {text: '所属模块', width: '15%'},
-        {text: '请求类型', width: '8%'},
-        {text: '状态', width: '7%'},
-        {text: '操作', width: '20%'}
+        {text: '请求类型', width: '5%'},
+        {text: '状态', width: '5%'},
+        {text: '操作', width: '25%'}
     ],
     form: '#form',
     fields: [
@@ -1459,7 +1459,11 @@ var actionTableOptions = {
                 api.ui.load(conf);
         }
         },
+        {type: 'history', text: '历史', icon: 'glyphicon glyphicon-time', fn: function (param) {
+
+            }},
         {type: 'delete', text: '删除', url: api.util.getUrl('apimanager/action/delete')}
+
 ],
     headBtn: [
     {

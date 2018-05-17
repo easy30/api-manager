@@ -24,7 +24,6 @@ var operateTypeSelectOptions = {
 var operateUserSelectOptions = {
     selector: 'select[name=operateUser]',
     width: '90%',
-    cache: true,
     async: false,
     blank: false,
     optionField: {value: 'id', text: 'account'},
