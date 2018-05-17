@@ -42,6 +42,7 @@ var actionTableOptions = {
                 var parentId = $('select[name=moduleId]').val();
                 var depId = $('select[name=depId]').val();
                 var projectId = $('select[name=projectId]').val();
+                var createUserSelect = $('select[name=createUser]').val();
                 var actionResult = {};
                 $.ajax({
                     type: 'get',
@@ -686,6 +687,16 @@ var actionTableOptions = {
                                     var depSelect = api.ui.chosenSelect(depOptions);
                                     depSelect.val(depId);
                                     depSelect.doChange();
+                                    var createUserOptions = {
+                                        selector: '[name=createUser]',
+                                        optionField: {value: 'id', text: 'userName'},
+                                        width: '50%',
+                                        selectedVal: createUserSelect,
+                                        async: false,
+                                        blank: true,
+                                        url: api.util.getUrl('apimanager/user/list')
+                                    }
+                                    var createSelect = api.ui.chosenSelect(createUserOptions);
                                     api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
                                         api.ui.editTable(actionTableOptions);
                                     });
@@ -800,6 +811,16 @@ var actionTableOptions = {
                                             var depSelect = api.ui.chosenSelect(depOptions);
                                             depSelect.val(depId);
                                             depSelect.doChange();
+                                            var createUserOptions = {
+                                                selector: '[name=createUser]',
+                                                optionField: {value: 'id', text: 'userName'},
+                                                width: '50%',
+                                                selectedVal: createUserSelect,
+                                                async: false,
+                                                blank: true,
+                                                url: api.util.getUrl('apimanager/user/list')
+                                            }
+                                            var createSelect = api.ui.chosenSelect(createUserOptions);
                                             api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
                                                 api.ui.editTable(actionTableOptions);
                                             });
@@ -819,6 +840,7 @@ var actionTableOptions = {
                 var parentId = $('select[name=moduleId]').val();
                 var depId = $('select[name=depId]').val();
                 var projectId = $('select[name=projectId]').val();
+                var createUserSelect = $('select[name=createUser]').val();
                 var actionInfoFormObject, headParam, requestParam, responseParam, responseFailParam;
                 var actionResult = {};
                 $.ajax({
@@ -1289,6 +1311,16 @@ var actionTableOptions = {
                                     var depSelect = api.ui.chosenSelect(depOptions);
                                     depSelect.val(depId);
                                     depSelect.doChange();
+                                    var createUserOptions = {
+                                        selector: '[name=createUser]',
+                                        optionField: {value: 'id', text: 'userName'},
+                                        width: '50%',
+                                        selectedVal: createUserSelect,
+                                        async: false,
+                                        blank: true,
+                                        url: api.util.getUrl('apimanager/user/list')
+                                    }
+                                    var createSelect = api.ui.chosenSelect(createUserOptions);
                                     api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
                                         api.ui.editTable(actionTableOptions);
                                     });
@@ -1403,6 +1435,16 @@ var actionTableOptions = {
                                             var depSelect = api.ui.chosenSelect(depOptions);
                                             depSelect.val(depId);
                                             depSelect.doChange();
+                                            var createUserOptions = {
+                                                selector: '[name=createUser]',
+                                                optionField: {value: 'id', text: 'userName'},
+                                                width: '50%',
+                                                selectedVal: createUserSelect,
+                                                async: false,
+                                                blank: true,
+                                                url: api.util.getUrl('apimanager/user/list')
+                                            }
+                                            var createSelect = api.ui.chosenSelect(createUserOptions);
                                             api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
                                                 api.ui.editTable(actionTableOptions);
                                             });
@@ -1426,6 +1468,7 @@ var actionTableOptions = {
             var parentId = $('select[name=moduleId]').val();
             var depId = $('select[name=depId]').val();
             var projectId = $('select[name=projectId]').val();
+            var createUserSelect = $('select[name=createUser]').val();
             var actionInfoFormObject, headParam, requestParam, responseParam, responseFailParam;
             var conf = {
                 container: '#container',
@@ -1857,6 +1900,16 @@ var actionTableOptions = {
                                 var depSelect = api.ui.chosenSelect(depOptions);
                                 depSelect.val(depId);
                                 depSelect.doChange();
+                                var createUserOptions = {
+                                    selector: '[name=createUser]',
+                                    optionField: {value: 'id', text: 'userName'},
+                                    width: '50%',
+                                    selectedVal: createUserSelect,
+                                    async: false,
+                                    blank: true,
+                                    url: api.util.getUrl('apimanager/user/list')
+                                }
+                                var createSelect = api.ui.chosenSelect(createUserOptions);
                                 api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
                                     api.ui.editTable(actionTableOptions);
                                 });
@@ -1971,6 +2024,16 @@ var actionTableOptions = {
                                         var depSelect = api.ui.chosenSelect(depOptions);
                                         depSelect.val(depId);
                                         depSelect.doChange();
+                                        var createUserOptions = {
+                                            selector: '[name=createUser]',
+                                            optionField: {value: 'id', text: 'userName'},
+                                            width: '50%',
+                                            selectedVal: createUserSelect,
+                                            async: false,
+                                            blank: true,
+                                            url: api.util.getUrl('apimanager/user/list')
+                                        }
+                                        var createSelect = api.ui.chosenSelect(createUserOptions);
                                         api.util.loadScript(api.util.getUrl("html/action/js/action.js") ,function () {
                                             api.ui.editTable(actionTableOptions);
                                         });
