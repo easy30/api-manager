@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cehome.apimanager.model.po.AmTestGroupAction">
+	<resultMap id="BaseResultMap" type="com.cehome.apimanager.model.po.AmTestGroupAction">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="group_id" property="groupId" jdbcType="INTEGER" />
+		<result column="action_id" property="actionId" jdbcType="TIMESTAMP" />
+		<result column="sort_code" property="sortCode" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,group_id,action_id,sort_code
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_test_group_action
+		WHERE
+		id = #{id,jdbcType=INTEGER}
+		LIMIT 1
+	</select>
+	
+	<select id="find" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_test_group_action
+		WHERE
+			1=1
+		<if test="groupId != null">
+		AND
+			group_id = #{groupId,jdbcType=INTEGER}
+		</if>
+		<if test="actionId != null">
+		AND
+			action_id = #{actionId,jdbcType=INTEGER}
+		</if>
+		ORDER BY sort_code
+		LIMIT #{pageOffset},#{pageSize}
+	</select>
+	
+	<select id="findCount" parameterType="map" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM am_test_group_action
+		WHERE
+			1=1
+		<if test="groupId != null">
+		AND
+			group_id = #{groupId,jdbcType=INTEGER}
+		</if>
+		<if test="actionId != null">
+		AND
+			action_id = #{actionId,jdbcType=INTEGER}
+		</if>
+	</select>
+	
+	<select id="list" parameterType="com.cehome.apimanager.model.po.AmTestGroupAction" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_test_group_action
+		WHERE
+			1=1
+		<if test="groupId != null">
+			AND
+			group_id = #{groupId,jdbcType=INTEGER}
+		</if>
+		<if test="actionId != null">
+			AND
+			action_id = #{actionId,jdbcType=INTEGER}
+		</if>
+		ORDER BY sort_code
+	</select>
+
+	<insert id="insertSelective" parameterType="com.cehome.apimanager.model.po.AmTestGroupAction"
+			useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO am_test_group_action
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="groupId != null">
+				group_id,
+			</if>
+			<if test="actionId != null">
+				action_id,
+			</if>
+			<if test="sortCode != null">
+				sort_code
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="groupId != null">
+				#{groupId,jdbcType=INTEGER},
+			</if>
+			<if test="actionId != null">
+				#{actionId,jdbcType=INTEGER},
+			</if>
+			<if test="sortCode != null">
+				#{sortCode,jdbcType=INTEGER}
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="com.cehome.apimanager.model.po.AmTestGroupAction">
+		UPDATE am_test_group_action
+		<set>
+			<if test="groupId != null">
+				group_id = #{groupId,jdbcType=INTEGER},
+			</if>
+			<if test="actionId != null">
+				action_id = #{actionId,jdbcType=INTEGER},
+			</if>
+			<if test="sortCode != null">
+				sort_code = #{sortCode,jdbcType=INTEGER}
+			</if>
+		</set>
+		WHERE
+		id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		DELETE FROM am_test_group_action WHERE id = #{id}
+	</delete>
+</mapper>

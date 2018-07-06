@@ -440,6 +440,14 @@ function batchTestClick() {
                 url: api.util.getUrl('apimanager/module/list')
             };
             var moduleSelect = api.ui.chosenSelect(moduleOptions);
+            var userNameOptions = {
+                selector: '[name=createUser]',
+                optionField: {value: 'id', text: 'userName'},
+                width: '50%',
+                blank: true,
+                url: api.util.getUrl('apimanager/user/list')
+            }
+            var createSelect = api.ui.chosenSelect(userNameOptions);
             api.util.loadScript(api.util.getUrl("html/action/js/actionBatchTest.js") ,function () {
                 api.ui.editTable(batchTestActionTableOptions);
             });
@@ -505,6 +513,30 @@ function batchTestClick() {
             $('#clearResultList').on('click', function () {
                 $('#resultList').empty();
                 $('#resultContent').empty();
+            });
+        }
+    }
+    api.ui.load(conf);
+}
+
+function groupTestClick() {
+    $('#depart').parent('.container-fluid').css('display','none');
+    var conf = {
+        container: '#container',
+        url: api.util.getUrl('html/action/groupTest.html'),
+        async: false,
+        loaded: function () {
+            var groupOptions = {
+                selector: '[name=groupId]',
+                optionField: {value: 'id', text: 'groupName'},
+                width: '50%',
+                blank: false,
+                url: api.util.getUrl('apimanager/testgroup/list')
+            };
+            api.ui.chosenSelect(groupOptions);
+
+            api.util.loadScript(api.util.getUrl("html/action/js/groupTest.js") ,function () {
+                api.ui.editTable(groupTestTableOptions);
             });
         }
     }

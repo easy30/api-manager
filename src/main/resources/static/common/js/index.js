@@ -35,6 +35,10 @@ api.util.loadScripts([
                             name: '批量测试', fn: function () {
                                 batchTestClick();
                             }
+                        },{
+                            name: '分组测试', fn: function () {
+                                groupTestClick();
+                            }
                         }
                     ]
                 }
