@@ -243,19 +243,29 @@ public class AmActionServiceImpl implements IAmActionService {
                 }
             } else if (CommonMeta.FieldType.OBJECT.getCode() == columnType) {
                 String name = column.getString("name");
-                List<JSONObject> children = column.getJSONArray("child").toJavaList(JSONObject.class);
-                JSONObject columnObject = buildMockData(children);
-                mockObject.put(name, columnObject);
+                JSONArray child = column.getJSONArray("child");
+                if(child != null){
+                    List<JSONObject> children = column.getJSONArray("child").toJavaList(JSONObject.class);
+                    JSONObject columnObject = buildMockData(children);
+                    mockObject.put(name, columnObject);
+                } else {
+                    mockObject.put(name, new JSONObject());
+                }
             } else if (CommonMeta.FieldType.ARRAY_OBJECT.getCode() == columnType) {
                 JSONArray objectArray = new JSONArray();
                 String name = column.getString("name");
-                List<JSONObject> children = column.getJSONArray("child").toJavaList(JSONObject.class);
-                for (JSONObject child : children) {
-                    List<JSONObject> innerChildren = child.getJSONArray("child").toJavaList(JSONObject.class);
-                    JSONObject innerColumnObject = buildMockData(innerChildren);
-                    objectArray.add(innerColumnObject);
+                JSONArray array = column.getJSONArray("child");
+                if(array != null){
+                    List<JSONObject> children = column.getJSONArray("child").toJavaList(JSONObject.class);
+                    for (JSONObject child : children) {
+                        List<JSONObject> innerChildren = child.getJSONArray("child").toJavaList(JSONObject.class);
+                        JSONObject innerColumnObject = buildMockData(innerChildren);
+                        objectArray.add(innerColumnObject);
+                    }
+                    mockObject.put(name, objectArray);
+                } else {
+                    mockObject.put(name, objectArray);
                 }
-                mockObject.put(name, objectArray);
             }
         }
         return mockObject;
