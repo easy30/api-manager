@@ -6,7 +6,9 @@ import com.cehome.apimanager.model.dto.AmOperateLogQueryReqDto;
 import com.cehome.apimanager.model.dto.AmOperateLogReqDto;
 import com.cehome.apimanager.model.dto.AmOperateLogResDto;
 import com.cehome.apimanager.model.po.AmOperateLog;
+import com.cehome.apimanager.model.po.AmUser;
 import com.cehome.apimanager.service.IAmOperateLogService;
+import com.cehome.apimanager.service.IAmUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +23,10 @@ public class AmOperateLogServiceImpl implements IAmOperateLogService {
     @Autowired
     private AmOperateLogDao operateLogDao;
 
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    @Autowired
+    private IAmUserService userService;
 
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     @Override
     public void add(AmOperateLogReqDto dto) {
         dto.setOperateTime(new Date());
@@ -71,6 +75,10 @@ public class AmOperateLogServiceImpl implements IAmOperateLogService {
         AmOperateLog operateLog = operateLogDao.get(id);
         AmOperateLogResDto operateLogResDto = new AmOperateLogResDto();
         BeanUtils.copyProperties(operateLog, operateLogResDto);
+        AmUser user = userService.findById(operateLog.getOperateUser());
+        if(user != null){
+            operateLogResDto.setUserName(user.getUserName());
+        }
         operateLogResDto.setOperateTimeFormat(sdf.format(operateLog.getOperateTime()));
         return operateLogResDto;
     }

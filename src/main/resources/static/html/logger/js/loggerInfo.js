@@ -26,6 +26,6 @@ var operateUserSelectOptions = {
     width: '90%',
     async: false,
     blank: false,
-    optionField: {value: 'id', text: 'account'},
+    optionField: {value: 'id', text: 'userName'},
     url: api.util.getUrl('apimanager/user/list')
 }
