@@ -126,18 +126,23 @@
                                 $addLink.css('display', '');
                                 $addLink.attr('oldDisplay', '');
                                 $tr.find('input[name=defaultVal]').val('');
+                                $tr.find('input[name=rule]').val('');
                             } else {
                                 $addLink.attr('oldDisplay', 'none');
                                 $addLink.css('display', 'none');
                                 if(value == 3){
                                     $tr.find('input[name=defaultVal]').val(false);
+                                    $tr.find('input[name=rule]').val('1:true');
                                 } else if(value == 2){
                                     $tr.find('input[name=defaultVal]').val('');
+                                    $tr.find('input[name=rule]').val('1-6:ab');
                                 } else if(value == 1){
                                     $tr.find('input[name=defaultVal]').val(0);
+                                    $tr.find('input[name=rule]').val('1-100:10');
                                 } else if(value == 0){
                                     var date = new Date();
                                     $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds());
+                                    $tr.find('input[name=rule]').val('@datetime');
                                 }
                             }
                             if(value < 5){
@@ -160,6 +165,7 @@
                     $tr.append($td.append($selector));
                 }
             });
+            $tr.find('input[name=rule]').val('1-6:ab');
             $tr.find('input[name=defaultVal]').on('blur', function () {
                 if($tr.find('select[name=type]').val()==1){
                     var regPos = /^(-?\d+)(\.\d+)?$/; // 浮点数
@@ -294,18 +300,23 @@
                                 $addLink.attr('oldDisplay', '');
                                 $addLink.css('display', '');
                                 $tr.find('input[name=defaultVal]').val('');
+                                $tr.find('input[name=rule]').val('');
                             } else {
                                 $addLink.attr('oldDisplay', 'none');
                                 $addLink.css('display', 'none');
                                 if(value == 3){
                                     $tr.find('input[name=defaultVal]').val(false);
+                                    $tr.find('input[name=rule]').val('1:true');
                                 } else if(value == 2){
                                     $tr.find('input[name=defaultVal]').val('');
+                                    $tr.find('input[name=rule]').val('1-6:ab');
                                 } else if(value == 1){
                                     $tr.find('input[name=defaultVal]').val(0);
+                                    $tr.find('input[name=rule]').val('1-100:10');
                                 } else if(value == 0){
                                     var date = new Date();
                                     $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds());
+                                    $tr.find('input[name=rule]').val('@datetime');
                                 }
                             }
                             if(value < 5){
@@ -356,6 +367,7 @@
                     $tr.append($td.append($selector));
                 }
             });
+            $tr.find('input[name=rule]').val('1-6:ab');
             $tr.find('input[name=defaultVal]').on('blur',  function () {
                 if($tr.find('select[name=type]').val()==1){
                     var regPos = /^(-?\d+)(\.\d+)?$/; // 浮点数
@@ -477,13 +489,17 @@
                                 $addLink.css('display', 'none');
                                 if(value == 3){
                                     $tr.find('input[name=defaultVal]').val(false);
+                                    $tr.find('input[name=rule]').val('1:true');
                                 } else if(value == 2){
                                     $tr.find('input[name=defaultVal]').val('');
+                                    $tr.find('input[name=rule]').val('1-6:ab');
                                 } else if(value == 1){
                                     $tr.find('input[name=defaultVal]').val(0);
+                                    $tr.find('input[name=rule]').val('1-100:10');
                                 } else if(value == 0){
                                     var date = new Date();
                                     $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds());
+                                    $tr.find('input[name=rule]').val('@datetime');
                                 }
                             }
                             if(value < 5){
@@ -504,8 +520,9 @@
                             $tr.attr('childrenCount', 0);
                         }
                     }
+                    chosenOptions.selectedVal = rowData[field.name];
                     var chosen = api.ui.chosenSelect(chosenOptions);
-                    chosen.val(rowData[field.name]);
+                    // chosen.val(rowData[field.name]);
                     chosen.doChange();
                     $tr.append($td.append($selector));
                 }
@@ -651,13 +668,17 @@
                                         $addLink.css('display', 'none');
                                         if(value == 3){
                                             $tr.find('input[name=defaultVal]').val(false);
+                                            $tr.find('input[name=rule]').val('1:true');
                                         } else if(value == 2){
                                             $tr.find('input[name=defaultVal]').val('');
+                                            $tr.find('input[name=rule]').val('1-6:ab');
                                         } else if(value == 1){
                                             $tr.find('input[name=defaultVal]').val(0);
+                                            $tr.find('input[name=rule]').val('1-100:10');
                                         } else if(value == 0){
                                             var date = new Date();
                                             $tr.find('input[name=defaultVal]').val(date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds());
+                                            $tr.find('input[name=rule]').val('@datetime');
                                         }
                                     }
                                     if(value < 5){
@@ -682,8 +703,8 @@
                                 }
                                 $tr.attr('childrenCount', 0);
                             }
+                            chosenOptions.selectedVal = childFiledData[field.name];
                             var chosen = api.ui.chosenSelect(chosenOptions);
-                            chosen.val(childFiledData[field.name]);
                             chosen.doChange();
                             if($selector.attr('arrayElement')){
                                 chosen.disable();

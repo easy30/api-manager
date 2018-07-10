@@ -96,6 +96,23 @@ public class AmUserController extends BaseController {
     }
 
     /**
+     * 修改密码
+     *
+     * @param dto
+     * @return
+     */
+    @RequestMapping("changePassword")
+    public Map<String, Object> changePassword(AmUserReqDto dto) {
+        try {
+            userService.changePassword(dto);
+            return toSuccess();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return toFail(e.getMessage());
+        }
+    }
+
+    /**
      * 删除用户
      *
      * @param dto

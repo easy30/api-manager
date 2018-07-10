@@ -118,4 +118,13 @@ public class AmUserServiceImpl implements IAmUserService {
 	public List<AmUser> list(AmUserQueryReqDto dto) {
 		return userDao.list(dto);
 	}
+
+	@Override
+	public void changePassword(AmUserReqDto dto) {
+		String password = dto.getPassword();
+		String md5Hex = DigestUtils.md5Hex(password.getBytes());
+		dto.setPassword(md5Hex);
+		dto.setCreateTime(new Date());
+		userDao.changePassword(dto);
+	}
 }

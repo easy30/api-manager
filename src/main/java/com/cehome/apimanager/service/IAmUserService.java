@@ -9,59 +9,65 @@ import java.util.List;
 
 /**
  * 用户模块业务接口
- * 
- * @author sunlei
  *
+ * @author sunlei
  */
 public interface IAmUserService {
-	/**
-	 * 添加用户
-	 * 
-	 * @param dto
-	 */
-	void add(AmUserReqDto dto);
+    /**
+     * 添加用户
+     *
+     * @param dto
+     */
+    void add(AmUserReqDto dto);
 
-	/**
-	 * 更新用户
-	 * 
-	 * @param dto
-	 */
-	void update(AmUserReqDto dto);
+    /**
+     * 更新用户
+     *
+     * @param dto
+     */
+    void update(AmUserReqDto dto);
 
-	/**
-	 * 删除用户
-	 * 
-	 * @param dto
-	 */
-	void delete(AmUserReqDto dto);
+    /**
+     * 删除用户
+     *
+     * @param dto
+     */
+    void delete(AmUserReqDto dto);
 
-	/**
-	 * 分页获取用户列表
-	 * 
-	 * @param dto
-	 * @return
-	 */
-	Page<AmUser> findPage(AmUserQueryReqDto dto);
+    /**
+     * 分页获取用户列表
+     *
+     * @param dto
+     * @return
+     */
+    Page<AmUser> findPage(AmUserQueryReqDto dto);
 
-	/**
-	 * 根据用户id获取用户信息
-	 * 
-	 * @param id
-	 * @return
-	 */
-	AmUser findById(Integer id);
+    /**
+     * 根据用户id获取用户信息
+     *
+     * @param id
+     * @return
+     */
+    AmUser findById(Integer id);
 
-	/**
-	 * 用户登录校验
-	 * 
-	 * @param dto
-	 */
-	AmUser login(AmUserReqDto dto);
+    /**
+     * 用户登录校验
+     *
+     * @param dto
+     */
+    AmUser login(AmUserReqDto dto);
 
-	/**
-	 * 获取用户列表
-	 *
-	 * @param dto
-	 */
-	List<AmUser> list(AmUserQueryReqDto dto);
+    /**
+     * 获取用户列表
+     *
+     * @param dto
+     */
+    List<AmUser> list(AmUserQueryReqDto dto);
+
+    /**
+     * 修改密码
+     *
+     * @param dto
+     */
+    void changePassword(AmUserReqDto dto);
 }

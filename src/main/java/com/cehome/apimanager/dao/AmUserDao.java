@@ -16,4 +16,8 @@ public class AmUserDao extends BaseDao<AmUser> {
 	public AmUser findByAccountAndPass(AmUserReqDto dto) {
 		return sqlSessionTemplate.selectOne(getClassName() + ".findByAccountAndPass", dto);
 	}
+
+	public void changePassword(AmUserReqDto dto) {
+		sqlSessionTemplate.update(getClassName() + ".changePassword", dto);
+	}
 }

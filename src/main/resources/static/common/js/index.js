@@ -35,11 +35,12 @@ api.util.loadScripts([
                             name: '批量测试', fn: function () {
                                 batchTestClick();
                             }
-                        },{
-                            name: '分组测试', fn: function () {
-                                groupTestClick();
-                            }
                         }
+                        // ,{
+                        //     name: '分组测试', fn: function () {
+                        //         groupTestClick();
+                        //     }
+                        // }
                     ]
                 }
                 api.ui.downMenu(config);
@@ -69,6 +70,15 @@ api.util.loadScripts([
                     ]
                 }
                 api.ui.downMenu(config);
+
+                $.ajax({
+                    url: api.util.getUrl('/apimanager/user/findBySession'),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (result) {
+                        $('#userName').text(result.data.userName);
+                    }
+                })
             });
         }
     }

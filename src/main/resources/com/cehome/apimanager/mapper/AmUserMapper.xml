@@ -178,7 +178,21 @@
 		WHERE
 			id = #{id,jdbcType=INTEGER}
 	</update>
-	
+
+	<update id="changePassword" parameterType="com.cehome.apimanager.model.po.AmUser">
+		UPDATE am_user
+		<set>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</set>
+		WHERE
+		id = #{id,jdbcType=INTEGER}
+	</update>
+
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		DELETE FROM am_user WHERE id = #{id}
 	</delete>

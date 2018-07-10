@@ -664,6 +664,77 @@ function userInfo() {
     api.ui.load(userConf);
 }
 
+function changePass() {
+    var userConf = {
+        container: '#container',
+        url: api.util.getUrl('html/user/changePassword.html'),
+        async: false,
+        preLoad: function (content) {
+            $('#depart').parent('.container-fluid').css('display','none');
+        },
+        loaded: function () {
+            $('#userInfoForm').css('margin-top','100px');
+            $.ajax({
+                url: api.util.getUrl('/apimanager/user/findBySession'),
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                success: function (result) {
+                    $('input[name=id]').val(result.data.id);
+                }
+            })
+            //cancel
+            $('#userCancelBtn').on('click',function () {
+                window.location.href = 'index.html';
+            })
+            //save
+            $('#userSaveBtn').on('click',function () {
+                var flag = false, params = {};
+                params['id'] = $('input[name=id]').val();
+                params['password'] = $('input[name=password]').val();
+                var $passwordInput = $('input[name=password]');
+                if(!$.trim($passwordInput.val())){
+                    $passwordInput.css('border-color','red');
+                    $passwordInput.on('blur',function () {
+                        if($.trim($passwordInput.val())){
+                            $passwordInput.css('border-color','');
+                        }
+                    })
+                    return;
+                }
+
+                $.ajax({
+                    url: api.util.getUrl('/apimanager/user/changePassword'),
+                    data: params,
+                    dataType: 'json',
+                    async: false,
+                    success: function (result) {
+                        if (result.code == '0') {
+                            $.ajax({
+                                url: api.util.getUrl('apimanager/user/loginOut'),
+                                type: 'get',
+                                dataType: 'json',
+                                success: function (result) {
+                                    window.location.href = '/login.html';
+                                }
+                            })
+                        } else {
+                            var dialConf = {
+                                container: 'body',
+                                content: result.msg,
+                                iTitle: true,
+                                title: '提示',
+                            }
+                            api.ui.dialog(dialConf).open();
+                        }
+                    }
+                })
+            })
+        }
+    }
+    api.ui.load(userConf);
+}
+
 function loggerClick() {
     $('#depart').parent('.container-fluid').css('display','none');
     var conf = {
