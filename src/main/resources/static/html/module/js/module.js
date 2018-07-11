@@ -1,11 +1,13 @@
 var moduleTableOptions = {
     container: '#editTable',
     headers: [
-        {text: '模块编号', width: '10%'},
-        {text: '模块名称', width: '15%'},
+        {text: '模块编号', width: '8%'},
+        {text: '模块名称', width: '10%'},
         {text: '所属项目', width: '25%'},
-        {text: '模块简述', width: '25%'},
-        {text: '操作', width: '25%'}
+        {text: '模块简述', width: '20%'},
+        {text: '创建人', width: '7%'},
+        {text: '修改人', width: '7%'},
+        {text: '操作', width: '23%'}
     ],
     form: '#form',
     fields: [
@@ -16,7 +18,9 @@ var moduleTableOptions = {
                 async: false,
                 url: api.util.getUrl('apimanager/project/list')
             }},
-        {name: 'moduleDesc', type: 'input', inputDesc: '模块描述', required: false}
+        {name: 'moduleDesc', type: 'input', inputDesc: '模块描述', required: false},
+        {name: 'createUserName', type: 'input', inputDesc: '创建人', required: false, readOnly: true},
+        {name: 'updateUserName', type: 'input', inputDesc: '修改人', required: false, readOnly: true}
     ],
     rowButtons: [
         {type: 'update', text: '编辑', url: api.util.getUrl('apimanager/module/update')},

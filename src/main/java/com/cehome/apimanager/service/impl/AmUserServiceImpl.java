@@ -1,5 +1,6 @@
 package com.cehome.apimanager.service.impl;
 
+import com.cehome.apimanager.cache.CacheProvider;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.dao.AmUserDao;
 import com.cehome.apimanager.dao.AmUserDepartmentDao;
@@ -31,7 +32,10 @@ public class AmUserServiceImpl implements IAmUserService {
 
 	@Autowired
 	private AmUserDepartmentDao userDepartmentDao;
-	
+
+	@Autowired
+	private CacheProvider cacheProvider;
+
 	@Override
 	public void add(AmUserReqDto dto) {
 		AmUser user = userDao.findByAccount(dto.getAccount());
@@ -43,7 +47,8 @@ public class AmUserServiceImpl implements IAmUserService {
 		dto.setPassword(md5Hex);
 		dto.setCreateTime(new Date());
 		userDao.add(dto);
-		
+		cacheProvider.addUserDic(dto);
+
 		String depIds = dto.getDepIds();
 		if(!StringUtils.isEmpty(depIds)){
 			String[] depIdArray = depIds.split(",");
@@ -66,7 +71,8 @@ public class AmUserServiceImpl implements IAmUserService {
 //		}
 		dto.setUpdateTime(new Date());
 		userDao.update(dto);
-		
+		cacheProvider.addUserDic(dto);
+
 		String depIds = dto.getDepIds();
 		if(!StringUtils.isEmpty(depIds)){
 			String[] depIdArray = depIds.split(",");

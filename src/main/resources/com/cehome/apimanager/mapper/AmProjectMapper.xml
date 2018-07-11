@@ -6,12 +6,14 @@
 		<result column="dep_id" property="depId" jdbcType="INTEGER" />
 		<result column="project_name" property="projectName" jdbcType="VARCHAR" />
 		<result column="project_desc" property="projectDesc" jdbcType="VARCHAR" />
+		<result column="create_user" property="createUser" jdbcType="INTEGER" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_user" property="updateUser" jdbcType="INTEGER" />
 		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		id,dep_id,project_name,project_desc,create_time,update_time
+		id,dep_id,project_name,project_desc,create_user,create_time,update_user,update_time
 	</sql>
 	
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -87,6 +89,9 @@
 			<if test="projectDesc != null">
 			project_desc,
 			</if>
+			<if test="createUser != null">
+			create_user,
+			</if>
 			<if test="createTime != null">
 			create_time,
 			</if>
@@ -106,6 +111,9 @@
 			</if>
 			<if test="projectDesc != null">
 			#{projectDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="createUser != null">
+			#{createUser,jdbcType=INTEGER},
 			</if>
 			<if test="createTime != null">
 			#{createTime,jdbcType=TIMESTAMP},
@@ -128,8 +136,8 @@
 			<if test="projectDesc != null">
 			project_desc = #{projectDesc,jdbcType=VARCHAR},
 			</if>
-			<if test="createTime != null">
-			create_time = #{createTime,jdbcType=TIMESTAMP},
+			<if test="updateUser != null">
+			update_user = #{updateUser,jdbcType=INTEGER},
 			</if>
 			<if test="updateTime != null">
 			update_time = #{updateTime,jdbcType=TIMESTAMP}

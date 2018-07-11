@@ -6,6 +6,24 @@ public class AmActionResDto extends AmAction {
 	private static final long serialVersionUID = -3106636895944003212L;
 	private String requestHeadData;
 	private String requestData;
+	private String createUserName = "";
+	private String updateUserName = "";
+
+	public String getCreateUserName() {
+		return createUserName;
+	}
+
+	public void setCreateUserName(String createUserName) {
+		this.createUserName = createUserName;
+	}
+
+	public String getUpdateUserName() {
+		return updateUserName;
+	}
+
+	public void setUpdateUserName(String updateUserName) {
+		this.updateUserName = updateUserName;
+	}
 
 	public String getRequestHeadData() {
 		return requestHeadData;

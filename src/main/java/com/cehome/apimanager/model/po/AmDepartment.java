@@ -30,9 +30,17 @@ public class AmDepartment extends BaseEntity implements Serializable {
 	@FiledDesc(desc = "部门描述")
 	private String depDesc;
 	/**
+	 * 创建人
+	 */
+	private Integer createUser;
+	/**
 	 * 创建时间
 	 */
 	private Date createTime;
+	/**
+	 * 最后修改人
+	 */
+	private Integer updateUser;
 	/**
 	 * 更新时间
 	 */
@@ -76,6 +84,22 @@ public class AmDepartment extends BaseEntity implements Serializable {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public Integer getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(Integer createUser) {
+		this.createUser = createUser;
+	}
+
+	public Integer getUpdateUser() {
+		return updateUser;
+	}
+
+	public void setUpdateUser(Integer updateUser) {
+		this.updateUser = updateUser;
 	}
 
 	@Override

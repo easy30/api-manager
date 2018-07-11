@@ -1,15 +1,25 @@
 package com.cehome.apimanager.cache;
 
-import java.util.List;
-
 import com.cehome.apimanager.model.po.AmAction;
+import com.cehome.apimanager.model.po.AmUser;
+
+import java.util.List;
+import java.util.Map;
 
 public interface CacheProvider {
-	List<AmAction> getActionUrlCache();
+    List<AmAction> getActionUrlCache();
 
-	void setActionUrlCache(List<AmAction> actionUrlCache);
+    void setActionUrlCache(List<AmAction> actionUrlCache);
 
-	void addActionUrlCache(AmAction action);
+    public void setUserDicMap(Map<String, String> userDicMap);
 
-	void removeActionUrlCache(AmAction action);
+    public Map<String, String> getUserDicMap();
+
+    void addActionUrlCache(AmAction action);
+
+    void removeActionUrlCache(AmAction action);
+
+    void addUserDic(AmUser user);
+
+    void removeUserDic(AmUser user);
 }

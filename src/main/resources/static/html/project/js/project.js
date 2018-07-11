@@ -1,10 +1,12 @@
 var projectTableOptions = {
     container: "#editTable",
     headers: [
-        {text: '项目编号', width: '10%'},
-        {text: '项目名称', width: '25%'},
-        {text: '所属部门', width: '15%'},
+        {text: '项目编号', width: '8%'},
+        {text: '项目名称', width: '22%'},
+        {text: '所属部门', width: '10%'},
         {text: '项目简述', width: '25%'},
+        {text: '创建人', width: '7%'},
+        {text: '修改人', width: '7%'},
         {text: '操作', width: '25%'}
     ],
     form: '#form',
@@ -16,7 +18,9 @@ var projectTableOptions = {
                 async: false,
                 url: api.util.getUrl('apimanager/department/list')
         }},
-        {name: 'projectDesc', type: 'input', inputDesc: '项目描述', required: false}
+        {name: 'projectDesc', type: 'input', inputDesc: '项目描述', required: false},
+        {name: 'createUserName', type: 'input', inputDesc: '创建人', required: false, readOnly: true},
+        {name: 'updateUserName', type: 'input', inputDesc: '修改人', required: false, readOnly: true}
 
     ],
     rowButtons: [

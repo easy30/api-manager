@@ -1,5 +1,6 @@
 package com.cehome.apimanager.service.impl;
 
+import com.cehome.apimanager.cache.CacheProvider;
 import com.cehome.apimanager.common.CommonMeta;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.dao.AmModuleDao;
@@ -15,9 +16,12 @@ import com.cehome.apimanager.utils.ThreadUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 模块业务接口实现
@@ -37,10 +41,14 @@ public class AmModuleServiceImpl implements IAmModuleService {
 	@Autowired
 	private IAmOperateLogService operateLogService;
 
+	@Autowired
+	private CacheProvider cacheProvider;
+
 	@Override
 	public void add(AmModuleReqDto dto) {
 		dto.setCreateTime(new Date());
 		dto.setUpdateTime(new Date());
+		dto.setCreateUser(dto.getOperateUser());
 		moduleDao.add(dto);
 		ThreadUtils.execute(new ThreadUtils.Task() {
 			@Override
@@ -60,6 +68,7 @@ public class AmModuleServiceImpl implements IAmModuleService {
 	public void update(AmModuleReqDto dto) {
 		AmModule module = moduleDao.get(dto.getId());
 		dto.setUpdateTime(new Date());
+		dto.setUpdateUser(dto.getOperateUser());
 		moduleDao.update(dto);
 		ThreadUtils.execute(new ThreadUtils.Task() {
 			@Override
@@ -116,7 +125,27 @@ public class AmModuleServiceImpl implements IAmModuleService {
 
 	@Override
 	public Page<AmModule> findPage(AmModuleQueryReqDto dto) {
-		return moduleDao.find(dto);
+		Page<AmModule> modulePage = moduleDao.find(dto);
+		List<AmModule> datas = modulePage.getDatas();
+		if(CollectionUtils.isEmpty(datas)){
+			return modulePage;
+		}
+		List<AmModule> result = new ArrayList<>();
+		Map<String, String> userDicMap = cacheProvider.getUserDicMap();
+		for(AmModule module : datas){
+			AmModuleResDto moduleResDto = new AmModuleResDto();
+			BeanUtils.copyProperties(module, moduleResDto);
+			if(module.getCreateUser() != null){
+				moduleResDto.setCreateUserName(userDicMap.get(module.getCreateUser() + ""));
+			}
+			if(module.getUpdateUser() != null){
+				moduleResDto.setUpdateUserName(userDicMap.get(module.getUpdateUser() + ""));
+			}
+			result.add(moduleResDto);
+		}
+
+		modulePage.setDatas(result);
+		return modulePage;
 	}
 
 	@Override

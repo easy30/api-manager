@@ -3,9 +3,11 @@ var actionTableOptions = {
     headers: [
         {text: '编号', width: '5%'},
         {text: '接口地址', width: '15%'},
-        {text: '所属模块', width: '15%'},
-        {text: '请求类型', width: '5%'},
+        {text: '所属模块', width: '10%'},
+        {text: '请求类型', width: '10%'},
         {text: '状态', width: '5%'},
+        {text: '创建人', width: '7%'},
+        {text: '修改人', width: '7%'},
         {text: '操作', width: '25%'}
     ],
     form: '#form',
@@ -33,7 +35,9 @@ var actionTableOptions = {
                 async: false,
                 url: api.util.getUrl('apimanager/meta/findMeta')
             }
-        }
+        },
+        {name: 'createUserName', type: 'input', inputDesc: '创建人', required: false, readOnly: true},
+        {name: 'updateUserName', type: 'input', inputDesc: '修改人', required: false, readOnly: true}
     ],
     rowButtons: [
         {type: 'more', text: '更多', icon: 'glyphicon glyphicon-option-horizontal', fn: function (param) {

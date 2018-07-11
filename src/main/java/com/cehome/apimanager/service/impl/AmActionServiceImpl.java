@@ -19,11 +19,14 @@ import com.cehome.apimanager.utils.UrlUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 动作业务接口实现
@@ -54,6 +57,7 @@ public class AmActionServiceImpl implements IAmActionService {
         if(requestUrl.charAt(0) != '/'){
             dto.setRequestUrl("/" + requestUrl);
         }
+        dto.setCreateUser(dto.getOperateUser());
         actionDao.add(dto);
 
         cacheProvider.addActionUrlCache(dto);
@@ -91,6 +95,7 @@ public class AmActionServiceImpl implements IAmActionService {
 
         buildMock(dto);
         dto.setUpdateTime(new Date());
+        dto.setUpdateUser(dto.getOperateUser());
         actionDao.update(dto);
 
         ThreadUtils.execute(new ThreadUtils.Task() {
@@ -172,7 +177,26 @@ public class AmActionServiceImpl implements IAmActionService {
 
     @Override
     public Page<AmAction> findPage(AmActionQueryReqDto dto) {
-        return actionDao.find(dto);
+        Page<AmAction> actionPage = actionDao.find(dto);
+        List<AmAction> datas = actionPage.getDatas();
+        if(CollectionUtils.isEmpty(datas)){
+            return actionPage;
+        }
+        Map<String, String> userDicMap = cacheProvider.getUserDicMap();
+        List<AmAction> result = new ArrayList<>();
+        for(AmAction action : datas){
+            AmActionResDto actionResDto = new AmActionResDto();
+            BeanUtils.copyProperties(action, actionResDto);
+            if(action.getCreateUser() != null){
+                actionResDto.setCreateUserName(userDicMap.get(action.getCreateUser() + ""));
+            }
+            if(action.getUpdateUser() != null){
+                actionResDto.setUpdateUserName(userDicMap.get(action.getUpdateUser() + ""));
+            }
+            result.add(actionResDto);
+        }
+        actionPage.setDatas(result);
+        return actionPage;
     }
 
     @Override

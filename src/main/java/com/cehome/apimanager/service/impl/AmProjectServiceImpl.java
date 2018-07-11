@@ -1,5 +1,6 @@
 package com.cehome.apimanager.service.impl;
 
+import com.cehome.apimanager.cache.CacheProvider;
 import com.cehome.apimanager.common.CommonMeta;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.dao.AmProjectDao;
@@ -15,9 +16,12 @@ import com.cehome.apimanager.utils.ThreadUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 项目业务接口实现
@@ -37,10 +41,14 @@ public class AmProjectServiceImpl implements IAmProjectService {
 	@Autowired
 	private IAmOperateLogService operateLogService;
 
+	@Autowired
+	private CacheProvider cacheProvider;
+
 	@Override
 	public void add(AmProjectReqDto dto) {
 		dto.setCreateTime(new Date());
 		dto.setUpdateTime(new Date());
+		dto.setCreateUser(dto.getOperateUser());
 		projectDao.add(dto);
 		ThreadUtils.execute(new ThreadUtils.Task() {
 			@Override
@@ -60,6 +68,7 @@ public class AmProjectServiceImpl implements IAmProjectService {
 	public void update(AmProjectReqDto dto) {
 		AmProject project = projectDao.get(dto.getId());
 		dto.setUpdateTime(new Date());
+		dto.setUpdateUser(dto.getOperateUser());
 		projectDao.update(dto);
 		ThreadUtils.execute(new ThreadUtils.Task() {
 			@Override
@@ -116,7 +125,26 @@ public class AmProjectServiceImpl implements IAmProjectService {
 
 	@Override
 	public Page<AmProject> findPage(AmProjectQueryReqDto dto) {
-		return projectDao.find(dto);
+		Page<AmProject> projectPage = projectDao.find(dto);
+		List<AmProject> datas = projectPage.getDatas();
+		if(CollectionUtils.isEmpty(datas)){
+			return projectPage;
+		}
+		List<AmProject> result = new ArrayList<>();
+		Map<String, String> userDicMap = cacheProvider.getUserDicMap();
+		for(AmProject project : datas){
+			AmProjectResDto projectResDto = new AmProjectResDto();
+			BeanUtils.copyProperties(project, projectResDto);
+			if(project.getCreateUser() != null){
+				projectResDto.setCreateUserName(userDicMap.get(project.getCreateUser() + ""));
+			}
+			if(project.getUpdateUser() != null){
+				projectResDto.setUpdateUserName(userDicMap.get(project.getUpdateUser() + ""));
+			}
+			result.add(projectResDto);
+		}
+		projectPage.setDatas(result);
+		return projectPage;
 	}
 	
 	@Override

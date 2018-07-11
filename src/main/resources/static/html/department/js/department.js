@@ -3,14 +3,18 @@ var departmentOptions = {
     headers: [
         {text: '部门编号', width: '15%'},
         {text: '部门名称', width: '20%'},
-        {text: '部门简述', width: '40%'},
+        {text: '部门简述', width: '20%'},
+        {text: '创建人', width: '10%'},
+        {text: '修改人', width: '10%'},
         {text: '操作', width: '25%'}
     ],
     form: '#form',
     fields: [
         {name: 'id', type: 'input', inputDesc: '部门编号', required: false},
         {name: 'depName', type: 'input', inputDesc: '部门名称', required: true},
-        {name: 'depDesc', type: 'input', inputDesc: '部门描述', required: false}
+        {name: 'depDesc', type: 'input', inputDesc: '部门描述', required: false},
+        {name: 'createUserName', type: 'input', inputDesc: '创建人', required: false, readOnly: true},
+        {name: 'updateUserName', type: 'input', inputDesc: '修改人', required: false, readOnly: true}
     ],
     rowButtons: [
         {type: 'update', text: '编辑', url: api.util.getUrl('apimanager/department/update')},

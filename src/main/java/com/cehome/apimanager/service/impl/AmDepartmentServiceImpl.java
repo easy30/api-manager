@@ -1,5 +1,6 @@
 package com.cehome.apimanager.service.impl;
 
+import com.cehome.apimanager.cache.CacheProvider;
 import com.cehome.apimanager.common.CommonMeta;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.dao.AmDepartmentDao;
@@ -16,9 +17,12 @@ import com.cehome.apimanager.utils.ThreadUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 部门业务接口实现类
@@ -40,11 +44,15 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 	@Autowired
 	private IAmOperateLogService operateLogService;
 
+	@Autowired
+	private CacheProvider cacheProvider;
+
 	public Integer add(AmDepartmentReqDto dto) {
 		AmDepartment entity = new AmDepartment();
 		BeanUtils.copyProperties(dto, entity);
 		entity.setCreateTime(new Date());
 		entity.setUpdateTime(new Date());
+		entity.setCreateUser(dto.getOperateUser());
 		departmentDao.add(entity);
 
 		ThreadUtils.execute(new ThreadUtils.Task() {
@@ -67,6 +75,7 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 		AmDepartment entity = new AmDepartment();
 		BeanUtils.copyProperties(dto, entity);
 		entity.setUpdateTime(new Date());
+		entity.setUpdateUser(dto.getOperateUser());
 		departmentDao.update(entity);
 
 		ThreadUtils.execute(new ThreadUtils.Task() {
@@ -124,7 +133,26 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 
 	@Override
 	public Page<AmDepartment> findPage(AmDepartmentQueryReqDto dto) {
-		return departmentDao.find(dto);
+		Page<AmDepartment> departmentPage = departmentDao.find(dto);
+		List<AmDepartment> datas = departmentPage.getDatas();
+		if(CollectionUtils.isEmpty(datas)){
+			return departmentPage;
+		}
+		List<AmDepartment> result = new ArrayList<>();
+		Map<String, String> userDicMap = cacheProvider.getUserDicMap();
+		for(AmDepartment department : datas){
+			AmDepartmentResDto departmentResDto = new AmDepartmentResDto();
+			BeanUtils.copyProperties(department, departmentResDto);
+			if(department.getCreateUser() != null){
+				departmentResDto.setCreateUserName(userDicMap.get(department.getCreateUser() + ""));
+			}
+			if(department.getUpdateUser() != null){
+				departmentResDto.setUpdateUserName(userDicMap.get(department.getUpdateUser() + ""));
+			}
+			result.add(departmentResDto);
+		}
+		departmentPage.setDatas(result);
+		return departmentPage;
 	}
 	
 	@Override
