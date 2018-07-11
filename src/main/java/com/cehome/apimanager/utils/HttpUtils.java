@@ -9,6 +9,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCookieStore;
@@ -21,7 +22,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * http工具类
@@ -55,25 +58,16 @@ public class HttpUtils {
         httpClientBuilder.setDefaultCookieStore(cookieStore);
         CloseableHttpClient httpclient = httpClientBuilder.build();
         try {
-            HttpPost httpPost = new HttpPost(url);
+            String urlParamterString = urlParamterString(nameValuePair);
+            HttpGet httpGet = new HttpGet(url + urlParamterString);
             if (headers != null && !headers.isEmpty()) {
                 for (String key : headers.keySet()) {
                     Header header = new BasicHeader(key, headers.getString(key));
-                    httpPost.addHeader(header);
+                    httpGet.addHeader(header);
                 }
             }
 
-            List<NameValuePair> nvps = new ArrayList<>();
-            if (nameValuePair != null && !nameValuePair.isEmpty()) {
-                for (String key : nameValuePair.keySet()) {
-                    NameValuePair nvp = new BasicNameValuePair(key, nameValuePair.getString(key));
-                    nvps.add(nvp);
-                }
-            }
-
-            HttpEntity httpEntity = new UrlEncodedFormEntity(nvps, CHARSET);
-            httpPost.setEntity(httpEntity);
-            HttpResponse response = httpclient.execute(httpPost);
+            HttpResponse response = httpclient.execute(httpGet);
             return response.getEntity();
         } catch (Exception e) {
             logger.error("sendRequest error!", e);
@@ -145,6 +139,29 @@ public class HttpUtils {
         BasicClientCookie cookie = new BasicClientCookie("JSESSIONID", JSESSIONID);
         cookie.setDomain(domain);
         cookieStore.addCookie(cookie);
+    }
+
+    private String urlParamterString(JSONObject nameValuePair) {
+        if (nameValuePair == null || nameValuePair.isEmpty()) {
+            return "";
+        }
+
+        int capacity = nameValuePair.size() * 30; //设置表单长度30字节*N个请求参数
+        //参数不为空，在URL后面添加head（“？”）
+        StringBuilder buffer = new StringBuilder(capacity);
+        buffer.append("?");
+        //取出Map里面的请求参数，添加到表单String中。每个参数之间键值对之间用“=”连接，参数与参数之间用“&”连接
+        Iterator<Map.Entry<String, Object>> it = nameValuePair.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, Object> entry = it.next();
+            buffer.append(entry.getKey());
+            buffer.append('=');
+            buffer.append(entry.getValue());
+            if (it.hasNext()) {
+                buffer.append("&");
+            }
+        }
+        return buffer.toString();
     }
 
     private void setHeader(HttpResponse httpResponse){

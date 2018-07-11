@@ -1,10 +1,10 @@
 var projectTableOptions = {
     container: "#editTable",
     headers: [
-        {text: '项目编号', width: '15%'},
-        {text: '项目名称', width: '15%'},
+        {text: '项目编号', width: '10%'},
+        {text: '项目名称', width: '25%'},
         {text: '所属部门', width: '15%'},
-        {text: '项目简述', width: '30%'},
+        {text: '项目简述', width: '25%'},
         {text: '操作', width: '25%'}
     ],
     form: '#form',

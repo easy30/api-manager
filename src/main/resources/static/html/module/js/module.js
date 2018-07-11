@@ -1,10 +1,10 @@
 var moduleTableOptions = {
     container: '#editTable',
     headers: [
-        {text: '模块编号', width: '15%'},
+        {text: '模块编号', width: '10%'},
         {text: '模块名称', width: '15%'},
-        {text: '所属项目', width: '15%'},
-        {text: '模块简述', width: '30%'},
+        {text: '所属项目', width: '25%'},
+        {text: '模块简述', width: '25%'},
         {text: '操作', width: '25%'}
     ],
     form: '#form',
