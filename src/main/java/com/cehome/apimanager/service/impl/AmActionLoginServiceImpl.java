@@ -1,5 +1,6 @@
 package com.cehome.apimanager.service.impl;
 
+import com.cehome.apimanager.cache.CacheProvider;
 import com.cehome.apimanager.common.CommonMeta;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.dao.AmActionLoginDao;
@@ -19,8 +20,11 @@ import com.cehome.apimanager.utils.ThreadUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AmActionLoginServiceImpl implements IAmActionLoginService {
@@ -33,6 +37,9 @@ public class AmActionLoginServiceImpl implements IAmActionLoginService {
 
     @Autowired
     private IAmOperateLogService operateLogService;
+
+    @Autowired
+    private CacheProvider cacheProvider;
 
     public List<AmActionLogin> list(AmActionLoginQueryReqDto dto) {
         return actionLoginDao.list(dto);
@@ -83,12 +90,33 @@ public class AmActionLoginServiceImpl implements IAmActionLoginService {
 
     @Override
     public Page<AmActionLogin> findPage(AmActionLoginQueryReqDto dto) {
-        return actionLoginDao.find(dto);
+        Page<AmActionLogin> actionLoginPage = actionLoginDao.find(dto);
+        List<AmActionLogin> datas = actionLoginPage.getDatas();
+        if(CollectionUtils.isEmpty(datas)){
+            return actionLoginPage;
+        }
+
+        Map<String, String> userDicMap = cacheProvider.getUserDicMap();
+        List<AmActionLogin> result = new ArrayList<>();
+        for(AmActionLogin actionLogin : datas){
+            AmActionLoginResDto actionLoginResDto = new AmActionLoginResDto();
+            BeanUtils.copyProperties(actionLogin, actionLoginResDto);
+            if(actionLogin.getCreateUser() != null){
+                actionLoginResDto.setCreateUserName(userDicMap.get(actionLogin.getCreateUser() + ""));
+            }
+            if(actionLogin.getUpdateUser() != null){
+                actionLoginResDto.setUpdateUserName(userDicMap.get(actionLogin.getUpdateUser() + ""));
+            }
+            result.add(actionLoginResDto);
+        }
+        actionLoginPage.setDatas(result);
+        return actionLoginPage;
     }
 
     @Override
     public void update(AmActionLoginReqDto dto) {
         AmActionLogin actionLogin = actionLoginDao.get(dto.getId());
+        dto.setUpdateUser(dto.getOperateUser());
         actionLoginDao.update(dto);
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
@@ -109,6 +137,7 @@ public class AmActionLoginServiceImpl implements IAmActionLoginService {
 
     @Override
     public void add(AmActionLoginReqDto dto) {
+        dto.setCreateUser(dto.getOperateUser());
         actionLoginDao.add(dto);
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override

@@ -19,7 +19,8 @@ public class AmActionLogin extends BaseEntity implements Serializable {
     private String accountParam;
     @FiledDesc(desc = "其他参数")
     private String extParam;
-
+    private Integer createUser;
+    private Integer updateUser;
     public Integer getId() {
         return id;
     }
@@ -66,6 +67,22 @@ public class AmActionLogin extends BaseEntity implements Serializable {
 
     public void setExtParam(String extParam) {
         this.extParam = extParam;
+    }
+
+    public Integer getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(Integer createUser) {
+        this.createUser = createUser;
+    }
+
+    public Integer getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
     }
 
     @Override

@@ -1,20 +1,26 @@
 package com.cehome.apimanager.service.impl;
 
+import com.cehome.apimanager.cache.CacheProvider;
 import com.cehome.apimanager.common.CommonMeta;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.dao.AmDomainDao;
 import com.cehome.apimanager.model.dto.AmDomainQueryReqDto;
 import com.cehome.apimanager.model.dto.AmDomainReqDto;
+import com.cehome.apimanager.model.dto.AmDomainResDto;
 import com.cehome.apimanager.model.dto.AmOperateLogReqDto;
 import com.cehome.apimanager.model.po.AmDomain;
 import com.cehome.apimanager.service.IAmDomainService;
 import com.cehome.apimanager.service.IAmOperateLogService;
 import com.cehome.apimanager.utils.CompareUtils;
 import com.cehome.apimanager.utils.ThreadUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AmDomainServiceImpl implements IAmDomainService {
@@ -23,6 +29,9 @@ public class AmDomainServiceImpl implements IAmDomainService {
 
     @Autowired
     private IAmOperateLogService operateLogService;
+
+    @Autowired
+    private CacheProvider cacheProvider;
 
     @Override
     public List<AmDomain> list(AmDomainQueryReqDto dto) {
@@ -36,11 +45,31 @@ public class AmDomainServiceImpl implements IAmDomainService {
 
     @Override
     public Page<AmDomain> findPage(AmDomainQueryReqDto dto) {
-        return domainDao.find(dto);
+        Page<AmDomain> domainPage = domainDao.find(dto);
+        List<AmDomain> datas = domainPage.getDatas();
+        if(CollectionUtils.isEmpty(datas)){
+            return domainPage;
+        }
+        Map<String, String> userDicMap = cacheProvider.getUserDicMap();
+        List<AmDomain> result = new ArrayList<>();
+        for(AmDomain domain : datas){
+            AmDomainResDto domainResDto = new AmDomainResDto();
+            BeanUtils.copyProperties(domain, domainResDto);
+            if(domain.getCreateUser() != null){
+                domainResDto.setCreateUserName(userDicMap.get(domain.getCreateUser() + ""));
+            }
+            if(domain.getUpdateUser() != null){
+                domainResDto.setUpdateUserName(userDicMap.get(domain.getUpdateUser() + ""));
+            }
+            result.add(domainResDto);
+        }
+        domainPage.setDatas(result);
+        return domainPage;
     }
 
     @Override
     public void add(AmDomainReqDto dto) {
+        dto.setCreateUser(dto.getOperateUser());
         domainDao.add(dto);
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override
@@ -59,6 +88,7 @@ public class AmDomainServiceImpl implements IAmDomainService {
     @Override
     public void update(AmDomainReqDto dto) {
         AmDomain domain = domainDao.get(dto.getId());
+        dto.setUpdateUser(dto.getOperateUser());
         domainDao.update(dto);
         ThreadUtils.execute(new ThreadUtils.Task() {
             @Override

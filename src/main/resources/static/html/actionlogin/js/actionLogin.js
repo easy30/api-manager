@@ -5,6 +5,8 @@ var actionLoginTableOptions = {
         {text: '服务地址', width: '20%'},
         {text: '认证接口', width: '20%'},
         {text: '请求类型', width: '10%'},
+        {text: '创建人', width: '7%'},
+        {text: '修改人', width: '7%'},
         {text: '操作', width: '20%'}
     ],
     form: '#form',
@@ -22,7 +24,9 @@ var actionLoginTableOptions = {
                 cache: true,
                 async: false,
                 url: api.util.getUrl('apimanager/meta/findMeta')
-            }}
+            }},
+        {name: 'createUserName', type: 'input', inputDesc: '创建人', required: false, readOnly: true},
+        {name: 'updateUserName', type: 'input', inputDesc: '修改人', required: false, readOnly: true}
     ],
     rowButtons: [
         {type: 'openUpdate', text: '编辑', icon: 'glyphicon glyphicon-edit', fn: function (param) {

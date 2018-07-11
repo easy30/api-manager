@@ -16,7 +16,8 @@ public class AmDomain extends BaseEntity implements Serializable {
     private String domainName;
     @FiledDesc(desc = "排序编号")
     private Integer sortCode;
-
+    private Integer createUser;
+    private Integer updateUser;
     public Integer getId() {
         return id;
     }
@@ -55,6 +56,22 @@ public class AmDomain extends BaseEntity implements Serializable {
 
     public void setSortCode(Integer sortCode) {
         this.sortCode = sortCode;
+    }
+
+    public Integer getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(Integer createUser) {
+        this.createUser = createUser;
+    }
+
+    public Integer getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
     }
 
     @Override

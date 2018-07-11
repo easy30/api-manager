@@ -5,10 +5,12 @@
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="env_name" property="envName" jdbcType="VARCHAR" />
 		<result column="sort_code" property="sortCode" jdbcType="INTEGER" />
+		<result column="create_user" property="createUser" jdbcType="INTEGER" />
+		<result column="update_user" property="updateUser" jdbcType="INTEGER" />
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		id,env_name,sort_code
+		id,env_name,sort_code,create_user,update_user
 	</sql>
 	
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -70,6 +72,12 @@
 			<if test="sortCode != null">
 				sort_code
 			</if>
+			<if test="createUser != null">
+				create_user,
+			</if>
+			<if test="updateUser != null">
+				update_user
+			</if>
 		</trim>
 		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -79,7 +87,13 @@
 				#{envName,jdbcType=VARCHAR},
 			</if>
 			<if test="sortCode != null">
-				#{sortCode,jdbcType=INTEGER}
+				#{sortCode,jdbcType=INTEGER},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=INTEGER}
 			</if>
 		</trim>
 	</insert>
@@ -91,7 +105,10 @@
 				env_name = #{envName,jdbcType=VARCHAR},
 			</if>
 			<if test="sortCode != null">
-				sort_code = #{sortCode,jdbcType=INTEGER}
+				sort_code = #{sortCode,jdbcType=INTEGER},
+			</if>
+			<if test="updateUser != null">
+				update_user = #{updateUser,jdbcType=INTEGER}
 			</if>
 		</set>
 		WHERE

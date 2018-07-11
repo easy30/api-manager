@@ -8,10 +8,12 @@
 		<result column="request_url" property="requestUrl" jdbcType="VARCHAR" />
 		<result column="account_param" property="accountParam" jdbcType="VARCHAR" />
 		<result column="ext_param" property="extParam" jdbcType="VARCHAR" />
+		<result column="create_user" property="createUser" jdbcType="INTEGER" />
+		<result column="update_user" property="updateUser" jdbcType="INTEGER" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		id,domain_id,request_type,request_url,account_param,ext_param
+		id,domain_id,request_type,request_url,account_param,ext_param,create_user,update_user
 	</sql>
 	
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -78,7 +80,13 @@
 				account_param,
 			</if>
 			<if test="extParam != null">
-				ext_param
+				ext_param,
+			</if>
+			<if test="createUser != null">
+				create_user,
+			</if>
+			<if test="updateUser != null">
+				update_user
 			</if>
 		</trim>
 		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
@@ -98,7 +106,13 @@
 				#{accountParam,jdbcType=VARCHAR},
 			</if>
 			<if test="extParam != null">
-				#{extParam,jdbcType=VARCHAR}
+				#{extParam,jdbcType=VARCHAR},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=INTEGER}
 			</if>
 		</trim>
 	</insert>
@@ -119,7 +133,10 @@
 				account_param = #{accountParam,jdbcType=VARCHAR},
 			</if>
 			<if test="extParam != null">
-				ext_param = #{extParam,jdbcType=VARCHAR}
+				ext_param = #{extParam,jdbcType=VARCHAR},
+			</if>
+			<if test="updateUser != null">
+				update_user = #{updateUser,jdbcType=VARCHAR}
 			</if>
 		</set>
 		WHERE

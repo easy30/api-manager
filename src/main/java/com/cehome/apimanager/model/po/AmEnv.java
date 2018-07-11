@@ -13,7 +13,8 @@ public class AmEnv extends BaseEntity implements Serializable {
     private String envName;
     @FiledDesc(desc = "排序编号")
     private Integer sortCode;
-
+    private Integer createUser;
+    private Integer updateUser;
     public Integer getId() {
         return id;
     }
@@ -36,6 +37,22 @@ public class AmEnv extends BaseEntity implements Serializable {
 
     public void setSortCode(Integer sortCode) {
         this.sortCode = sortCode;
+    }
+
+    public Integer getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(Integer createUser) {
+        this.createUser = createUser;
+    }
+
+    public Integer getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
     }
 
     @Override
