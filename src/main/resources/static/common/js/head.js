@@ -749,6 +749,19 @@ function loggerClick() {
                 api.ui.chosenSelect(operateUserSelect);
                 api.ui.editTable(loggerTableOptions);
             });
+            $('input[name=entityId]').on('blur', function () {
+                var regPos = /^[0-9]*$/; // 浮点数
+                if(!regPos.test($('input[name=entityId]').val())){
+                    var options = {
+                        content: '请输入业务编号！'
+                    };
+                    api.ui.dialog(options).open();
+                    $('input[name=entityId]').val('');
+                    $('input[name=entityId]').css('border-color','red');
+                }else {
+                    $('input[name=entityId]').css('border-color','');
+                }
+            });
         }
     }
     api.ui.load(conf);
