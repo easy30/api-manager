@@ -165,7 +165,17 @@
                     $tr.append($td.append($selector));
                 }
             });
-            $tr.find('input[name=rule]').val('1-6:ab');
+
+            var typeValue = $tr.find('select[name=type]').val();
+            if(typeValue == 3){
+                $tr.find('input[name=rule]').val('1:true');
+            } else if(typeValue == 2){
+                $tr.find('input[name=rule]').val('1-6:ab');
+            } else if(typeValue == 1){
+                $tr.find('input[name=rule]').val('1-100:10');
+            } else if(typeValue == 0){
+                $tr.find('input[name=rule]').val('@datetime');
+            }
             $tr.find('input[name=defaultVal]').on('blur', function () {
                 if($tr.find('select[name=type]').val()==1){
                     var regPos = /^(-?\d+)(\.\d+)?$/; // 浮点数
@@ -367,7 +377,16 @@
                     $tr.append($td.append($selector));
                 }
             });
-            $tr.find('input[name=rule]').val('1-6:ab');
+            var typeValue = $tr.find('select[name=type]').val();
+            if(typeValue == 3){
+                $tr.find('input[name=rule]').val('1:true');
+            } else if(typeValue == 2){
+                $tr.find('input[name=rule]').val('1-6:ab');
+            } else if(typeValue == 1){
+                $tr.find('input[name=rule]').val('1-100:10');
+            } else if(typeValue == 0){
+                $tr.find('input[name=rule]').val('@datetime');
+            }
             $tr.find('input[name=defaultVal]').on('blur',  function () {
                 if($tr.find('select[name=type]').val()==1){
                     var regPos = /^(-?\d+)(\.\d+)?$/; // 浮点数
