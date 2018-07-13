@@ -12,7 +12,7 @@
     };
 
     param.prototype = {
-        _build: function () {
+            _build: function () {
             var that = this, jq = this.jq, conf = this.options, fields = conf.fields, headers = conf.headers, footBtn = conf.footBtn;
             var $table = $('<table class="table table-bordered table-sm" style="font-size: 15px;"></table>');
             var $tHead = $('<thead></thead>');
@@ -77,18 +77,31 @@
             var $addLink = $('<span class="glyphicon glyphicon-plus" style="margin-top: 10px; color: #1e7e34; cursor: pointer; display: none;"></span>');
             var $removeLink = $('<span class="glyphicon glyphicon-remove" style="margin-left: 10px; margin-top: 10px; cursor: pointer; color: #ab1e1e"></span>');
             $removeLink.mousedown(function () {
-                delete that.defaultFlag;
-                function removeChildren(identity) {
-                    var children = jq.find('tbody tr[parent=' + identity + ']');
-                    $.each(children, function (index, child) {
-                        var $child = $(child);
-                        var identity = $child.attr('identity');
-                        removeChildren(identity);
-                        $child.remove();
-                    })
-                }
-                removeChildren($tr.attr('identity'));
-                $tr.remove();
+                var options = {
+                    content: '确认删除该参数？',
+                    buttons: [
+                        {
+                            text: '确定', type: 'sure', fn: function () {
+                                delete that.defaultFlag;
+                                function removeChildren(identity) {
+                                    var children = jq.find('tbody tr[parent=' + identity + ']');
+                                    $.each(children, function (index, child) {
+                                        var $child = $(child);
+                                        var identity = $child.attr('identity');
+                                        removeChildren(identity);
+                                        $child.remove();
+                                    })
+                                }
+                                removeChildren($tr.attr('identity'));
+                                $tr.remove();
+                            }
+                        },
+                        {
+                            text: '取消', type: 'cancel'
+                        }
+                    ]
+                };
+                api.ui.dialog(options).open();
             });
             $addLink.on('click', function () {
                 if(that._checkEmpty()){
@@ -242,27 +255,40 @@
             var $addLink = $('<span class="glyphicon glyphicon-plus" style="margin-top: 10px; color: #1e7e34; cursor: pointer; display: none;"></span>');
             var $removeLink = $('<span class="glyphicon glyphicon-remove" style="margin-left: 10px; margin-top: 10px; cursor: pointer; color: #ab1e1e"></span>');
             $removeLink.mousedown(function () {
-                delete that.defaultFlag;
-                function removeChildren(identity) {
-                    var children = jq.find('tbody tr[parent=' + identity + ']');
-                    $.each(children, function (index, child) {
-                        var $child = $(child);
-                        var identity = $child.attr('identity');
-                        removeChildren(identity);
-                        $child.remove();
-                    })
-                }
-                removeChildren($tr.attr('identity'));
-                $tr.remove();
-                var parentTypeValue = $row.find('select[name=type]').val();
-                if(parentTypeValue >= 5 && parseInt($row.attr('childrenCount')) > 0){
-                    var children = jq.find('tbody tr[parent=' + $row.attr('identity') + ']'), len = children.length;
-                    $.each(children, function (index, child) {
-                        var $child = $(child);
-                        $child.find('input[name=name]').val('array[' + (len - index - 1) + ']')
-                    })
-                    $row.attr('childrenCount', parseInt($row.attr('childrenCount')) - 1);
-                }
+                var options = {
+                    content: '确认删除该参数？',
+                    buttons: [
+                        {
+                            text: '确定', type: 'sure', fn: function () {
+                                delete that.defaultFlag;
+                                function removeChildren(identity) {
+                                    var children = jq.find('tbody tr[parent=' + identity + ']');
+                                    $.each(children, function (index, child) {
+                                        var $child = $(child);
+                                        var identity = $child.attr('identity');
+                                        removeChildren(identity);
+                                        $child.remove();
+                                    })
+                                }
+                                removeChildren($tr.attr('identity'));
+                                $tr.remove();
+                                var parentTypeValue = $row.find('select[name=type]').val();
+                                if(parentTypeValue >= 5 && parseInt($row.attr('childrenCount')) > 0){
+                                    var children = jq.find('tbody tr[parent=' + $row.attr('identity') + ']'), len = children.length;
+                                    $.each(children, function (index, child) {
+                                        var $child = $(child);
+                                        $child.find('input[name=name]').val('array[' + (len - index - 1) + ']')
+                                    })
+                                    $row.attr('childrenCount', parseInt($row.attr('childrenCount')) - 1);
+                                }
+                            }
+                        },
+                        {
+                            text: '取消', type: 'cancel'
+                        }
+                    ]
+                };
+                api.ui.dialog(options).open();
             });
             $addLink.on('click', function () {
                 if(that._checkEmpty()||that.defaultFlag==1){
@@ -454,18 +480,31 @@
             var $addLink = $('<span class="glyphicon glyphicon-plus" style="margin-top: 10px; color: #1e7e34; cursor: pointer; display: none;"></span>');
             var $removeLink = $('<span class="glyphicon glyphicon-remove" style="cursor: pointer; margin-left: 10px; margin-top: 10px; color: #ab1e1e"></span>');
             $removeLink.mousedown(function () {
-                delete that.defaultFlag;
-                function removeChildren(identity) {
-                    var children = jq.find('tbody tr[parent=' + identity + ']');
-                    $.each(children, function (index, child) {
-                        var $child = $(child);
-                        var identity = $child.attr('identity');
-                        removeChildren(identity);
-                        $child.remove();
-                    })
-                }
-                removeChildren($tr.attr('identity'));
-                $tr.remove();
+                var options = {
+                    content: '确认删除该参数？',
+                    buttons: [
+                        {
+                            text: '确定', type: 'sure', fn: function () {
+                                delete that.defaultFlag;
+                                function removeChildren(identity) {
+                                    var children = jq.find('tbody tr[parent=' + identity + ']');
+                                    $.each(children, function (index, child) {
+                                        var $child = $(child);
+                                        var identity = $child.attr('identity');
+                                        removeChildren(identity);
+                                        $child.remove();
+                                    })
+                                }
+                                removeChildren($tr.attr('identity'));
+                                $tr.remove();
+                            }
+                        },
+                        {
+                            text: '取消', type: 'cancel'
+                        }
+                    ]
+                };
+                api.ui.dialog(options).open();
             });
             $addLink.on('click', function () {
                 if(that._checkEmpty()){
@@ -613,29 +652,41 @@
                     var $addLink = $('<span class="glyphicon glyphicon-plus" style="cursor: pointer; margin-top: 10px; color: #1e7e34; display: none;"></span>');
                     var $removeLink = $('<span class="glyphicon glyphicon-remove" style="cursor: pointer; margin-left: 10px; margin-top: 10px; color: #ab1e1e"></span>');
                     $removeLink.mousedown(function () {
-                        delete that.defaultFlag;
-                        function removeChildren(identity) {
-                            var children = jq.find('tbody tr[parent=' + identity + ']');
-                            $.each(children, function (index, child) {
-                                var $child = $(child);
-                                var identity = $child.attr('identity');
-                                removeChildren(identity);
-                                $child.remove();
-                            })
-                        }
-                        removeChildren($tr.attr('identity'));
-                        $tr.remove();
+                        var options = {
+                            content: '确认删除该参数？',
+                            buttons: [
+                                {
+                                    text: '确定', type: 'sure', fn: function () {
+                                        api.ui.dialog(options).open();
+                                        delete that.defaultFlag;
+                                        function removeChildren(identity) {
+                                            var children = jq.find('tbody tr[parent=' + identity + ']');
+                                            $.each(children, function (index, child) {
+                                                var $child = $(child);
+                                                var identity = $child.attr('identity');
+                                                removeChildren(identity);
+                                                $child.remove();
+                                            })
+                                        }
+                                        removeChildren($tr.attr('identity'));
+                                        $tr.remove();
 
-                        var parentTypeValue = $parentTr.find('select[name=type]').val();
-                        if(parentTypeValue >= 5 && parseInt($parentTr.attr('childrenCount')) > 0){
-                            var children = jq.find('tbody tr[parent=' + $parentTr.attr('identity') + ']'), len = children.length;
-                            $.each(children, function (index, child) {
-                                var $child = $(child);
-                                $child.find('input[name=name]').val('array[' + (len - index - 1) + ']')
-                            })
-                            $parentTr.attr('childrenCount', parseInt($parentTr.attr('childrenCount')) - 1);
-                        }
-
+                                        var parentTypeValue = $parentTr.find('select[name=type]').val();
+                                        if(parentTypeValue >= 5 && parseInt($parentTr.attr('childrenCount')) > 0){
+                                            var children = jq.find('tbody tr[parent=' + $parentTr.attr('identity') + ']'), len = children.length;
+                                            $.each(children, function (index, child) {
+                                                var $child = $(child);
+                                                $child.find('input[name=name]').val('array[' + (len - index - 1) + ']')
+                                            })
+                                            $parentTr.attr('childrenCount', parseInt($parentTr.attr('childrenCount')) - 1);
+                                        }
+                                    }
+                                },
+                                {
+                                    text: '取消', type: 'cancel'
+                                }
+                            ]
+                        };
                     });
                     $addLink.on('click', function () {
                         if(that._checkEmpty()){

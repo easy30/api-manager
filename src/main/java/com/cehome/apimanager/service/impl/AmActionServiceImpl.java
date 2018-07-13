@@ -57,7 +57,6 @@ public class AmActionServiceImpl implements IAmActionService {
         if(requestUrl.charAt(0) != '/'){
             dto.setRequestUrl("/" + requestUrl);
         }
-        dto.setCreateUser(dto.getOperateUser());
         actionDao.add(dto);
 
         cacheProvider.addActionUrlCache(dto);
@@ -95,7 +94,6 @@ public class AmActionServiceImpl implements IAmActionService {
 
         buildMock(dto);
         dto.setUpdateTime(new Date());
-        dto.setUpdateUser(dto.getOperateUser());
         actionDao.update(dto);
 
         ThreadUtils.execute(new ThreadUtils.Task() {
