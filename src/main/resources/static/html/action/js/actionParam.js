@@ -91,6 +91,10 @@ var requestOptions = {
             }
         },
         {
+            type: 'importDesc', text: '导入备注', className: 'importDescBtn', fn: function (row) {
+            }
+        },
+        {
             type: 'clear', text: '清空参数', fn: function (row) {
             }
         }
@@ -132,6 +136,10 @@ var responseOptions = {
         },
         {
             type: 'import', text: '导入参数', fn: function (row) {
+            }
+        },
+        {
+            type: 'importDesc', text: '导入备注', className: 'importDescBtn', fn: function (row) {
             }
         },
         {

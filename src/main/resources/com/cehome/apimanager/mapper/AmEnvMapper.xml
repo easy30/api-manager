@@ -70,7 +70,7 @@
 				env_name,
 			</if>
 			<if test="sortCode != null">
-				sort_code
+				sort_code,
 			</if>
 			<if test="createUser != null">
 				create_user,
