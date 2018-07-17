@@ -2,6 +2,7 @@ package com.cehome.apimanager.utils;
 
 import com.cehome.apimanager.model.dto.SysDbReqDto;
 import com.cehome.apimanager.model.dto.SysDbResDto;
+import com.cehome.apimanager.model.po.DbConfig;
 import org.apache.commons.lang.StringUtils;
 
 import java.sql.*;
@@ -9,19 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DbUtils {
-    public static List<SysDbResDto> getTables(String tableName) {
+    public static List<SysDbResDto> getTables(DbConfig dbConfig, String tableName) {
         List<SysDbResDto> list = new ArrayList<>();
-        String ip = "192.168.0.13";
-        String port = "3306";
-        String user = "root";
-        String password = "asdf1234!";
-        String dbName = "ershouji";
-        String url = "jdbc:mysql://" + ip + ":" + port + "/" + dbName + "?user=" + user + "&password=" + password
+        String url = "jdbc:mysql://" + dbConfig.getIp() + ":" + dbConfig.getPort() + "/" + dbConfig.getDbName() + "?user=" + dbConfig.getUserName() + "&password=" + dbConfig.getPassword()
                 + "&useUnicode=true&characterEncoding=UTF8";
         Connection conn = null;
         ResultSet rs = null;
         Statement stmt = null;
-        String sql = "select table_name, table_comment from information_schema.tables where table_schema='" + dbName + "' and table_type='base table'";
+        String sql = "select table_name, table_comment from information_schema.tables where table_schema='" + dbConfig.getDbName() + "' and table_type='base table'";
         if(!StringUtils.isEmpty(tableName)){
             sql += " and table_name like '%" + tableName + "%'";
         }
@@ -64,19 +60,14 @@ public class DbUtils {
         return list;
     }
 
-    public static List<SysDbResDto> getColumnsInfo(SysDbReqDto sysDbReqDto) {
+    public static List<SysDbResDto> getColumnsInfo(DbConfig dbConfig, SysDbReqDto sysDbReqDto) {
         List<SysDbResDto> list = new ArrayList<>();
-        String ip = "192.168.0.13";
-        String port = "3306";
-        String user = "root";
-        String password = "asdf1234!";
-        String dbName = "ershouji";
-        String url = "jdbc:mysql://" + ip + ":" + port + "/" + dbName + "?user=" + user + "&password=" + password
+        String url = "jdbc:mysql://" + dbConfig.getIp() + ":" + dbConfig.getPort() + "/" + dbConfig.getDbName() + "?user=" + dbConfig.getUserName() + "&password=" + dbConfig.getPassword()
                 + "&useUnicode=true&characterEncoding=UTF8";
         Connection conn = null;
         ResultSet rs = null;
         Statement stmt = null;
-        String sql = "select column_name,column_comment from information_schema.columns where table_schema='ershouji' and table_name='" + sysDbReqDto.getTableName() + "'";
+        String sql = "select column_name,column_comment from information_schema.columns where table_schema='" + dbConfig.getDbName() + "' and table_name='" + sysDbReqDto.getTableName() + "'";
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(url);

@@ -12,10 +12,11 @@ var tableListTableOptions = {
     ],
     rowButtons: [
         {type: 'makeObjectDesc', text: '生成对象备注', icon: 'glyphicon glyphicon-edit', fn: function (param) {
+                var dbName = $('select[name=dbName]').val();
                 $.ajax({
                     url: api.util.getUrl('apimanager/sysdb/makeObjectDesc'),
                     type: 'get',
-                    data: {tableName: param.tableName},
+                    data: {'tableName': param.tableName, 'dbName': dbName},
                     dataType: 'json',
                     success: function (result) {
                         if(result.code == 0){

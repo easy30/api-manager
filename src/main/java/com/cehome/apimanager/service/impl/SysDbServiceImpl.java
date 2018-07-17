@@ -7,7 +7,9 @@ import com.cehome.apimanager.model.dto.SysDbQueryReqDto;
 import com.cehome.apimanager.model.dto.SysDbReqDto;
 import com.cehome.apimanager.model.dto.SysDbResDto;
 import com.cehome.apimanager.model.po.AmObjectFieldDesc;
+import com.cehome.apimanager.model.po.DbConfig;
 import com.cehome.apimanager.service.IAmObjectFieldDescService;
+import com.cehome.apimanager.service.IDbConfigService;
 import com.cehome.apimanager.service.ISysDbService;
 import com.cehome.apimanager.utils.DbUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +25,13 @@ public class SysDbServiceImpl implements ISysDbService {
     @Autowired
     private IAmObjectFieldDescService objectFieldDescService;
 
+    @Autowired
+    private IDbConfigService dbConfigService;
+
     @Override
     public Page<SysDbResDto> findTables(SysDbQueryReqDto sysDbQueryReqDto) {
-        List<SysDbResDto> tables = DbUtils.getTables(sysDbQueryReqDto.getTableName());
+        DbConfig dbConfig = dbConfigService.findByDbName(sysDbQueryReqDto.getDbName());
+        List<SysDbResDto> tables = DbUtils.getTables(dbConfig, sysDbQueryReqDto.getTableName());
         Page<SysDbResDto> page = new Page<>();
         Integer pageIndex = sysDbQueryReqDto.getPageIndex();
         Integer pageSize = sysDbQueryReqDto.getPageSize();
@@ -41,7 +47,8 @@ public class SysDbServiceImpl implements ISysDbService {
 
     @Override
     public void makeObjectDesc(SysDbReqDto sysDbReqDto) {
-        List<SysDbResDto> sysDbResDtoList = DbUtils.getColumnsInfo(sysDbReqDto);
+        DbConfig dbConfig = dbConfigService.findByDbName(sysDbReqDto.getDbName());
+        List<SysDbResDto> sysDbResDtoList = DbUtils.getColumnsInfo(dbConfig, sysDbReqDto);
         JSONObject jsonObject = new JSONObject();
         for(SysDbResDto sysDbResDto : sysDbResDtoList){
             String columnName = sysDbResDto.getColumnName();
@@ -70,7 +77,7 @@ public class SysDbServiceImpl implements ISysDbService {
                 className += split.substring(0, 1).toUpperCase() + split.substring(1);
             }
         }
-        objectFieldDescReqDto.setClassWholeName(className);
+        objectFieldDescReqDto.setClassWholeName(sysDbReqDto.getDbName() + ":" + className);
         objectFieldDescReqDto.setFieldDescValue(jsonObject.toJSONString());
         AmObjectFieldDesc objectFieldDesc = objectFieldDescService.findByClassWholeName(className);
         if(objectFieldDesc != null){

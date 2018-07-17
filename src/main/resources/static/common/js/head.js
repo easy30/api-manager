@@ -426,6 +426,15 @@ function tableManageClick() {
         async: false,
         loaded: function () {
             api.util.loadScript(api.util.getUrl("html/sysdb/js/table.js") ,function () {
+                var dbNameSelectOptions = {
+                    selector: '[name=dbName]',
+                    width: '60%',
+                    blank: false,
+                    async: false,
+                    optionField: {value: 'dbName', text: 'dbName'},
+                    url: api.util.getUrl('apimanager/dbconfig/list')
+                }
+                api.ui.chosenSelect(dbNameSelectOptions);
                 api.ui.editTable(tableListTableOptions);
             });
         }

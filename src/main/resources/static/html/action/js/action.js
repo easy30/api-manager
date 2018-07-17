@@ -4,7 +4,7 @@ var actionTableOptions = {
         {text: '编号', width: '5%'},
         {text: '接口地址', width: '15%'},
         {text: '所属模块', width: '10%'},
-        {text: '请求类型', width: '5%'},
+        {text: '方法', width: '5%'},
         {text: '状态', width: '5%'},
         {text: '创建人', width: '7%'},
         {text: '修改人', width: '7%'},
