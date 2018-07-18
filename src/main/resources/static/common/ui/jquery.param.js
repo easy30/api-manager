@@ -13,18 +13,19 @@
         $(document).unbind('keydown');
         $(document).keydown(function (event) {
             if(event.keyCode == 13){
-                var parentVal = $(event.target).parents('tr').attr('parent');
+                var $tr = $(event.target).parents('tr');
+                var parentVal = $tr.attr('parent');
                 if(parentVal){
-                    var parentTrs = $(event.target).parents('tbody').find('tr');
-                    $.each(parentTrs,function (index, parentTr) {
-                        if($(parentTr).attr('identity') == parentVal){
-                            $(parentTr).find('.glyphicon-plus').first().click();
-                            return false;
-                        }
-                    })
+                    var parentTr = $(event.target).parents('tbody').find('tr[identity=' + parentVal + ']');
+                    parentTr.find('.glyphicon-plus').first().click();
                 }else {
-                    $(event.target).parents('table').find('tfoot').find('.btn-sm').first().click();
-                    return false;
+                    var type = $tr.find('select[name=type]').val();
+                    if(type == 4 || type == 5 || type == 6 || type == 7 || type == 8 || type == 9){
+                        $tr.find('.glyphicon-plus').first().click();
+                    } else {
+                        $(event.target).parents('table').find('tfoot').find('.btn-sm').first().click();
+                        return false;
+                    }
                 }
             }
         })
