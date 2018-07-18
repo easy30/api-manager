@@ -13,8 +13,19 @@
         $(document).unbind('keydown');
         $(document).keydown(function (event) {
             if(event.keyCode == 13){
-                $(event.target).parents('table').find('tfoot').find('.btn-sm').first().click();
-                return false;
+                var parentVal = $(event.target).parents('tr').attr('parent');
+                if(parentVal){
+                    var parentTrs = $(event.target).parents('tbody').find('tr');
+                    $.each(parentTrs,function (index, parentTr) {
+                        if($(parentTr).attr('identity') == parentVal){
+                            $(parentTr).find('.glyphicon-plus').first().click();
+                            return false;
+                        }
+                    })
+                }else {
+                    $(event.target).parents('table').find('tfoot').find('.btn-sm').first().click();
+                    return false;
+                }
             }
         })
     };
@@ -127,6 +138,7 @@
                     return that;
                 }
                 that._after($tr);
+                $tr.next().find('input[name=name]').focus();
             });
             $operate.append($addLink).append($removeLink);
             $tr.append($operate).attr('identity', 'tr-' + api.util.generateNumber()).attr('level', 'root');
@@ -315,6 +327,7 @@
                     return that;
                 }
                 that._after($tr);
+                $tr.next().find('input[name=name]').focus();
             });
             $operate.append($addLink).append($removeLink);
             $tr.append($operate).attr('identity', 'tr-' + api.util.generateNumber()).attr('parent', $row.attr('identity'));
@@ -531,6 +544,7 @@
                     return that;
                 }
                 that._after($tr);
+                $tr.next().find('input[name=name]').focus();
             });
             $operate.append($addLink).append($removeLink);
             $tr.append($operate).attr('identity', 'tr-' + api.util.generateNumber()).attr('level', 'root');
@@ -713,6 +727,7 @@
                             return that;
                         }
                         that._after($tr);
+                        $tr.next().find('input[name=name]').focus();
                     });
                     $operate.append($addLink).append($removeLink);
                     $tr.append($operate).attr('identity', 'tr-' + api.util.generateNumber()).attr('parent', $parentTr.attr('identity'));
