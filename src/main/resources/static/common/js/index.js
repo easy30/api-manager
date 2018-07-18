@@ -12,7 +12,8 @@ api.util.loadScripts([
     'common/ui/jquery.editTable.js',
     'common/ui/jquery.editSelect.js',
     'common/ui/jquery.progress.js',
-    'common/ui/jquery.downMenu.js'
+    'common/ui/jquery.downMenu.js',
+    'common/ui/jquery.autocomplete.js'
     ], function () {
     var headConf = {
         container: '#head',
@@ -36,11 +37,6 @@ api.util.loadScripts([
                                 batchTestClick();
                             }
                         }
-                        // ,{
-                        //     name: '分组测试', fn: function () {
-                        //         groupTestClick();
-                        //     }
-                        // }
                     ]
                 }
                 api.ui.downMenu(config);
@@ -61,6 +57,14 @@ api.util.loadScripts([
                         },{
                             name: '认证列表', fn: function () {
                                 actionLoginClick();
+                            }
+                        },{
+                            name: '数据库表', fn: function () {
+                                tableManageClick();
+                            }
+                        },{
+                            name: '对象备注', fn: function () {
+                                objectDescClick();
                             }
                         }
                     ]

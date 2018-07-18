@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cehome.apimanager.model.po.AmObjectFieldDesc">
+	<resultMap id="BaseResultMap" type="com.cehome.apimanager.model.po.AmObjectFieldDesc">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="class_whole_name" property="classWholeName" jdbcType="VARCHAR" />
+		<result column="table_name" property="tableName" jdbcType="VARCHAR" />
+		<result column="field_desc_value" property="fieldDescValue" jdbcType="LONGVARCHAR" />
+		<result column="create_user" property="createUser" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_user" property="updateUser" jdbcType="INTEGER" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,class_whole_name,table_name,field_desc_value,create_user,create_time,update_user,update_time
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_object_field_desc
+		WHERE
+		id = #{id,jdbcType=INTEGER}
+		LIMIT 1
+	</select>
+
+	<select id="findByClassWholeName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_object_field_desc
+		WHERE
+		class_whole_name = #{classWholeName,jdbcType=VARCHAR}
+		LIMIT 1
+	</select>
+
+	<select id="findByTableName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_object_field_desc
+		WHERE
+		table_name = #{tableName,jdbcType=VARCHAR}
+		LIMIT 1
+	</select>
+
+	<select id="find" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_object_field_desc
+		WHERE
+			1=1
+		<if test="classWholeName != null and classWholeName != ''">
+		AND
+			class_whole_name LIKE CONCAT('%',#{classWholeName},'%')
+		</if>
+		ORDER BY update_time
+		LIMIT #{pageOffset},#{pageSize}
+	</select>
+	
+	<select id="findCount" parameterType="map" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM am_object_field_desc
+		WHERE
+			1=1
+		<if test="classWholeName != null and classWholeName != ''">
+		AND
+			class_whole_name LIKE CONCAT('%',#{classWholeName},'%')
+		</if>
+	</select>
+	
+	<select id="list" parameterType="com.cehome.apimanager.model.po.AmObjectFieldDesc" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_object_field_desc
+		WHERE
+			1=1
+		<if test="classWholeName != null and classWholeName != ''">
+		AND
+			class_whole_name LIKE CONCAT('%',#{classWholeName},'%')
+		</if>
+		ORDER BY update_time
+	</select>
+
+	<insert id="insertSelective" parameterType="com.cehome.apimanager.model.po.AmObjectFieldDesc"
+			useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO am_object_field_desc
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="classWholeName != null">
+				class_whole_name,
+			</if>
+			<if test="tableName != null">
+				table_name,
+			</if>
+			<if test="fieldDescValue != null">
+				field_desc_value,
+			</if>
+			<if test="createUser != null">
+				create_user,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateUser != null">
+				update_user,
+			</if>
+			<if test="updateTime != null">
+				update_time
+			</if>
+		</trim>
+		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="classWholeName != null">
+				#{classWholeName,jdbcType=VARCHAR},
+			</if>
+			<if test="tableName != null">
+				#{tableName,jdbcType=VARCHAR},
+			</if>
+			<if test="fieldDescValue != null">
+				#{fieldDescValue,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateSelective" parameterType="com.cehome.apimanager.model.po.AmObjectFieldDesc">
+		UPDATE am_object_field_desc
+		<set>
+			<if test="classWholeName != null">
+				class_whole_name = #{classWholeName,jdbcType=VARCHAR},
+			</if>
+			<if test="tableName != null">
+				table_name = #{tableName,jdbcType=VARCHAR},
+			</if>
+			<if test="fieldDescValue != null">
+				field_desc_value = #{fieldDescValue,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="updateUser != null">
+				update_user = #{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP}
+			</if>
+		</set>
+		WHERE
+		id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		DELETE FROM am_object_field_desc WHERE id = #{id}
+	</delete>
+</mapper>

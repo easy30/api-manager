@@ -418,6 +418,29 @@ function actionLoginClick() {
     }
     api.ui.load(conf);
 }
+function tableManageClick() {
+    $('#depart').parent('.container-fluid').css('display','none');
+    var conf = {
+        container: '#container',
+        url: api.util.getUrl('html/sysdb/table.html'),
+        async: false,
+        loaded: function () {
+            api.util.loadScript(api.util.getUrl("html/sysdb/js/table.js") ,function () {
+                var dbNameSelectOptions = {
+                    selector: '[name=dbName]',
+                    width: '60%',
+                    blank: false,
+                    async: false,
+                    optionField: {value: 'dbName', text: 'dbName'},
+                    url: api.util.getUrl('apimanager/dbconfig/list')
+                }
+                api.ui.chosenSelect(dbNameSelectOptions);
+                api.ui.editTable(tableListTableOptions);
+            });
+        }
+    }
+    api.ui.load(conf);
+}
 function batchTestClick() {
     $('#depart').parent('.container-fluid').css('display','none');
     var conf = {
@@ -537,6 +560,21 @@ function groupTestClick() {
 
             api.util.loadScript(api.util.getUrl("html/action/js/groupTest.js") ,function () {
                 api.ui.editTable(groupTestTableOptions);
+            });
+        }
+    }
+    api.ui.load(conf);
+}
+
+function objectDescClick() {
+    $('#depart').parent('.container-fluid').css('display','none');
+    var conf = {
+        container: '#container',
+        url: api.util.getUrl('html/action/objectFieldDesc.html'),
+        async: false,
+        loaded: function () {
+            api.util.loadScript(api.util.getUrl("html/action/js/objectFieldDesc.js") ,function () {
+                api.ui.editTable(objectFieldDescTableOptions);
             });
         }
     }

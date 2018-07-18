@@ -4,11 +4,11 @@ var actionTableOptions = {
         {text: '编号', width: '5%'},
         {text: '接口地址', width: '15%'},
         {text: '所属模块', width: '10%'},
-        {text: '请求类型', width: '10%'},
+        {text: '方法', width: '5%'},
         {text: '状态', width: '5%'},
         {text: '创建人', width: '7%'},
         {text: '修改人', width: '7%'},
-        {text: '操作', width: '25%'}
+        {text: '操作', width: '30%'}
     ],
     form: '#form',
     fields: [
@@ -165,6 +165,88 @@ var actionTableOptions = {
                                                 ],
                                                 opened: function (modalBody) {
 
+                                                }
+                                            };
+                                            api.ui.dialog(dialogOptions).open();
+                                        })
+                                        var $requestImportDescBtn = $('#requestParam').find('.importDescBtn');
+                                        $requestImportDescBtn.on('click',function () {
+                                            var dialogOptions = {
+                                                container: 'body',
+                                                content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment，支持多选"></input>',
+                                                iTitle: false,
+                                                title: '备注参数',
+                                                width: '150%',
+                                                buttons:[
+                                                    {
+                                                        type: 'close', text: '关闭', fn: function () {}
+                                                    },{
+                                                        type: 'sure', text: '导入', fn: function () {
+                                                            var objectDescNames = $('input[name=objectDescNames]').val();
+                                                            if(objectDescNames && $.trim(objectDescNames) != ''){
+                                                                $.ajax({
+                                                                    url: api.util.getUrl('apimanager/object/field/findByClassWholeNames'),
+                                                                    type: 'GET',
+                                                                    data : {'classWholeNames': objectDescNames},
+                                                                    dataType: 'json',
+                                                                    async: false,
+                                                                    success: function (result) {
+                                                                        var data = result.data;
+                                                                        requestParam.giveDesc(data);
+                                                                    }
+                                                                });
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                opened: function (modalBody) {
+                                                    var options = {
+                                                        container: modalBody.find('input[name=objectDescNames]'),
+                                                        url: api.util.getUrl('apimanager/object/field/listObjectNames'),
+                                                        appendTo: modalBody
+                                                    }
+                                                    api.ui.autocomplete(options);
+                                                }
+                                            };
+                                            api.ui.dialog(dialogOptions).open();
+                                        })
+                                        var $responseImportDescBtn = $('#responseParam').find('.importDescBtn');
+                                        $responseImportDescBtn.on('click',function () {
+                                            var dialogOptions = {
+                                                container: 'body',
+                                                content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment，支持多选"></input>',
+                                                iTitle: false,
+                                                title: '备注参数',
+                                                width: '150%',
+                                                buttons:[
+                                                    {
+                                                        type: 'close', text: '关闭', fn: function () {}
+                                                    },{
+                                                        type: 'sure', text: '导入', fn: function () {
+                                                            var objectDescNames = $('input[name=objectDescNames]').val();
+                                                            if(objectDescNames && $.trim(objectDescNames) != ''){
+                                                                $.ajax({
+                                                                    url: api.util.getUrl('apimanager/object/field/findByClassWholeNames'),
+                                                                    type: 'GET',
+                                                                    data : {'classWholeNames': objectDescNames},
+                                                                    dataType: 'json',
+                                                                    async: false,
+                                                                    success: function (result) {
+                                                                        var data = result.data;
+                                                                        responseParam.giveDesc(data);
+                                                                    }
+                                                                });
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                opened: function (modalBody) {
+                                                    var options = {
+                                                        container: modalBody.find('input[name=objectDescNames]'),
+                                                        url: api.util.getUrl('apimanager/object/field/listObjectNames'),
+                                                        appendTo: modalBody
+                                                    }
+                                                    api.ui.autocomplete(options);
                                                 }
                                             };
                                             api.ui.dialog(dialogOptions).open();
@@ -967,6 +1049,89 @@ var actionTableOptions = {
                                             };
                                             api.ui.dialog(dialogOptions).open();
                                         })
+                                        var $requestImportDescBtn = $('#requestParam').find('.importDescBtn');
+
+                                        $requestImportDescBtn.on('click',function () {
+                                            var dialogOptions = {
+                                                container: 'body',
+                                                content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment，支持多选"></input>',
+                                                iTitle: false,
+                                                title: '备注参数',
+                                                width: '150%',
+                                                buttons:[
+                                                    {
+                                                        type: 'close', text: '关闭', fn: function () {}
+                                                    },{
+                                                        type: 'sure', text: '导入', fn: function () {
+                                                            var objectDescNames = $('input[name=objectDescNames]').val();
+                                                            if(objectDescNames && $.trim(objectDescNames) != ''){
+                                                                $.ajax({
+                                                                    url: api.util.getUrl('apimanager/object/field/findByClassWholeNames'),
+                                                                    type: 'GET',
+                                                                    data : {'classWholeNames': objectDescNames},
+                                                                    dataType: 'json',
+                                                                    async: false,
+                                                                    success: function (result) {
+                                                                        var data = result.data;
+                                                                        requestParam.giveDesc(data);
+                                                                    }
+                                                                });
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                opened: function (modalBody) {
+                                                    var options = {
+                                                        container: modalBody.find('input[name=objectDescNames]'),
+                                                        url: api.util.getUrl('apimanager/object/field/listObjectNames'),
+                                                        appendTo: modalBody
+                                                    }
+                                                    api.ui.autocomplete(options);
+                                                }
+                                            };
+                                            api.ui.dialog(dialogOptions).open();
+                                        })
+                                        var $responseImportDescBtn = $('#responseParam').find('.importDescBtn');
+                                        $responseImportDescBtn.on('click',function () {
+                                            var dialogOptions = {
+                                                container: 'body',
+                                                content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment，支持多选"></input>',
+                                                iTitle: false,
+                                                title: '备注参数',
+                                                width: '150%',
+                                                buttons:[
+                                                    {
+                                                        type: 'close', text: '关闭', fn: function () {}
+                                                    },{
+                                                        type: 'sure', text: '导入', fn: function () {
+                                                            var objectDescNames = $('input[name=objectDescNames]').val();
+                                                            if(objectDescNames && $.trim(objectDescNames) != ''){
+                                                                $.ajax({
+                                                                    url: api.util.getUrl('apimanager/object/field/findByClassWholeNames'),
+                                                                    type: 'GET',
+                                                                    data : {'classWholeNames': objectDescNames},
+                                                                    dataType: 'json',
+                                                                    async: false,
+                                                                    success: function (result) {
+                                                                        var data = result.data;
+                                                                        responseParam.giveDesc(data);
+                                                                    }
+                                                                });
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                opened: function (modalBody) {
+                                                    var options = {
+                                                        container: modalBody.find('input[name=objectDescNames]'),
+                                                        url: api.util.getUrl('apimanager/object/field/listObjectNames'),
+                                                        appendTo: modalBody
+                                                    }
+                                                    api.ui.autocomplete(options);
+                                                }
+                                            };
+                                            api.ui.dialog(dialogOptions).open();
+                                        })
                                         var $responseImportBtn = $('#responseParam').find('.importBtn');
                                         $responseImportBtn.on('click',function () {
                                             var $templateBtnDiv = $('<div></div>');
@@ -1523,10 +1688,11 @@ var actionTableOptions = {
                                     responseParam = api.ui.param(responseOptions);
                                     responseFailParam = api.ui.param(responseFailOptions);
                                     var $requestImportBtn = $('#requestParam').find('.importBtn');
+                                    var $requestImportDescBtn = $('#requestParam').find('.importDescBtn');
                                     $requestImportBtn.on('click',function () {
                                         var dialogOptions = {
                                             container: 'body',
-                                            content: '<textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
+                                            content: '<textarea class="col-12 form-control" name="requestJson" style="height: 300px;"></textarea>',
                                             iTitle: false,
                                             title: '请求参数',
                                             width: '150%',
@@ -1535,7 +1701,7 @@ var actionTableOptions = {
                                                     type: 'close', text: '关闭', fn: function () {}
                                                 },{
                                                     type: 'sure', text: '导入', fn: function () {
-                                                        var importJson = $('textarea[name=responseJson]').val();
+                                                        var importJson = $('textarea[name=requestJson]').val();
                                                         if(importJson && $.trim(importJson) != ''){
                                                             $.ajax({
                                                                 url: api.util.getUrl('apimanager/params/convertJsonToRows'),
@@ -1556,6 +1722,46 @@ var actionTableOptions = {
                                             ],
                                             opened: function (modalBody) {
 
+                                            }
+                                        };
+                                        api.ui.dialog(dialogOptions).open();
+                                    })
+                                    $requestImportDescBtn.on('click',function () {
+                                        var dialogOptions = {
+                                            container: 'body',
+                                            content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment，支持多选"></input>',
+                                            iTitle: false,
+                                            title: '备注参数',
+                                            width: '150%',
+                                            buttons:[
+                                                {
+                                                    type: 'close', text: '关闭', fn: function () {}
+                                                },{
+                                                    type: 'sure', text: '导入', fn: function () {
+                                                        var objectDescNames = $('input[name=objectDescNames]').val();
+                                                        if(objectDescNames && $.trim(objectDescNames) != ''){
+                                                            $.ajax({
+                                                                url: api.util.getUrl('apimanager/object/field/findByClassWholeNames'),
+                                                                type: 'GET',
+                                                                data : {'classWholeNames': objectDescNames},
+                                                                dataType: 'json',
+                                                                async: false,
+                                                                success: function (result) {
+                                                                    var data = result.data;
+                                                                    requestParam.giveDesc(data);
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+                                                }
+                                            ],
+                                            opened: function (modalBody) {
+                                                var options = {
+                                                    container: modalBody.find('input[name=objectDescNames]'),
+                                                    url: api.util.getUrl('apimanager/object/field/listObjectNames'),
+                                                    appendTo: modalBody
+                                                }
+                                                api.ui.autocomplete(options);
                                             }
                                         };
                                         api.ui.dialog(dialogOptions).open();
@@ -1707,6 +1913,48 @@ var actionTableOptions = {
                                             }
                                         };
                                         var importDialog = api.ui.dialog(dialogOptions).open();
+                                    })
+
+                                    var $responseImportDescBtn = $('#responseParam').find('.importDescBtn');
+                                    $responseImportDescBtn.on('click',function () {
+                                        var dialogOptions = {
+                                            container: 'body',
+                                            content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment，支持多选"></input>',
+                                            iTitle: false,
+                                            title: '备注参数',
+                                            width: '150%',
+                                            buttons:[
+                                                {
+                                                    type: 'close', text: '关闭', fn: function () {}
+                                                },{
+                                                    type: 'sure', text: '导入', fn: function () {
+                                                        var objectDescNames = $('input[name=objectDescNames]').val();
+                                                        if(objectDescNames && $.trim(objectDescNames) != ''){
+                                                            $.ajax({
+                                                                url: api.util.getUrl('apimanager/object/field/findByClassWholeNames'),
+                                                                type: 'GET',
+                                                                data : {'classWholeNames': objectDescNames},
+                                                                dataType: 'json',
+                                                                async: false,
+                                                                success: function (result) {
+                                                                    var data = result.data;
+                                                                    responseParam.giveDesc(data);
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+                                                }
+                                            ],
+                                            opened: function (modalBody) {
+                                                var options = {
+                                                    container: modalBody.find('input[name=objectDescNames]'),
+                                                    url: api.util.getUrl('apimanager/object/field/listObjectNames'),
+                                                    appendTo: modalBody
+                                                }
+                                                api.ui.autocomplete(options);
+                                            }
+                                        };
+                                        api.ui.dialog(dialogOptions).open();
                                     })
                                     var $responseFailImportBtn = $('#responseFailParam').find('.importBtn');
                                     $responseFailImportBtn.on('click',function () {

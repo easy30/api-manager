@@ -20,7 +20,7 @@
     };
 
     param.prototype = {
-            _build: function () {
+        _build: function () {
             var that = this, jq = this.jq, conf = this.options, fields = conf.fields, headers = conf.headers, footBtn = conf.footBtn;
             var $table = $('<table class="table table-bordered table-sm" style="font-size: 15px;"></table>');
             var $tHead = $('<thead></thead>');
@@ -666,7 +666,6 @@
                             buttons: [
                                 {
                                     text: '确定', type: 'sure', fn: function () {
-                                        api.ui.dialog(options).open();
                                         delete that.defaultFlag;
                                         function removeChildren(identity) {
                                             var children = jq.find('tbody tr[parent=' + identity + ']');
@@ -696,6 +695,7 @@
                                 }
                             ]
                         };
+                        api.ui.dialog(options).open();
                     });
                     $addLink.on('click', function () {
                         if(that._checkEmpty()){
@@ -931,6 +931,14 @@
                 $this.css('display', $this.attr('oldDisplay'));
             });
             return this;
+        },
+        giveDesc: function (value) {
+            var jq = this.jq;
+            $.each(jq.find('tbody tr'), function (index, row) {
+                var $row = $(row);
+                var fieldName = $row.find('input[name=name]').val();
+                $row.find('input[name=desc]').val(value[fieldName]);
+            })
         }
     };
     param.defaults = {

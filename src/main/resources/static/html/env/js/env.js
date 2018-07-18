@@ -4,9 +4,9 @@ var envTableOptions = {
         {text: '环境编号', width: '15%'},
         {text: '环境名称', width: '20%'},
         {text: '序号', width: '10%'},
-        {text: '创建人', width: '7%'},
-        {text: '修改人', width: '7%'},
-        {text: '操作', width: '25%'}
+        {text: '创建人', width: '10%'},
+        {text: '修改人', width: '10%'},
+        {text: '操作', width: '15%'}
     ],
     form: '#form',
     fields: [
