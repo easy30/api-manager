@@ -9,6 +9,14 @@
                 that._showRow(row);
             })
         )
+        // 监听回车事件，并且屏蔽回车后添加一行参数
+        $(document).unbind('keydown');
+        $(document).keydown(function (event) {
+            if(event.keyCode == 13){
+                $(event.target).parents('table').find('tfoot').find('.btn-sm').first().click();
+                return false;
+            }
+        })
     };
 
     param.prototype = {
@@ -247,6 +255,7 @@
                 }
             })
             jq.find('tbody').append($tr);
+            $tr.find('input[name=name]').focus();
             return this;
         },
         _after: function ($row) {
