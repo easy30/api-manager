@@ -8,6 +8,7 @@ public class SysDbResDto implements Serializable {
     private String tableComment;
     private String columnName;
     private String columnComment;
+    private String resultDesc;
 
     public String getTableName() {
         return tableName;
@@ -39,5 +40,13 @@ public class SysDbResDto implements Serializable {
 
     public void setColumnComment(String columnComment) {
         this.columnComment = columnComment;
+    }
+
+    public String getResultDesc() {
+        return resultDesc;
+    }
+
+    public void setResultDesc(String resultDesc) {
+        this.resultDesc = resultDesc;
     }
 }

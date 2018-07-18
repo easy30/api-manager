@@ -84,6 +84,11 @@ public class AmObjectFieldDescServiceImpl implements IAmObjectFieldDescService{
     }
 
     @Override
+    public AmObjectFieldDesc findByTableName(String tableName) {
+        return objectFieldDescDao.findByTableName(tableName);
+    }
+
+    @Override
     public List<String> listObjectNames(AmObjectFieldDescQueryReqDto dto) {
         List<String> objectNames = new ArrayList<>();
         List<AmObjectFieldDesc> list = objectFieldDescDao.list(dto);

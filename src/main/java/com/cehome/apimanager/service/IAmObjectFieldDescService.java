@@ -22,5 +22,7 @@ public interface IAmObjectFieldDescService {
 
     AmObjectFieldDesc findByClassWholeName(String className);
 
+    AmObjectFieldDesc findByTableName(String tableName);
+
     List<String> listObjectNames(AmObjectFieldDescQueryReqDto dto);
 }

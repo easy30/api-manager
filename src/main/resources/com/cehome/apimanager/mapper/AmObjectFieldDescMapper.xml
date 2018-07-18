@@ -4,6 +4,7 @@
 	<resultMap id="BaseResultMap" type="com.cehome.apimanager.model.po.AmObjectFieldDesc">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="class_whole_name" property="classWholeName" jdbcType="VARCHAR" />
+		<result column="table_name" property="tableName" jdbcType="VARCHAR" />
 		<result column="field_desc_value" property="fieldDescValue" jdbcType="LONGVARCHAR" />
 		<result column="create_user" property="createUser" jdbcType="INTEGER" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -12,7 +13,7 @@
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		id,class_whole_name,field_desc_value,create_user,create_time,update_user,update_time
+		id,class_whole_name,table_name,field_desc_value,create_user,create_time,update_user,update_time
 	</sql>
 	
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -30,6 +31,15 @@
 		FROM am_object_field_desc
 		WHERE
 		class_whole_name = #{classWholeName,jdbcType=VARCHAR}
+		LIMIT 1
+	</select>
+
+	<select id="findByTableName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM am_object_field_desc
+		WHERE
+		table_name = #{tableName,jdbcType=VARCHAR}
 		LIMIT 1
 	</select>
 
@@ -80,6 +90,9 @@
 			<if test="classWholeName != null">
 				class_whole_name,
 			</if>
+			<if test="tableName != null">
+				table_name,
+			</if>
 			<if test="fieldDescValue != null">
 				field_desc_value,
 			</if>
@@ -102,6 +115,9 @@
 			</if>
 			<if test="classWholeName != null">
 				#{classWholeName,jdbcType=VARCHAR},
+			</if>
+			<if test="tableName != null">
+				#{tableName,jdbcType=VARCHAR},
 			</if>
 			<if test="fieldDescValue != null">
 				#{fieldDescValue,jdbcType=LONGVARCHAR},
@@ -126,6 +142,9 @@
 		<set>
 			<if test="classWholeName != null">
 				class_whole_name = #{classWholeName,jdbcType=VARCHAR},
+			</if>
+			<if test="tableName != null">
+				table_name = #{tableName,jdbcType=VARCHAR},
 			</if>
 			<if test="fieldDescValue != null">
 				field_desc_value = #{fieldDescValue,jdbcType=LONGVARCHAR},

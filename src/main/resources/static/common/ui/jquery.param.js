@@ -657,7 +657,6 @@
                             buttons: [
                                 {
                                     text: '确定', type: 'sure', fn: function () {
-                                        api.ui.dialog(options).open();
                                         delete that.defaultFlag;
                                         function removeChildren(identity) {
                                             var children = jq.find('tbody tr[parent=' + identity + ']');
@@ -687,6 +686,7 @@
                                 }
                             ]
                         };
+                        api.ui.dialog(options).open();
                     });
                     $addLink.on('click', function () {
                         if(that._checkEmpty()){

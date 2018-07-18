@@ -3,12 +3,14 @@ var tableListTableOptions = {
     headers: [
         {text: '表名称', width: '20%'},
         {text: '表注释', width: '50%'},
+        {text: '是否生成', width: '100%'},
         {text: '操作', width: '5%'}
     ],
     form: '#form',
     fields: [
         {name: 'tableName', type: 'input', inputDesc: '表名称', required: false},
-        {name: 'tableComment', type: 'input', inputDesc: '表注释', required: false}
+        {name: 'tableComment', type: 'input', inputDesc: '表注释', required: false},
+        {name: 'resultDesc', type: 'input', inputDesc: '是否生成', required: false}
     ],
     rowButtons: [
         {type: 'makeObjectDesc', text: '生成对象备注', icon: 'glyphicon glyphicon-edit', fn: function (param) {

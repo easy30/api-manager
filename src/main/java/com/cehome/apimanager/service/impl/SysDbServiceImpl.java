@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class SysDbServiceImpl implements ISysDbService {
@@ -41,7 +42,17 @@ public class SysDbServiceImpl implements ISysDbService {
         if(toIndex >= tables.size()){
             toIndex = tables.size();
         }
-        page.fillPage(tables.subList(page.getPageOffset(), toIndex), tables.size());
+        List<SysDbResDto> sysDbResDtos = tables.subList(page.getPageOffset(), toIndex);
+        for(SysDbResDto sysDbResDto : sysDbResDtos){
+            String tableName = sysDbResDto.getTableName();
+            AmObjectFieldDesc objectFieldDesc = objectFieldDescService.findByTableName(tableName);
+            if(Objects.isNull(objectFieldDesc)){
+                sysDbResDto.setResultDesc("未生成");
+            } else {
+                sysDbResDto.setResultDesc("已生成");
+            }
+        }
+        page.fillPage(sysDbResDtos, tables.size());
         return page;
     }
 
@@ -78,6 +89,7 @@ public class SysDbServiceImpl implements ISysDbService {
             }
         }
         objectFieldDescReqDto.setClassWholeName(sysDbReqDto.getDbName() + ":" + className);
+        objectFieldDescReqDto.setTableName(tableName);
         objectFieldDescReqDto.setFieldDescValue(jsonObject.toJSONString());
         AmObjectFieldDesc objectFieldDesc = objectFieldDescService.findByClassWholeName(className);
         if(objectFieldDesc != null){

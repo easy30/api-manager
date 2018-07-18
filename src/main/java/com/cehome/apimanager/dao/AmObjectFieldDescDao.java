@@ -9,4 +9,8 @@ public class AmObjectFieldDescDao extends BaseDao<AmObjectFieldDesc>{
     public AmObjectFieldDesc findByClassWholeName(String className) {
         return sqlSessionTemplate.selectOne(AmObjectFieldDesc.class.getName() + ".findByClassWholeName", className);
     }
+
+    public AmObjectFieldDesc findByTableName(String tableName) {
+        return sqlSessionTemplate.selectOne(AmObjectFieldDesc.class.getName() + ".findByTableName", tableName);
+    }
 }

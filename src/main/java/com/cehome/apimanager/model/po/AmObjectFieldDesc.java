@@ -7,6 +7,7 @@ public class AmObjectFieldDesc implements Serializable {
     private static final long serialVersionUID = 1429431031509508548L;
     private Integer id;
     private String classWholeName;
+    private String tableName;
     private String fieldDescValue;
     private Integer createUser;
     private Date createTime;
@@ -27,6 +28,14 @@ public class AmObjectFieldDesc implements Serializable {
 
     public void setClassWholeName(String classWholeName) {
         this.classWholeName = classWholeName;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
     public String getFieldDescValue() {
