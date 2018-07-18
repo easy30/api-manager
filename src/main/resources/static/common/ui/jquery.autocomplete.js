@@ -51,14 +51,18 @@
                         return false;
                     },
                     select: function (event, ui) {
-                        var terms = split(this.value);
-                        // 移除当前输入
-                        terms.pop();
-                        // 添加被选项
-                        terms.push(ui.item.value);
-                        // 添加占位符，在结尾添加逗号+空格
-                        terms.push("");
-                        this.value = terms.join(", ");
+                        if(options.multiItem){
+                            var terms = split(this.value);
+                            // 移除当前输入
+                            terms.pop();
+                            // 添加被选项
+                            terms.push(ui.item.value);
+                            // 添加占位符，在结尾添加逗号+空格
+                            terms.push("");
+                            this.value = terms.join(", ");
+                        } else {
+                            this.value = ui.item.value;
+                        }
                         return false;
                     }
                 });
