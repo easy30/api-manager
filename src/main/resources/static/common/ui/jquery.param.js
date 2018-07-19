@@ -24,10 +24,10 @@
                         $tr.find('.glyphicon-plus').first().click();
                     } else {
                         $(event.target).parents('table').find('tfoot').find('.btn-sm').first().click();
-                        return false;
                     }
                 }
             }
+            return true;
         })
     };
 

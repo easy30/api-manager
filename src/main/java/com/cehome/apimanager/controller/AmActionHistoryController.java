@@ -1,5 +1,6 @@
 package com.cehome.apimanager.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cehome.apimanager.common.BaseController;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.model.dto.AmActionHistoryQueryReqDto;
@@ -67,6 +68,23 @@ public class AmActionHistoryController extends BaseController {
         try {
             List<AmActionHistory> list = actionHistoryService.list(dto);
             return toSuccess(list);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return toFail(e.getMessage());
+        }
+    }
+
+    /**
+     * 比较接口的某个历史版本与当前的差异
+     *
+     * @param dto
+     * @return
+     */
+    @RequestMapping("compareHistoryDiff")
+    public Map<String, Object> compareHistoryDiff(AmActionHistoryQueryReqDto dto) {
+        try {
+            JSONObject compareResult = actionHistoryService.compareHistoryDiff(dto);
+            return toSuccess(compareResult);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return toFail(e.getMessage());
