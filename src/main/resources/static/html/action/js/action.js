@@ -4,7 +4,7 @@ var actionTableOptions = {
         {text: '编号', width: '5%'},
         {text: '接口地址', width: '15%'},
         {text: '所属模块', width: '10%'},
-        {text: '方法', width: '5%'},
+        {text: '级别', width: '5%'},
         {text: '状态', width: '5%'},
         {text: '创建人', width: '7%'},
         {text: '修改人', width: '7%'},
@@ -20,9 +20,9 @@ var actionTableOptions = {
                 url: api.util.getUrl('apimanager/module/list')
             }
         },
-        {name: 'requestType', type:'select', inputDesc: '请求类型', required: true, options:{
+        {name: 'actionLevel', type:'select', inputDesc: '接口级别', required: true, options:{
                 optionField: {value: 'k', text: 'v'},
-                params:{metaId: 2},
+                params:{metaId: 7},
                 cache: true,
                 async: false,
                 url: api.util.getUrl('apimanager/meta/findMeta')
@@ -79,6 +79,7 @@ var actionTableOptions = {
                                     api.util.loadScript(api.util.getUrl('html/action/js/actionInfo.js'), function () {
                                         api.ui.chosenSelect(typeSelectOption);
                                         api.ui.chosenSelect(statusSelectOption);
+                                        api.ui.chosenSelect(actionLevelSelectOption);
                                         api.ui.chosenSelect(moduleOptions);
                                         api.ui.chosenSelect(domainSelectOptions);
                                         actionInfoFormObject = api.ui.form(actionInfoFormOptions);
@@ -89,6 +90,7 @@ var actionTableOptions = {
                                             moduleId: data['moduleId'],
                                             requestType: data['requestType'],
                                             status: data['status'],
+                                            actionLevel: data['actionLevel'],
                                             actionDesc: data['actionDesc'],
                                             domainId: data['domainId']
                                         });
@@ -962,6 +964,7 @@ var actionTableOptions = {
                                     api.util.loadScript(api.util.getUrl('html/action/js/actionInfo.js'), function () {
                                         api.ui.chosenSelect(typeSelectOption);
                                         api.ui.chosenSelect(statusSelectOption);
+                                        api.ui.chosenSelect(actionLevelSelectOption);
                                         api.ui.chosenSelect(moduleOptions);
                                         api.ui.chosenSelect(domainSelectOptions);
                                         actionInfoFormObject = api.ui.form(actionInfoFormOptions);
@@ -970,6 +973,7 @@ var actionTableOptions = {
                                             moduleId: data['moduleId'],
                                             requestType: data['requestType'],
                                             status: data['status'],
+                                            actionLevel: data['actionLevel'],
                                             actionDesc: data['actionDesc'],
                                             domainId: data['domainId']
                                         });
@@ -1665,7 +1669,8 @@ var actionTableOptions = {
                                 api.util.loadScript(api.util.getUrl('html/action/js/actionInfo.js'), function () {
                                     api.ui.chosenSelect(domainSelectOptions);
                                     api.ui.chosenSelect(typeSelectOption);
-                                    var statusSelect = api.ui.chosenSelect(statusSelectOption);
+                                    api.ui.chosenSelect(statusSelectOption);
+                                    api.ui.chosenSelect(actionLevelSelectOption);
                                     api.ui.chosenSelect(moduleOptions);
                                     actionInfoFormObject = api.ui.form(actionInfoFormOptions);
                                     actionInfoFormObject.giveVal({
