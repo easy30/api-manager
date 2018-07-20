@@ -841,7 +841,21 @@ var actionTableOptions = {
                                 dataType: 'json',
                                 success: function (data) {
                                     if(data.code == -1){
-                                        var option={content: '保存失败'};
+                                        var option={
+                                            content: '<span id="sigleErrorMsg" class="glyphicon glyphicon-remove" style="cursor: pointer;">&nbsp;保存失败，点击查看详细</span><p></p><textarea readonly class="form-control" id="stackTrace" style="display: none; width: 100%; height: 400px;font-size: small;color: red;"></textarea>',
+                                            width: '150%',
+                                            opened: function (modalBody) {
+                                                modalBody.find('#sigleErrorMsg').on('click', function () {
+                                                    var $stackTrace = modalBody.find('#stackTrace');
+                                                    if($stackTrace.css('display') == 'none') {
+                                                        $stackTrace.css('display', 'block');
+                                                    } else {
+                                                        $stackTrace.css('display', 'none');
+                                                    }
+                                                    modalBody.find('#stackTrace').val(data.stackTrace);
+                                                });
+                                            }
+                                        };
                                         api.ui.dialog(option).open();
                                         return;
                                     }
@@ -1550,7 +1564,21 @@ var actionTableOptions = {
                                 contentType : 'application/json;charset=utf-8',
                                 success: function (data) {
                                     if(data.code == -1){
-                                        var option = {content: '保存失败'};
+                                        var option={
+                                            content: '<span id="sigleErrorMsg" class="glyphicon glyphicon-remove" style="cursor: pointer;">&nbsp;保存失败，点击查看详细</span><p></p><textarea readonly class="form-control" id="stackTrace" style="display: none; width: 100%; height: 400px;font-size: small;color: red;"></textarea>',
+                                            width: '150%',
+                                            opened: function (modalBody) {
+                                                modalBody.find('#sigleErrorMsg').on('click', function () {
+                                                    var $stackTrace = modalBody.find('#stackTrace');
+                                                    if($stackTrace.css('display') == 'none') {
+                                                        $stackTrace.css('display', 'block');
+                                                    } else {
+                                                        $stackTrace.css('display', 'none');
+                                                    }
+                                                    modalBody.find('#stackTrace').val(data.stackTrace);
+                                                });
+                                            }
+                                        };
                                         api.ui.dialog(option).open();
                                         return;
                                     }
@@ -2194,7 +2222,6 @@ var actionTableOptions = {
                                 })
                                 return true;
                             }
-
                         });
                         if(i == 1){
                             var option = {content: '请完善接口基本信息'};
@@ -2227,7 +2254,21 @@ var actionTableOptions = {
                             contentType : 'application/json;charset=utf-8',
                             success: function (data) {
                                 if (data.code == '-1') {
-                                    var option = {content: '保存失败'};
+                                    var option={
+                                        content: '<span id="sigleErrorMsg" class="glyphicon glyphicon-remove" style="cursor: pointer;">&nbsp;保存失败，点击查看详细</span><p></p><textarea readonly class="form-control" id="stackTrace" style="display: none; width: 100%; height: 400px;font-size: small;color: red;"></textarea>',
+                                        width: '150%',
+                                        opened: function (modalBody) {
+                                            modalBody.find('#sigleErrorMsg').on('click', function () {
+                                                var $stackTrace = modalBody.find('#stackTrace');
+                                                if($stackTrace.css('display') == 'none') {
+                                                    $stackTrace.css('display', 'block');
+                                                } else {
+                                                    $stackTrace.css('display', 'none');
+                                                }
+                                                modalBody.find('#stackTrace').val(data.stackTrace);
+                                            });
+                                        }
+                                    };
                                     api.ui.dialog(option).open();
                                     return;
                                 }
