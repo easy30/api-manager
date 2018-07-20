@@ -797,8 +797,8 @@ var actionTableOptions = {
                             //表单非空校验
                             var i = 0;
                             $('#actionInfoForm').find('input,select').each(function(){
-                                var value = $.trim($(this).val());
-                                if(!value){
+                                var $this = $(this), value = $.trim($this.val());
+                                if($this.attr('required') && !value){
                                     i = 1;
                                     $(this).css('border-color','red');
                                     $(this).on('blur',function () {
@@ -1521,7 +1521,7 @@ var actionTableOptions = {
                             var i = 0;
                             $('#actionInfoForm').find('input,select').each(function(){
                                 var $this = $(this), value = $.trim($this.val());
-                                if(!value){
+                                if($this.attr('required') && !value){
                                     i = 1;
                                     $this.css('border-color','red');
                                     $this.on('blur',function () {
@@ -2211,8 +2211,8 @@ var actionTableOptions = {
                         //表单非空校验
                         var i = 0;
                         $('#actionInfoForm').find('input,select').each(function(){
-                            var $this = $(this), value = $.trim($(this).val());
-                            if(!value){
+                            var $this = $(this), value = $.trim($this.val());
+                            if($this.attr('required') && !value){
                                 i = 1;
                                 $this.css('border-color','red');
                                 $this.on('blur',function () {

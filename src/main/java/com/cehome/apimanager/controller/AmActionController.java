@@ -44,7 +44,7 @@ public class AmActionController extends BaseController {
             return toSuccess();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return toFail(e.getMessage(), e);
+            return toFail(e);
         }
     }
 
@@ -63,7 +63,7 @@ public class AmActionController extends BaseController {
             return toSuccess();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return toFail(e.getMessage(), e);
+            return toFail(e);
         }
     }
 

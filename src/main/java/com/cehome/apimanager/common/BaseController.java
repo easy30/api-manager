@@ -29,10 +29,10 @@ public class BaseController {
 		return result;
 	}
 
-	protected Map<String, Object> toFail(String errorMessage, Exception e) {
+	protected Map<String, Object> toFail(Exception e) {
 		Map<String, Object> result = new HashMap<>();
 		result.put(RESULT_CODE, -1);
-		result.put(RESULT_MSG, errorMessage);
+		result.put(RESULT_MSG, e.getMessage());
 		result.put(STACK_TRACE, getStackTrace(e));
 		return result;
 	}
