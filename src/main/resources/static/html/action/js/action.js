@@ -5,10 +5,10 @@ var actionTableOptions = {
         {text: '接口地址', width: '15%'},
         {text: '所属模块', width: '10%'},
         {text: '级别', width: '5%'},
-        {text: '状态', width: '5%'},
+        {text: '状态', width: '8%'},
         {text: '创建人', width: '7%'},
         {text: '修改人', width: '7%'},
-        {text: '操作', width: '30%'}
+        {text: '操作', width: '25%'}
     ],
     form: '#form',
     fields: [
@@ -1659,9 +1659,9 @@ var actionTableOptions = {
                 api.ui.load(conf);
         }
         },
-        {type: 'history', text: '历史', icon: 'glyphicon glyphicon-time', fn: function (param) {
-
-            }},
+        // {type: 'history', text: '历史', icon: 'glyphicon glyphicon-time', fn: function (param) {
+        //
+        //     }},
         {type: 'delete', text: '删除', url: api.util.getUrl('apimanager/action/delete')}
 
 ],

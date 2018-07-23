@@ -20,8 +20,13 @@
 </head>
 <body style="overflow-x: hidden; overflow-y: hidden">
 <div id="head" class="fixed-top"></div>
-<div id="menu-nav" style="float: left; width: 18%; margin-top: 60px; overflow-x: hidden; overflow-y: auto; height:580px;"></div>
-<div id="container" style="float: right; width: 81%; margin-top: 70px; overflow-x: hidden; overflow-y: auto; height:600px;"></div>
+<div id="menu-nav" style="float: left; width: 15%; margin-top: 60px; overflow-x: hidden; overflow-y: auto; height:575px;"></div>
+<div style="float: right; width: 84%; margin-top: 70px; overflow-x: hidden; overflow-y: auto; height: 600px;">
+    <ol id="depart" class="breadcrumb" style="padding-top: 0px; padding-left: 5px; font-size:18px; font-style:italic; height: 30px; width: 100%">
+        <li class="breadcrumb-item active" aria-current="page"><a href="javasript:void(0)" onclick="departmentClick()">Department</a></li>
+    </ol>
+    <div id="container" style=""></div>
+</div>
 <script>
     api.util.loadScript(api.util.getUrl('common/js/index.js'));
 </script>
