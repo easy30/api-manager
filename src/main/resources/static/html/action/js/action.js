@@ -966,7 +966,6 @@ var actionTableOptions = {
                         var $editChange = $('#editChange');
                         var $cancelButton = $('#cancelButton'),$saveButton = $('#saveButton');
                         $editChange.css('display','none');
-                        $('#actionPage').css('margin-top','90px');
                         var actionTabConf = {
                             container: '#tabs',
                             tabs: [{
@@ -1685,8 +1684,6 @@ var actionTableOptions = {
                     var $editChange = $('#editChange');
                     var $cancelButton = $('#cancelButton'),$saveButton = $('#saveButton');
                     $editChange.css('display','none');
-                    $('#actionPage').css('margin-top','90px');
-
                     var actionTabConf = {
                         container: '#tabs',
                         tabs: [{

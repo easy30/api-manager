@@ -1,0 +1,58 @@
+.menu-list * {
+    margin: 0;
+    padding: 0
+}
+
+.menu-list {
+    border-bottom: solid 1px #316a91;
+    margin: 0px auto 0 auto;
+}
+
+.menu-list ul, li {
+    list-style: none;
+}
+
+.menu-list a:link, .menu-list a:visited {
+    text-decoration: none;
+    color: #fff;
+}
+
+.menu-list ul li {
+    background-color: #467ca2;
+    border: solid 1px #316a91;
+    border-bottom: 0;
+}
+
+.menu-list ul li a {
+    padding-left: 10px;
+    color: #fff;
+    font-size: 14px;
+    display: block;
+    font-weight: bold;
+    height: 36px;
+    line-height: 36px;
+    position: relative;
+}
+
+.menu-list ul li .inactive {
+    background: url(../img/off.jpg) no-repeat 184px center;
+}
+
+.menu-list ul li .inactives {
+    background: url(../img/on.jpg) no-repeat 184px center;
+}
+
+.menu-list ul li ul li {
+    background-color: #17a2b8;
+}
+
+.menu-list ul li ul li:hover {
+    background-color: #9fcdff;
+}
+
+.menu-list ul li ul li a {
+    padding-left: 21px;
+    color: white;
+    font-weight: lighter;
+    font-size: 14px;
+}

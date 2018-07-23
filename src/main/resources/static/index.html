@@ -8,6 +8,7 @@
     <link href="common/css/style.css" rel="stylesheet">
     <link href="plugins/jsonview/css/jquery.jsonview.css" rel="stylesheet">
     <link href="common/css/downMenu.css" rel="stylesheet">
+    <link href="common/css/menu.css" rel="stylesheet">
     <script src="common/js/jquery-3.3.1.min.js"></script>
     <script src="plugins/jqueryui/js/jquery-ui.js"></script>
     <link href="plugins/emailAutoCompletion/css/email.css" rel="stylesheet">
@@ -17,9 +18,10 @@
     <script src="common/js/namespace.js"></script>
     <script src="common/js/util.js"></script>
 </head>
-<body style="background-color: #f6f6f6;">
+<body style="overflow-x: hidden; overflow-y: hidden">
 <div id="head" class="fixed-top"></div>
-<div id="container" class="container-fluid" style="width: 90%"></div>
+<div id="menu-nav" style="float: left; width: 18%; margin-top: 60px; overflow-x: hidden; overflow-y: auto; height:580px;"></div>
+<div id="container" style="float: right; width: 81%; margin-top: 70px; overflow-x: hidden; overflow-y: auto; height:600px;"></div>
 <script>
     api.util.loadScript(api.util.getUrl('common/js/index.js'));
 </script>

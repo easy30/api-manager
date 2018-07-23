@@ -20,57 +20,6 @@ api.util.loadScripts([
         url: 'head.html',
         loaded: function () {
             api.util.loadScript(api.util.getUrl('common/js/head.js'), function () {
-                var config = {
-                    container: '#actionDownMenu',
-                    title: '接口功能',
-                    items: [
-                        {
-                            name: '列表管理', fn: function () {
-                                actionClick();
-                            }
-                        },{
-                            name: '接口测试', fn: function () {
-                                actionTestClick();
-                            }
-                        },{
-                            name: '批量测试', fn: function () {
-                                batchTestClick();
-                            }
-                        }
-                    ]
-                }
-                api.ui.downMenu(config);
-
-                var config = {
-                    container: '#extendModule',
-                    title: '系统功能',
-                    items: [
-                        {
-                            name: '环境配置', fn: function () {
-                                envClick();
-                            }
-                        },
-                        {
-                            name: '服务配置', fn: function () {
-                                domainClick();
-                            }
-                        },{
-                            name: '认证列表', fn: function () {
-                                actionLoginClick();
-                            }
-                        },{
-                            name: '数据库表', fn: function () {
-                                tableManageClick();
-                            }
-                        },{
-                            name: '对象备注', fn: function () {
-                                objectDescClick();
-                            }
-                        }
-                    ]
-                }
-                api.ui.downMenu(config);
-
                 $.ajax({
                     url: api.util.getUrl('/apimanager/user/findBySession'),
                     type: 'GET',
@@ -83,6 +32,23 @@ api.util.loadScripts([
         }
     }
     api.ui.load(headConf);
+
+    var menuNavConf = {
+        container: '#menu-nav',
+        url: 'menu-nav.html',
+        loaded: function () {
+            $('.menu-list .inactive').click(function () {
+                if ($(this).siblings('ul').css('display') != 'none') {
+                    $(this).addClass('inactives');
+                    $(this).siblings('ul').slideUp(100);
+                } else {
+                    $(this).removeClass('inactives');
+                    $(this).siblings('ul').slideDown(100).children('li');
+                }
+            })
+        }
+    }
+    api.ui.load(menuNavConf);
 
     var containerConf = {
         container: '#container',

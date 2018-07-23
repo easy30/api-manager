@@ -3,11 +3,11 @@ var actionLoginTableOptions = {
     headers: [
         {text: '编号', width: '10%'},
         {text: '服务地址', width: '20%'},
-        {text: '认证接口', width: '20%'},
+        {text: '认证接口', width: '10%'},
         {text: '请求类型', width: '10%'},
         {text: '创建人', width: '7%'},
         {text: '修改人', width: '7%'},
-        {text: '操作', width: '20%'}
+        {text: '操作', width: '25%'}
     ],
     form: '#form',
     fields: [

@@ -263,7 +263,6 @@ function actionTestClick() {
         url: api.util.getUrl('html/action/actionTest.html'),
         async: false,
         loaded: function () {
-            $('#testPage').css('margin-top','90px');
             var testHeadParam, testRequestParam;
             api.util.loadScript(api.util.getUrl('html/action/js/actionTest.js'), function () {
                 envOptions.change = function (event) {
@@ -780,7 +779,6 @@ function loggerClick() {
         url: api.util.getUrl('html/logger/logger.html'),
         async: false,
         loaded: function () {
-            $('#loggerForm').css('margin-top','90px');
             api.util.loadScript(api.util.getUrl("html/logger/js/logger.js"), function () {
                 api.ui.chosenSelect(moduleCodeSelect);
                 api.ui.chosenSelect(operateTypeSelect);
