@@ -2,8 +2,8 @@ var projectTableOptions = {
     container: "#editTable",
     headers: [
         {text: '项目编号', width: '8%'},
-        {text: '项目名称', width: '20%'},
-        {text: '所属部门', width: '10%'},
+        {text: '项目名称', width: '15%'},
+        {text: '所属部门', width: '15%'},
         {text: '项目简述', width: '22%'},
         {text: '创建人', width: '7%'},
         {text: '修改人', width: '7%'},

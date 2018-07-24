@@ -1,5 +1,4 @@
 function departmentClick(){
-    $('#depart').parent('.container-fluid').css('display','');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/department/department.html'),
@@ -17,7 +16,6 @@ function departmentClick(){
     api.ui.load(conf);
 }
 function projectClick(){
-    $('#depart').parent('.container-fluid').css('display','');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/project/project.html'),
@@ -71,7 +69,6 @@ function projectClick1(){
     api.ui.load(conf);
 }
 function moduleClick(){
-    $('#depart').parent('.container-fluid').css('display','');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/module/module.html'),
@@ -148,7 +145,6 @@ function moduleClick1(){
     api.ui.load(conf);
 }
 function actionClick(){
-    $('#depart').parent('.container-fluid').css('display','');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/action/action.html'),
@@ -257,7 +253,6 @@ function actionClick1(){
     api.ui.load(conf);
 }
 function actionTestClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/action/actionTest.html'),
@@ -356,7 +351,7 @@ function actionTestClick() {
 }
 
 function domainClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
+    $('#depart').empty();
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/domain/domain.html'),
@@ -382,7 +377,7 @@ function domainClick() {
     api.ui.load(conf);
 }
 function envClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
+    $('#depart').empty();
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/env/env.html'),
@@ -396,7 +391,7 @@ function envClick() {
     api.ui.load(conf);
 }
 function actionLoginClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
+    $('#depart').empty();
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/actionlogin/actionLogin.html'),
@@ -418,7 +413,7 @@ function actionLoginClick() {
     api.ui.load(conf);
 }
 function tableManageClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
+    $('#depart').empty();
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/sysdb/table.html'),
@@ -441,7 +436,7 @@ function tableManageClick() {
     api.ui.load(conf);
 }
 function batchTestClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
+    $('#depart').empty();
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/action/actionBatchTest.html'),
@@ -542,7 +537,7 @@ function batchTestClick() {
 }
 
 function groupTestClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
+    $('#depart').empty();
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/action/groupTest.html'),
@@ -566,7 +561,7 @@ function groupTestClick() {
 }
 
 function objectDescClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
+    $('#depart').empty();
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/action/objectFieldDesc.html'),
@@ -592,12 +587,12 @@ function logOut() {
 }
 
 function userInfo() {
+    $('#depart').empty();
     var userConf = {
         container: '#container',
         url: api.util.getUrl('html/user/userInfo.html'),
         async: false,
         preLoad: function (content) {
-            // $("#depart").css('display','none');
             $('#depart').parent('.container-fluid').css('display','none');
         },
         loaded: function () {
@@ -702,12 +697,12 @@ function userInfo() {
 }
 
 function changePass() {
+    $('#depart').empty();
     var userConf = {
         container: '#container',
         url: api.util.getUrl('html/user/changePassword.html'),
         async: false,
         preLoad: function (content) {
-            $('#depart').parent('.container-fluid').css('display','none');
         },
         loaded: function () {
             $('#userInfoForm').css('margin-top','100px');
@@ -773,7 +768,7 @@ function changePass() {
 }
 
 function loggerClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
+    $('#depart').empty();
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/logger/logger.html'),
@@ -804,6 +799,7 @@ function loggerClick() {
 }
 
 function actionCountClick() {
+    $('#depart').empty();
     // 基于准备好的dom，初始化echarts实例
     var containerConf = {
         container: '#container',
