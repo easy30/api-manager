@@ -2,18 +2,18 @@ var actionTableOptions = {
     container: '#editTable',
     headers: [
         {text: '编号', width: '5%'},
-        {text: '接口地址', width: '15%'},
+        {text: '接口名称', width: '20%'},
         {text: '所属模块', width: '10%'},
         {text: '级别', width: '5%'},
         {text: '状态', width: '8%'},
         {text: '创建人', width: '7%'},
         {text: '修改人', width: '7%'},
-        {text: '操作', width: '25%'}
+        {text: '操作', width: '30%'}
     ],
     form: '#form',
     fields: [
         {name: 'id', type: 'input', inputDesc: '接口编号', required: false},
-        {name: 'requestUrl', type: 'input', inputDesc: '接口地址', required: true},
+        {name: 'actionName', type: 'input', inputDesc: '接口地址', required: true},
         {name: 'moduleId', type:'select', inputDesc: '所属模块', required: true, options:{
                 optionField: {value: 'id', text: 'moduleName'},
                 async: false,
@@ -1654,10 +1654,76 @@ var actionTableOptions = {
                 api.ui.load(conf);
         }
         },
-        // {type: 'history', text: '历史', icon: 'glyphicon glyphicon-time', fn: function (param) {
-        //
-        //     }},
-        {type: 'delete', text: '删除', url: api.util.getUrl('apimanager/action/delete')}
+        {type: 'delete', text: '删除', url: api.util.getUrl('apimanager/action/delete')},
+        {type: 'history', text: '最新修改', icon: 'glyphicon glyphicon-pencil', fn: function (param) {
+                var dialogOptions = {
+                    container: 'body',
+                    content: '<div id="baseInfoDiv" style="padding-left: 0px; padding-right: 0px;">' +
+                                '<p style="color: red;">基本信息变化</p>' +
+                                '<table class="table table-sm" style="margin-left: 0px; margin-right: 0px; font-size: 14px;">' +
+                                    '<thead>' +
+                                        '<tr>' +
+                                            '<th style="width: 15%;">名称</th>' +
+                                            '<th style="width: 15%;">类型</th>' +
+                                            '<th style="width: 70%;">内容变化</th>' +
+                                        '</tr>' +
+                                    '</thead>' +
+                                    '<tbody></tbody>' +
+                                '</table>' +
+                              '</div>' +
+                            '<div id="paramsInfoDiv" style="padding-left: 0px; padding-right: 0px;">' +
+                                '<p style="color: red;">参数信息变化</p>' +
+                                '<table class="table table-sm" style="margin-left: 0px; margin-right: 0px; font-size: 14px;">' +
+                                    '<thead>' +
+                                        '<tr>' +
+                                            '<th style="width: 15%;">名称</th>' +
+                                            '<th style="width: 15%;">类型</th>' +
+                                            '<th style="width: 70%;">内容变化</th>' +
+                                        '</tr>' +
+                                    '</thead>' +
+                                    '<tbody></tbody>' +
+                                '</table>' +
+                            '</div>',
+                    iTitle: false,
+                    title: '最近修改',
+                    width: '180%',
+                    opened: function (modalBody) {
+                        $.ajax({
+                            type: 'get',
+                            url: api.util.getUrl('/apimanager/actionhistory/compareHistoryDiff'),
+                            data: {actionId: param.id},
+                            dataType: "json",
+                            async: false,
+                            contentType: 'json',
+                            success: function (result) {
+                                var baseInfoChange = result.data.baseInfoChange;
+                                if(baseInfoChange){
+                                    var $tbody = modalBody.find('#baseInfoDiv tbody');
+                                    $.each(baseInfoChange, function (index, value) {
+                                        var $tr = $('<tr></tr>');
+                                        $tr.append('<td>' + value.fieldName + '</td>');
+                                        $tr.append('<td>修改</td>');
+                                        $tr.append('<td>' + value.modifyStr + '</td>');
+                                        $tbody.append($tr);
+                                    })
+                                }
+                                var paramsInfoChange = result.data.paramsInfoChange;
+                                if(paramsInfoChange){
+                                    var $tbody = modalBody.find('#paramsInfoDiv tbody');
+                                    $.each(paramsInfoChange, function (index, value) {
+                                        var $tr = $('<tr></tr>');
+                                        $tr.append('<td>' + value.fieldName + '</td>');
+                                        $tr.append('<td>' + value.operateDesc + '</td>');
+                                        $tr.append('<td>' + value.modifyStr + '</td>');
+                                        $tbody.append($tr);
+                                    })
+                                }
+                            }
+                        });
+                    }
+                };
+                api.ui.dialog(dialogOptions).open();
+            }},
 
 ],
     headBtn: [

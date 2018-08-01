@@ -4,8 +4,8 @@ var headOptions = {
         {text: '操作', width: '5%'},
         {text: '名称', width: '20%'},
         {text: '类型', width: '15%'},
-        {text: '备注', width: '20%'},
-        {text: '样值', width: '20%'}
+        {text: '备注', width: '30%'},
+        {text: '样值', width: '30%'}
     ],
     fields: [
         {name: 'name', type: 'input'},
@@ -154,8 +154,8 @@ var responseFailOptions = {
         {text: '操作', width: '5%'},
         {text: '名称', width: '20%'},
         {text: '类型', width: '15%'},
-        {text: '备注', width: '20%'},
-        {text: '样值', width: '20%'}
+        {text: '备注', width: '30%'},
+        {text: '样值', width: '30%'}
     ],
     fields: [
         {name: 'name', type: 'input'},

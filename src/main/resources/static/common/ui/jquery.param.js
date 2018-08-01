@@ -34,7 +34,7 @@
     param.prototype = {
         _build: function () {
             var that = this, jq = this.jq, conf = this.options, fields = conf.fields, headers = conf.headers, footBtn = conf.footBtn;
-            var $table = $('<table class="table table-bordered table-sm" style="font-size: 15px;"></table>');
+            var $table = $('<table class="table table-bordered table-sm" style="font-size: 14px;"></table>');
             var $tHead = $('<thead></thead>');
             var $tBody = $('<tbody></tbody>');
             var $tFoot = $('<tfoot></tfoot>');

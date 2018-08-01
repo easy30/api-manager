@@ -36,7 +36,24 @@
 		id = #{id,jdbcType=INTEGER}
 		LIMIT 1
 	</select>
-	
+
+	<select id="findLastModifyRecordByActionId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		(
+			SELECT
+			<include refid="Base_Column_List" />
+			FROM am_action_history
+			WHERE
+			action_id = #{actionId,jdbcType=INTEGER}
+			ORDER BY id DESC
+			LIMIT 10
+		) t
+		ORDER BY t.id
+		LIMIT 1
+	</select>
+
 	<select id="find" parameterType="map" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
@@ -152,11 +169,11 @@
 			<if test="id != null">
 			#{id,jdbcType=INTEGER},
 			</if>
-			<if test="moduleId != null">
-			#{moduleId,jdbcType=INTEGER},
-			</if>
 			<if test="actionId != null">
 			#{actionId,jdbcType=INTEGER},
+			</if>
+			<if test="moduleId != null">
+			#{moduleId,jdbcType=INTEGER},
 			</if>
 			<if test="actionName != null">
 			#{actionName,jdbcType=VARCHAR},

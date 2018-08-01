@@ -158,7 +158,7 @@
 			request_type,
 			</if>
 			<if test="domainId != null">
-				domain_id,
+			domain_id,
 			</if>
 			<if test="requestUrl != null">
 			request_url,
