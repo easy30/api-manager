@@ -27,13 +27,14 @@ import java.util.Enumeration;
 public class RedirectFilter implements Filter {
 	private static Logger logger = LoggerFactory.getLogger(RedirectFilter.class);
 	private static final String CONTENT_TYPE = "application/json";
-	private static final String ENCODING = "GB2312";
+	private static final String ENCODING = "UTF-8";
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		StringBuffer requestURL = httpRequest.getRequestURL();
+
 		if(!requestURL.toString().contains("apimanager.tiebaobei.com/mockData/")){
 			String requestURI = httpRequest.getRequestURI();
 			HttpSession session = httpRequest.getSession();
@@ -68,9 +69,13 @@ public class RedirectFilter implements Filter {
 				responseText = responseObject.toJSONString();
 			}
 
-			response.setContentType(CONTENT_TYPE);
-			response.setCharacterEncoding(ENCODING);
-			ServletOutputStream outputStream = response.getOutputStream();
+			httpResponse.setHeader("Access-Control-Allow-Origin", "*");
+			httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE,PUT");
+			httpResponse.setHeader("Access-Control-Max-Age", "3600");
+			httpResponse.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+			httpResponse.setContentType(CONTENT_TYPE);
+			httpResponse.setCharacterEncoding(ENCODING);
+			ServletOutputStream outputStream = httpResponse.getOutputStream();
 			outputStream.write(responseText.getBytes());
 			outputStream.flush();
 			outputStream.close();
