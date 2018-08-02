@@ -69,14 +69,14 @@ public class RedirectFilter implements Filter {
 				responseText = responseObject.toJSONString();
 			}
 
-			httpResponse.setHeader("Access-Control-Allow-Origin", "*");
-			httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE,PUT");
-			httpResponse.setHeader("Access-Control-Max-Age", "3600");
-			httpResponse.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+//			httpResponse.setHeader("Access-Control-Allow-Origin", "*");
+//			httpResponse.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
+//			httpResponse.setHeader("Access-Control-Max-Age", "3600");
+//			httpResponse.setHeader("Access-Control-Allow-Headers", "x-requested-with");
 			httpResponse.setContentType(CONTENT_TYPE);
 			httpResponse.setCharacterEncoding(ENCODING);
 			ServletOutputStream outputStream = httpResponse.getOutputStream();
-			outputStream.write(responseText.getBytes());
+			outputStream.write(responseText.getBytes(ENCODING));
 			outputStream.flush();
 			outputStream.close();
 		}
