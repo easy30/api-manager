@@ -67,7 +67,7 @@ public class DbUtils {
         Connection conn = null;
         ResultSet rs = null;
         Statement stmt = null;
-        String sql = "select column_name,column_comment from information_schema.columns where table_schema='" + dbConfig.getDbName() + "' and table_name='" + sysDbReqDto.getTableName() + "'";
+        String sql = "select column_name, column_type, column_comment from information_schema.columns where table_schema='" + dbConfig.getDbName() + "' and table_name='" + sysDbReqDto.getTableName() + "'";
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(url);
@@ -77,6 +77,7 @@ public class DbUtils {
                 SysDbResDto sysDbResDto = new SysDbResDto();
                 sysDbResDto.setColumnComment(rs.getString("column_comment"));
                 sysDbResDto.setColumnName(rs.getString("column_name"));
+                sysDbResDto.setColumnType(getColumnType(rs.getString("column_type")));
                 list.add(sysDbResDto);
             }
         } catch (Exception e) {
@@ -105,5 +106,21 @@ public class DbUtils {
         }
 
         return list;
+    }
+
+    private static Integer getColumnType(String columnTypeStr){
+        if(StringUtils.isEmpty(columnTypeStr)){
+            return 2;
+        }
+        if(columnTypeStr.contains("int") || columnTypeStr.contains("smallint")
+                || columnTypeStr.contains("tinyint")
+                || columnTypeStr.contains("double")){
+            return 1;
+        }
+        if(columnTypeStr.contains("varchar") || columnTypeStr.contains("text")
+                || columnTypeStr.contains("char")){
+            return 2;
+        }
+        return 0;
     }
 }

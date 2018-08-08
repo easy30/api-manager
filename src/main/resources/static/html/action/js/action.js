@@ -175,9 +175,9 @@ var actionTableOptions = {
                                         $requestImportDescBtn.on('click',function () {
                                             var dialogOptions = {
                                                 container: 'body',
-                                                content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment，支持多选"></input>',
+                                                content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment"></input>',
                                                 iTitle: false,
-                                                title: '备注参数',
+                                                title: '对象参数',
                                                 width: '150%',
                                                 buttons:[
                                                     {
@@ -187,14 +187,16 @@ var actionTableOptions = {
                                                             var objectDescNames = $('input[name=objectDescNames]').val();
                                                             if(objectDescNames && $.trim(objectDescNames) != ''){
                                                                 $.ajax({
-                                                                    url: api.util.getUrl('apimanager/object/field/findByClassWholeNames'),
+                                                                    url: api.util.getUrl('apimanager/object/field/findObjectInfoByClassWholeNames'),
                                                                     type: 'GET',
                                                                     data : {'classWholeNames': objectDescNames},
                                                                     dataType: 'json',
                                                                     async: false,
                                                                     success: function (result) {
                                                                         var data = result.data;
-                                                                        requestParam.giveDesc(data);
+                                                                        $.each(data, function (index, rowData) {
+                                                                            requestParam._showRow(rowData);
+                                                                        })
                                                                     }
                                                                 });
                                                             }
@@ -205,6 +207,7 @@ var actionTableOptions = {
                                                     var options = {
                                                         container: modalBody.find('input[name=objectDescNames]'),
                                                         url: api.util.getUrl('apimanager/object/field/listObjectNames'),
+                                                        multiItem: false,
                                                         appendTo: modalBody
                                                     }
                                                     api.ui.autocomplete(options);
@@ -212,13 +215,110 @@ var actionTableOptions = {
                                             };
                                             api.ui.dialog(dialogOptions).open();
                                         })
+
+                                        var $requestCreateObjBtn = $('#requestParam').find('.createObjBtn');
+                                        $requestCreateObjBtn.on('click', function () {
+                                            var dialogOptions = {
+                                                container: 'body',
+                                                content: '<input class="col-12 form-control" name="objectClassName" type="text" placeholder="输入对象名称，如：equipment"></input>',
+                                                iTitle: false,
+                                                title: '对象名称',
+                                                width: '150%',
+                                                buttons:[
+                                                    {
+                                                        type: 'close', text: '关闭', fn: function () {}
+                                                    },{
+                                                        type: 'sure', text: '确定', fn: function () {
+                                                            var objectClassName = $('input[name=objectClassName]').val();
+                                                            if(objectClassName && $.trim(objectClassName) != ''){
+                                                                var data = requestParam.toData();
+                                                                $.ajax({
+                                                                    url: api.util.getUrl('/apimanager/object/field/createObj'),
+                                                                    type: 'post',
+                                                                    data : JSON.stringify({'fieldInfoValue': JSON.stringify(data), 'classWholeName': objectClassName}),
+                                                                    dataType: 'json',
+                                                                    async: false,
+                                                                    contentType : 'application/json;charset=utf-8',
+                                                                    success: function (result) {
+                                                                        var code = result.code;
+                                                                        if(code == '-1'){
+                                                                            var options = {
+                                                                                content: '对象创建失败！'
+                                                                            };
+                                                                            api.ui.dialog(options).open();
+                                                                        }
+                                                                    }
+                                                                });
+                                                            } else {
+                                                                var options = {
+                                                                    content: '对象名称不能为空！'
+                                                                };
+                                                                api.ui.dialog(options).open();
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                opened: function (modalBody) {
+                                                }
+                                            };
+                                            api.ui.dialog(dialogOptions).open();
+                                        });
+
+                                        var $responseCreateObjBtn = $('#responseParam').find('.createObjBtn');
+                                        $responseCreateObjBtn.on('click', function () {
+                                            var dialogOptions = {
+                                                container: 'body',
+                                                content: '<input class="col-12 form-control" name="objectClassName" type="text" placeholder="输入对象名称，如：equipment"></input>',
+                                                iTitle: false,
+                                                title: '对象名称',
+                                                width: '150%',
+                                                buttons:[
+                                                    {
+                                                        type: 'close', text: '关闭', fn: function () {}
+                                                    },{
+                                                        type: 'sure', text: '确定', fn: function () {
+                                                            var objectClassName = $('input[name=objectClassName]').val();
+                                                            if(objectClassName && $.trim(objectClassName) != ''){
+                                                                var data = responseParam.toData();
+                                                                $.ajax({
+                                                                    url: api.util.getUrl('/apimanager/object/field/createObj'),
+                                                                    type: 'post',
+                                                                    data : JSON.stringify({'fieldInfoValue': JSON.stringify(data), 'classWholeName': objectClassName}),
+                                                                    dataType: 'json',
+                                                                    async: false,
+                                                                    contentType : 'application/json;charset=utf-8',
+                                                                    success: function (result) {
+                                                                        var code = result.code;
+                                                                        if(code == '-1'){
+                                                                            var options = {
+                                                                                content: '对象创建失败！'
+                                                                            };
+                                                                            api.ui.dialog(options).open();
+                                                                        }
+                                                                    }
+                                                                });
+                                                            } else {
+                                                                var options = {
+                                                                    content: '对象名称不能为空！'
+                                                                };
+                                                                api.ui.dialog(options).open();
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                opened: function (modalBody) {
+                                                }
+                                            };
+                                            api.ui.dialog(dialogOptions).open();
+                                        });
+
                                         var $responseImportDescBtn = $('#responseParam').find('.importDescBtn');
                                         $responseImportDescBtn.on('click',function () {
                                             var dialogOptions = {
                                                 container: 'body',
-                                                content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment，支持多选"></input>',
+                                                content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment"></input>',
                                                 iTitle: false,
-                                                title: '备注参数',
+                                                title: '对象备注',
                                                 width: '150%',
                                                 buttons:[
                                                     {
@@ -228,7 +328,7 @@ var actionTableOptions = {
                                                             var objectDescNames = $('input[name=objectDescNames]').val();
                                                             if(objectDescNames && $.trim(objectDescNames) != ''){
                                                                 $.ajax({
-                                                                    url: api.util.getUrl('apimanager/object/field/findByClassWholeNames'),
+                                                                    url: api.util.getUrl('apimanager/object/field/findObjectDescByClassWholeNames'),
                                                                     type: 'GET',
                                                                     data : {'classWholeNames': objectDescNames},
                                                                     dataType: 'json',
@@ -857,6 +957,7 @@ var actionTableOptions = {
                                         api.ui.dialog(option).open();
                                         return;
                                     }
+
                                     //跳转到action列表
                                     var conf = {
                                         container: '#container',
@@ -1063,14 +1164,110 @@ var actionTableOptions = {
                                             };
                                             api.ui.dialog(dialogOptions).open();
                                         })
-                                        var $requestImportDescBtn = $('#requestParam').find('.importDescBtn');
 
+                                        var $requestCreateObjBtn = $('#requestParam').find('.createObjBtn');
+                                        $requestCreateObjBtn.on('click', function () {
+                                            var dialogOptions = {
+                                                container: 'body',
+                                                content: '<input class="col-12 form-control" name="objectClassName" type="text" placeholder="输入对象名称，如：equipment"></input>',
+                                                iTitle: false,
+                                                title: '对象名称',
+                                                width: '150%',
+                                                buttons:[
+                                                    {
+                                                        type: 'close', text: '关闭', fn: function () {}
+                                                    },{
+                                                        type: 'sure', text: '确定', fn: function () {
+                                                            var objectClassName = $('input[name=objectClassName]').val();
+                                                            if(objectClassName && $.trim(objectClassName) != ''){
+                                                                var data = requestParam.toData();
+                                                                $.ajax({
+                                                                    url: api.util.getUrl('/apimanager/object/field/createObj'),
+                                                                    type: 'post',
+                                                                    data : JSON.stringify({'fieldInfoValue': JSON.stringify(data), 'classWholeName': objectClassName}),
+                                                                    dataType: 'json',
+                                                                    async: false,
+                                                                    contentType : 'application/json;charset=utf-8',
+                                                                    success: function (result) {
+                                                                        var code = result.code;
+                                                                        if(code == '-1'){
+                                                                            var options = {
+                                                                                content: '对象创建失败！'
+                                                                            };
+                                                                            api.ui.dialog(options).open();
+                                                                        }
+                                                                    }
+                                                                });
+                                                            } else {
+                                                                var options = {
+                                                                    content: '对象名称不能为空！'
+                                                                };
+                                                                api.ui.dialog(options).open();
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                opened: function (modalBody) {
+                                                }
+                                            };
+                                            api.ui.dialog(dialogOptions).open();
+                                        });
+
+                                        var $responseCreateObjBtn = $('#responseParam').find('.createObjBtn');
+                                        $responseCreateObjBtn.on('click', function () {
+                                            var dialogOptions = {
+                                                container: 'body',
+                                                content: '<input class="col-12 form-control" name="objectClassName" type="text" placeholder="输入对象名称，如：equipment"></input>',
+                                                iTitle: false,
+                                                title: '对象名称',
+                                                width: '150%',
+                                                buttons:[
+                                                    {
+                                                        type: 'close', text: '关闭', fn: function () {}
+                                                    },{
+                                                        type: 'sure', text: '确定', fn: function () {
+                                                            var objectClassName = $('input[name=objectClassName]').val();
+                                                            if(objectClassName && $.trim(objectClassName) != ''){
+                                                                var data = responseParam.toData();
+                                                                $.ajax({
+                                                                    url: api.util.getUrl('/apimanager/object/field/createObj'),
+                                                                    type: 'post',
+                                                                    data : JSON.stringify({'fieldInfoValue': JSON.stringify(data), 'classWholeName': objectClassName}),
+                                                                    dataType: 'json',
+                                                                    async: false,
+                                                                    contentType : 'application/json;charset=utf-8',
+                                                                    success: function (result) {
+                                                                        var code = result.code;
+                                                                        if(code == '-1'){
+                                                                            var options = {
+                                                                                content: '对象创建失败！'
+                                                                            };
+                                                                            api.ui.dialog(options).open();
+                                                                        }
+                                                                    }
+                                                                });
+                                                            } else {
+                                                                var options = {
+                                                                    content: '对象名称不能为空！'
+                                                                };
+                                                                api.ui.dialog(options).open();
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                opened: function (modalBody) {
+                                                }
+                                            };
+                                            api.ui.dialog(dialogOptions).open();
+                                        });
+
+                                        var $requestImportDescBtn = $('#requestParam').find('.importDescBtn');
                                         $requestImportDescBtn.on('click',function () {
                                             var dialogOptions = {
                                                 container: 'body',
-                                                content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment，支持多选"></input>',
+                                                content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment"></input>',
                                                 iTitle: false,
-                                                title: '备注参数',
+                                                title: '对象参数',
                                                 width: '150%',
                                                 buttons:[
                                                     {
@@ -1080,14 +1277,16 @@ var actionTableOptions = {
                                                             var objectDescNames = $('input[name=objectDescNames]').val();
                                                             if(objectDescNames && $.trim(objectDescNames) != ''){
                                                                 $.ajax({
-                                                                    url: api.util.getUrl('apimanager/object/field/findByClassWholeNames'),
+                                                                    url: api.util.getUrl('apimanager/object/field/findObjectInfoByClassWholeNames'),
                                                                     type: 'GET',
                                                                     data : {'classWholeNames': objectDescNames},
                                                                     dataType: 'json',
                                                                     async: false,
                                                                     success: function (result) {
                                                                         var data = result.data;
-                                                                        requestParam.giveDesc(data);
+                                                                        $.each(data, function (index, rowData) {
+                                                                            requestParam._showRow(rowData);
+                                                                        })
                                                                     }
                                                                 });
                                                             }
@@ -1098,6 +1297,7 @@ var actionTableOptions = {
                                                     var options = {
                                                         container: modalBody.find('input[name=objectDescNames]'),
                                                         url: api.util.getUrl('apimanager/object/field/listObjectNames'),
+                                                        multiItem: false,
                                                         appendTo: modalBody
                                                     }
                                                     api.ui.autocomplete(options);
@@ -1109,9 +1309,9 @@ var actionTableOptions = {
                                         $responseImportDescBtn.on('click',function () {
                                             var dialogOptions = {
                                                 container: 'body',
-                                                content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment，支持多选"></input>',
+                                                content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment"></input>',
                                                 iTitle: false,
-                                                title: '备注参数',
+                                                title: '对象备注',
                                                 width: '150%',
                                                 buttons:[
                                                     {
@@ -1121,7 +1321,7 @@ var actionTableOptions = {
                                                             var objectDescNames = $('input[name=objectDescNames]').val();
                                                             if(objectDescNames && $.trim(objectDescNames) != ''){
                                                                 $.ajax({
-                                                                    url: api.util.getUrl('apimanager/object/field/findByClassWholeNames'),
+                                                                    url: api.util.getUrl('apimanager/object/field/findObjectDescByClassWholeNames'),
                                                                     type: 'GET',
                                                                     data : {'classWholeNames': objectDescNames},
                                                                     dataType: 'json',
@@ -1820,9 +2020,9 @@ var actionTableOptions = {
                                     $requestImportDescBtn.on('click',function () {
                                         var dialogOptions = {
                                             container: 'body',
-                                            content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment，支持多选"></input>',
+                                            content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment"></input>',
                                             iTitle: false,
-                                            title: '备注参数',
+                                            title: '对象参数',
                                             width: '150%',
                                             buttons:[
                                                 {
@@ -1832,14 +2032,16 @@ var actionTableOptions = {
                                                         var objectDescNames = $('input[name=objectDescNames]').val();
                                                         if(objectDescNames && $.trim(objectDescNames) != ''){
                                                             $.ajax({
-                                                                url: api.util.getUrl('apimanager/object/field/findByClassWholeNames'),
+                                                                url: api.util.getUrl('apimanager/object/field/findObjectInfoByClassWholeNames'),
                                                                 type: 'GET',
                                                                 data : {'classWholeNames': objectDescNames},
                                                                 dataType: 'json',
                                                                 async: false,
                                                                 success: function (result) {
                                                                     var data = result.data;
-                                                                    requestParam.giveDesc(data);
+                                                                    $.each(data, function (index, rowData) {
+                                                                        requestParam._showRow(rowData);
+                                                                    })
                                                                 }
                                                             });
                                                         }
@@ -1850,6 +2052,7 @@ var actionTableOptions = {
                                                 var options = {
                                                     container: modalBody.find('input[name=objectDescNames]'),
                                                     url: api.util.getUrl('apimanager/object/field/listObjectNames'),
+                                                    multiItem: false,
                                                     appendTo: modalBody
                                                 }
                                                 api.ui.autocomplete(options);
@@ -1857,6 +2060,103 @@ var actionTableOptions = {
                                         };
                                         api.ui.dialog(dialogOptions).open();
                                     })
+
+                                    var $requestCreateObjBtn = $('#requestParam').find('.createObjBtn');
+                                    $requestCreateObjBtn.on('click', function () {
+                                        var dialogOptions = {
+                                            container: 'body',
+                                            content: '<input class="col-12 form-control" name="objectClassName" type="text" placeholder="输入对象名称，如：equipment"></input>',
+                                            iTitle: false,
+                                            title: '对象名称',
+                                            width: '150%',
+                                            buttons:[
+                                                {
+                                                    type: 'close', text: '关闭', fn: function () {}
+                                                },{
+                                                    type: 'sure', text: '确定', fn: function () {
+                                                        var objectClassName = $('input[name=objectClassName]').val();
+                                                        if(objectClassName && $.trim(objectClassName) != ''){
+                                                            var data = requestParam.toData();
+                                                            $.ajax({
+                                                                url: api.util.getUrl('/apimanager/object/field/createObj'),
+                                                                type: 'post',
+                                                                data : JSON.stringify({'fieldInfoValue': JSON.stringify(data), 'classWholeName': objectClassName}),
+                                                                dataType: 'json',
+                                                                async: false,
+                                                                contentType : 'application/json;charset=utf-8',
+                                                                success: function (result) {
+                                                                    var code = result.code;
+                                                                    if(code == '-1'){
+                                                                        var options = {
+                                                                            content: '对象创建失败！'
+                                                                        };
+                                                                        api.ui.dialog(options).open();
+                                                                    }
+                                                                }
+                                                            });
+                                                        } else {
+                                                            var options = {
+                                                                content: '对象名称不能为空！'
+                                                            };
+                                                            api.ui.dialog(options).open();
+                                                        }
+                                                    }
+                                                }
+                                            ],
+                                            opened: function (modalBody) {
+                                            }
+                                        };
+                                        api.ui.dialog(dialogOptions).open();
+                                    });
+
+                                    var $responseCreateObjBtn = $('#responseParam').find('.createObjBtn');
+                                    $responseCreateObjBtn.on('click', function () {
+                                        var dialogOptions = {
+                                            container: 'body',
+                                            content: '<input class="col-12 form-control" name="objectClassName" type="text" placeholder="输入对象名称，如：equipment"></input>',
+                                            iTitle: false,
+                                            title: '对象名称',
+                                            width: '150%',
+                                            buttons:[
+                                                {
+                                                    type: 'close', text: '关闭', fn: function () {}
+                                                },{
+                                                    type: 'sure', text: '确定', fn: function () {
+                                                        var objectClassName = $('input[name=objectClassName]').val();
+                                                        if(objectClassName && $.trim(objectClassName) != ''){
+                                                            var data = responseParam.toData();
+                                                            $.ajax({
+                                                                url: api.util.getUrl('/apimanager/object/field/createObj'),
+                                                                type: 'post',
+                                                                data : JSON.stringify({'fieldInfoValue': JSON.stringify(data), 'classWholeName': objectClassName}),
+                                                                dataType: 'json',
+                                                                async: false,
+                                                                contentType : 'application/json;charset=utf-8',
+                                                                success: function (result) {
+                                                                    var code = result.code;
+                                                                    if(code == '-1'){
+                                                                        var options = {
+                                                                            content: '对象创建失败！'
+                                                                        };
+                                                                        api.ui.dialog(options).open();
+                                                                    }
+                                                                }
+                                                            });
+                                                        } else {
+                                                            var options = {
+                                                                content: '对象名称不能为空！'
+                                                            };
+                                                            api.ui.dialog(options).open();
+                                                        }
+                                                    }
+                                                }
+                                            ],
+                                            opened: function (modalBody) {
+                                            }
+                                        };
+                                        api.ui.dialog(dialogOptions).open();
+                                    });
+
                                     var $responseImportBtn = $('#responseParam').find('.importBtn');
                                     $responseImportBtn.on('click',function () {
                                         var $templateBtnDiv = $('<div></div>');
@@ -2010,9 +2310,9 @@ var actionTableOptions = {
                                     $responseImportDescBtn.on('click',function () {
                                         var dialogOptions = {
                                             container: 'body',
-                                            content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment，支持多选"></input>',
+                                            content: '<input class="col-12 form-control" name="objectDescNames" type="text" placeholder="输入对象名称，如：equipment"></input>',
                                             iTitle: false,
-                                            title: '备注参数',
+                                            title: '对象备注',
                                             width: '150%',
                                             buttons:[
                                                 {
@@ -2022,7 +2322,7 @@ var actionTableOptions = {
                                                         var objectDescNames = $('input[name=objectDescNames]').val();
                                                         if(objectDescNames && $.trim(objectDescNames) != ''){
                                                             $.ajax({
-                                                                url: api.util.getUrl('apimanager/object/field/findByClassWholeNames'),
+                                                                url: api.util.getUrl('apimanager/object/field/findObjectDescByClassWholeNames'),
                                                                 type: 'GET',
                                                                 data : {'classWholeNames': objectDescNames},
                                                                 dataType: 'json',

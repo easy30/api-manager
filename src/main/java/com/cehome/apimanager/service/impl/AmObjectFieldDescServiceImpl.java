@@ -100,5 +100,23 @@ public class AmObjectFieldDescServiceImpl implements IAmObjectFieldDescService{
         }
         return objectNames;
     }
+
+    @Override
+    public void createObj(AmObjectFieldDescReqDto dto) {
+        String classWholeName = "create:" + dto.getClassWholeName();
+        AmObjectFieldDesc classWholeNameObj = objectFieldDescDao.findByClassWholeName(classWholeName);
+        dto.setClassWholeName(classWholeName);
+        dto.setFieldDescValue("{}");
+        String fieldInfoValue = dto.getFieldInfoValue();
+
+        if(classWholeNameObj != null){
+            dto.setUpdateUser(dto.getCreateUser());
+            dto.setUpdateTime(new Date());
+            objectFieldDescDao.update(dto);
+        } else {
+            dto.setCreateTime(new Date());
+            objectFieldDescDao.add(dto);
+        }
+    }
 }
 

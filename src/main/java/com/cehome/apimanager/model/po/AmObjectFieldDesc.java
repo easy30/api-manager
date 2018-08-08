@@ -9,6 +9,7 @@ public class AmObjectFieldDesc implements Serializable {
     private String classWholeName;
     private String tableName;
     private String fieldDescValue;
+    private String fieldInfoValue;
     private Integer createUser;
     private Date createTime;
     private Integer updateUser;
@@ -44,6 +45,14 @@ public class AmObjectFieldDesc implements Serializable {
 
     public void setFieldDescValue(String fieldDescValue) {
         this.fieldDescValue = fieldDescValue;
+    }
+
+    public String getFieldInfoValue() {
+        return fieldInfoValue;
+    }
+
+    public void setFieldInfoValue(String fieldInfoValue) {
+        this.fieldInfoValue = fieldInfoValue;
     }
 
     public Integer getCreateUser() {

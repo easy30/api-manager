@@ -214,18 +214,20 @@
                 if($tr.find('select[name=type]').val()==1){
                     var regPos = /^(-?\d+)(\.\d+)?$/; // 浮点数
                     var $default = $tr.find('input[name=defaultVal]');
-                    if(!regPos.test($default.val())){
-                        var options = {
-                            content: '请输入数字！'
-                        };
-                        api.ui.dialog(options).open();
-                        that.defaultFlag = 1;
-                        $default.val(0);
-                        $default.css('border-color','red');
-                        return false;
-                    }else {
-                        delete that.defaultFlag;
-                        $default.css('border-color','');
+                    if($default.val()){
+                        if(!regPos.test($default.val())){
+                            var options = {
+                                content: '请输入数字！'
+                            };
+                            api.ui.dialog(options).open();
+                            that.defaultFlag = 1;
+                            $default.val(0);
+                            $default.css('border-color','red');
+                            return false;
+                        }else {
+                            delete that.defaultFlag;
+                            $default.css('border-color','');
+                        }
                     }
                 }
                 //校验日期
@@ -252,18 +254,20 @@
                 //校验boolean
                 if($tr.find('select[name=type]').val()==3){
                     var $default = $tr.find('input[name=defaultVal]');
-                    if($default.val().toUpperCase() != 'TRUE' && $default.val().toUpperCase() != 'FALSE'){
-                        var options = {
-                            content: '请输入"true"或者"false"！'
-                        };
-                        api.ui.dialog(options).open();
-                        that.defaultFlag = 1;
-                        $default.val('false');
-                        $default.css('border-color','red');
-                        return false;
-                    }else {
-                        delete that.defaultFlag;
-                        $default.css('border-color','');
+                    if($default.val()){
+                        if($default.val().toUpperCase() != 'TRUE' && $default.val().toUpperCase() != 'FALSE'){
+                            var options = {
+                                content: '请输入"true"或者"false"！'
+                            };
+                            api.ui.dialog(options).open();
+                            that.defaultFlag = 1;
+                            $default.val('false');
+                            $default.css('border-color','red');
+                            return false;
+                        }else {
+                            delete that.defaultFlag;
+                            $default.css('border-color','');
+                        }
                     }
                 }
             })
@@ -440,18 +444,20 @@
                 if($tr.find('select[name=type]').val()==1){
                     var regPos = /^(-?\d+)(\.\d+)?$/; // 浮点数
                     var $default = $tr.find('input[name=defaultVal]');
-                    if(!regPos.test($default.val())){
-                        var options = {
-                            content: '请输入数字！'
-                        };
-                        api.ui.dialog(options).open();
-                        that.defaultFlag = 1;
-                        $default.val(0);
-                        $default.css('border-color','red');
-                        return false;
-                    }else {
-                        delete that.defaultFlag;
-                        $default.css('border-color','');
+                    if($default.val()){
+                        if(!regPos.test($default.val())){
+                            var options = {
+                                content: '请输入数字！'
+                            };
+                            api.ui.dialog(options).open();
+                            that.defaultFlag = 1;
+                            $default.val(0);
+                            $default.css('border-color','red');
+                            return false;
+                        }else {
+                            delete that.defaultFlag;
+                            $default.css('border-color','');
+                        }
                     }
                 }
                 //校验日期
@@ -478,18 +484,20 @@
                 //校验boolean
                 if($tr.find('select[name=type]').val()==3){
                     var $default = $tr.find('input[name=defaultVal]');
-                    if($default.val().toUpperCase() != 'TRUE' && $default.val().toUpperCase() != 'FALSE'){
-                        var options = {
-                            content: '请输入"true"或者"false"！'
-                        };
-                        api.ui.dialog(options).open();
-                        that.defaultFlag = 1;
-                        $default.val('false');
-                        $default.css('border-color','red');
-                        return false;
-                    }else {
-                        delete that.defaultFlag;
-                        $default.css('border-color','');
+                    if($default.val()){
+                        if($default.val().toUpperCase() != 'TRUE' && $default.val().toUpperCase() != 'FALSE'){
+                            var options = {
+                                content: '请输入"true"或者"false"！'
+                            };
+                            api.ui.dialog(options).open();
+                            that.defaultFlag = 1;
+                            $default.val('false');
+                            $default.css('border-color','red');
+                            return false;
+                        }else {
+                            delete that.defaultFlag;
+                            $default.css('border-color','');
+                        }
                     }
                 }
             })
@@ -614,18 +622,20 @@
                 if($tr.find('select[name=type]').val()==1){
                     var regPos = /^(-?\d+)(\.\d+)?$/; // 浮点数
                     var $default = $tr.find('input[name=defaultVal]');
-                    if(!regPos.test($default.val())){
-                        var options = {
-                            content: '请输入数字！'
-                        };
-                        api.ui.dialog(options).open();
-                        that.defaultFlag = 1;
-                        $default.val(0);
-                        $default.css('border-color','red');
-                        return false;
-                    }else {
-                        delete that.defaultFlag;
-                        $default.css('border-color','');
+                    if($default.val()){
+                        if(!regPos.test($default.val())){
+                            var options = {
+                                content: '请输入数字！'
+                            };
+                            api.ui.dialog(options).open();
+                            that.defaultFlag = 1;
+                            $default.val(0);
+                            $default.css('border-color','red');
+                            return false;
+                        }else {
+                            delete that.defaultFlag;
+                            $default.css('border-color','');
+                        }
                     }
                 }
                 //校验日期
@@ -652,18 +662,20 @@
                 //校验boolean
                 if($tr.find('select[name=type]').val()==3){
                     var $default = $tr.find('input[name=defaultVal]');
-                    if($default.val().toUpperCase() != 'TRUE' && $default.val().toUpperCase() != 'FALSE'){
-                        var options = {
-                            content: '请输入"true"或者"false"！'
-                        };
-                        api.ui.dialog(options).open();
-                        that.defaultFlag = 1;
-                        $default.val('false');
-                        $default.css('border-color','red');
-                        return false;
-                    }else {
-                        delete that.defaultFlag;
-                        $default.css('border-color','');
+                    if($default.val()){
+                        if($default.val().toUpperCase() != 'TRUE' && $default.val().toUpperCase() != 'FALSE'){
+                            var options = {
+                                content: '请输入"true"或者"false"！'
+                            };
+                            api.ui.dialog(options).open();
+                            that.defaultFlag = 1;
+                            $default.val('false');
+                            $default.css('border-color','red');
+                            return false;
+                        }else {
+                            delete that.defaultFlag;
+                            $default.css('border-color','');
+                        }
                     }
                 }
             })
@@ -811,18 +823,20 @@
                         if($tr.find('select[name=type]').val()==1){
                             var regPos = /^(-?\d+)(\.\d+)?$/; // 浮点数
                             var $default = $tr.find('input[name=defaultVal]');
-                            if(!regPos.test($default.val())){
-                                var options = {
-                                    content: '请输入数字！'
-                                };
-                                api.ui.dialog(options).open();
-                                that.defaultFlag = 1;
-                                $default.val(0);
-                                $default.css('border-color','red');
-                                return false;
-                            }else {
-                                delete that.defaultFlag;
-                                $default.css('border-color','');
+                            if($default.val()){
+                                if(!regPos.test($default.val())){
+                                    var options = {
+                                        content: '请输入数字！'
+                                    };
+                                    api.ui.dialog(options).open();
+                                    that.defaultFlag = 1;
+                                    $default.val(0);
+                                    $default.css('border-color','red');
+                                    return false;
+                                }else {
+                                    delete that.defaultFlag;
+                                    $default.css('border-color','');
+                                }
                             }
                         }
                         //校验日期
@@ -849,18 +863,20 @@
                         //校验boolean
                         if($tr.find('select[name=type]').val()==3){
                             var $default = $tr.find('input[name=defaultVal]');
-                            if($default.val().toUpperCase() != 'TRUE' && $default.val().toUpperCase() != 'FALSE'){
-                                var options = {
-                                    content: '请输入"true"或者"false"！'
-                                };
-                                api.ui.dialog(options).open();
-                                that.defaultFlag = 1;
-                                $default.val('false');
-                                $default.css('border-color','red');
-                                return false;
-                            }else {
-                                delete that.defaultFlag;
-                                $default.css('border-color','');
+                            if($default.val()){
+                                if($default.val().toUpperCase() != 'TRUE' && $default.val().toUpperCase() != 'FALSE'){
+                                    var options = {
+                                        content: '请输入"true"或者"false"！'
+                                    };
+                                    api.ui.dialog(options).open();
+                                    that.defaultFlag = 1;
+                                    $default.val('false');
+                                    $default.css('border-color','red');
+                                    return false;
+                                } else {
+                                    delete that.defaultFlag;
+                                    $default.css('border-color','');
+                                }
                             }
                         }
                     })
