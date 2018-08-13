@@ -4,8 +4,8 @@ var headOptions = {
         {text: '操作', width: '5%'},
         {text: '名称', width: '20%'},
         {text: '类型', width: '15%'},
-        {text: '备注', width: '20%'},
-        {text: '样值', width: '20%'}
+        {text: '备注', width: '30%'},
+        {text: '样值', width: '30%'}
     ],
     fields: [
         {name: 'name', type: 'input'},
@@ -91,13 +91,22 @@ var requestOptions = {
             }
         },
         {
-            type: 'importDesc', text: '导入备注', className: 'importDescBtn', fn: function (row) {
+            type: 'importDesc', text: '导入对象', className: 'importDescBtn', fn: function (row) {
+            }
+        },
+        {
+            type: 'createObj', text: '生成对象', className: 'createObjBtn', fn: function (row) {
             }
         },
         {
             type: 'clear', text: '清空参数', fn: function (row) {
             }
         }
+        // ,
+        // {
+        //     type: 'extract', text: '提取参数', className: 'extractBtn', fn: function (row) {
+        //     }
+        // }
     ]
 };
 var responseOptions = {
@@ -146,6 +155,11 @@ var responseOptions = {
             type: 'clear', text: '清空参数', fn: function (row) {
             }
         }
+        // ,
+        // {
+        //     type: 'extract', text: '提取参数', className: 'extractBtn', fn: function (row) {
+        //     }
+        // }
     ]
 };
 var responseFailOptions = {
@@ -154,8 +168,8 @@ var responseFailOptions = {
         {text: '操作', width: '5%'},
         {text: '名称', width: '20%'},
         {text: '类型', width: '15%'},
-        {text: '备注', width: '20%'},
-        {text: '样值', width: '20%'}
+        {text: '备注', width: '30%'},
+        {text: '样值', width: '30%'}
     ],
     fields: [
         {name: 'name', type: 'input'},

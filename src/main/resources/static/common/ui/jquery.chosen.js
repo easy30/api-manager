@@ -2,7 +2,7 @@
     var chosenSelect = function (options) {
         var options = this.options = $.extend({}, chosenSelect.defaults, options);
         var jq = this.jq = ('string' == typeof options.selector) ? $(options.selector) : options.selector;
-        jq.css('width', options.width).css('height', options.height).css('font-size', '15px');
+        jq.css('width', options.width).css('height', '34px').css('font-size', '15px');
         if(options.url){
             this.load(options.params);
         } else {

@@ -47,7 +47,6 @@ var loggerTableOptions = {
                 url: api.util.getUrl('html/logger/loggerInfo.html'),
                 async: false,
                 loaded: function () {
-                    $('#loggerInfoForm').css('margin-top','90px');
                     api.util.loadScript(api.util.getUrl('html/logger/js/loggerInfo.js'),function () {
                         api.ui.chosenSelect(moduleCodeSelectOptions);
                         api.ui.chosenSelect(operateTypeSelectOptions);
@@ -75,9 +74,7 @@ var loggerTableOptions = {
                             container: '#container',
                             url: api.util.getUrl('html/logger/logger.html'),
                             async: false,
-                            /*preLoad: function (content) {},*/
                             loaded: function () {
-                                $('#loggerForm').css('margin-top','90px');
                                 api.util.loadScript(api.util.getUrl("html/logger/js/logger.js"), function () {
                                     api.ui.chosenSelect(moduleCodeSelect).val(moduleCodeSearch);
                                     api.ui.chosenSelect(operateUserSelect).val(operateUserSearch);

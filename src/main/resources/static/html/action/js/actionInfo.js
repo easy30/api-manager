@@ -18,6 +18,15 @@ var statusSelectOption = {
     optionField: {value: 'k', text: 'v'},
     url: api.util.getUrl('apimanager/meta/findMeta')
 };
+var actionLevelSelectOption = {
+    selector: '[name=actionLevel]',
+    width: '90%',
+    params: {metaId: 7},
+    cache: true,
+    async: false,
+    optionField: {value: 'k', text: 'v'},
+    url: api.util.getUrl('apimanager/meta/findMeta')
+};
 var moduleOptions = {
     selector: '[name=moduleId]',
     optionField: {value: 'id', text: 'moduleName'},

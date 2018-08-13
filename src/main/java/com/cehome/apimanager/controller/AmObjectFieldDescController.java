@@ -1,6 +1,7 @@
 package com.cehome.apimanager.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.cehome.apimanager.common.BaseController;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.model.dto.AmObjectFieldDescQueryReqDto;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +35,7 @@ public class AmObjectFieldDescController extends BaseController {
     private IAmObjectFieldDescService objectFieldDescService;
 
     /**
-     * 获取认证接口列表
+     * 获取对象列表
      *
      * @param dto
      * @return
@@ -67,7 +69,7 @@ public class AmObjectFieldDescController extends BaseController {
     }
 
     /**
-     * 保存认证接口信息
+     * 保存对象信息
      *
      * @param dto
      * @return
@@ -78,6 +80,26 @@ public class AmObjectFieldDescController extends BaseController {
             AmUser loginUser = WebUtils.getLoginUser(session);
             dto.setCreateUser(loginUser.getId());
             objectFieldDescService.add(dto);
+            return toSuccess();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return toFail(e.getMessage());
+        }
+    }
+
+    /**
+     * 创建对象
+     *
+     * @param session
+     * @param dto
+     * @return
+     */
+    @RequestMapping(value = "createObj", method = RequestMethod.POST)
+    public Map<String, Object> createObj(HttpSession session, @RequestBody AmObjectFieldDescReqDto dto) {
+        try {
+            AmUser loginUser = WebUtils.getLoginUser(session);
+            dto.setCreateUser(loginUser.getId());
+            objectFieldDescService.createObj(dto);
             return toSuccess();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -144,23 +166,45 @@ public class AmObjectFieldDescController extends BaseController {
      * @param classWholeNames
      * @return
      */
-    @RequestMapping("findByClassWholeNames")
-    public Map<String, Object> findByClassWholeNames(String classWholeNames) {
+    @RequestMapping("findObjectDescByClassWholeNames")
+    public Map<String, Object> findObjectDescByClassWholeNames(String classWholeNames) {
         try {
             Map<String, Object> mapData = new HashMap<>();
             String[] splitNames = classWholeNames.split(",");
-            for(String name : splitNames){
-                if(StringUtils.isEmpty(name.trim())){
+            for (String name : splitNames) {
+                if (StringUtils.isEmpty(name.trim())) {
                     continue;
                 }
                 AmObjectFieldDesc objectFieldDesc = objectFieldDescService.findByClassWholeName(name);
-                if(objectFieldDesc != null){
+                if (objectFieldDesc != null) {
                     String fieldDescValue = objectFieldDesc.getFieldDescValue();
                     Map map = JSON.parseObject(fieldDescValue, Map.class);
                     mapData.putAll(map);
                 }
             }
             return toSuccess(mapData);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return toFail(e.getMessage());
+        }
+    }
+
+    /**
+     * 获取对象字段信息
+     *
+     * @param classWholeNames
+     * @return
+     */
+    @RequestMapping("findObjectInfoByClassWholeNames")
+    public Map<String, Object> findObjectInfoByClassWholeNames(String classWholeNames) {
+        try {
+            AmObjectFieldDesc objectFieldDesc = objectFieldDescService.findByClassWholeName(classWholeNames);
+            List<JSONObject> jsonObjects = new ArrayList<>();
+            if (objectFieldDesc != null) {
+                String fieldInfoValue = objectFieldDesc.getFieldInfoValue();
+                jsonObjects = JSON.parseArray(fieldInfoValue, JSONObject.class);
+            }
+            return toSuccess(jsonObjects);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return toFail(e.getMessage());

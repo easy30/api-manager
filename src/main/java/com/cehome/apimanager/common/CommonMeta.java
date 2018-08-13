@@ -320,4 +320,56 @@ public class CommonMeta {
             return desc;
         }
     }
+
+    /**
+     * 接口级别
+     */
+    public enum ActionLevel {
+        A(1, "A"),
+        B(2, "B"),
+        C(3, "C"),
+        D(4, "D");
+
+        public static Map<String, String> MAP;
+        public static List<MetaKv> KVS;
+
+        static {
+            MAP = new HashMap<String, String>(ActionLevel.values().length);
+            KVS = new ArrayList<MetaKv>(ActionLevel.values().length);
+            for (ActionLevel actionLevel : ActionLevel.values()) {
+                MAP.put(String.valueOf(actionLevel.getCode()), actionLevel.getDesc());
+                KVS.add(new MetaKv(actionLevel.getCode(), actionLevel.getDesc()));
+            }
+        }
+
+        public static String findDescByCode(Integer code) {
+            if (null == code || -1 == code)
+                return "";
+            return findDescByCode(String.valueOf(code));
+        }
+
+        public static String findDescByCode(String code) {
+            String desc = MAP.get(code);
+            if (null == desc) {
+                desc = "未知";
+            }
+            return desc;
+        }
+
+        private final int code;
+        private final String desc;
+
+        ActionLevel(int code, String desc) {
+            this.code = code;
+            this.desc = desc;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+    }
 }

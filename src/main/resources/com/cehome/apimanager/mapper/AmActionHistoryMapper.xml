@@ -10,6 +10,8 @@
 		<result column="request_type" property="requestType" jdbcType="VARCHAR" />
 		<result column="domain_id" property="domainId" jdbcType="INTEGER" />
 		<result column="request_url" property="requestUrl" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="action_level" property="actionLevel" jdbcType="INTEGER" />
 		<result column="request_head_definition" property="requestHeadDefinition" jdbcType="LONGVARCHAR" />
 		<result column="request_definition" property="requestDefinition" jdbcType="LONGVARCHAR" />
 		<result column="response_definition" property="responseDefinition" jdbcType="LONGVARCHAR" />
@@ -22,7 +24,7 @@
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		id,action_id,module_id,action_name,action_desc,request_type,domain_id,request_url,request_head_definition,
+		id,action_id,module_id,action_name,action_desc,request_type,domain_id,request_url,status,action_level,request_head_definition,
 		request_definition,response_definition,response_fail_definition,request_head_mock,request_mock,response_mock,update_user,update_time
 	</sql>
 	
@@ -34,7 +36,24 @@
 		id = #{id,jdbcType=INTEGER}
 		LIMIT 1
 	</select>
-	
+
+	<select id="findLastModifyRecordByActionId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		(
+			SELECT
+			<include refid="Base_Column_List" />
+			FROM am_action_history
+			WHERE
+			action_id = #{actionId,jdbcType=INTEGER}
+			ORDER BY id DESC
+			LIMIT 10
+		) t
+		ORDER BY t.id
+		LIMIT 1
+	</select>
+
 	<select id="find" parameterType="map" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
@@ -112,6 +131,12 @@
 			<if test="requestUrl != null">
 			request_url,
 			</if>
+			<if test="status != null">
+			status,
+			</if>
+			<if test="actionLevel != null">
+			action_level,
+			</if>
 			<if test="requestHeadDefinition != null">
 			request_head_definition,
 			</if>
@@ -144,11 +169,11 @@
 			<if test="id != null">
 			#{id,jdbcType=INTEGER},
 			</if>
-			<if test="moduleId != null">
-			#{moduleId,jdbcType=INTEGER},
-			</if>
 			<if test="actionId != null">
 			#{actionId,jdbcType=INTEGER},
+			</if>
+			<if test="moduleId != null">
+			#{moduleId,jdbcType=INTEGER},
 			</if>
 			<if test="actionName != null">
 			#{actionName,jdbcType=VARCHAR},
@@ -164,6 +189,12 @@
 			</if>
 			<if test="requestUrl != null">
 			#{requestUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+			#{status,jdbcType=INTEGER},
+			</if>
+			<if test="actionLevel != null">
+			#{actionLevel,jdbcType=INTEGER},
 			</if>
 			<if test="requestHeadDefinition != null">
 			#{requestHeadDefinition,jdbcType=LONGVARCHAR},
@@ -218,6 +249,12 @@
 			</if>
 			<if test="requestUrl != null">
 			request_url = #{requestUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+			status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="actionLevel != null">
+			action_level = #{actionLevel,jdbcType=INTEGER},
 			</if>
 			<if test="requestHeadDefinition != null">
 			request_head_definition = #{requestHeadDefinition,jdbcType=LONGVARCHAR},

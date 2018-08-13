@@ -20,57 +20,6 @@ api.util.loadScripts([
         url: 'head.html',
         loaded: function () {
             api.util.loadScript(api.util.getUrl('common/js/head.js'), function () {
-                var config = {
-                    container: '#actionDownMenu',
-                    title: '接口功能',
-                    items: [
-                        {
-                            name: '列表管理', fn: function () {
-                                actionClick();
-                            }
-                        },{
-                            name: '接口测试', fn: function () {
-                                actionTestClick();
-                            }
-                        },{
-                            name: '批量测试', fn: function () {
-                                batchTestClick();
-                            }
-                        }
-                    ]
-                }
-                api.ui.downMenu(config);
-
-                var config = {
-                    container: '#extendModule',
-                    title: '系统功能',
-                    items: [
-                        {
-                            name: '环境配置', fn: function () {
-                                envClick();
-                            }
-                        },
-                        {
-                            name: '服务配置', fn: function () {
-                                domainClick();
-                            }
-                        },{
-                            name: '认证列表', fn: function () {
-                                actionLoginClick();
-                            }
-                        },{
-                            name: '数据库表', fn: function () {
-                                tableManageClick();
-                            }
-                        },{
-                            name: '对象备注', fn: function () {
-                                objectDescClick();
-                            }
-                        }
-                    ]
-                }
-                api.ui.downMenu(config);
-
                 $.ajax({
                     url: api.util.getUrl('/apimanager/user/findBySession'),
                     type: 'GET',
@@ -84,13 +33,95 @@ api.util.loadScripts([
     }
     api.ui.load(headConf);
 
+    var menuNavConf = {
+        container: '#menu-nav',
+        url: 'menu-nav.html',
+        loaded: function () {
+            $('.menu-list .inactive').click(function () {
+                if ($(this).siblings('ul').css('display') != 'none') {
+                    $(this).addClass('inactives');
+                    $(this).siblings('ul').slideUp(100);
+                } else {
+                    $(this).removeClass('inactives');
+                    $(this).siblings('ul').slideDown(100).children('li');
+                }
+            })
+        }
+    }
+    api.ui.load(menuNavConf);
+
+    // 基于准备好的dom，初始化echarts实例
     var containerConf = {
         container: '#container',
-        url: 'html/department/department.html',
+        url: 'html/action/actionCount.html',
         loaded: function () {
-            api.util.loadScript(api.util.getUrl('html/department/js/department.js'), function () {
-                api.ui.editTable(departmentOptions);
-            });
+            $('#depart').parent('.container-fluid').css('display','none');
+            $.ajax({
+                url: api.util.getUrl('apimanager/action/countGroupByProject'),
+                type: 'get',
+                dataType: 'json',
+                success: function (result) {
+                    var datas = result.data;
+                    var xData = [],series = [];
+                    if(datas){
+                        $.each(datas, function (index, data) {
+                            xData.push(data.projectName);
+                            series.push(data.actionCount);
+                        })
+                    }
+                    console.log(xData);
+                    console.log(series);
+                    var myChart = echarts.init(document.getElementById('actionNum'));
+                    // 指定图表的配置项和数据
+                    var option = {
+                        title: {
+                            text: '项目接口数量统计',
+                            x: '38%',
+                            textStyle:{
+                                fontSize: 25
+                            }
+                        },
+                        legend: {
+                            y: '6%',
+                            x: '880px',
+                            data: ['数量'],
+                            color: 'rgb(42,170,227)',
+                            textStyle:{
+                                fontSize: 18
+                            }
+                        },
+                        grid: {
+                            x: '8%',
+                            width:'80%',
+                            top: '20%',
+                            containLabel: true
+                        },
+                        xAxis: {
+                            data: xData,
+                            axisLabel:{
+                                interval: 0,
+                                rotate: -30
+                            }
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: '数量',
+                            type: 'bar',
+                            data: series,
+                            label: {
+                                show: true,
+                                position: 'top',
+                                color: 'black'
+                            },
+                            itemStyle: {
+                                color: 'rgb(42,170,227)'
+                            }
+                        }]
+                    };
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
+                }
+            })
         }
     }
     api.ui.load(containerConf);

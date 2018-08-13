@@ -25,4 +25,6 @@ public interface IAmObjectFieldDescService {
     AmObjectFieldDesc findByTableName(String tableName);
 
     List<String> listObjectNames(AmObjectFieldDescQueryReqDto dto);
+
+    void createObj(AmObjectFieldDescReqDto dto);
 }

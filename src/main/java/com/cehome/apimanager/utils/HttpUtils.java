@@ -58,8 +58,8 @@ public class HttpUtils {
         httpClientBuilder.setDefaultCookieStore(cookieStore);
         CloseableHttpClient httpclient = httpClientBuilder.build();
         try {
-            String urlParamterString = urlParamterString(nameValuePair);
-            HttpGet httpGet = new HttpGet(url + urlParamterString);
+            String queryString = getQueryString(nameValuePair);
+            HttpGet httpGet = new HttpGet(url + queryString);
             if (headers != null && !headers.isEmpty()) {
                 for (String key : headers.keySet()) {
                     Header header = new BasicHeader(key, headers.getString(key));
@@ -141,7 +141,7 @@ public class HttpUtils {
         cookieStore.addCookie(cookie);
     }
 
-    private String urlParamterString(JSONObject nameValuePair) {
+    private String getQueryString(JSONObject nameValuePair) {
         if (nameValuePair == null || nameValuePair.isEmpty()) {
             return "";
         }

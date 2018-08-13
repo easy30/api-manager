@@ -6,6 +6,7 @@
 		<result column="class_whole_name" property="classWholeName" jdbcType="VARCHAR" />
 		<result column="table_name" property="tableName" jdbcType="VARCHAR" />
 		<result column="field_desc_value" property="fieldDescValue" jdbcType="LONGVARCHAR" />
+		<result column="field_info_value" property="fieldInfoValue" jdbcType="LONGVARCHAR" />
 		<result column="create_user" property="createUser" jdbcType="INTEGER" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
 		<result column="update_user" property="updateUser" jdbcType="INTEGER" />
@@ -13,7 +14,7 @@
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		id,class_whole_name,table_name,field_desc_value,create_user,create_time,update_user,update_time
+		id,class_whole_name,table_name,field_desc_value,field_info_value,create_user,create_time,update_user,update_time
 	</sql>
 	
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -96,6 +97,9 @@
 			<if test="fieldDescValue != null">
 				field_desc_value,
 			</if>
+			<if test="fieldInfoValue != null">
+				field_info_value,
+			</if>
 			<if test="createUser != null">
 				create_user,
 			</if>
@@ -121,6 +125,9 @@
 			</if>
 			<if test="fieldDescValue != null">
 				#{fieldDescValue,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fieldInfoValue != null">
+				#{fieldInfoValue,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="createUser != null">
 				#{createUser,jdbcType=INTEGER},
@@ -148,6 +155,9 @@
 			</if>
 			<if test="fieldDescValue != null">
 				field_desc_value = #{fieldDescValue,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="fieldInfoValue != null">
+				field_info_value = #{fieldInfoValue,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="updateUser != null">
 				update_user = #{updateUser,jdbcType=INTEGER},

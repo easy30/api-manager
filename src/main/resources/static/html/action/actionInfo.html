@@ -1,49 +1,59 @@
 <form id="actionInfoForm">
     <div class="row form-row">
-        <div class="col-1">
+        <div class="col-1.5">
             <label>服务地址：</label>
         </div>
         <div class="col-10">
-            <select class="form-control" style="display: inline" name="domainId"></select><span style="color: red;"> *</span>
+            <select required class="form-control" style="display: inline" name="domainId"></select><span style="color: red;"> *</span>
         </div>
     </div>
     <p/>
     <div class="row form-row">
-        <div class="col-1">
+        <div class="col-1.5">
             <label>接口地址：</label>
         </div>
         <div class="col-10">
-            <input class="form-control" style="width: 88.5%; display: inline" name="requestUrl" type="text" placeholder="例如 /core/home/findById"><span style="color: red;"> *</span>
+            <input required class="form-control" style="width: 88.5%; display: inline" name="requestUrl" type="text" placeholder="例如 /core/home/findById"><span style="color: red;"> *</span>
         </div>
     </div>
     <p/>
     <div class="row form-row">
-        <div class="col-1">
+        <div class="col-1.5">
             <label>接口名称：</label>
         </div>
         <div class="col-4">
-            <input class="form-control" style="width: 90%; display: inline" name="actionName" type="text"><span style="color: red;"> *</span>
+            <input required class="form-control" style="width: 90%; display: inline" name="actionName" type="text"><span style="color: red;"> *</span>
         </div>
-        <div class="col-1 offset-1">
+        <div class="col-1.5 offset-1">
             <label>请求类型：</label>
         </div>
         <div class="col-3">
-            <select class="form-control" style="display: inline" name="requestType"></select><span style="color: red;"> *</span>
+            <select required class="form-control" style="display: inline" name="requestType"></select><span style="color: red;"> *</span>
         </div>
     </div>
     <p/>
     <div class="row form-row">
-        <div class="col-1">
+        <div class="col-1.5">
             <label>所属模块：</label>
         </div>
         <div class="col-4">
-            <select class="form-control" style="display: inline" name="moduleId"></select><span style="color: red;"> *</span>
+            <select required class="form-control" style="display: inline" name="moduleId"></select><span style="color: red;"> *</span>
         </div>
-        <div class="col-1 offset-1">
+        <div class="col-1.5 offset-1">
             <label>接口状态：</label>
         </div>
         <div class="col-3">
-            <select class="form-control" style="display: inline" name="status"></select><span style="color: red;"> *</span>
+            <select required class="form-control" style="display: inline" name="status"></select><span style="color: red;"> *</span>
+        </div>
+    </div>
+    <p/>
+    <div class="row form-row">
+        <div class="col-1.5">
+            <label>接口级别：</label>
+        </div>
+        <div class="col-4">
+            <!--<select class="form-control" style="display: inline" name="actionLevel"></select><span style="color: red;"> *</span>-->
+            <select class="form-control" style="display: inline" name="actionLevel"></select>
         </div>
     </div>
     <p/>

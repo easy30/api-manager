@@ -10,6 +10,7 @@
 		<result column="domain_id" property="domainId" jdbcType="INTEGER" />
 		<result column="request_url" property="requestUrl" jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="action_level" property="actionLevel" jdbcType="INTEGER" />
 		<result column="request_head_definition" property="requestHeadDefinition" jdbcType="LONGVARCHAR" />
 		<result column="request_definition" property="requestDefinition" jdbcType="LONGVARCHAR" />
 		<result column="response_definition" property="responseDefinition" jdbcType="LONGVARCHAR" />
@@ -24,7 +25,7 @@
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		id,module_id,action_name,action_desc,request_type,domain_id,request_url,status,request_head_definition,
+		id,module_id,action_name,action_desc,request_type,domain_id,request_url,status,action_level,request_head_definition,
 		request_definition,response_definition,response_fail_definition,request_head_mock,request_mock,response_mock,create_user,
 		create_time,update_user,update_time
 	</sql>
@@ -109,7 +110,34 @@
 	<select id="findUrlList" resultMap="BaseResultMap">
 		SELECT id,request_url FROM am_action
 	</select>
-	
+
+	<select id="countGroupByProject" resultType="java.util.Map">
+		SELECT
+			project.project_name AS projectName,
+			IFNULL(sum(t.action_count), 0) AS actionCount
+		FROM
+			am_project project
+		LEFT JOIN (
+			SELECT
+				module.project_id,
+				module.id,
+				IFNULL(module_action.action_count,0) AS action_count
+			FROM
+				am_module module
+			LEFT JOIN (
+				SELECT
+					module_id,
+					count(module_id) AS action_count
+				FROM
+					am_action
+				GROUP BY
+					module_id
+			) module_action ON module.id = module_action.module_id
+		) t ON project.id = t.project_id
+		GROUP BY
+			project.id;
+	</select>
+
 	<insert id="insertSelective" parameterType="com.cehome.apimanager.model.po.AmAction" 
 		useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO am_action
@@ -130,13 +158,16 @@
 			request_type,
 			</if>
 			<if test="domainId != null">
-				domain_id,
+			domain_id,
 			</if>
 			<if test="requestUrl != null">
 			request_url,
 			</if>
 			<if test="status != null">
 			status,
+			</if>
+			<if test="actionLevel != null">
+			action_level,
 			</if>
 			<if test="requestHeadDefinition != null">
 			request_head_definition,
@@ -197,6 +228,9 @@
 			<if test="status != null">
 			#{status,jdbcType=INTEGER},
 			</if>
+			<if test="actionLevel != null">
+			#{actionLevel,jdbcType=INTEGER},
+			</if>
 			<if test="requestHeadDefinition != null">
 			#{requestHeadDefinition,jdbcType=LONGVARCHAR},
 			</if>
@@ -256,6 +290,9 @@
 			</if>
 			<if test="status != null">
 			status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="actionLevel != null">
+			action_level = #{actionLevel,jdbcType=INTEGER},
 			</if>
 			<if test="requestHeadDefinition != null">
 			request_head_definition = #{requestHeadDefinition,jdbcType=LONGVARCHAR},

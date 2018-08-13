@@ -207,6 +207,11 @@ public class AmActionServiceImpl implements IAmActionService {
         return actionDao.findUrlList();
     }
 
+    @Override
+    public List<Map<String, Integer>> countGroupByProject(AmActionQueryReqDto dto) {
+        return actionDao.countGroupByProject(dto);
+    }
+
     private JSONObject buildMockData(List<JSONObject> columnList) {
         JSONObject mockObject = new JSONObject();
         for (JSONObject column : columnList) {

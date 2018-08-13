@@ -38,6 +38,14 @@ public class AmActionHistory implements Serializable {
      */
     private String requestUrl;
     /**
+     * 接口状态
+     */
+    private Integer status;
+    /**
+     * 接口级别
+     */
+    private Integer actionLevel;
+    /**
      * 接口请求头定义
      */
     private String requestHeadDefinition;
@@ -136,6 +144,22 @@ public class AmActionHistory implements Serializable {
 
     public void setRequestUrl(String requestUrl) {
         this.requestUrl = requestUrl;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getActionLevel() {
+        return actionLevel;
+    }
+
+    public void setActionLevel(Integer actionLevel) {
+        this.actionLevel = actionLevel;
     }
 
     public String getRequestHeadDefinition() {

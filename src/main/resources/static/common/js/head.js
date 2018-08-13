@@ -1,5 +1,4 @@
 function departmentClick(){
-    $('#depart').parent('.container-fluid').css('display','');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/department/department.html'),
@@ -17,7 +16,6 @@ function departmentClick(){
     api.ui.load(conf);
 }
 function projectClick(){
-    $('#depart').parent('.container-fluid').css('display','');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/project/project.html'),
@@ -71,7 +69,6 @@ function projectClick1(){
     api.ui.load(conf);
 }
 function moduleClick(){
-    $('#depart').parent('.container-fluid').css('display','');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/module/module.html'),
@@ -148,7 +145,6 @@ function moduleClick1(){
     api.ui.load(conf);
 }
 function actionClick(){
-    $('#depart').parent('.container-fluid').css('display','');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/action/action.html'),
@@ -257,13 +253,11 @@ function actionClick1(){
     api.ui.load(conf);
 }
 function actionTestClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/action/actionTest.html'),
         async: false,
         loaded: function () {
-            $('#testPage').css('margin-top','90px');
             var testHeadParam, testRequestParam;
             api.util.loadScript(api.util.getUrl('html/action/js/actionTest.js'), function () {
                 envOptions.change = function (event) {
@@ -357,7 +351,7 @@ function actionTestClick() {
 }
 
 function domainClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
+    $('#depart').empty();
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/domain/domain.html'),
@@ -383,7 +377,7 @@ function domainClick() {
     api.ui.load(conf);
 }
 function envClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
+    $('#depart').empty();
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/env/env.html'),
@@ -397,7 +391,7 @@ function envClick() {
     api.ui.load(conf);
 }
 function actionLoginClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
+    $('#depart').empty();
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/actionlogin/actionLogin.html'),
@@ -419,7 +413,7 @@ function actionLoginClick() {
     api.ui.load(conf);
 }
 function tableManageClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
+    $('#depart').empty();
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/sysdb/table.html'),
@@ -442,7 +436,7 @@ function tableManageClick() {
     api.ui.load(conf);
 }
 function batchTestClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
+    $('#depart').empty();
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/action/actionBatchTest.html'),
@@ -543,7 +537,7 @@ function batchTestClick() {
 }
 
 function groupTestClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
+    $('#depart').empty();
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/action/groupTest.html'),
@@ -567,7 +561,7 @@ function groupTestClick() {
 }
 
 function objectDescClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
+    $('#depart').empty();
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/action/objectFieldDesc.html'),
@@ -593,12 +587,12 @@ function logOut() {
 }
 
 function userInfo() {
+    $('#depart').empty();
     var userConf = {
         container: '#container',
         url: api.util.getUrl('html/user/userInfo.html'),
         async: false,
         preLoad: function (content) {
-            // $("#depart").css('display','none');
             $('#depart').parent('.container-fluid').css('display','none');
         },
         loaded: function () {
@@ -703,12 +697,12 @@ function userInfo() {
 }
 
 function changePass() {
+    $('#depart').empty();
     var userConf = {
         container: '#container',
         url: api.util.getUrl('html/user/changePassword.html'),
         async: false,
         preLoad: function (content) {
-            $('#depart').parent('.container-fluid').css('display','none');
         },
         loaded: function () {
             $('#userInfoForm').css('margin-top','100px');
@@ -774,13 +768,12 @@ function changePass() {
 }
 
 function loggerClick() {
-    $('#depart').parent('.container-fluid').css('display','none');
+    $('#depart').empty();
     var conf = {
         container: '#container',
         url: api.util.getUrl('html/logger/logger.html'),
         async: false,
         loaded: function () {
-            $('#loggerForm').css('margin-top','90px');
             api.util.loadScript(api.util.getUrl("html/logger/js/logger.js"), function () {
                 api.ui.chosenSelect(moduleCodeSelect);
                 api.ui.chosenSelect(operateTypeSelect);
@@ -803,4 +796,83 @@ function loggerClick() {
         }
     }
     api.ui.load(conf);
+}
+
+function actionCountClick() {
+    $('#depart').empty();
+    // 基于准备好的dom，初始化echarts实例
+    var containerConf = {
+        container: '#container',
+        url: 'html/action/actionCount.html',
+        loaded: function () {
+            $('#depart').parent('.container-fluid').css('display','none');
+            $.ajax({
+                url: api.util.getUrl('apimanager/action/countGroupByProject'),
+                type: 'get',
+                dataType: 'json',
+                success: function (result) {
+                    var datas = result.data;
+                    var xData = [],series = [];
+                    if(datas){
+                        $.each(datas, function (index, data) {
+                            xData.push(data.projectName);
+                            series.push(data.actionCount);
+                        })
+                    }
+                    console.log(xData);
+                    console.log(series);
+                    var myChart = echarts.init(document.getElementById('actionNum'));
+                    // 指定图表的配置项和数据
+                    var option = {
+                        title: {
+                            text: '项目接口数量统计',
+                            x: '38%',
+                            textStyle:{
+                                fontSize: 25
+                            }
+                        },
+                        legend: {
+                            y: '6%',
+                            x: '880px',
+                            data: ['数量'],
+                            color: 'rgb(42,170,227)',
+                            textStyle:{
+                                fontSize: 18
+                            }
+                        },
+                        grid: {
+                            x: '8%',
+                            width:'80%',
+                            top: '20%',
+                            containLabel: true
+                        },
+                        xAxis: {
+                            data: xData,
+                            axisLabel:{
+                                interval: 0,
+                                rotate: -30
+                            }
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: '数量',
+                            type: 'bar',
+                            data: series,
+                            label: {
+                                show: true,
+                                position: 'top',
+                                color: 'black'
+                            },
+                            itemStyle: {
+                                color: 'rgb(42,170,227)'
+                            }
+                        }]
+                    };
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
+                }
+            })
+        }
+    }
+    api.ui.load(containerConf);
 }

@@ -1,10 +1,10 @@
 var tableListTableOptions = {
     container: '#editTable',
     headers: [
-        {text: '表名称', width: '20%'},
+        {text: '表名称', width: '30%'},
         {text: '表注释', width: '50%'},
-        {text: '是否生成', width: '100%'},
-        {text: '操作', width: '5%'}
+        {text: '是否生成', width: '10%'},
+        {text: '操作', width: '10%'}
     ],
     form: '#form',
     fields: [

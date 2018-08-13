@@ -1,5 +1,6 @@
 package com.cehome.apimanager.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.model.dto.AmObjectFieldDescReqDto;
@@ -56,8 +57,7 @@ public class SysDbServiceImpl implements ISysDbService {
         return page;
     }
 
-    @Override
-    public void makeObjectDesc(SysDbReqDto sysDbReqDto) {
+    public void makeObjectDesc1(SysDbReqDto sysDbReqDto) {
         DbConfig dbConfig = dbConfigService.findByDbName(sysDbReqDto.getDbName());
         List<SysDbResDto> sysDbResDtoList = DbUtils.getColumnsInfo(dbConfig, sysDbReqDto);
         JSONObject jsonObject = new JSONObject();
@@ -92,6 +92,62 @@ public class SysDbServiceImpl implements ISysDbService {
         objectFieldDescReqDto.setTableName(tableName);
         objectFieldDescReqDto.setFieldDescValue(jsonObject.toJSONString());
         AmObjectFieldDesc objectFieldDesc = objectFieldDescService.findByClassWholeName(className);
+        if(objectFieldDesc != null){
+            objectFieldDescReqDto.setUpdateTime(new Date());
+            objectFieldDescReqDto.setUpdateUser(sysDbReqDto.getOperateUser());
+            objectFieldDescReqDto.setId(objectFieldDesc.getId());
+            objectFieldDescService.update(objectFieldDescReqDto);
+        } else {
+            objectFieldDescReqDto.setCreateTime(new Date());
+            objectFieldDescReqDto.setCreateUser(sysDbReqDto.getOperateUser());
+            objectFieldDescService.add(objectFieldDescReqDto);
+        }
+    }
+
+    @Override
+    public void makeObjectDesc(SysDbReqDto sysDbReqDto) {
+        DbConfig dbConfig = dbConfigService.findByDbName(sysDbReqDto.getDbName());
+        List<SysDbResDto> sysDbResDtoList = DbUtils.getColumnsInfo(dbConfig, sysDbReqDto);
+        JSONArray jsonArray = new JSONArray();
+        JSONObject objectDesc = new JSONObject();
+        for(SysDbResDto sysDbResDto : sysDbResDtoList){
+            JSONObject jsonObject = new JSONObject();
+            String columnName = sysDbResDto.getColumnName();
+            String[] nameSplit = columnName.split("_");
+            String fieldName = "";
+            for(String split : nameSplit){
+                if(StringUtils.isEmpty(fieldName)){
+                    fieldName += split;
+                } else {
+                    fieldName += split.substring(0, 1).toUpperCase() + split.substring(1);
+                }
+            }
+            jsonObject.put("name", fieldName);
+            jsonObject.put("type", sysDbResDto.getColumnType());
+            jsonObject.put("desc", sysDbResDto.getColumnComment());
+            jsonObject.put("rule", "");
+            jsonObject.put("required", 2);
+            jsonArray.add(jsonObject);
+            if(!"id".equalsIgnoreCase(columnName)){
+                objectDesc.put(fieldName, sysDbResDto.getColumnComment());
+            }
+        }
+        AmObjectFieldDescReqDto objectFieldDescReqDto = new AmObjectFieldDescReqDto();
+        String tableName = sysDbReqDto.getTableName();
+        String[] tableNameSplit = tableName.split("_");
+        String className = "";
+        for(String split : tableNameSplit){
+            if(StringUtils.isEmpty(className)){
+                className += split;
+            } else {
+                className += split.substring(0, 1).toUpperCase() + split.substring(1);
+            }
+        }
+        objectFieldDescReqDto.setClassWholeName(sysDbReqDto.getDbName() + ":" + className);
+        objectFieldDescReqDto.setTableName(tableName);
+        objectFieldDescReqDto.setFieldDescValue(objectDesc.toJSONString());
+        objectFieldDescReqDto.setFieldInfoValue(jsonArray.toJSONString());
+        AmObjectFieldDesc objectFieldDesc = objectFieldDescService.findByClassWholeName(objectFieldDescReqDto.getClassWholeName());
         if(objectFieldDesc != null){
             objectFieldDescReqDto.setUpdateTime(new Date());
             objectFieldDescReqDto.setUpdateUser(sysDbReqDto.getOperateUser());

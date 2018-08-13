@@ -4,8 +4,8 @@ var testHeadOptions = {
         {text: '操作', width: '5%'},
         {text: '名称', width: '15%'},
         {text: '类型', width: '20%'},
-        {text: '备注', width: '20%'},
-        {text: '值', width: '20%'}
+        {text: '备注', width: '30%'},
+        {text: '值', width: '30%'}
     ],
     fields: [
         {name: 'name', type: 'input'},
@@ -90,7 +90,7 @@ var domainEditOptions = {
     selectName: 'testDomainId',
     selectCodeField: 'id',
     selectValueField: 'domainName',
-    width: '78%',
+    width: '70%',
     url: api.util.getUrl('apimanager/domain/list'),
     change: function (param) {
     }

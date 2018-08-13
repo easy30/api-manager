@@ -1,5 +1,6 @@
 package com.cehome.apimanager.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.model.dto.AmActionHistoryQueryReqDto;
 import com.cehome.apimanager.model.dto.AmActionHistoryReqDto;
@@ -19,4 +20,6 @@ public interface IAmActionHistoryService {
     Page<AmActionHistory> findPage(AmActionHistoryQueryReqDto dto);
 
     List<AmActionHistory> list(AmActionHistoryQueryReqDto dto);
+
+    JSONObject compareHistoryDiff(AmActionHistoryQueryReqDto dto);
 }
