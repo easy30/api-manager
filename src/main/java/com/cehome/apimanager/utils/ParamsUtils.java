@@ -67,4 +67,21 @@ public class ParamsUtils {
             rows.add(row);
         }
     }
+
+    public static void convertToRows(JSONArray jsonArray, List<Map<String, Object>> rows) {
+        for(int i = 0; i < jsonArray.size(); i ++){
+            JSONObject paramsInfo = new JSONObject();
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            JSONArray children = jsonObject.getJSONArray("child");
+            if(children != null){
+                convertToRows(children, rows);
+            } else {
+                paramsInfo.put("name", jsonObject.getString("name"));
+                paramsInfo.put("type", CommonMeta.FieldType.findDescByCode(jsonObject.getString("type")));
+                paramsInfo.put("required", CommonMeta.Required.findDescByCode(jsonObject.getString("required")));
+                paramsInfo.put("remark", jsonObject.getString("desc"));
+                rows.add(paramsInfo);
+            }
+        }
+    }
 }

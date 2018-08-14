@@ -1,5 +1,6 @@
 package com.cehome.apimanager.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.model.dto.AmActionQueryReqDto;
 import com.cehome.apimanager.model.dto.AmActionReqDto;
@@ -83,4 +84,12 @@ public interface IAmActionService {
      * @return
      */
     List<Map<String, Integer>> countGroupByProject(AmActionQueryReqDto dto);
+
+    /**
+     * 生成接口pdf文件
+     *
+     * @param actionId
+     * @return
+     */
+    JSONObject createActionPdf(Integer actionId) throws Exception;
 }

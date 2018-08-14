@@ -10,18 +10,22 @@ import com.cehome.apimanager.common.Page;
 import com.cehome.apimanager.dao.AmActionDao;
 import com.cehome.apimanager.model.dto.*;
 import com.cehome.apimanager.model.po.AmAction;
+import com.cehome.apimanager.model.po.AmDomain;
+import com.cehome.apimanager.pdf.PdfDocumentGenerator;
+import com.cehome.apimanager.pdf.bean.ActionInfoVo;
 import com.cehome.apimanager.service.IAmActionHistoryService;
 import com.cehome.apimanager.service.IAmActionService;
+import com.cehome.apimanager.service.IAmDomainService;
 import com.cehome.apimanager.service.IAmOperateLogService;
-import com.cehome.apimanager.utils.CompareUtils;
-import com.cehome.apimanager.utils.ThreadUtils;
-import com.cehome.apimanager.utils.UrlUtils;
+import com.cehome.apimanager.utils.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,6 +51,9 @@ public class AmActionServiceImpl implements IAmActionService {
 
     @Autowired
     private IAmActionHistoryService actionHistoryService;
+
+    @Autowired
+    private IAmDomainService domainService;
 
     @Override
     public void add(AmActionReqDto dto) {
@@ -210,6 +217,91 @@ public class AmActionServiceImpl implements IAmActionService {
     @Override
     public List<Map<String, Integer>> countGroupByProject(AmActionQueryReqDto dto) {
         return actionDao.countGroupByProject(dto);
+    }
+
+    @Override
+    public JSONObject createActionPdf(Integer actionId) throws Exception{
+        JSONObject result = new JSONObject();
+        AmAction action = actionDao.get(actionId);
+        ActionInfoVo actionInfoVo = new ActionInfoVo();
+        //接口基本信息
+        actionInfoVo.setActionName(action.getActionName());
+        actionInfoVo.setActionDesc(action.getActionDesc());
+        Integer domainId = action.getDomainId();
+        AmDomain domain = domainService.findById(domainId);
+        String domainName = domain.getDomainName();
+        String url = "http://" + domainName + action.getRequestUrl();
+        actionInfoVo.setActionUrl(url);
+        actionInfoVo.setMethod(CommonMeta.RequestType.findDescByCode(action.getRequestType()));
+        //接口请求头参数
+        String requestHeadDefinition = action.getRequestHeadDefinition();
+        if(!StringUtils.isEmpty(requestHeadDefinition)){
+            JSONArray jsonArray = JSON.parseArray(requestHeadDefinition);
+            if(jsonArray != null && !jsonArray.isEmpty()){
+                List<Map<String, Object>> rows = new ArrayList<>();
+                ParamsUtils.convertToRows(JSON.parseArray(requestHeadDefinition), rows);
+                actionInfoVo.setRequestHeadParams(rows);
+            }
+        }
+        // 接口请求参数
+        String requestDefinition = action.getRequestDefinition();
+        if(!StringUtils.isEmpty(requestDefinition)){
+            JSONArray jsonArray = JSON.parseArray(requestDefinition);
+            if(jsonArray != null && !jsonArray.isEmpty()){
+                List<Map<String, Object>> rows = new ArrayList<>();
+                ParamsUtils.convertToRows(JSON.parseArray(requestDefinition), rows);
+                actionInfoVo.setRequestParams(rows);
+            }
+        }
+        //接口响应参数
+        String responseDefinition = action.getResponseDefinition();
+        if(!StringUtils.isEmpty(responseDefinition)){
+            JSONArray jsonArray = JSON.parseArray(responseDefinition);
+            if(jsonArray != null && !jsonArray.isEmpty()){
+                List<Map<String, Object>> rows = new ArrayList<>();
+                ParamsUtils.convertToRows(JSON.parseArray(responseDefinition), rows);
+                actionInfoVo.setResponseParams(rows);
+            }
+        }
+        //接口响应失败
+        String responseFailDefinition = action.getResponseFailDefinition();
+        if(!StringUtils.isEmpty(responseFailDefinition)){
+            JSONArray jsonArray = JSON.parseArray(responseFailDefinition);
+            if(jsonArray != null && !jsonArray.isEmpty()){
+                List<Map<String, Object>> rows = new ArrayList<>();
+                ParamsUtils.convertToRows(JSON.parseArray(responseFailDefinition), rows);
+                actionInfoVo.setResponseFailParams(rows);
+            }
+        }
+        String responseMock = action.getResponseMock();
+        if(!StringUtils.isEmpty(responseMock)){
+            String responseJson = MockUtils.buildMockData(responseMock);
+            ObjectMapper mapper = new ObjectMapper();
+            String formatJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(JSON.parseObject(responseJson));
+            actionInfoVo.setResponseJson(formatJson);
+        }
+
+        // classpath 中模板路径
+        String template = "templates/actionInfoTemplate.ftl";
+        // classpath 路径
+        String outputFileClass = ResourceLoader.getPath("");
+        String outputFile = new File(outputFileClass)
+                .getParentFile().getParent()
+                + "/tmp/"
+                + System.currentTimeMillis() + ".pdf" ;
+        // 生成pdf路径
+        outputFile = outputFile == null ? new File(outputFileClass)
+                .getParentFile().getParent()
+                + "/tmp/"
+                + System.currentTimeMillis() + ".pdf" : outputFile;
+
+        PdfDocumentGenerator pdfGenerator = new PdfDocumentGenerator();
+        // 生成pdf
+        pdfGenerator.generate(template, actionInfoVo, outputFile);
+
+        result.put("filePath", outputFile);
+        result.put("fileName", action.getActionName());
+        return result;
     }
 
     private JSONObject buildMockData(List<JSONObject> columnList) {
