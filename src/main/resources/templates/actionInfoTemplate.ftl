@@ -1,4 +1,6 @@
-<html>
+<#ftl encoding="utf-8">
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
     <style type="text/css">
         body {

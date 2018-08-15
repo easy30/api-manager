@@ -56,8 +56,7 @@ public class PdfDocumentGenerator {
 		try {
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance()
 					.newDocumentBuilder();
-			Document doc = builder.parse(new ByteArrayInputStream(htmlContent
-					.getBytes("UTF-8")));
+			Document doc = builder.parse(new ByteArrayInputStream(htmlContent.getBytes("UTF-8")));
 			File f = new File(outputFile);
 			if (f != null && !f.getParentFile().exists()) {
 				f.getParentFile().mkdir();
