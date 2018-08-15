@@ -75,7 +75,7 @@
                         var $importBtn = $('<button class="btn btn-success btn-sm importBtn" type="button" style="margin-left:6px;"></button>').append('&nbsp;' + footBtn.text);
                         $tFoot.find('td').append($importBtn);
                     } else if(type == 'clear'){
-                        var $clearBtn = $('<button class="btn btn-success btn-sm cleartBtn" type="button" style="margin-left:6px;"></button>').append('&nbsp;' + footBtn.text);
+                        var $clearBtn = $('<button class="btn btn-danger btn-sm cleartBtn" type="button" style="margin-left:6px;"></button>').append('&nbsp;' + footBtn.text);
                         $clearBtn.on('click', function () {
                             that._empty();
                         });
