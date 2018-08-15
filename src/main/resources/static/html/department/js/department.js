@@ -17,33 +17,33 @@ var departmentOptions = {
         {name: 'updateUserName', type: 'input', inputDesc: '修改人', required: false, readOnly: true}
     ],
     rowButtons: [
+        {type: 'enter', text: '进入', fn: function (param) {
+                var parentId = param['id'];
+                var conf = {
+                    container: '#container',
+                    url: api.util.getUrl('html/project/project.html'),
+                    preLoad: function (content) {
+                        $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"projectClick1()\">Project</a></li>");
+                    },
+                    loaded: function () {
+                        var options = {
+                            selector: '[name=depId]',
+                            optionField: {value: 'id', text: 'depName'},
+                            width: '70%',
+                            async: false,
+                            url: api.util.getUrl('apimanager/department/list')
+                        }
+                        api.ui.chosenSelect(options).val(parentId);
+                        api.util.loadScript(api.util.getUrl("html/project/js/project.js"), function () {
+                            api.ui.editTable(projectTableOptions);
+                        });
+                    }
+                }
+                api.ui.load(conf);
+            }},
         {type: 'update', text: '编辑', url: api.util.getUrl('apimanager/department/update')},
         {type: 'save', text: '保存', url: api.util.getUrl('apimanager/department/add')},
-        {type: 'delete', text: '删除', url: api.util.getUrl('apimanager/department/delete')},
-        {type: 'enter', text: '进入', fn: function (param) {
-            var parentId = param['id'];
-            var conf = {
-                container: '#container',
-                url: api.util.getUrl('html/project/project.html'),
-                preLoad: function (content) {
-                    $("#depart").append("<li class=\"breadcrumb-item\"><a href=\"javasript:void(0)\" onclick=\"projectClick1()\">Project</a></li>");
-                },
-                loaded: function () {
-                    var options = {
-                        selector: '[name=depId]',
-                        optionField: {value: 'id', text: 'depName'},
-                        width: '70%',
-                        async: false,
-                        url: api.util.getUrl('apimanager/department/list')
-                    }
-                    api.ui.chosenSelect(options).val(parentId);
-                    api.util.loadScript(api.util.getUrl("html/project/js/project.js"), function () {
-                        api.ui.editTable(projectTableOptions);
-                    });
-                }
-            }
-            api.ui.load(conf);
-        }}
+        {type: 'delete', text: '删除', url: api.util.getUrl('apimanager/department/delete')}
     ],
     headBtn: [
         {

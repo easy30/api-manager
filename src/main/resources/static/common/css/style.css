@@ -14,7 +14,9 @@
 #container input {
     height: 32px;
 }
-
+select.form-control {
+    height: 32px;
+}
 .form-login {
     background: #fff;
     padding-bottom: 40px;

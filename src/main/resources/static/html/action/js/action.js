@@ -40,7 +40,7 @@ var actionTableOptions = {
         {name: 'updateUserName', type: 'input', inputDesc: '修改人', required: false, readOnly: true}
     ],
     rowButtons: [
-        {type: 'more', text: '更多', icon: 'glyphicon glyphicon-option-horizontal', fn: function (param) {
+        {type: 'more', text: '查看', icon: 'glyphicon glyphicon-eye-open', fn: function (param) {
                 $('#depart').empty();
                 var actionInfoFormObject, headParam, requestParam, responseParam, responseFailParam;
                 var parentId = $('select[name=moduleId]').val();
