@@ -759,7 +759,7 @@ var actionTableOptions = {
                         var actionTabConfObject = api.ui.tabs(actionTabConf);
 
                         $('#exportBtn').on('click',function () {
-                            window.open(api.util.getUrl('/download'+'?id='+param.id))
+                            window.open(api.util.getUrl('/apimanager/action/download'+'?actionId='+param.id))
                         })
                         //切换
                         $editButton.on('click', function () {
