@@ -278,6 +278,7 @@ public class AmActionServiceImpl implements IAmActionService {
             String responseJson = MockUtils.buildMockData(responseMock);
             ObjectMapper mapper = new ObjectMapper();
             String formatJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(JSON.parseObject(responseJson));
+            formatJson = formatJson.replaceAll("&", "&amp;");
             actionInfoVo.setResponseJson(formatJson);
         }
 
