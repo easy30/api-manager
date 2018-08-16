@@ -146,11 +146,11 @@
             $.each(fields, function (index, field) {
                 var $td = $('<td class="td-item" style="padding-left: 10px;"></td>');
                 if(field.type == 'input'){
-                    var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%;"/>');
+                    var $input = $('<input class="form-control td-item-input" type="text" style="font-size: 0.85rem ; padding: 0.25rem 0.25rem;"/>');
                     $input.attr('name', field.name);
                     $tr.append($td.append($input));
                 } else if(field.type == 'select'){
-                    var chosenOptions = field.options, $selector = $('<select class="form-control"></select>');
+                    var chosenOptions = field.options, $selector = $('<select class="form-control" style="height: calc(2.0rem);font-size: 0.80rem"></select>');
                     $selector.attr('name', field.name);
                     chosenOptions.selector = $selector;
                     if(field.name == 'type'){
@@ -341,7 +341,7 @@
             $.each(fields, function (index, field) {
                 var $td = $('<td class="td-item" style="padding-left: 10px;"></td>').css('background-color', '#9fcdff');
                 if(field.type == 'input'){
-                    var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%;"/>');
+                    var $input = $('<input class="form-control td-item-input" type="text" style="font-size: 0.85rem ; padding: 0.25rem 0.25rem;"/>');
                     if(field.name == 'name'){
                         $input.css('padding-left', (parseInt(padding.replace('px', '')) + 20) + 'px');
                         if(parentType >= 5){
@@ -353,7 +353,7 @@
                     $input.attr('name', field.name);
                     $tr.append($td.append($input));
                 } else if(field.type == 'select'){
-                    var chosenOptions = field.options, $selector = $('<select class="form-control"></select>');
+                    var chosenOptions = field.options, $selector = $('<select class="form-control" style="height: calc(2.0rem);font-size: 0.80rem"></select>');
                     $selector.attr('name', field.name);
                     chosenOptions.selector = $selector;
                     if(field.name == 'type'){
@@ -560,11 +560,11 @@
             $.each(fields, function (index, field) {
                 var $td = $('<td class="td-item" style="padding-left: 10px;"></td>');
                 if(field.type == 'input'){
-                    var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%;"/>');
+                    var $input = $('<input class="form-control td-item-input" type="text" style="font-size: 0.85rem ; padding: 0.25rem 0.25rem;"/>');
                     $input.attr('name', field.name).val(rowData[field.name]);
                     $tr.append($td.append($input));
                 } else if(field.type == 'select'){
-                    var chosenOptions = field.options, $selector = $('<select class="form-control"></select>');
+                    var chosenOptions = field.options, $selector = $('<select class="form-control" style="height: calc(2.0rem);font-size: 0.80rem"></select>');
                     $selector.attr('name', field.name);
                     chosenOptions.selector = $selector;
                     if(field.name == 'type'){
@@ -749,7 +749,7 @@
                     $.each(fields, function (index, field) {
                         var $td = $('<td class="td-item" style="padding-left: 10px;"></td>').css('background-color', '#9fcdff');
                         if(field.type == 'input'){
-                            var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%;"/>');
+                            var $input = $('<input class="form-control td-item-input" type="text" style="font-size: 0.85rem ; padding: 0.25rem 0.25rem;"/>');
                             if(field.name == 'name'){
                                 $input.css('padding-left', (parseInt(padding.replace('px', '')) + 20) + 'px');
                                 if(requestType >= 5){
@@ -760,7 +760,7 @@
                             $input.attr('name', field.name).val(childFiledData[field.name]);
                             $tr.append($td.append($input));
                         } else if(field.type == 'select'){
-                            var chosenOptions = field.options, $selector = $('<select class="form-control"></select>');
+                            var chosenOptions = field.options, $selector = $('<select class="form-control" style="height: calc(2.0rem);font-size: 0.80rem"></select>');
                             $selector.attr('name', field.name);
                             chosenOptions.selector = $selector;
                             if(field.name == 'type'){

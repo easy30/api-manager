@@ -3,20 +3,24 @@
     border-color: #09c;
 }
 
-#container label {
+label {
     font-size: 15px;
 }
 
-#container span {
+span {
     font-size: 14px;
 }
 
-#container input {
-    height: 32px;
+input.form-control {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.25rem;
 }
+
 select.form-control {
-    height: 32px;
+    height: calc(2.0rem);
+    font-size: 0.80rem;
 }
+
 .form-login {
     background: #fff;
     padding-bottom: 40px;
