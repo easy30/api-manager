@@ -158,7 +158,7 @@
                 } else {
                     if(field.type == 'input'){
                         var $span = $('<span class="td-item-span" style="display: none"></span>');
-                        var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%; font-size: 15px;"/>');
+                        var $input = $('<input class="form-control td-item-input" type="text" style="font-size: 0.85rem ; padding: 0.25rem 0.25rem;"/>');
                         $input.attr('inputDesc', field.inputDesc).attr('name', field.name).attr('required', field.required).css('display', '');
                         if(field.readOnly){
                             $input.attr('readonly', 'readonly');
@@ -166,7 +166,7 @@
                         $tr.append($td.append($span).append($input));
                     } else if(field.type = 'select'){
                         var $span = $('<span class="td-item-span" style="display: none" selectVal=""></span>');
-                        var chosenOptions = field.options, $selector = $('<select class="form-control td-item-select"></select>');
+                        var chosenOptions = field.options, $selector = $('<select class="form-control td-item-select" style="height: calc(2.0rem);font-size: 0.80rem"></select>');
                         $selector.attr('name', field.name).attr('required', field.required);
                         chosenOptions.selector = $selector;
                         api.ui.chosenSelect(chosenOptions);
@@ -379,7 +379,7 @@
                     $tr.append($td.append($span).append($input));
                 } else {
                     if(field.type == 'input'){
-                        var $input = $('<input class="form-control td-item-input" type="text" style="height: 100%; font-size: 15px;"/>');
+                        var $input = $('<input class="form-control td-item-input" type="text" style="font-size: 0.85rem ; padding: 0.25rem 0.25rem;"/>');
                         var $span = $('<span class="td-item-span">' + rowData[field.name] + '</span>');
                         $input.attr('inputDesc', field.inputDesc).attr('required', field.required).attr('name', field.name).val(rowData[field.name]).css('display', 'none');
                         if(field.readOnly){
@@ -388,7 +388,7 @@
                         $tr.append($td.append($span).append($input));
                     } else if(field.type = 'select'){
                         var $span = $('<span class="td-item-span"></span>');
-                        var chosenOptions = field.options, $selector = $('<select class="form-control td-item-select"></select>');
+                        var chosenOptions = field.options, $selector = $('<select class="form-control td-item-select" style="height: calc(2.0rem);font-size: 0.80rem"></select>');
                         $selector.attr('name', field.name).attr('required', field.required).css('display', 'none');
                         chosenOptions.selector = $selector;
                         var chosenSelect = api.ui.chosenSelect(chosenOptions);
