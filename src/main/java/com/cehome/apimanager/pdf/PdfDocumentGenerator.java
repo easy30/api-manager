@@ -48,6 +48,7 @@ public class PdfDocumentGenerator {
 
 		return true;
 	}
+
 	public void generate(String htmlContent, String outputFile)
 			throws Exception {
 		OutputStream out = null;

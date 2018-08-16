@@ -60,7 +60,7 @@ public class RedirectFilter implements Filter {
 					String responseMock = actionResDto.getResponseMock();
 					responseText = MockUtils.buildMockData(responseMock);
 				} else {
-					responseText = sendRequest(httpRequest, url);
+					responseText = sendRequest(httpRequest, domainName, url);
 				}
 			} else {
 				JSONObject responseObject = new JSONObject();
@@ -82,7 +82,7 @@ public class RedirectFilter implements Filter {
 		}
 	}
 
-	private String sendRequest(HttpServletRequest httpRequest, String requestURL) throws IOException {
+	private String sendRequest(HttpServletRequest httpRequest, String domainName, String requestURL) throws IOException {
 		String responseText;Enumeration<String> headerNames = httpRequest.getHeaderNames();
 		JSONObject headers = new JSONObject();
 		while(headerNames.hasMoreElements()){
@@ -101,7 +101,7 @@ public class RedirectFilter implements Filter {
                 nameValuePair.put(parameterName, httpRequest.getParameter(parameterName));
             }
             HttpUtils httpUtils = HttpUtils.getInstance();
-            responseEntity = httpUtils.execute(requestURL, null, nameValuePair);
+            responseEntity = httpUtils.execute(domainName, requestURL, null, nameValuePair);
         } else if("POST".equals(method)){
             BufferedReader reader = new BufferedReader(new InputStreamReader(httpRequest.getInputStream()));
             StringBuffer buffer = new StringBuffer();
@@ -110,7 +110,7 @@ public class RedirectFilter implements Filter {
                 buffer.append(line);
             }
             HttpUtils httpUtils = HttpUtils.getInstance();
-            responseEntity = httpUtils.execute(requestURL, headers, buffer.toString());
+            responseEntity = httpUtils.execute(domainName, requestURL, headers, buffer.toString());
         }
 		responseText = EntityUtils.toString(responseEntity, ENCODING);
 		return responseText;

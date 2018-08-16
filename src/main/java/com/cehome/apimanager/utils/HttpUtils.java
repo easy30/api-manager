@@ -6,9 +6,7 @@ import com.cehome.apimanager.common.CommonMeta;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.CookieStore;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -17,14 +15,17 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * http工具类
@@ -37,6 +38,7 @@ public class HttpUtils {
     private static final String APPLICATION_JSON = "application/json;charset=" + CHARSET;
     private static CookieStore cookieStore = new BasicCookieStore();
     private static List<Header> headers = new ArrayList<>();
+    private static Map<String, String> tokenPool = new ConcurrentHashMap<>();
     private static HttpUtils httpUtils = null;
 
     private HttpUtils() {
@@ -53,7 +55,7 @@ public class HttpUtils {
         return httpUtils;
     }
 
-    public HttpEntity execute(String url, JSONObject headers, JSONObject nameValuePair) {
+    public HttpEntity execute(String domain, String url, JSONObject headers, JSONObject nameValuePair) {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
         httpClientBuilder.setDefaultCookieStore(cookieStore);
         CloseableHttpClient httpclient = httpClientBuilder.build();
@@ -66,7 +68,10 @@ public class HttpUtils {
                     httpGet.addHeader(header);
                 }
             }
-
+            String token = tokenPool.get(domain);
+            if(!StringUtils.isEmpty(token)){
+                httpGet.setHeader("Authorization", token);
+            }
             HttpResponse response = httpclient.execute(httpGet);
             return response.getEntity();
         } catch (Exception e) {
@@ -75,7 +80,7 @@ public class HttpUtils {
         return null;
     }
 
-    public HttpEntity execute(String url, JSONObject headers, String requestBody) {
+    public HttpEntity execute(String domain, String url, JSONObject headers, String requestBody) {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
         httpClientBuilder.setDefaultCookieStore(cookieStore);
         CloseableHttpClient httpclient = httpClientBuilder.build();
@@ -87,7 +92,10 @@ public class HttpUtils {
                     httpPost.addHeader(header);
                 }
             }
-
+            String token = tokenPool.get(domain);
+            if(!StringUtils.isEmpty(token)){
+                httpPost.setHeader("Authorization", token);
+            }
             StringEntity stringEntity = new StringEntity(requestBody, CHARSET);
             stringEntity.setContentType(APPLICATION_JSON);
             httpPost.setEntity(stringEntity);
@@ -107,25 +115,20 @@ public class HttpUtils {
                 requestUrl = "/" + requestUrl;
             }
             String url = "http://" + domainName + requestUrl;
-            HttpPost httpPost = new HttpPost(url);
+            HttpResponse response = null;
             if (CommonMeta.RequestType.GET.getCode() == requestType) {
-                JSONObject nameValuePair = JSON.parseObject(requestBody);
-                List<NameValuePair> nvps = new ArrayList<>();
-                if (nameValuePair != null && !nameValuePair.isEmpty()) {
-                    for (String key : nameValuePair.keySet()) {
-                        NameValuePair nvp = new BasicNameValuePair(key, nameValuePair.getString(key));
-                        nvps.add(nvp);
-                    }
-                }
-                HttpEntity httpEntity = new UrlEncodedFormEntity(nvps, CHARSET);
-                httpPost.setEntity(httpEntity);
+                String queryString = getQueryString(JSON.parseObject(requestBody));
+                HttpGet httpGet = new HttpGet(url + queryString);
+                response = httpclient.execute(httpGet);
             } else {
+                HttpPost httpPost = new HttpPost(url);
                 StringEntity stringEntity = new StringEntity(requestBody, CHARSET);
                 stringEntity.setContentType(APPLICATION_JSON);
                 httpPost.setEntity(stringEntity);
+                response = httpclient.execute(httpPost);
             }
-            HttpResponse response = httpclient.execute(httpPost);
-            setCookieStore(response, domainName);
+            // 判断接口的认证类型
+            setAuthInfo(response, domainName);
         } catch (Exception e) {
             logger.error("sendRequest error!", e);
             return false;
@@ -133,12 +136,27 @@ public class HttpUtils {
         return true;
     }
 
-    private void setCookieStore(HttpResponse httpResponse, String domain) {
-        String setCookie = httpResponse.getFirstHeader("Set-Cookie").getValue();
-        String JSESSIONID = setCookie.substring("JSESSIONID=".length(), setCookie.indexOf(";"));
-        BasicClientCookie cookie = new BasicClientCookie("JSESSIONID", JSESSIONID);
-        cookie.setDomain(domain);
-        cookieStore.addCookie(cookie);
+    private void setAuthInfo(HttpResponse httpResponse, String domain) {
+        Header firstHeader = httpResponse.getFirstHeader("Set-Cookie");
+        if(firstHeader != null){
+            String setCookie = firstHeader.getValue();
+            String JSESSIONID = setCookie.substring("JSESSIONID=".length(), setCookie.indexOf(";"));
+            BasicClientCookie cookie = new BasicClientCookie("JSESSIONID", JSESSIONID);
+            cookie.setDomain(domain);
+            cookieStore.addCookie(cookie);
+        } else {
+            try {
+                String result = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
+                JSONObject resultObject = JSON.parseObject(result);
+                String code = resultObject.getString("code");
+                if(!StringUtils.isEmpty(code) && code.equals("0")){
+                    String token = resultObject.getJSONObject("data").getString("token");
+                    tokenPool.put(domain, token);
+                }
+            } catch (IOException e) {
+                logger.error("sendRequest error!", e);
+            }
+        }
     }
 
     private String getQueryString(JSONObject nameValuePair) {

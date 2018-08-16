@@ -48,9 +48,9 @@ public class AmActionTesterServiceImpl implements IAmActionTesterService {
 		String responseText = "";
 		try {
 			if (CommonMeta.RequestType.GET.getCode() == requestType) {
-				responseEntity = httpUtils.execute(url, JSON.parseObject(requestHeadData), JSON.parseObject(requestData));
+				responseEntity = httpUtils.execute(domainName, url, JSON.parseObject(requestHeadData), JSON.parseObject(requestData));
 			} else if (CommonMeta.RequestType.POST.getCode() == requestType) {
-				responseEntity = httpUtils.execute(url, JSON.parseObject(requestHeadData), requestData);
+				responseEntity = httpUtils.execute(domainName, url, JSON.parseObject(requestHeadData), requestData);
 			}
 			responseText = EntityUtils.toString(responseEntity, "UTF-8");
 		} catch (Exception e) {
@@ -95,9 +95,9 @@ public class AmActionTesterServiceImpl implements IAmActionTesterService {
 		String responseText = "";
 		try {
 			if (CommonMeta.RequestType.GET.getCode() == requestType) {
-				responseEntity = httpUtils.execute(url, JSON.parseObject(requestHeadData), JSON.parseObject(requestData));
+				responseEntity = httpUtils.execute(domainName, url, JSON.parseObject(requestHeadData), JSON.parseObject(requestData));
 			} else if (CommonMeta.RequestType.POST.getCode() == requestType) {
-				responseEntity = httpUtils.execute(url, JSON.parseObject(requestHeadData), requestData);
+				responseEntity = httpUtils.execute(domainName, url, JSON.parseObject(requestHeadData), requestData);
 			}
 			responseText = EntityUtils.toString(responseEntity, "UTF-8");
 			responseInfo.put("result", responseText);

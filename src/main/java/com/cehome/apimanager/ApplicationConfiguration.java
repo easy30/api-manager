@@ -85,7 +85,7 @@ public class ApplicationConfiguration {
     @Bean
     public ScheduledExecutorService createScheduledService(ApplicationContext context) {
         ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
-        service.scheduleAtFixedRate(context.getBean(CookieStoreJob.class), 1, 30, TimeUnit.MINUTES);
+        service.scheduleAtFixedRate(context.getBean(CookieStoreJob.class), 1, 60, TimeUnit.MINUTES);
         return service;
     }
 
