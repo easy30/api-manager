@@ -56,7 +56,7 @@ public class AmTestGroupController extends BaseController{
     public Map<String, Object> update(HttpSession session, AmTestGroupReqDto dto) {
         try {
             AmUser loginUser = WebUtils.getLoginUser(session);
-            dto.setCreateUser(loginUser.getId());
+            dto.setUpdateUser(loginUser.getId());
             testGroupService.update(dto);
             return toSuccess();
         } catch (Exception e) {

@@ -9,7 +9,8 @@ public class AmTestGroup implements Serializable{
     private String groupName;
     private Integer createUser;
     private Date createTime;
-
+    private Integer updateUser;
+    private Date updateTime;
     public Integer getId() {
         return id;
     }
@@ -40,5 +41,21 @@ public class AmTestGroup implements Serializable{
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

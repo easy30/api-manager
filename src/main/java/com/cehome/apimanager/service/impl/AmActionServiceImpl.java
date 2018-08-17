@@ -206,7 +206,21 @@ public class AmActionServiceImpl implements IAmActionService {
 
     @Override
     public List<AmAction> list(AmActionQueryReqDto dto) {
-        return actionDao.list(dto);
+        List<AmAction> datas = actionDao.list(dto);
+        Map<String, String> userDicMap = cacheProvider.getUserDicMap();
+        List<AmAction> result = new ArrayList<>();
+        for(AmAction action : datas){
+            AmActionResDto actionResDto = new AmActionResDto();
+            BeanUtils.copyProperties(action, actionResDto);
+            if(action.getCreateUser() != null){
+                actionResDto.setCreateUserName(userDicMap.get(action.getCreateUser() + ""));
+            }
+            if(action.getUpdateUser() != null){
+                actionResDto.setUpdateUserName(userDicMap.get(action.getUpdateUser() + ""));
+            }
+            result.add(actionResDto);
+        }
+        return result;
     }
 
     @Override

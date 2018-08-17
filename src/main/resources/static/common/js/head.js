@@ -536,24 +536,15 @@ function batchTestClick() {
     api.ui.load(conf);
 }
 
-function groupTestClick() {
+function testGroupClick() {
     $('#depart').empty();
     var conf = {
         container: '#container',
-        url: api.util.getUrl('html/action/groupTest.html'),
+        url: api.util.getUrl('html/action/testGroup.html'),
         async: false,
         loaded: function () {
-            var groupOptions = {
-                selector: '[name=groupId]',
-                optionField: {value: 'id', text: 'groupName'},
-                width: '50%',
-                blank: false,
-                url: api.util.getUrl('apimanager/testgroup/list')
-            };
-            api.ui.chosenSelect(groupOptions);
-
-            api.util.loadScript(api.util.getUrl("html/action/js/groupTest.js") ,function () {
-                api.ui.editTable(groupTestTableOptions);
+            api.util.loadScript(api.util.getUrl("html/action/js/testGroup.js") ,function () {
+                api.ui.editTable(testGroupTableOptions);
             });
         }
     }

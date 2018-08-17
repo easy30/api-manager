@@ -6,10 +6,12 @@
 		<result column="group_name" property="groupName" jdbcType="VARCHAR" />
 		<result column="create_user" property="createUser" jdbcType="INTEGER" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_user" property="updateUser" jdbcType="INTEGER" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		id,group_name,create_user,create_time
+		id,group_name,create_user,create_time,update_user,update_time
 	</sql>
 	
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -72,7 +74,13 @@
 				create_user,
 			</if>
 			<if test="createTime != null">
-				create_time
+				create_time,
+			</if>
+			<if test="updateUser != null">
+				update_user,
+			</if>
+			<if test="updateTime != null">
+				update_time
 			</if>
 		</trim>
 		<trim prefix="VALUES (" suffix=")" suffixOverrides=",">
@@ -86,7 +94,13 @@
 				#{createUser,jdbcType=INTEGER},
 			</if>
 			<if test="createTime != null">
-				#{createTime,jdbcType=TIMESTAMP}
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP}
 			</if>
 		</trim>
 	</insert>
@@ -101,7 +115,13 @@
 				create_user = #{createUser,jdbcType=INTEGER},
 			</if>
 			<if test="createTime != null">
-				create_time = #{createTime,jdbcType=TIMESTAMP}
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				update_user = #{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP}
 			</if>
 		</set>
 		WHERE
