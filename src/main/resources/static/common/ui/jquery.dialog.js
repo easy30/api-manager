@@ -55,7 +55,7 @@
                         if(button.fn){
                             button.fn(modal.find('.modal-body'));
                         }
-                        if(btnType == 'cancel' || !options.formCheck){
+                        if(btnType == 'cancel' || !options.formCheck || btnType == 'close'){
                             dialog.close();
                         }
                     });

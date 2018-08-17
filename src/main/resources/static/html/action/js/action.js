@@ -140,27 +140,36 @@ var actionTableOptions = {
                                                 content: '<textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
                                                 iTitle: false,
                                                 title: '请求参数',
+                                                formCheck: true,
                                                 width: '150%',
                                                 buttons:[
                                                     {
                                                         type: 'close', text: '关闭', fn: function () {}
                                                     },{
-                                                        type: 'sure', text: '导入', fn: function () {
+                                                        type: 'sure', text: '导入', fn: function (result) {
                                                             var importJson = $('textarea[name=responseJson]').val();
-                                                            if(importJson && $.trim(importJson) != ''){
-                                                                $.ajax({
-                                                                    url: api.util.getUrl('apimanager/params/convertJsonToRows'),
-                                                                    type: 'post',
-                                                                    data : importJson,
-                                                                    contentType : 'application/json;charset=utf-8',
-                                                                    dataType: 'json',
-                                                                    success: function (result) {
-                                                                        var data = result.data;
-                                                                        $.each(JSON.parse(data), function (index, rowData) {
-                                                                            requestParam._showRow(rowData);
-                                                                        })
-                                                                    }
-                                                                });
+                                                            //校验导入参数是否是json类型
+                                                            if (typeof JSON.parse(importJson) == "object") {
+                                                                if(importJson && $.trim(importJson) != ''){
+                                                                    $.ajax({
+                                                                        url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                                        type: 'post',
+                                                                        data : importJson,
+                                                                        contentType : 'application/json;charset=utf-8',
+                                                                        dataType: 'json',
+                                                                        success: function (result) {
+                                                                            var data = result.data;
+                                                                            $.each(JSON.parse(data), function (index, rowData) {
+                                                                                requestParam._showRow(rowData);
+                                                                            })
+                                                                        }
+                                                                    });
+                                                                }
+                                                            }else {
+                                                                var jsonErrorOptions = {
+                                                                    content: "不符合json格式"
+                                                                }
+                                                                api.ui.dialog(jsonErrorOptions).open();
                                                             }
                                                         }
                                                     }
@@ -380,6 +389,7 @@ var actionTableOptions = {
                                                 content: $templateBtnDiv.html() + '<textarea class="col-12 form-control" name="responseJson" style="height: 300px; margin-top: 2px;"></textarea>',
                                                 iTitle: false,
                                                 title: '响应参数',
+                                                formCheck: true,
                                                 width: '150%',
                                                 buttons:[
                                                     {
@@ -387,20 +397,28 @@ var actionTableOptions = {
                                                     },{
                                                         type: 'sure', text: '导入', fn: function () {
                                                             var importJson = $('textarea[name=responseJson]').val();
-                                                            if(importJson && $.trim(importJson) != ''){
-                                                                $.ajax({
-                                                                    url: api.util.getUrl('apimanager/params/convertJsonToRows'),
-                                                                    type: 'post',
-                                                                    data : importJson,
-                                                                    contentType : 'application/json;charset=utf-8',
-                                                                    dataType: 'json',
-                                                                    success: function (result) {
-                                                                        var data = result.data;
-                                                                        $.each(JSON.parse(data), function (index, rowData) {
-                                                                            responseParam._showRow(rowData);
-                                                                        })
-                                                                    }
-                                                                });
+                                                            //校验导入参数是否是json类型
+                                                            if (typeof JSON.parse(importJson) == "object") {
+                                                                if(importJson && $.trim(importJson) != ''){
+                                                                    $.ajax({
+                                                                        url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                                        type: 'post',
+                                                                        data : importJson,
+                                                                        contentType : 'application/json;charset=utf-8',
+                                                                        dataType: 'json',
+                                                                        success: function (result) {
+                                                                            var data = result.data;
+                                                                            $.each(JSON.parse(data), function (index, rowData) {
+                                                                                requestParam._showRow(rowData);
+                                                                            })
+                                                                        }
+                                                                    });
+                                                                }
+                                                            }else {
+                                                                var jsonErrorOptions = {
+                                                                    content: "不符合json格式"
+                                                                }
+                                                                api.ui.dialog(jsonErrorOptions).open();
                                                             }
                                                         }
                                                     }
@@ -528,6 +546,7 @@ var actionTableOptions = {
                                                 content: $templateBtnDiv.html() + '<textarea class="col-12 form-control" name="responseJson" style="height: 300px; margin-top: 2px;"></textarea>',
                                                 iTitle: false,
                                                 title: '响应参数',
+                                                formCheck: true,
                                                 width: '150%',
                                                 buttons:[
                                                     {
@@ -535,20 +554,28 @@ var actionTableOptions = {
                                                     },{
                                                         type: 'sure', text: '导入', fn: function () {
                                                             var importJson = $('textarea[name=responseJson]').val();
-                                                            if(importJson && $.trim(importJson) != ''){
-                                                                $.ajax({
-                                                                    url: api.util.getUrl('apimanager/params/convertJsonToRows'),
-                                                                    type: 'post',
-                                                                    data : importJson,
-                                                                    contentType : 'application/json;charset=utf-8',
-                                                                    dataType: 'json',
-                                                                    success: function (result) {
-                                                                        var data = result.data;
-                                                                        $.each(JSON.parse(data), function (index, rowData) {
-                                                                            responseFailParam._showRow(rowData);
-                                                                        })
-                                                                    }
-                                                                });
+                                                            //校验导入参数是否是json类型
+                                                            if (typeof JSON.parse(importJson) == "object") {
+                                                                if(importJson && $.trim(importJson) != ''){
+                                                                    $.ajax({
+                                                                        url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                                        type: 'post',
+                                                                        data : importJson,
+                                                                        contentType : 'application/json;charset=utf-8',
+                                                                        dataType: 'json',
+                                                                        success: function (result) {
+                                                                            var data = result.data;
+                                                                            $.each(JSON.parse(data), function (index, rowData) {
+                                                                                requestParam._showRow(rowData);
+                                                                            })
+                                                                        }
+                                                                    });
+                                                                }
+                                                            }else {
+                                                                var jsonErrorOptions = {
+                                                                    content: "不符合json格式"
+                                                                }
+                                                                api.ui.dialog(jsonErrorOptions).open();
                                                             }
                                                         }
                                                     }
@@ -1138,6 +1165,7 @@ var actionTableOptions = {
                                                 content: '<textarea class="col-12 form-control" name="responseJson" style="height: 300px;"></textarea>',
                                                 iTitle: false,
                                                 title: '请求参数',
+                                                formCheck: true,
                                                 width: '150%',
                                                 buttons:[
                                                     {
@@ -1145,20 +1173,28 @@ var actionTableOptions = {
                                                     },{
                                                         type: 'sure', text: '导入', fn: function () {
                                                             var importJson = $('textarea[name=responseJson]').val();
-                                                            if(importJson && $.trim(importJson) != ''){
-                                                                $.ajax({
-                                                                    url: api.util.getUrl('apimanager/params/convertJsonToRows'),
-                                                                    type: 'post',
-                                                                    data : importJson,
-                                                                    contentType : 'application/json;charset=utf-8',
-                                                                    dataType: 'json',
-                                                                    success: function (result) {
-                                                                        var data = result.data;
-                                                                        $.each(JSON.parse(data), function (index, rowData) {
-                                                                            requestParam._showRow(rowData);
-                                                                        })
-                                                                    }
-                                                                });
+                                                            //校验导入参数是否是json类型
+                                                            if (typeof JSON.parse(importJson) == "object") {
+                                                                if(importJson && $.trim(importJson) != ''){
+                                                                    $.ajax({
+                                                                        url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                                        type: 'post',
+                                                                        data : importJson,
+                                                                        contentType : 'application/json;charset=utf-8',
+                                                                        dataType: 'json',
+                                                                        success: function (result) {
+                                                                            var data = result.data;
+                                                                            $.each(JSON.parse(data), function (index, rowData) {
+                                                                                requestParam._showRow(rowData);
+                                                                            })
+                                                                        }
+                                                                    });
+                                                                } 
+                                                            }else {
+                                                                var jsonErrorOptions = {
+                                                                    content: "不符合json格式"
+                                                                }
+                                                                api.ui.dialog(jsonErrorOptions).open();
                                                             }
                                                         }
                                                     }
@@ -1378,6 +1414,7 @@ var actionTableOptions = {
                                                 content: $templateBtnDiv.html() + '<textarea class="col-12 form-control" name="responseJson" style="height: 300px; margin-top: 2px;"></textarea>',
                                                 iTitle: false,
                                                 title: '响应参数',
+                                                formCheck: true,
                                                 width: '150%',
                                                 buttons:[
                                                     {
@@ -1385,20 +1422,28 @@ var actionTableOptions = {
                                                     },{
                                                         type: 'sure', text: '导入', fn: function () {
                                                             var importJson = $('textarea[name=responseJson]').val();
-                                                            if(importJson && $.trim(importJson) != ''){
-                                                                $.ajax({
-                                                                    url: api.util.getUrl('apimanager/params/convertJsonToRows'),
-                                                                    type: 'post',
-                                                                    data : importJson,
-                                                                    contentType : 'application/json;charset=utf-8',
-                                                                    dataType: 'json',
-                                                                    success: function (result) {
-                                                                        var data = result.data;
-                                                                        $.each(JSON.parse(data), function (index, rowData) {
-                                                                            responseParam._showRow(rowData);
-                                                                        })
-                                                                    }
-                                                                });
+                                                            //校验导入参数是否是json类型
+                                                            if (typeof JSON.parse(importJson) == "object") {
+                                                                if(importJson && $.trim(importJson) != ''){
+                                                                    $.ajax({
+                                                                        url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                                        type: 'post',
+                                                                        data : importJson,
+                                                                        contentType : 'application/json;charset=utf-8',
+                                                                        dataType: 'json',
+                                                                        success: function (result) {
+                                                                            var data = result.data;
+                                                                            $.each(JSON.parse(data), function (index, rowData) {
+                                                                                requestParam._showRow(rowData);
+                                                                            })
+                                                                        }
+                                                                    });
+                                                                }
+                                                            }else {
+                                                                var jsonErrorOptions = {
+                                                                    content: "不符合json格式"
+                                                                }
+                                                                api.ui.dialog(jsonErrorOptions).open();
                                                             }
                                                         }
                                                     }
@@ -1526,6 +1571,7 @@ var actionTableOptions = {
                                                 content: $templateBtnDiv.html() + '<textarea class="col-12 form-control" name="responseJson" style="height: 300px; margin-top: 2px;"></textarea>',
                                                 iTitle: false,
                                                 title: '响应参数',
+                                                formCheck: true,
                                                 width: '150%',
                                                 buttons:[
                                                     {
@@ -1533,20 +1579,28 @@ var actionTableOptions = {
                                                     },{
                                                         type: 'sure', text: '导入', fn: function () {
                                                             var importJson = $('textarea[name=responseJson]').val();
-                                                            if(importJson && $.trim(importJson) != ''){
-                                                                $.ajax({
-                                                                    url: api.util.getUrl('apimanager/params/convertJsonToRows'),
-                                                                    type: 'post',
-                                                                    data : importJson,
-                                                                    contentType : 'application/json;charset=utf-8',
-                                                                    dataType: 'json',
-                                                                    success: function (result) {
-                                                                        var data = result.data;
-                                                                        $.each(JSON.parse(data), function (index, rowData) {
-                                                                            responseFailParam._showRow(rowData);
-                                                                        })
-                                                                    }
-                                                                });
+                                                            //校验导入参数是否是json类型
+                                                            if (typeof JSON.parse(importJson) == "object") {
+                                                                if(importJson && $.trim(importJson) != ''){
+                                                                    $.ajax({
+                                                                        url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                                        type: 'post',
+                                                                        data : importJson,
+                                                                        contentType : 'application/json;charset=utf-8',
+                                                                        dataType: 'json',
+                                                                        success: function (result) {
+                                                                            var data = result.data;
+                                                                            $.each(JSON.parse(data), function (index, rowData) {
+                                                                                requestParam._showRow(rowData);
+                                                                            })
+                                                                        }
+                                                                    });
+                                                                }
+                                                            }else {
+                                                                var jsonErrorOptions = {
+                                                                    content: "不符合json格式"
+                                                                }
+                                                                api.ui.dialog(jsonErrorOptions).open();
                                                             }
                                                         }
                                                     }
@@ -1998,20 +2052,29 @@ var actionTableOptions = {
                                                 },{
                                                     type: 'sure', text: '导入', fn: function () {
                                                         var importJson = $('textarea[name=requestJson]').val();
-                                                        if(importJson && $.trim(importJson) != ''){
-                                                            $.ajax({
-                                                                url: api.util.getUrl('apimanager/params/convertJsonToRows'),
-                                                                type: 'post',
-                                                                data : importJson,
-                                                                contentType : 'application/json;charset=utf-8',
-                                                                dataType: 'json',
-                                                                success: function (result) {
-                                                                    var data = result.data;
-                                                                    $.each(JSON.parse(data), function (index, rowData) {
-                                                                        requestParam._showRow(rowData);
-                                                                    })
-                                                                }
-                                                            });
+                                                        //校验导入参数是否是json类型
+                                                        if (typeof JSON.parse(importJson) == "object") {
+                                                            if(importJson && $.trim(importJson) != ''){
+                                                                $.ajax({
+                                                                    url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                                    type: 'post',
+                                                                    data : importJson,
+                                                                    contentType : 'application/json;charset=utf-8',
+                                                                    dataType: 'json',
+                                                                    success: function (result) {
+                                                                        var data = result.data;
+                                                                        $.each(JSON.parse(data), function (index, rowData) {
+                                                                            requestParam._showRow(rowData);
+                                                                        })
+                                                                    }
+                                                                });
+                                                            }
+                                                        }else {
+                                                            var jsonErrorOptions = {
+                                                                content: "不符合json格式",
+                                                                formCheck: true
+                                                            }
+                                                            api.ui.dialog(jsonErrorOptions).open();
                                                         }
                                                     }
                                                 }
@@ -2196,20 +2259,29 @@ var actionTableOptions = {
                                                 },{
                                                     type: 'sure', text: '导入', fn: function () {
                                                         var importJson = $('textarea[name=responseJson]').val();
-                                                        if(importJson && $.trim(importJson) != ''){
-                                                            $.ajax({
-                                                                url: api.util.getUrl('apimanager/params/convertJsonToRows'),
-                                                                type: 'post',
-                                                                data : importJson,
-                                                                contentType : 'application/json;charset=utf-8',
-                                                                dataType: 'json',
-                                                                success: function (result) {
-                                                                    var data = result.data;
-                                                                    $.each(JSON.parse(data), function (index, rowData) {
-                                                                        responseParam._showRow(rowData);
-                                                                    })
-                                                                }
-                                                            });
+                                                        //校验导入参数是否是json类型
+                                                        if (typeof JSON.parse(importJson) == "object") {
+                                                            if(importJson && $.trim(importJson) != ''){
+                                                                $.ajax({
+                                                                    url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                                    type: 'post',
+                                                                    data : importJson,
+                                                                    contentType : 'application/json;charset=utf-8',
+                                                                    dataType: 'json',
+                                                                    success: function (result) {
+                                                                        var data = result.data;
+                                                                        $.each(JSON.parse(data), function (index, rowData) {
+                                                                            requestParam._showRow(rowData);
+                                                                        })
+                                                                    }
+                                                                });
+                                                            }
+                                                        }else {
+                                                            var jsonErrorOptions = {
+                                                                content: "不符合json格式",
+                                                                formCheck: true
+                                                            }
+                                                            api.ui.dialog(jsonErrorOptions).open();
                                                         }
                                                     }
                                                 }
@@ -2386,20 +2458,29 @@ var actionTableOptions = {
                                                 },{
                                                     type: 'sure', text: '导入', fn: function () {
                                                         var importJson = $('textarea[name=responseJson]').val();
-                                                        if(importJson && $.trim(importJson) != ''){
-                                                            $.ajax({
-                                                                url: api.util.getUrl('apimanager/params/convertJsonToRows'),
-                                                                type: 'post',
-                                                                data : importJson,
-                                                                contentType : 'application/json;charset=utf-8',
-                                                                dataType: 'json',
-                                                                success: function (result) {
-                                                                    var data = result.data;
-                                                                    $.each(JSON.parse(data), function (index, rowData) {
-                                                                        responseFailParam._showRow(rowData);
-                                                                    })
-                                                                }
-                                                            });
+                                                        //校验导入参数是否是json类型
+                                                        if (typeof JSON.parse(importJson) == "object") {
+                                                            if(importJson && $.trim(importJson) != ''){
+                                                                $.ajax({
+                                                                    url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                                    type: 'post',
+                                                                    data : importJson,
+                                                                    contentType : 'application/json;charset=utf-8',
+                                                                    dataType: 'json',
+                                                                    success: function (result) {
+                                                                        var data = result.data;
+                                                                        $.each(JSON.parse(data), function (index, rowData) {
+                                                                            requestParam._showRow(rowData);
+                                                                        })
+                                                                    }
+                                                                });
+                                                            }
+                                                        }else {
+                                                            var jsonErrorOptions = {
+                                                                content: "不符合json格式",
+                                                                formCheck: true
+                                                            }
+                                                            api.ui.dialog(jsonErrorOptions).open();
                                                         }
                                                     }
                                                 }
