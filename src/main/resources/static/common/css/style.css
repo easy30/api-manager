@@ -16,9 +16,15 @@ input.form-control {
     padding: 0.25rem 0.25rem;
 }
 
+textarea.form-control {
+    font-size: 0.85rem;
+    padding: 0.25rem 0.25rem;
+}
+
 select.form-control {
     height: calc(2.0rem);
     font-size: 0.80rem;
+    padding: 0.25rem 0.25rem;
 }
 
 .form-login {
