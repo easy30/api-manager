@@ -17,7 +17,18 @@ var testGroupTableOptions = {
     rowButtons: [
         {type: 'enter', text: '进入', fn: function (param) {
                 var parentId = param['id'];
-                alert(parentId);
+                var conf = {
+                    container: '#container',
+                    url: api.util.getUrl('html/action/groupAction.html'),
+                    async: false,
+                    loaded: function () {
+                        $('input[name=groupId]').val(parentId);
+                        api.util.loadScript(api.util.getUrl("html/action/js/groupAction.js") ,function () {
+                            api.ui.editTable(testGroupActionTableOptions);
+                        });
+                    }
+                }
+                api.ui.load(conf);
             }
         },
         {type: 'update', text: '编辑', url: api.util.getUrl('apimanager/testgroup/update')},

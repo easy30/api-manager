@@ -1,12 +1,17 @@
 package com.cehome.apimanager.model.po;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class AmTestGroupAction implements Serializable {
     private static final long serialVersionUID = -6220659021629312356L;
     private Integer id;
     private Integer groupId;
     private Integer actionId;
+    private Integer createUser;
+    private Date createTime;
+    private Integer updateUser;
+    private Date updateTime;
     private Integer sortCode;
 
     public Integer getId() {
@@ -39,5 +44,37 @@ public class AmTestGroupAction implements Serializable {
 
     public void setSortCode(Integer sortCode) {
         this.sortCode = sortCode;
+    }
+
+    public Integer getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(Integer createUser) {
+        this.createUser = createUser;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

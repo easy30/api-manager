@@ -5,11 +5,15 @@
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="group_id" property="groupId" jdbcType="INTEGER" />
 		<result column="action_id" property="actionId" jdbcType="TIMESTAMP" />
+		<result column="create_user" property="createUser" jdbcType="INTEGER"/>
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+		<result column="update_user" property="updateUser" jdbcType="INTEGER"/>
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
 		<result column="sort_code" property="sortCode" jdbcType="TIMESTAMP" />
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		id,group_id,action_id,sort_code
+		id,group_id,action_id,create_user,create_time,update_user,update_time,sort_code
 	</sql>
 	
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -83,6 +87,18 @@
 			<if test="actionId != null">
 				action_id,
 			</if>
+			<if test="createUser != null">
+				create_user,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateUser != null">
+				update_user,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
 			<if test="sortCode != null">
 				sort_code
 			</if>
@@ -96,6 +112,18 @@
 			</if>
 			<if test="actionId != null">
 				#{actionId,jdbcType=INTEGER},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateUser != null">
+				#{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="sortCode != null">
 				#{sortCode,jdbcType=INTEGER}
@@ -111,6 +139,12 @@
 			</if>
 			<if test="actionId != null">
 				action_id = #{actionId,jdbcType=INTEGER},
+			</if>
+			<if test="updateUser != null">
+				 update_user = #{updateUser,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="sortCode != null">
 				sort_code = #{sortCode,jdbcType=INTEGER}
