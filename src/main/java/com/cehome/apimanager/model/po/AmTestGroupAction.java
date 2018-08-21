@@ -8,6 +8,7 @@ public class AmTestGroupAction implements Serializable {
     private Integer id;
     private Integer groupId;
     private Integer actionId;
+    private Integer status;
     private Integer createUser;
     private Date createTime;
     private Integer updateUser;
@@ -36,6 +37,14 @@ public class AmTestGroupAction implements Serializable {
 
     public void setActionId(Integer actionId) {
         this.actionId = actionId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Integer getSortCode() {

@@ -11,6 +11,7 @@
 		<result column="request_url" property="requestUrl" jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="INTEGER" />
 		<result column="action_level" property="actionLevel" jdbcType="INTEGER" />
+		<result column="test_group_id" property="testGroupId" jdbcType="INTEGER" />
 		<result column="request_head_definition" property="requestHeadDefinition" jdbcType="LONGVARCHAR" />
 		<result column="request_definition" property="requestDefinition" jdbcType="LONGVARCHAR" />
 		<result column="response_definition" property="responseDefinition" jdbcType="LONGVARCHAR" />
@@ -25,7 +26,7 @@
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		id,module_id,action_name,action_desc,request_type,domain_id,request_url,status,action_level,request_head_definition,
+		id,module_id,action_name,action_desc,request_type,domain_id,request_url,status,action_level,test_group_id,request_head_definition,
 		request_definition,response_definition,response_fail_definition,request_head_mock,request_mock,response_mock,create_user,
 		create_time,update_user,update_time
 	</sql>
@@ -169,6 +170,9 @@
 			<if test="actionLevel != null">
 			action_level,
 			</if>
+			<if test="testGroupId != null">
+			test_group_id,
+			</if>
 			<if test="requestHeadDefinition != null">
 			request_head_definition,
 			</if>
@@ -230,6 +234,9 @@
 			</if>
 			<if test="actionLevel != null">
 			#{actionLevel,jdbcType=INTEGER},
+			</if>
+			<if test="testGroupId != null">
+			#{testGroupId,jdbcType=INTEGER},
 			</if>
 			<if test="requestHeadDefinition != null">
 			#{requestHeadDefinition,jdbcType=LONGVARCHAR},
@@ -293,6 +300,9 @@
 			</if>
 			<if test="actionLevel != null">
 			action_level = #{actionLevel,jdbcType=INTEGER},
+			</if>
+			<if test="testGroupId != null">
+			test_group_id = #{testGroupId,jdbcType=INTEGER},
 			</if>
 			<if test="requestHeadDefinition != null">
 			request_head_definition = #{requestHeadDefinition,jdbcType=LONGVARCHAR},

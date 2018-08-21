@@ -18,6 +18,13 @@ var statusSelectOption = {
     optionField: {value: 'k', text: 'v'},
     url: api.util.getUrl('apimanager/meta/findMeta')
 };
+var testGroupSelectOption = {
+    selector: '[name=testGroupId]',
+    width: '95%',
+    async: false,
+    optionField: {value: 'id', text: 'groupName'},
+    url: api.util.getUrl('apimanager/testgroup/list')
+};
 var actionLevelSelectOption = {
     selector: '[name=actionLevel]',
     width: '90%',

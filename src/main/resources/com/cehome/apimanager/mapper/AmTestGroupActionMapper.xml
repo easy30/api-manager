@@ -24,22 +24,41 @@
 		id = #{id,jdbcType=INTEGER}
 		LIMIT 1
 	</select>
-	
-	<select id="find" parameterType="map" resultMap="BaseResultMap">
+
+	<select id="findByActionIdAndGroupId" resultMap="BaseResultMap" parameterType="com.cehome.apimanager.model.po.AmTestGroupAction">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM am_test_group_action
 		WHERE
+		group_id = #{groupId,jdbcType=INTEGER}
+		AND
+		action_id = #{actionId,jdbcType=INTEGER}
+		LIMIT 1
+	</select>
+
+	<select id="find" parameterType="map" resultType="com.cehome.apimanager.model.dto.AmTestGroupActionResDto">
+		SELECT
+			t1.id,
+			t1.status,
+			t1.group_id AS groupId,
+			t1.action_id AS actionId,
+			t1.create_user AS createUser,
+			t1.update_user AS updateUser,
+			t1.sort_code AS sortCode,
+			t2.action_name AS actionName
+		FROM am_test_group_action t1
+		LEFT JOIN am_action t2 ON t1.action_id=t2.id
+		WHERE
 			1=1
 		<if test="groupId != null">
 		AND
-			group_id = #{groupId,jdbcType=INTEGER}
+			t1.group_id = #{groupId,jdbcType=INTEGER}
 		</if>
 		<if test="actionId != null">
 		AND
-			action_id = #{actionId,jdbcType=INTEGER}
+			t1.action_id = #{actionId,jdbcType=INTEGER}
 		</if>
-		ORDER BY sort_code
+		ORDER BY t1.sort_code
 		LIMIT #{pageOffset},#{pageSize}
 	</select>
 	
@@ -156,5 +175,9 @@
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		DELETE FROM am_test_group_action WHERE id = #{id}
+	</delete>
+
+	<delete id="deleteByGroupId" parameterType="java.lang.Integer">
+		DELETE FROM am_test_group_action WHERE group_id = #{groupId}
 	</delete>
 </mapper>

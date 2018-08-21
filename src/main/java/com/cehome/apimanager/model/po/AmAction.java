@@ -57,6 +57,10 @@ public class AmAction extends BaseEntity implements Serializable {
      */
     private Integer actionLevel;
     /**
+     * 所属测试分组
+     */
+    private Integer testGroupId;
+    /**
      * 接口请求头定义
      */
     private String requestHeadDefinition;
@@ -163,6 +167,14 @@ public class AmAction extends BaseEntity implements Serializable {
 
     public void setActionLevel(Integer actionLevel) {
         this.actionLevel = actionLevel;
+    }
+
+    public Integer getTestGroupId() {
+        return testGroupId;
+    }
+
+    public void setTestGroupId(Integer testGroupId) {
+        this.testGroupId = testGroupId;
     }
 
     public String getRequestHeadDefinition() {

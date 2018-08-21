@@ -82,6 +82,7 @@ var actionTableOptions = {
                                         api.ui.chosenSelect(actionLevelSelectOption);
                                         api.ui.chosenSelect(moduleOptions);
                                         api.ui.chosenSelect(domainSelectOptions);
+                                        // api.ui.chosenSelect(testGroupSelectOption);
                                         actionInfoFormObject = api.ui.form(actionInfoFormOptions);
                                         actionInfoFormObject.giveVal({
                                             id: data['id'],
@@ -1110,6 +1111,7 @@ var actionTableOptions = {
                                         api.ui.chosenSelect(actionLevelSelectOption);
                                         api.ui.chosenSelect(moduleOptions);
                                         api.ui.chosenSelect(domainSelectOptions);
+                                        // api.ui.chosenSelect(testGroupSelectOption);
                                         actionInfoFormObject = api.ui.form(actionInfoFormOptions);
                                         actionInfoFormObject.giveVal({
                                             actionName: data['actionName'],
@@ -1913,36 +1915,35 @@ var actionTableOptions = {
                 api.ui.load(conf);
         }
         },
-        {type: 'delete', text: '删除', url: api.util.getUrl('apimanager/action/delete')},
         {type: 'history', text: '最新修改', icon: 'glyphicon glyphicon-pencil', fn: function (param) {
                 var dialogOptions = {
                     container: 'body',
                     content: '<div id="baseInfoDiv" style="padding-left: 0px; padding-right: 0px;">' +
-                                '<p style="color: red;">基本信息变化</p>' +
-                                '<table class="table table-sm" style="margin-left: 0px; margin-right: 0px; font-size: 14px;">' +
-                                    '<thead>' +
-                                        '<tr>' +
-                                            '<th style="width: 15%;">名称</th>' +
-                                            '<th style="width: 15%;">类型</th>' +
-                                            '<th style="width: 70%;">内容变化</th>' +
-                                        '</tr>' +
-                                    '</thead>' +
-                                    '<tbody></tbody>' +
-                                '</table>' +
-                              '</div>' +
-                            '<div id="paramsInfoDiv" style="padding-left: 0px; padding-right: 0px;">' +
-                                '<p style="color: red;">参数信息变化</p>' +
-                                '<table class="table table-sm" style="margin-left: 0px; margin-right: 0px; font-size: 14px;">' +
-                                    '<thead>' +
-                                        '<tr>' +
-                                            '<th style="width: 15%;">名称</th>' +
-                                            '<th style="width: 15%;">类型</th>' +
-                                            '<th style="width: 70%;">内容变化</th>' +
-                                        '</tr>' +
-                                    '</thead>' +
-                                    '<tbody></tbody>' +
-                                '</table>' +
-                            '</div>',
+                    '<p style="color: red;">基本信息变化</p>' +
+                    '<table class="table table-sm" style="margin-left: 0px; margin-right: 0px; font-size: 14px;">' +
+                    '<thead>' +
+                    '<tr>' +
+                    '<th style="width: 15%;">名称</th>' +
+                    '<th style="width: 15%;">类型</th>' +
+                    '<th style="width: 70%;">内容变化</th>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody></tbody>' +
+                    '</table>' +
+                    '</div>' +
+                    '<div id="paramsInfoDiv" style="padding-left: 0px; padding-right: 0px;">' +
+                    '<p style="color: red;">参数信息变化</p>' +
+                    '<table class="table table-sm" style="margin-left: 0px; margin-right: 0px; font-size: 14px;">' +
+                    '<thead>' +
+                    '<tr>' +
+                    '<th style="width: 15%;">名称</th>' +
+                    '<th style="width: 15%;">类型</th>' +
+                    '<th style="width: 70%;">内容变化</th>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody></tbody>' +
+                    '</table>' +
+                    '</div>',
                     iTitle: false,
                     title: '最近修改',
                     width: '180%',
@@ -1983,7 +1984,7 @@ var actionTableOptions = {
                 };
                 api.ui.dialog(dialogOptions).open();
             }},
-
+        {type: 'delete', text: '删除', url: api.util.getUrl('apimanager/action/delete')}
 ],
     headBtn: [
     {
@@ -2017,6 +2018,7 @@ var actionTableOptions = {
                                     api.ui.chosenSelect(statusSelectOption);
                                     api.ui.chosenSelect(actionLevelSelectOption);
                                     api.ui.chosenSelect(moduleOptions);
+                                    // api.ui.chosenSelect(testGroupSelectOption);
                                     actionInfoFormObject = api.ui.form(actionInfoFormOptions);
                                     actionInfoFormObject.giveVal({
                                         moduleId: parentId,

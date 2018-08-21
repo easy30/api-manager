@@ -7,6 +7,7 @@ import com.cehome.apimanager.model.dto.AmTestGroupQueryReqDto;
 import com.cehome.apimanager.model.dto.AmTestGroupReqDto;
 import com.cehome.apimanager.model.dto.AmTestGroupResDto;
 import com.cehome.apimanager.model.po.AmTestGroup;
+import com.cehome.apimanager.service.IAmTestGroupActionService;
 import com.cehome.apimanager.service.IAmTestGroupService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ import java.util.Map;
 public class AmTestGroupServiceImpl implements IAmTestGroupService {
     @Autowired
     private AmTestGroupDao testGroupDao;
+
+    @Autowired
+    private IAmTestGroupActionService testGroupActionService;
 
     @Autowired
     private CacheProvider cacheProvider;
@@ -48,6 +52,7 @@ public class AmTestGroupServiceImpl implements IAmTestGroupService {
 
     @Override
     public void delete(AmTestGroupReqDto dto) {
+        testGroupActionService.deleteByGroupId(dto);
         testGroupDao.delete(dto.getId());
     }
 

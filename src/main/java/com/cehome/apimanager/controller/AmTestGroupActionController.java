@@ -26,6 +26,45 @@ public class AmTestGroupActionController extends BaseController {
     private IAmTestGroupActionService testGroupActionService;
 
     /**
+     * 添加分组接口信息
+     *
+     * @param session
+     * @param dto
+     * @return
+     */
+    @RequestMapping(value = "add")
+    public Map<String, Object> add(HttpSession session, AmTestGroupActionReqDto dto) {
+        try {
+            AmUser loginUser = WebUtils.getLoginUser(session);
+            dto.setCreateUser(loginUser.getId());
+            testGroupActionService.add(dto);
+            return toSuccess();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return toFail(e);
+        }
+    }
+
+    /**
+     * 更新接口文档
+     *
+     * @param dto
+     * @return
+     */
+    @RequestMapping(value = "update")
+    public Map<String, Object> update(HttpSession session, AmTestGroupActionReqDto dto) {
+        try {
+            AmUser loginUser = WebUtils.getLoginUser(session);
+            dto.setUpdateUser(loginUser.getId());
+            testGroupActionService.update(dto);
+            return toSuccess();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return toFail(e);
+        }
+    }
+
+    /**
      * 根据id删除分组接口
      *
      * @param dto

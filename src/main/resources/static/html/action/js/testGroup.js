@@ -29,6 +29,20 @@ var testGroupTableOptions = {
                     }
                 }
                 api.ui.load(conf);
+
+                $('#form').find('.btn-back').on('click', function () {
+                    var conf = {
+                        container: '#container',
+                        url: api.util.getUrl('html/action/testGroup.html'),
+                        async: false,
+                        loaded: function () {
+                            api.util.loadScript(api.util.getUrl("html/action/js/testGroup.js") ,function () {
+                                api.ui.editTable(testGroupTableOptions);
+                            });
+                        }
+                    }
+                    api.ui.load(conf);
+                });
             }
         },
         {type: 'update', text: '编辑', url: api.util.getUrl('apimanager/testgroup/update')},
@@ -37,7 +51,7 @@ var testGroupTableOptions = {
     ],
     headBtn: [
         {
-            type: 'add', text: '添加'
+            type: 'add', text: '添加分组'
         }
     ],
     url: api.util.getUrl('apimanager/testgroup/findPage')
