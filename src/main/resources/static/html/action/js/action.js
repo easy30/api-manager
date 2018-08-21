@@ -150,23 +150,30 @@ var actionTableOptions = {
                                                         type: 'sure', text: '导入', fn: function (result) {
                                                             var importJson = $('textarea[name=responseJson]').val();
                                                             //校验导入参数是否是json类型
-                                                            if (typeof JSON.parse(importJson) == "object") {
-                                                                if(importJson && $.trim(importJson) != ''){
-                                                                    $.ajax({
-                                                                        url: api.util.getUrl('apimanager/params/convertJsonToRows'),
-                                                                        type: 'post',
-                                                                        data : importJson,
-                                                                        contentType : 'application/json;charset=utf-8',
-                                                                        dataType: 'json',
-                                                                        success: function (result) {
-                                                                            var data = result.data;
-                                                                            $.each(JSON.parse(data), function (index, rowData) {
-                                                                                requestParam._showRow(rowData);
-                                                                            })
-                                                                        }
-                                                                    });
+                                                            try{
+                                                                if (typeof JSON.parse(importJson) == "object") {
+                                                                    if(importJson && $.trim(importJson) != ''){
+                                                                        $.ajax({
+                                                                            url: api.util.getUrl('apimanager/params/convertJsonToRows'),
+                                                                            type: 'post',
+                                                                            data : importJson,
+                                                                            contentType : 'application/json;charset=utf-8',
+                                                                            dataType: 'json',
+                                                                            success: function (result) {
+                                                                                var data = result.data;
+                                                                                $.each(JSON.parse(data), function (index, rowData) {
+                                                                                    requestParam._showRow(rowData);
+                                                                                })
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                }else {
+                                                                    var jsonErrorOptions = {
+                                                                        content: "不符合json格式"
+                                                                    }
+                                                                    api.ui.dialog(jsonErrorOptions).open();
                                                                 }
-                                                            }else {
+                                                            }catch (err){
                                                                 var jsonErrorOptions = {
                                                                     content: "不符合json格式"
                                                                 }
