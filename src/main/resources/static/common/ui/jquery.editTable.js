@@ -550,7 +550,7 @@
                         });
                         $td.append($button);
                     } else if (type == 'enter') {
-                        var $button = $('<button class="btn btn-info btn-sm btn-enter" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-share-alt"></span></button>');
+                        var $button = $('<button class="btn btn-info btn-sm btn-enter" style="margin-left: 10px;" type="button"><span class="glyphicon glyphicon-log-in"></span></button>');
                         $button.append('&nbsp;&nbsp;' + button.text);
                         $button.on('click', function () {
                             if (button.fn) {
