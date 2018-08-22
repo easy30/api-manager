@@ -3,9 +3,9 @@ var testGroupTableOptions = {
     headers: [
         {text: '编号', width: '10%'},
         {text: '分组名称', width: '40%'},
-        {text: '创建人', width: '10%'},
+        {text: '创建人', width: '15%'},
         {text: '修改人', width: '10%'},
-        {text: '操作', width: '30%'}
+        {text: '操作', width: '25%'}
     ],
     form: '#form',
     fields: [
