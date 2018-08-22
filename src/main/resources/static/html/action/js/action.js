@@ -160,10 +160,19 @@ var actionTableOptions = {
                                                                             contentType : 'application/json;charset=utf-8',
                                                                             dataType: 'json',
                                                                             success: function (result) {
-                                                                                var data = result.data;
-                                                                                $.each(JSON.parse(data), function (index, rowData) {
-                                                                                    requestParam._showRow(rowData);
-                                                                                })
+                                                                                var code = result.code;
+                                                                                if(code == '0'){
+                                                                                    var data = result.data;
+                                                                                    $.each(JSON.parse(data), function (index, rowData) {
+                                                                                        requestParam._showRow(rowData);
+                                                                                    })
+                                                                                } else {
+                                                                                    var serverErrorOptions = {
+                                                                                        content: "导入失败！",
+                                                                                        formCheck: true
+                                                                                    }
+                                                                                    api.ui.dialog(serverErrorOptions).open();
+                                                                                }
                                                                             }
                                                                         });
                                                                     }
@@ -412,10 +421,19 @@ var actionTableOptions = {
                                                                             contentType : 'application/json;charset=utf-8',
                                                                             dataType: 'json',
                                                                             success: function (result) {
-                                                                                var data = result.data;
-                                                                                $.each(JSON.parse(data), function (index, rowData) {
-                                                                                    responseParam._showRow(rowData);
-                                                                                })
+                                                                                var code = result.code;
+                                                                                if(code == '0'){
+                                                                                    var data = result.data;
+                                                                                    $.each(JSON.parse(data), function (index, rowData) {
+                                                                                        responseParam._showRow(rowData);
+                                                                                    })
+                                                                                } else {
+                                                                                    var serverErrorOptions = {
+                                                                                        content: "导入失败！",
+                                                                                        formCheck: true
+                                                                                    }
+                                                                                    api.ui.dialog(serverErrorOptions).open();
+                                                                                }
                                                                             }
                                                                         });
                                                                     }
@@ -572,10 +590,19 @@ var actionTableOptions = {
                                                                             contentType : 'application/json;charset=utf-8',
                                                                             dataType: 'json',
                                                                             success: function (result) {
-                                                                                var data = result.data;
-                                                                                $.each(JSON.parse(data), function (index, rowData) {
-                                                                                    responseFailParam._showRow(rowData);
-                                                                                })
+                                                                                var code = result.code;
+                                                                                if(code == '0'){
+                                                                                    var data = result.data;
+                                                                                    $.each(JSON.parse(data), function (index, rowData) {
+                                                                                        responseFailParam._showRow(rowData);
+                                                                                    })
+                                                                                } else {
+                                                                                    var serverErrorOptions = {
+                                                                                        content: "导入失败！",
+                                                                                        formCheck: true
+                                                                                    }
+                                                                                    api.ui.dialog(serverErrorOptions).open();
+                                                                                }
                                                                             }
                                                                         });
                                                                     }
@@ -1195,10 +1222,19 @@ var actionTableOptions = {
                                                                             contentType : 'application/json;charset=utf-8',
                                                                             dataType: 'json',
                                                                             success: function (result) {
-                                                                                var data = result.data;
-                                                                                $.each(JSON.parse(data), function (index, rowData) {
-                                                                                    requestParam._showRow(rowData);
-                                                                                })
+                                                                                var code = result.code;
+                                                                                if(code == '0'){
+                                                                                    var data = result.data;
+                                                                                    $.each(JSON.parse(data), function (index, rowData) {
+                                                                                        requestParam._showRow(rowData);
+                                                                                    })
+                                                                                } else {
+                                                                                    var serverErrorOptions = {
+                                                                                        content: "导入失败！",
+                                                                                        formCheck: true
+                                                                                    }
+                                                                                    api.ui.dialog(serverErrorOptions).open();
+                                                                                }
                                                                             }
                                                                         });
                                                                     }
@@ -1447,10 +1483,19 @@ var actionTableOptions = {
                                                                             contentType : 'application/json;charset=utf-8',
                                                                             dataType: 'json',
                                                                             success: function (result) {
-                                                                                var data = result.data;
-                                                                                $.each(JSON.parse(data), function (index, rowData) {
-                                                                                    responseParam._showRow(rowData);
-                                                                                })
+                                                                                var code = result.code;
+                                                                                if(code == '0'){
+                                                                                    var data = result.data;
+                                                                                    $.each(JSON.parse(data), function (index, rowData) {
+                                                                                        responseParam._showRow(rowData);
+                                                                                    })
+                                                                                } else {
+                                                                                    var serverErrorOptions = {
+                                                                                        content: "导入失败！",
+                                                                                        formCheck: true
+                                                                                    }
+                                                                                    api.ui.dialog(serverErrorOptions).open();
+                                                                                }
                                                                             }
                                                                         });
                                                                     }
@@ -1607,10 +1652,19 @@ var actionTableOptions = {
                                                                             contentType : 'application/json;charset=utf-8',
                                                                             dataType: 'json',
                                                                             success: function (result) {
-                                                                                var data = result.data;
-                                                                                $.each(JSON.parse(data), function (index, rowData) {
-                                                                                    responseFailParam._showRow(rowData);
-                                                                                })
+                                                                                var code = result.code;
+                                                                                if(code == '0'){
+                                                                                    var data = result.data;
+                                                                                    $.each(JSON.parse(data), function (index, rowData) {
+                                                                                        responseFailParam._showRow(rowData);
+                                                                                    })
+                                                                                } else {
+                                                                                    var serverErrorOptions = {
+                                                                                        content: "导入失败！",
+                                                                                        formCheck: true
+                                                                                    }
+                                                                                    api.ui.dialog(serverErrorOptions).open();
+                                                                                }
                                                                             }
                                                                         });
                                                                     }
@@ -2083,10 +2137,19 @@ var actionTableOptions = {
                                                                         contentType : 'application/json;charset=utf-8',
                                                                         dataType: 'json',
                                                                         success: function (result) {
-                                                                            var data = result.data;
-                                                                            $.each(JSON.parse(data), function (index, rowData) {
-                                                                                requestParam._showRow(rowData);
-                                                                            })
+                                                                            var code = result.code;
+                                                                            if(code == '0'){
+                                                                                var data = result.data;
+                                                                                $.each(JSON.parse(data), function (index, rowData) {
+                                                                                    requestParam._showRow(rowData);
+                                                                                })
+                                                                            } else {
+                                                                                var serverErrorOptions = {
+                                                                                    content: "导入失败！",
+                                                                                    formCheck: true
+                                                                                }
+                                                                                api.ui.dialog(serverErrorOptions).open();
+                                                                            }
                                                                         }
                                                                     });
                                                                 }
@@ -2292,10 +2355,19 @@ var actionTableOptions = {
                                                                         contentType : 'application/json;charset=utf-8',
                                                                         dataType: 'json',
                                                                         success: function (result) {
-                                                                            var data = result.data;
-                                                                            $.each(JSON.parse(data), function (index, rowData) {
-                                                                                responseParam._showRow(rowData);
-                                                                            })
+                                                                            var code = result.code;
+                                                                            if(code == '0'){
+                                                                                var data = result.data;
+                                                                                $.each(JSON.parse(data), function (index, rowData) {
+                                                                                    responseParam._showRow(rowData);
+                                                                                })
+                                                                            } else {
+                                                                                var serverErrorOptions = {
+                                                                                    content: "导入失败！",
+                                                                                    formCheck: true
+                                                                                }
+                                                                                api.ui.dialog(serverErrorOptions).open();
+                                                                            }
                                                                         }
                                                                     });
                                                                 }
@@ -2493,10 +2565,19 @@ var actionTableOptions = {
                                                                         contentType : 'application/json;charset=utf-8',
                                                                         dataType: 'json',
                                                                         success: function (result) {
-                                                                            var data = result.data;
-                                                                            $.each(JSON.parse(data), function (index, rowData) {
-                                                                                responseFailParam._showRow(rowData);
-                                                                            })
+                                                                            var code = result.code;
+                                                                            if(code == '0'){
+                                                                                var data = result.data;
+                                                                                $.each(JSON.parse(data), function (index, rowData) {
+                                                                                    responseFailParam._showRow(rowData);
+                                                                                })
+                                                                            } else {
+                                                                                var serverErrorOptions = {
+                                                                                    content: "导入失败！",
+                                                                                    formCheck: true
+                                                                                }
+                                                                                api.ui.dialog(serverErrorOptions).open();
+                                                                            }
                                                                         }
                                                                     });
                                                                 }
