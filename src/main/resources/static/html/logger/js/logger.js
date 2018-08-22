@@ -38,7 +38,7 @@ var loggerTableOptions = {
         {name: 'operateTimeFormat', type:'input', inputDesc: '操作时间', required: false}
     ],
     rowButtons: [
-        {type: 'enter', text: '查看', fn: function (param) {
+        {type: 'view', text: '查看', icon: 'glyphicon glyphicon-eye-open', fn: function (param) {
             var moduleCodeSearch = $('select[name=moduleCode]').val(),
                 operateTypeSearch = $('select[name=operateType]').val(),
                 operateUserSearch = $('select[name=operateUser]').val();
