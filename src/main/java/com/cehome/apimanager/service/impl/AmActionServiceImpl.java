@@ -367,10 +367,14 @@ public class AmActionServiceImpl implements IAmActionService {
                 } else {
                     if(columnType == CommonMeta.FieldType.NUMBER.getCode() || columnType == CommonMeta.FieldType.ARRAY_NUMBER.getCode()){
                         String valueStr = value.toString();
-                        if(valueStr.contains(".")){
-                            value = Double.valueOf(valueStr);
+                        if(StringUtils.isEmpty(valueStr)){
+                            value = 0;
                         } else {
-                            value = Integer.valueOf(valueStr);
+                            if(valueStr.contains(".")){
+                                value = Double.valueOf(valueStr);
+                            } else {
+                                value = Long.valueOf(valueStr);
+                            }
                         }
                     }
                     mockObject.put(name, value);
