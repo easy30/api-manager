@@ -1,0 +1,21 @@
+.el-form-item--mini.el-form-item, .el-form-item--small.el-form-item {
+    margin-bottom: 5px;
+}
+
+.el-input__inner{
+    height: 22px;
+    line-height: 22px;
+    padding: 0 10px;
+    border-radius: 0px;
+}
+
+.el-input__icon {
+
+    line-height: 22px;
+}
+
+
+.el-button {
+    padding: 3px 5px;
+    border-radius: 0px;
+}

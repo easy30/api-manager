@@ -26,82 +26,87 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
-public class RedirectFilter implements Filter {
-	private static Logger logger = LoggerFactory.getLogger(RedirectFilter.class);
+public class RedirectFilter2 implements Filter {
+	private static Logger logger = LoggerFactory.getLogger(RedirectFilter2.class);
 	private static final String CONTENT_TYPE = "application/json";
 	private static final String ENCODING = "UTF-8";
+	public static void get(HttpServletRequest request, HttpServletResponse response, String url) throws IOException {
+		int timeout = 30000;
+		response.reset();
+		response.resetBuffer();
 
-    public static void get(HttpServletRequest request, HttpServletResponse response, String url) throws IOException {
-        int timeout = 30000;
-        response.reset();
-        response.resetBuffer();
+		HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+		Enumeration<String> headerNames = request.getHeaderNames();
+		while (headerNames.hasMoreElements()) {
+			String name = headerNames.nextElement();
+			Enumeration<String> values = request.getHeaders(name);
+			while (values.hasMoreElements()) {
+				conn.setRequestProperty(name, values.nextElement());
+			}
 
-        HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        Enumeration<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String name = headerNames.nextElement();
-            Enumeration<String> values = request.getHeaders(name);
-            while (values.hasMoreElements()) {
-                conn.setRequestProperty(name, values.nextElement());
-            }
+		}
+		conn.setDoOutput(true);     //需要输出
+		conn.setDoInput(true);      //需要输入
+		conn.setUseCaches(false);   //不允许缓存
+		System.out.println(request.getMethod());
+		conn.setRequestMethod(request.getMethod());      //设置POST方式连接
+		conn.setConnectTimeout(timeout); //30秒连接超时
+		conn.setReadTimeout(timeout);    //30秒读取超时
 
-        }
-        conn.setDoOutput(true);     //需要输出
-        conn.setDoInput(true);      //需要输入
-        conn.setUseCaches(false);   //不允许缓存
-        System.out.println(request.getMethod());
-        conn.setRequestMethod(request.getMethod());      //设置POST方式连接
-        conn.setConnectTimeout(timeout); //30秒连接超时
-        conn.setReadTimeout(timeout);    //30秒读取超时
+		//设置请求属性
+		//conn.setRequestProperty("Content-Type", request.get "application/x-www-form-urlencoded");
+		//conn.setRequestProperty("Connection", "Keep-Alive");// 维持长连接
+		//conn.setRequestProperty("Charset", encoding);
+		//conn.connect();
+		if (request.getMethod().equalsIgnoreCase("POST")) {
+			IOUtils.copy(request.getInputStream(), conn.getOutputStream());
+			conn.getOutputStream().close();
+		}
 
-        //设置请求属性
-        //conn.setRequestProperty("Content-Type", request.get "application/x-www-form-urlencoded");
-        //conn.setRequestProperty("Connection", "Keep-Alive");// 维持长连接
-        //conn.setRequestProperty("Charset", encoding);
-        //conn.connect();
-        if (request.getMethod().equalsIgnoreCase("POST")) {
-            IOUtils.copy(request.getInputStream(), conn.getOutputStream());
-            conn.getOutputStream().close();
-        }
+		Map<String, List<String>> map = conn.getHeaderFields();
 
-        Map<String, List<String>> map = conn.getHeaderFields();
-
-        for (Map.Entry<String, List<String>> entry : map.entrySet()) {
-            for (String value : entry.getValue())
-                response.setHeader(entry.getKey(), value);
-        }
-        //String s=IOUtils.toString(conn.getInputStream(),"UTF-8");
+		for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+			for (String value : entry.getValue())
+				response.setHeader(entry.getKey(), value);
+		}
+		//String s=IOUtils.toString(conn.getInputStream(),"UTF-8");
 //        System.out.println(s);
-        //  response.getWriter().print(s);
-        // response.setStatus(200);
-        IOUtils.copy(conn.getInputStream(), response.getOutputStream());
+		//  response.getWriter().print(s);
+		// response.setStatus(200);
+		IOUtils.copy(conn.getInputStream(), response.getOutputStream());
 
 
-        response.setStatus(conn.getResponseCode());
-        response.getOutputStream().close();
+		response.setStatus(conn.getResponseCode());
+		response.getOutputStream().close();
 
-        // return IOUtils.toString(new URL(url).openConnection().getInputStream(),"UTF-8");
+		// return IOUtils.toString(new URL(url).openConnection().getInputStream(),"UTF-8");
 
 
-    }
+	}
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		//System.out.println(IOUtils.toString(request.getInputStream(),"UTF-8"));
+		//System.out.println("---------");
 		HttpServletRequest httpRequest = (HttpServletRequest)request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		String requestURL = httpRequest.getRequestURL().toString();
-        String path=httpRequest.getServletPath();
+		String path=httpRequest.getServletPath();
 
 
-        if(path.startsWith(Const.BASE_URL+"/app") || path.startsWith("/sockjs-node/")){
-            get(httpRequest,httpResponse,requestURL.replace(":8099",":8080"));
+		if(path.startsWith(Const.BASE_URL+"/app") || path.startsWith("/sockjs-node/")){
+			get(httpRequest,httpResponse,requestURL.replace(":8099",":8080"));
 
-        }
-		else if(!requestURL.toString().contains("apimanager.tiebaobei.com/mockData/")){
+
+
+		} else  if(!path.startsWith(Const.BASE_URL+"/mockData")){
 			String requestURI = httpRequest.getRequestURI();
 			HttpSession session = httpRequest.getSession();
 			if (whileList(requestURI) || WebUtils.isLogin(session)) {
-				chain.doFilter(request, response);
+
+					chain.doFilter(request, response);
+
 			} else {
+				//chain.doFilter(request, response);
 				httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.html");
 			}
 		} else {

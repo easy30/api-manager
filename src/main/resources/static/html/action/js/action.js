@@ -710,116 +710,116 @@ var actionTableOptions = {
                                     });
                                 }
                             }
-                            // , {
-                            //     title: '接口测试',
-                            //     width: '10%',
-                            //     lazy: true,
-                            //     href: api.util.getUrl('html/action/actionInnerTest.html'),
-                            //     loaded: function () {
-                            //         var testHeadParam, testRequestParam;
-                            //         var data = actionResult['data'];
-                            //         api.util.loadScript(api.util.getUrl('html/action/js/actionTest.js'), function () {
-                            //             var requestTypeSelect = api.ui.chosenSelect(requestTypeOptions);
-                            //             testHeadParam = api.ui.param(testHeadOptions);
-                            //             testRequestParam = api.ui.param(testRequestOptions);
-                            //             if (data) {
-                            //                 requestTypeSelect.val(data['requestType']);
-                            //                 $('[name=testRequestUrl]').val(data['requestUrl']);
-                            //                 $.ajax({
-                            //                     url: api.util.getUrl('apimanager/domain/findById'),
-                            //                     type: 'GET',
-                            //                     data: {id: data['domainId']},
-                            //                     dataType: 'json',
-                            //                     success: function (result) {
-                            //                         var resultData = result.data;
-                            //                         var domainEditSelect = api.ui.editSelect(domainEditOptions);
-                            //                         domainEditSelect._load({domainName: resultData.domainName.split('.')[0]});
-                            //                         domainEditSelect._val(resultData.id);
-                            //                     }
-                            //                 })
-                            //                 if (data['requestHeadDefinition']) {
-                            //                     var rowData = JSON.parse(data['requestHeadDefinition']);
-                            //                     $.each(rowData, function (index, data) {
-                            //                         testHeadParam._showRow(data);
-                            //                     })
-                            //                 }
-                            //                 if (data['requestDefinition']) {
-                            //                     var rowData = JSON.parse(data['requestDefinition']);
-                            //                     $.each(rowData, function (index, data) {
-                            //                         testRequestParam._showRow(data);
-                            //                     })
-                            //                 }
-                            //             }
-                            //         });
-                            //         $('#sendRequest').on('click', function () {
-                            //             var domainName = $('[name=testDomainId]').val(), requestType = $('[name=testRequestType]').val(), requestUrl = $('[name=testRequestUrl]').val();
-                            //             if(!domainName || $.trim(domainName) == ''){
-                            //                 var options = {
-                            //                     content: '服务地址不能为空！'
-                            //                 };
-                            //                 api.ui.dialog(options).open();
-                            //                 return;
-                            //             }
-                            //             if(!requestUrl || $.trim(requestUrl) == ''){
-                            //                 var options = {
-                            //                     content: '接口地址不能为空！'
-                            //                 };
-                            //                 api.ui.dialog(options).open();
-                            //                 return;
-                            //             }
-                            //             var progress = api.ui.progress({});
-                            //             var requestMockTemplate = api.util.buildMockTemplate(testRequestParam.toData());
-                            //             var headMockTemplate = api.util.buildMockTemplate(testHeadParam.toData());
-                            //             var requestData = Mock.mock(requestMockTemplate), headData = Mock.mock(headMockTemplate);
-                            //             var requestDataStr = JSON.stringify(requestData), headDataStr = JSON.stringify(headData);
-                            //             $('#requestJson').JSONView(requestDataStr);
-                            //             $('#requestJsonArea').val(requestDataStr);
-                            //
-                            //             var requestBody = {};
-                            //             requestBody['domainName'] = domainName;
-                            //             requestBody['requestType'] = requestType;
-                            //             requestBody['requestUrl'] = requestUrl;
-                            //             requestBody['requestHeadData'] = headDataStr;
-                            //             requestBody['requestData'] = requestDataStr;
-                            //             $.ajax({
-                            //                 url: api.util.getUrl('apimanager/tester/send'),
-                            //                 type: 'POST',
-                            //                 contentType: 'application/json;charset=UTF-8', //解决415问题
-                            //                 data: JSON.stringify(requestBody),//解决400问题
-                            //                 dataType: 'json',
-                            //                 success: function (result) {
-                            //                     progress._hide();
-                            //                     var code = result.code;
-                            //                     if(code == '-1'){
-                            //                         $('#responseJsonArea').val(JSON.stringify(result));
-                            //                         $('#responseJson').JSONView(result);
-                            //                     } else {
-                            //                         var data = result.data, dataStr = JSON.stringify(data)
-                            //                         $('#responseJsonArea').val(dataStr);
-                            //                         $('#responseJson').JSONView(dataStr);
-                            //                     }
-                            //                     $('#requestJsonFormatLink')[0].scrollIntoView();
-                            //                 }
-                            //             });
-                            //         });
-                            //         $('#requestJsonFormatLink').on('click', function () {
-                            //             $('#requestJson').css('display', '');
-                            //             $('#requestJsonArea').css('display', 'none');
-                            //         });
-                            //         $('#requestJsonRowLink').on('click', function () {
-                            //             $('#requestJson').css('display', 'none');
-                            //             $('#requestJsonArea').css('display', '');
-                            //         });
-                            //         $('#responseJsonFormatLink').on('click', function () {
-                            //             $('#responseJson').css('display', '');
-                            //             $('#responseJsonArea').css('display', 'none');
-                            //         });
-                            //         $('#responseJsonRowLink').on('click', function () {
-                            //             $('#responseJson').css('display', 'none');
-                            //             $('#responseJsonArea').css('display', '');
-                            //         });
-                            //     }
-                            // }
+                            , {
+                                title: '接口测试',
+                                width: '10%',
+                                lazy: true,
+                                href: api.util.getUrl('html/action/actionInnerTest.html'),
+                                loaded: function () {
+                                    var testHeadParam, testRequestParam;
+                                    var data = actionResult['data'];
+                                    api.util.loadScript(api.util.getUrl('html/action/js/actionTest.js'), function () {
+                                        var requestTypeSelect = api.ui.chosenSelect(requestTypeOptions);
+                                        testHeadParam = api.ui.param(testHeadOptions);
+                                        testRequestParam = api.ui.param(testRequestOptions);
+                                        if (data) {
+                                            requestTypeSelect.val(data['requestType']);
+                                            $('[name=testRequestUrl]').val(data['requestUrl']);
+                                            $.ajax({
+                                                url: api.util.getUrl('apimanager/domain/findById'),
+                                                type: 'GET',
+                                                data: {id: data['domainId']},
+                                                dataType: 'json',
+                                                success: function (result) {
+                                                    var resultData = result.data;
+                                                    var domainEditSelect = api.ui.editSelect(domainEditOptions);
+                                                    domainEditSelect._load({domainName: resultData.domainName.split('.')[0]});
+                                                    domainEditSelect._val(resultData.id);
+                                                }
+                                            })
+                                            if (data['requestHeadDefinition']) {
+                                                var rowData = JSON.parse(data['requestHeadDefinition']);
+                                                $.each(rowData, function (index, data) {
+                                                    testHeadParam._showRow(data);
+                                                })
+                                            }
+                                            if (data['requestDefinition']) {
+                                                var rowData = JSON.parse(data['requestDefinition']);
+                                                $.each(rowData, function (index, data) {
+                                                    testRequestParam._showRow(data);
+                                                })
+                                            }
+                                        }
+                                    });
+                                    $('#sendRequest').on('click', function () {
+                                        var domainName = $('[name=testDomainId]').val(), requestType = $('[name=testRequestType]').val(), requestUrl = $('[name=testRequestUrl]').val();
+                                        if(!domainName || $.trim(domainName) == ''){
+                                            var options = {
+                                                content: '服务地址不能为空！'
+                                            };
+                                            api.ui.dialog(options).open();
+                                            return;
+                                        }
+                                        if(!requestUrl || $.trim(requestUrl) == ''){
+                                            var options = {
+                                                content: '接口地址不能为空！'
+                                            };
+                                            api.ui.dialog(options).open();
+                                            return;
+                                        }
+                                        var progress = api.ui.progress({});
+                                        var requestMockTemplate = api.util.buildMockTemplate(testRequestParam.toData());
+                                        var headMockTemplate = api.util.buildMockTemplate(testHeadParam.toData());
+                                        var requestData = Mock.mock(requestMockTemplate), headData = Mock.mock(headMockTemplate);
+                                        var requestDataStr = JSON.stringify(requestData), headDataStr = JSON.stringify(headData);
+                                        $('#requestJson').JSONView(requestDataStr);
+                                        $('#requestJsonArea').val(requestDataStr);
+
+                                        var requestBody = {};
+                                        requestBody['domainName'] = domainName;
+                                        requestBody['requestType'] = requestType;
+                                        requestBody['requestUrl'] = requestUrl;
+                                        requestBody['requestHeadData'] = headDataStr;
+                                        requestBody['requestData'] = requestDataStr;
+                                        $.ajax({
+                                            url: api.util.getUrl('apimanager/tester/send'),
+                                            type: 'POST',
+                                            contentType: 'application/json;charset=UTF-8', //解决415问题
+                                            data: JSON.stringify(requestBody),//解决400问题
+                                            dataType: 'json',
+                                            success: function (result) {
+                                                progress._hide();
+                                                var code = result.code;
+                                                if(code == '-1'){
+                                                    $('#responseJsonArea').val(JSON.stringify(result));
+                                                    $('#responseJson').JSONView(result);
+                                                } else {
+                                                    var data = result.data, dataStr = JSON.stringify(data)
+                                                    $('#responseJsonArea').val(dataStr);
+                                                    $('#responseJson').JSONView(dataStr);
+                                                }
+                                                $('#requestJsonFormatLink')[0].scrollIntoView();
+                                            }
+                                        });
+                                    });
+                                    $('#requestJsonFormatLink').on('click', function () {
+                                        $('#requestJson').css('display', '');
+                                        $('#requestJsonArea').css('display', 'none');
+                                    });
+                                    $('#requestJsonRowLink').on('click', function () {
+                                        $('#requestJson').css('display', 'none');
+                                        $('#requestJsonArea').css('display', '');
+                                    });
+                                    $('#responseJsonFormatLink').on('click', function () {
+                                        $('#responseJson').css('display', '');
+                                        $('#responseJsonArea').css('display', 'none');
+                                    });
+                                    $('#responseJsonRowLink').on('click', function () {
+                                        $('#responseJson').css('display', 'none');
+                                        $('#responseJsonArea').css('display', '');
+                                    });
+                                }
+                            }
                             ]
                         }
                         var actionTabConfObject = api.ui.tabs(actionTabConf);
