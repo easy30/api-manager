@@ -54,7 +54,7 @@ export default new Router({
             children: [
 
                 {
-                    path: "doc/:deptId",
+                    path: "doc/:depId",
                     component: Doc,
                     children: [
                         {
@@ -64,7 +64,7 @@ export default new Router({
                         }]
 
                 }, {
-                    path: "api/:deptId",
+                    path: "api/:depId",
                     component: API,
                     children: [{
                         path: 'actions',

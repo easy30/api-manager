@@ -81,13 +81,13 @@
         mounted() {
 
             //alert(this.$route.path);
-            var deptId = this.utils.notNull(this.$route.params.deptId);
+            var depId = this.utils.notNull(this.$route.params.depId);
             var projectId = this.utils.notNull(this.$route.query.projectId);
             var moduleId = this.utils.notNull(this.$route.query.moduleId);
             var pageIndex = this.utils.notNull(this.$route.query.pageIndex, 1);
             var pageSize = this.utils.notNull(this.$route.query.pageSize, 20);
             //pageIndex=1&pageSize=8&depId=&projectId=&moduleId=170&createUser=
-            var url = `/apimanager/action/findPage?pageIndex=${pageIndex}&pageSize=${pageSize}&deptId=${deptId}&projectId=${projectId}&moduleId=${moduleId}`;
+            var url = `/apimanager/action/findPage?pageIndex=${pageIndex}&pageSize=${pageSize}&depId=${depId}&projectId=${projectId}&moduleId=${moduleId}`;
             console.log(url);
             this.axios.get(url).then((response) => {
                 var json = response.data;

@@ -33,6 +33,11 @@ public class AmAction extends BaseEntity implements Serializable {
      */
     @FiledDesc(desc = "所属模块")
     private Integer moduleId;
+
+    private Integer projectId;
+
+    private Integer depId;
+
     /**
      * 接口请求类型
      */
@@ -135,6 +140,22 @@ public class AmAction extends BaseEntity implements Serializable {
 
     public void setModuleId(Integer moduleId) {
         this.moduleId = moduleId;
+    }
+
+    public Integer getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
+    }
+
+    public Integer getDepId() {
+        return depId;
+    }
+
+    public void setDepId(Integer depId) {
+        this.depId = depId;
     }
 
     public Integer getRequestType() {
@@ -281,6 +302,8 @@ public class AmAction extends BaseEntity implements Serializable {
         return Objects.equals(actionName, amAction.actionName) &&
                 Objects.equals(actionDesc, amAction.actionDesc) &&
                 Objects.equals(moduleId, amAction.moduleId) &&
+                Objects.equals(projectId, amAction.projectId) &&
+                Objects.equals(depId, amAction.depId) &&
                 Objects.equals(requestType, amAction.requestType) &&
                 Objects.equals(domainId, amAction.domainId) &&
                 Objects.equals(requestUrl, amAction.requestUrl);
@@ -289,7 +312,7 @@ public class AmAction extends BaseEntity implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(actionName, actionDesc, moduleId, requestType, domainId, requestUrl);
+        return Objects.hash(actionName, actionDesc, moduleId,projectId, depId,requestType, domainId, requestUrl);
     }
 
 

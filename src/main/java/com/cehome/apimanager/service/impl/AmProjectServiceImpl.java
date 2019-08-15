@@ -49,6 +49,7 @@ public class AmProjectServiceImpl implements IAmProjectService {
 		dto.setCreateTime(new Date());
 		dto.setUpdateTime(new Date());
 		dto.setCreateUser(dto.getOperateUser());
+		dto.setUpdateUser(dto.getOperateUser());
 		projectDao.add(dto);
 		ThreadUtils.execute(new ThreadUtils.Task() {
 			@Override

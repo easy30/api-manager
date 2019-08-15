@@ -15,10 +15,10 @@
    <!-- <router-link to="/">Go to Home</router-link> &nbsp;
     <router-link to="/json">Go to Json</router-link> &nbsp;
     <router-link to="/about">Go to About</router-link>-->
-      <span >{{$t('hello')}}</span>
+     <!-- <span >{{$t('hello')}}</span>
 
       <span v-t="'id'"></span>vt <span v-t="'add'"></span>
-      --------
+      -------- -->
     <router-view></router-view>
 
   </div>

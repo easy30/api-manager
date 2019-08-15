@@ -65,6 +65,7 @@
       function isArrayField(type) {
           return type >= 5;
       }
+	  
 
       export default {
         treeNodeEach,

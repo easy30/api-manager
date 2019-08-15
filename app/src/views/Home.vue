@@ -1,28 +1,72 @@
 <template>
 
-      <el-container>
+	<el-container>
 
-          <el-main>
-              <el-table
+		<el-main>
+			<table class="c-table c-big">
+				<tr>
+					<th v-t="'id'"></th>
+					<th v-t="'name'"></th>
+					<th v-t="'description'"></th>
+					<th v-t="'editor'"></th>
+					<th v-t="'lastmodified'"></th>
+					<th v-t="'operation'"></th>
+				</tr>
+				<template v-for="(row,index) in rows">
+					<tr v-if="row.edit" :key="index">
+						<td>{{row.id}}</td>
+						<td>
+							<el-input class="el-big" v-model="row.depName"></el-input>
+						</td>
+						<td>
+							<el-input class="el-big" v-model="row.depDesc"></el-input>
+						</td>
+						<td>{{row.updateUserName}}</td>
+						<td>{{row.updateTime}}</td>
+						<td>
+							<el-button @click="save(index)" size="small" v-t="'save'"></el-button>
+							<el-button @click="cancel(index)" size="small" v-t="'cancel'"></el-button>
+						</td>
 
-                      :data="tableData"
-                      @row-click="rowClick"
-                      border
-                      style="width: 100%">
+					</tr>
+					<tr v-else :key="index">
 
-                  <el-table-column
-                          prop="depName"
-                          label="名称"
-                          width="180">
-                  </el-table-column>
-                  <el-table-column
-                          prop="depDesc"
-                          label="说明">
-                  </el-table-column>
-              </el-table>
+						<td @click="rowClick(index)" style="cursor: pointer;">{{row.id}}</td>
+						<td @click="rowClick(index)" style="cursor: pointer;">{{row.depName}}</td>
+						<td @click="rowClick(index)" style="cursor: pointer;">{{row.depDesc}}</td>
+						<td @click="rowClick(index)" style="cursor: pointer;">{{row.updateUserName}}</td>
+						<td @click="rowClick(index)" style="cursor: pointer;">{{row.updateTime}}</td>
+						<td>
+							<el-button @click="edit(index)" size="small" v-t="'edit'"></el-button>
+							<el-button @click="del(index)" size="small" v-t="'delete'"></el-button>
+						</td>
+					</tr>
+				</template>
 
-          </el-main>
-      </el-container>
+
+			</table>
+			<!-- <el-table :data="rows" @row-click="rowClick" style="width: 100%">
+				<el-table-column prop="id" :label="$t('id')">
+				</el-table-column>
+				<el-table-column prop="depName" :label="$t('name')">
+				</el-table-column>
+				<el-table-column prop="depDesc" :label="$t('description')">
+				</el-table-column>
+				<el-table-column :label="$t('operation')">
+					<template slot-scope="scope">
+						<el-button @click="handleClick(scope.row)" type="text" size="small" v-t="'edit'"></el-button>
+						<el-button @click="handleClick(scope.row)" type="text" size="small" v-t="'delete'"></el-button>
+					</template>
+				</el-table-column>
+			</el-table> -->
+			<el-row class="c-m-10">
+				<el-col :span="24">
+					<el-button @click="add()" v-t="'add'"></el-button>
+				</el-col>
+			</el-row>
+
+		</el-main>
+	</el-container>
 
 
 
@@ -31,51 +75,97 @@
 </template>
 
 <script>
-// @ is an alias to /src
-//import HelloWorld from '@/components/HelloWorld.vue'
-
-export default {
-  name: 'home',
-    data () {
-        return {
-            tableData: [],
-            info: {}
-        }
-    },
-    mounted () {
-    /*  this.axios.post("/apimanager/user/login?account=13911610242&password=123456")
-          .then((response)=>{
-              console.log("res="+response.data);
-
-
-          }).catch((response)=>{
-          console.log(response)
-      })*/
+	// @ is an alias to /src
+	//import HelloWorld from '@/components/HelloWorld.vue'
+	var baseUrl = "/apimanager/department";
+	export default {
+		name: 'home',
+		data() {
+			return {
+				rows: [],
+				info: {}
+			}
+		},
+		mounted() {
+			/*  this.axios.post("/apimanager/user/login?account=13911610242&password=123456")
+			      .then((response)=>{
+			          console.log("res="+response.data);
 
 
-        this.axios.get('/apimanager/department/list').then((response)=>{
-            var json=response.data;
-            this.tableData=json.data;
+			      }).catch((response)=>{
+			      console.log(response)
+			  })*/
 
-            //console.log("res="+response.data.data.pageIndex);
-            this.info=response.data;
 
-        }).catch((response)=>{
-            console.log(response)
-        })
+			this.axios.get(baseUrl + "/list").then((response) => {
+				var json = response.data;
+				this.rows = json.data;
+				this.info = response.data;
 
-    },
-    methods: {
-            rowClick(row, event, column) {
-                console.log(row, event, column);
-                //this.router.go()
-               // this.$router.push({path: '/main/api', params: {deptId: row.id}});
-                this.$router.push({path: `/main/api/${row.id}` });//, params: {deptId: row.id}});
+			}).catch((response) => {
+				console.log(response)
+			})
 
-         }
-  },
-  components: {
+		},
+		methods: {
+			edit(index) {
+				console.log(index);
+				this.rows[index].edit = true
+				this.$forceUpdate();
+				//console.log(this.rows[index])
+			},
+			del(index) {
+				if (confirm(this.$t("deleteConfirm"))) {
+				    var thisRows=this.rows;
+					var row = thisRows[index];
+					this.axios.$post(baseUrl + "/delete", { id: row.id },
+						function (response) {
+                            thisRows.splice(index, 1);
+					} ) ;
 
-  }
-}
+				}
+			},
+			save(index) {
+				var row = this.rows[index];
+				var url = baseUrl + (row.id ? "/update" : "/add");
+				console.log(row);
+				var self=this;
+				this.axios.$post(url,row, function(response){
+				    row.edit = false;
+                    self.$forceUpdate();
+				});
+
+
+			},
+			cancel(index) {
+				var row = this.rows[index];
+				if (row.id) {
+					row.edit = false;
+				} else {
+					this.rows.pop();
+
+				}
+
+				this.$forceUpdate();
+			},
+			add() {
+				this.rows.push({
+					edit: true
+				});
+			},
+			rowClick(index) {
+				//console.log(row, event, column);
+				//this.router.go()
+				// this.$router.push({path: '/main/api', params: {depId: row.id}});
+				var row = this.rows[index];
+				this.$router.push({
+					path: `/main/api/${row.id}`
+				}); //, params: {depId: row.id}});
+
+			}
+		},
+		components: {
+
+		}
+	}
 </script>

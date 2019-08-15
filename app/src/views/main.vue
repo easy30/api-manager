@@ -2,7 +2,6 @@
 
     <el-container style=" border: 1px solid #eee">
         <el-header>
-
             <router-link to="/">Home</router-link> &nbsp;
             <router-link :to="{path: '/main/api', query: {id: this.$route.query.id}}">API</router-link> &nbsp;
             <router-link :to="{path: '/main/doc', query: {id: this.$route.query.id}}">Doc</router-link> &nbsp;

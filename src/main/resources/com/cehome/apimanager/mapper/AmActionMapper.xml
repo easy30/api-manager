@@ -4,6 +4,8 @@
 	<resultMap id="BaseResultMap" type="com.cehome.apimanager.model.po.AmAction">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="module_id" property="moduleId" jdbcType="INTEGER" />
+		<result column="project_id" property="projectId" jdbcType="INTEGER" />
+		<result column="dep_id" property="depId" jdbcType="INTEGER" />
 		<result column="action_name" property="actionName" jdbcType="VARCHAR" />
 		<result column="action_desc" property="actionDesc" jdbcType="VARCHAR" />
 		<result column="request_type" property="requestType" jdbcType="VARCHAR" />
@@ -26,7 +28,7 @@
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		id,module_id,action_name,action_desc,request_type,domain_id,request_url,status,action_level,test_group_id,request_head_definition,
+		id,module_id,project_id,dep_id,action_name,action_desc,request_type,domain_id,request_url,status,action_level,test_group_id,request_head_definition,
 		request_definition,response_definition,response_fail_definition,request_head_mock,request_mock,response_mock,create_user,
 		create_time,update_user,update_time
 	</sql>
@@ -58,6 +60,14 @@
 		AND
 			module_id = #{moduleId}
 		</if>
+		<if test="projectId != null">
+			AND
+			project_id = #{projectId}
+		</if>
+		<if test="depId != null">
+			AND
+			dep_id = #{depId}
+		</if>
 		<if test="createUser != null">
 		AND
 			create_user = #{createUser}
@@ -82,6 +92,14 @@
 		AND
 			module_id = #{moduleId}
 		</if>
+		<if test="projectId != null">
+			AND
+			project_id = #{projectId}
+		</if>
+		<if test="depId != null">
+			AND
+			dep_id = #{depId}
+		</if>
 		<if test="createUser != null">
 		AND
 			create_user = #{createUser}
@@ -101,6 +119,14 @@
 		<if test="moduleId != null">
 		AND
 			module_id = #{moduleId}
+		</if>
+		<if test="projectId != null">
+			AND
+			project_id = #{projectId}
+		</if>
+		<if test="depId != null">
+			AND
+			dep_id = #{depId}
 		</if>
 		<if test="createUser != null">
 		AND
@@ -148,6 +174,12 @@
 			</if>
 			<if test="moduleId != null">
 			module_id,
+			</if>
+			<if test="projectId != null">
+				project_id,
+			</if>
+			<if test="depId != null">
+				dep_id,
 			</if>
 			<if test="actionName != null">
 			action_name,
@@ -214,6 +246,12 @@
 			<if test="moduleId != null">
 			#{moduleId,jdbcType=INTEGER},
 			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=INTEGER},
+			</if>
+			<if test="depId != null">
+				#{depId,jdbcType=INTEGER},
+			</if>
 			<if test="actionName != null">
 			#{actionName,jdbcType=VARCHAR},
 			</if>
@@ -279,6 +317,12 @@
 		<set>
 			<if test="moduleId != null">
 			module_id = #{moduleId,jdbcType=INTEGER},
+			</if>
+			<if test="projectId != null">
+				project_id = #{projectId,jdbcType=INTEGER},
+			</if>
+			<if test="depId != null">
+				dep_id = #{depId,jdbcType=INTEGER},
 			</if>
 			<if test="actionName != null">
 			action_name = #{actionName,jdbcType=VARCHAR},

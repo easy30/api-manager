@@ -53,6 +53,7 @@ public class AmDepartmentServiceImpl implements IAmDepartmentService {
 		entity.setCreateTime(new Date());
 		entity.setUpdateTime(new Date());
 		entity.setCreateUser(dto.getOperateUser());
+		entity.setUpdateUser(dto.getOperateUser());
 		departmentDao.add(entity);
 
 		ThreadUtils.execute(new ThreadUtils.Task() {

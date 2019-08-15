@@ -14,6 +14,10 @@ table.c-table td, table.c-table th {
     padding: 5px;
     text-align: left;
 }
+ 
+table.c-big td, table.c-big th{
+	 padding: 12px 1px;
+}
 
 table.c-table th {
      background-color: lightgray;
@@ -34,9 +38,14 @@ table.c-border {
  }
 
 
-.c-margin {
+.c-margin , .c-m-5 {
     margin: 5px;
 }
+.c-m-10 {
+    margin: 10px;
+}
+
+
 .c-ml-5{
     margin-left: 5px;
 }
@@ -46,12 +55,14 @@ table.c-border {
  .c-ml-20{
      margin-left: 20px;
  }
+ 
 
 
- .el-button {
+
+/* .el-button {
      padding: 5px 10px;
      font-size: 12px;
-   /*  border-radius: 3px;*/
+   
  }
-
+ */
 
