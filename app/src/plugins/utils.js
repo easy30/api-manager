@@ -60,18 +60,41 @@
       }
 
       function isObjectField(type) {
-          return type >= 4;
+          return type == 4;
       }
       function isArrayField(type) {
           return type >= 5;
       }
-	  
+
+      function compare(prop){
+          return function(o1, o2){
+              var a, b;
+               if(prop) {
+                   a = o1[prop];
+                   b = o2[prop];
+               }else{
+                   a=o1;
+                   b=o2;
+               }
+                  if (a == b) {
+                      return 0;
+                  }else {
+                 
+                      return a < b ? -1 : 1;
+                  }
+                  
+              
+          }
+      }
+
+
 
       export default {
         treeNodeEach,
         notNull,
           clone,
           isArrayField,
+          compare,
           isObjectField
     }
 

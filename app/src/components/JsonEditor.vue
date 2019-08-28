@@ -5,10 +5,8 @@
                 <el-row>
                     <el-col :span="2"  >
                         <span style="min-width: 50px">
-                            <el-button  type="danger" @click="deleteField(index)">x</el-button>
-                            <el-button  type="primary"  v-if="isObject(node.type)" @click="insertChild(index)">+</el-button>
-
-
+                            <el-button size="mini" type="danger" @click="deleteField(index)">x</el-button>
+                            <el-button size="mini" type="primary"  v-if="isObjectOrArray(node.type)" @click="insertChild(index)">+</el-button>
                         </span>
 
                     </el-col>
@@ -17,7 +15,7 @@
 
 
                         <input :id="node.id" :style="{  paddingLeft: deep + 'px', width:'100%',  boxSizing: 'border-box' }"
-                                v-model="node.name">
+                                v-model="node.name" :readonly="node.cat==1">
 
                     </el-col>
 
@@ -31,9 +29,9 @@
 
                 </el-row>
 
-            <JsonEditor :nodes="node.child" :deep="deep+20">
+            <JsonEditor :nodes="node.child" :defValues="defValues" :deep="deep+20" :addChild="addChild">
                 <template v-slot="sd">
-                    <slot :node="sd.node" :deep="sd.deep"></slot>
+                    <slot :node="sd.node" :deep="sd.deep" :index="sd.index"  :nodes="sd.nodes"></slot>
                 </template>
             </JsonEditor>
 
@@ -46,22 +44,29 @@
         name: 'JsonEditor',
         methods: {
             deleteField: function (index) {
-                // alert(index);
+                var isItem=this.nodes[index].cat && this.nodes[index].cat==1;
                 this.nodes.splice(index, 1);
+                if(isItem){
+                    var i=0;
+                    this.nodes.map(item=>{item.name="array["+(i++)+"]"});
+                }
+                this.$forceUpdate();
             },
             insertChild: function (index) {
-                //console.log("insertChild+"+this.utils.clone);
+
                 var node = this.nodes[index];
+                console.log( node);
                 var values=this.utils.clone(this.defValues);
+
                 if(this.addChild){
                     this.addChild(node,values);
                 }else {
                     if (node.child == null) node.child = [];
                     node.child.push(values);
                 }
-                // console.log(this.nodes.child[0]);
+                this.$forceUpdate();
             },
-            isObject: function (type) {
+            isObjectOrArray: function (type) {
                 return type >= 4;
             }
         },

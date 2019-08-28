@@ -49,7 +49,7 @@ public class RedirectFilter implements Filter {
         conn.setDoOutput(true);     //需要输出
         conn.setDoInput(true);      //需要输入
         conn.setUseCaches(false);   //不允许缓存
-        System.out.println(request.getMethod());
+        //System.out.println(request.getMethod());
         conn.setRequestMethod(request.getMethod());      //设置POST方式连接
         conn.setConnectTimeout(timeout); //30秒连接超时
         conn.setReadTimeout(timeout);    //30秒读取超时

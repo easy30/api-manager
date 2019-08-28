@@ -99,6 +99,7 @@ public class AmObjectFieldDescController extends BaseController {
         try {
             AmUser loginUser = WebUtils.getLoginUser(session);
             dto.setCreateUser(loginUser.getId());
+            dto.setUpdateUser(loginUser.getId());
             objectFieldDescService.createObj(dto);
             return toSuccess();
         } catch (Exception e) {

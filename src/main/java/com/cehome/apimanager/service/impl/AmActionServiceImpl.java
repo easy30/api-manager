@@ -13,10 +13,7 @@ import com.cehome.apimanager.model.po.AmAction;
 import com.cehome.apimanager.model.po.AmDomain;
 import com.cehome.apimanager.pdf.PdfDocumentGenerator;
 import com.cehome.apimanager.pdf.bean.ActionInfoVo;
-import com.cehome.apimanager.service.IAmActionHistoryService;
-import com.cehome.apimanager.service.IAmActionService;
-import com.cehome.apimanager.service.IAmDomainService;
-import com.cehome.apimanager.service.IAmOperateLogService;
+import com.cehome.apimanager.service.*;
 import com.cehome.apimanager.utils.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
@@ -54,6 +51,9 @@ public class AmActionServiceImpl implements IAmActionService {
 
     @Autowired
     private IAmDomainService domainService;
+
+    @Autowired
+    private IAmModuleService moduleService;
 
     @Override
     public void add(AmActionReqDto dto) {
@@ -197,6 +197,11 @@ public class AmActionServiceImpl implements IAmActionService {
             }
             if(action.getUpdateUser() != null){
                 actionResDto.setUpdateUserName(userDicMap.get(action.getUpdateUser() + ""));
+            }
+
+            AmModuleResDto moduleResDto=moduleService.findById(action.getModuleId());
+            if(moduleResDto!=null) {
+                actionResDto.setModuleName(moduleResDto.getModuleName());
             }
             result.add(actionResDto);
         }

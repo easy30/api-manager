@@ -9,36 +9,32 @@ import lang from './lang.js'
 import './assets/style.css'
 import './assets/el-style.css'
 import Page from './components/page.vue'
+import DropDown from './components/drop-down.vue'
 //import './assets/bootstrap/css/bootstrap.css'
 // 引入axios，并加到原型链中
-import axios from 'axios'
+import {axios,ajax} from './ajax'
 import VueAxios from 'vue-axios'
-import qs from 'qs'
-
 //axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 //axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-axios.$post=function(url,data,succesCallback){
-    console.log(url);
-	this.post(url,  qs.stringify(data))
-	.then( (response)=>{succesCallback(response);})
-        .catch((response) => {
-		alert(response);
-	})
+
+function  showError(error){
+    vue.$message({
+        showClose: true,
+        duration: 15000,
+        message: (error.code?error.code+" ":"")+error.message,
+        type: 'warning'
+    });
+
 }
-axios.$get=function(url,succesCallback){
-    console.log(url);
-    this.get(url)
-        .then( (response)=>{succesCallback(response);})
-        .catch((response) => {
-            alert(response);
-        })
-}
+
+ajax.error(showError);
 
 
 
 Vue.use(VueAxios,axios);
 Vue.use(VueI18n) ;
 Vue.component("Page",Page);
+Vue.component("DropDown",DropDown);
 const i18n = new VueI18n({
     locale: 'cn',    // 语言标识, 通过切换locale的值来实现语言切换,this.$i18n.locale
     messages:  lang
@@ -47,6 +43,7 @@ const i18n = new VueI18n({
 Vue.config.productionTip = false
 Vue.prototype.utils = utils;
 Vue.prototype.$g = global;
+Vue.prototype.ajax=ajax;
 Vue.prototype.$tt = function (args) {
 
     var s = "";
@@ -59,8 +56,9 @@ Vue.prototype.$tt = function (args) {
 };
 
 
-new Vue({
+var vue=new Vue({
     i18n,
   router,
   render: h => h(App)
-}).$mount('#app')
+});
+vue.$mount('#app');

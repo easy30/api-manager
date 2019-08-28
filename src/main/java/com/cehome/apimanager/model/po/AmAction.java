@@ -70,6 +70,10 @@ public class AmAction extends BaseEntity implements Serializable {
      */
     private String requestHeadDefinition;
     /**
+     * url query参数定义
+     */
+    private String queryDefinition;
+    /**
      * 接口请求参数定义
      */
     private String requestDefinition;
@@ -109,6 +113,8 @@ public class AmAction extends BaseEntity implements Serializable {
      * 修改时间
      */
     private Date updateTime;
+
+    private Integer contentType;
 
     public Integer getId() {
         return id;
@@ -206,6 +212,14 @@ public class AmAction extends BaseEntity implements Serializable {
         this.requestHeadDefinition = requestHeadDefinition;
     }
 
+    public String getQueryDefinition() {
+        return queryDefinition;
+    }
+
+    public void setQueryDefinition(String queryDefinition) {
+        this.queryDefinition = queryDefinition;
+    }
+
     public String getRequestDefinition() {
         return requestDefinition;
     }
@@ -292,6 +306,14 @@ public class AmAction extends BaseEntity implements Serializable {
 
     public void setResponseFailDefinition(String responseFailDefinition) {
         this.responseFailDefinition = responseFailDefinition;
+    }
+
+    public Integer getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(Integer contentType) {
+        this.contentType = contentType;
     }
 
     @Override

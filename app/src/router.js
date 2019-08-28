@@ -5,7 +5,7 @@ import Json from './views/temp/Json.vue'
 import Module from './views/main/doc/module.vue'
 import Doc from './views/main/doc/doc.vue'
 import Main from './views/main.vue'
-import API from "./views/main/api/api.vue"
+import API from "./views/main/api.vue"
 import Actions from "./views/main/api/actions.vue"
 import action from "./views/main/api/action.vue"
 import views from './views/views.vue'

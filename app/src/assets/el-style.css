@@ -16,6 +16,12 @@
     padding: 0 15px;
     border-radius: 0px;
 }
+.el-big > .el-input__inner  {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 15px;
+    border-radius: 0px;
+}
 
 
 .el-input__icon {
@@ -24,8 +30,20 @@
 }
 
 
+
 .el-button {
 	padding: 5px 10px;
 	font-size: 12px;
     border-radius: 0px;
 }
+
+.el-button--mini, .el-button--mini.is-round {
+    padding: 3px 5px;
+}
+
+
+.c-el-table > .el-row {
+    background-color: lightgray;
+    margin-bottom: 5px;
+}
+

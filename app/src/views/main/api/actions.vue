@@ -18,8 +18,7 @@
              </el-table>-->
             <el-row>
                 <el-col :span="24" class="c-margin">
-                    <Page :page-size="data.pageSize" :page-index="data.pageIndex"
-                          :total-page="data.totalPage"  :total-record="data.totalRecord" ></Page>
+                    <Page :data="data" ></Page>
                 </el-col>
             </el-row>
             <table class="c-table">
@@ -43,17 +42,22 @@
                         <td>{{item.updateUserName}}</td>
                         <td>{{new Date(item.updateTime).toLocaleString()}}</td>
                         <td>
-                            <el-button v-t="'edit'" @click="edit(item)"></el-button>
+                            <el-button v-t="'edit'" type="primary" @click="edit(item)"></el-button>
+                            <el-button v-t="'copy'" type="primary" @click="copy(item)"></el-button>
+                            <el-button v-t="'delete'" type="danger" @click="actionDelete(item)"></el-button>
                         </td>
 
                     </tr>
                 </template>
                 </tbody>
             </table>
-            <el-row>
-                <el-col :span="24" class="c-margin">
-                    <Page :page-size="data.pageSize" :page-index="data.pageIndex"
-                    :total-page="data.totalPage"  :total-record="data.totalRecord" ></Page>
+            <el-row class="c-margin">
+                <el-col :span="20" >
+                    <Page :data="data" ></Page>
+                </el-col>
+                <el-col :span="4">
+                    <el-button v-t="'add'" @click="add()"></el-button>
+
                 </el-col>
             </el-row>
 
@@ -74,39 +78,76 @@
         components: {},
         data() {
             return {
+                depId : this.utils.notNull(this.$route.params.depId),
                 data: {},
                 actions: []
             }
         },
         mounted() {
 
-            //alert(this.$route.path);
-            var depId = this.utils.notNull(this.$route.params.depId);
+            console.log(this.$route.path);
+
             var projectId = this.utils.notNull(this.$route.query.projectId);
             var moduleId = this.utils.notNull(this.$route.query.moduleId);
             var pageIndex = this.utils.notNull(this.$route.query.pageIndex, 1);
             var pageSize = this.utils.notNull(this.$route.query.pageSize, 20);
             //pageIndex=1&pageSize=8&depId=&projectId=&moduleId=170&createUser=
-            var url = `/apimanager/action/findPage?pageIndex=${pageIndex}&pageSize=${pageSize}&depId=${depId}&projectId=${projectId}&moduleId=${moduleId}`;
-            console.log(url);
-            this.axios.get(url).then((response) => {
+            var url = `/apimanager/action/findPage?pageIndex=${pageIndex}&pageSize=${pageSize}&depId=${this.depId}&projectId=${projectId}&moduleId=${moduleId}`;
+
+
+            this.ajax.get(url,(response) => {
+
                 var json = response.data;
                 this.data = json.data;
                 this.actions = this.data.datas;
+                this.$forceUpdate();
 
 
-            }).catch((response) => {
-                console.log(response)
             })
 
         },
 
         methods: {
-            edit(action) {
 
+            add(){
+
+                var actionsPath = `/main/api/${this.depId}/action`;
+                var q={};
+                if(this.$route.query.projectId) q.projectId=this.$route.query.projectId;
+                if(this.$route.query.moduleId) q.moduleId=this.$route.query.moduleId;
+
+                this.$router.push({
+                    path: actionsPath,
+                    query: q
+                });
 
             },
-            convertHttpMethod(type) {
+
+            edit(action) {
+                var actionsPath = `/main/api/${this.depId}/action`;
+
+                this.$router.push({
+                    path: actionsPath,
+                    query: { id :action.id,depId:this.depId}
+                });
+
+            },
+            copy(action){
+                var actionsPath = `/main/api/${this.depId}/action`;
+
+                this.$router.push({
+                    path: actionsPath,
+                    query: { copy:true,id:action.id,depId:this.depId}
+                });
+            },
+            actionDelete(action){
+                if(!confirm(this.$t("deleteConfirm"))) return;
+                var url = "/apimanager/action/delete";
+                this.ajax.postForm(url,{id:action.id},response=>{
+                    this.$router.go(0);
+                });
+            },
+          /*  convertHttpMethod(type) {
                 if (type == 1) return "GET";
                 if (type == 2) return "POST";
             },
@@ -137,7 +178,7 @@
                 //var action=this.actions[index];
                 document.getElementById("action_" + index).scrollIntoView();
                 return false;
-            }
+            }*/
         }
     };
 </script>

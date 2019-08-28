@@ -5,6 +5,7 @@
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="module_id" property="moduleId" jdbcType="INTEGER" />
 		<result column="project_id" property="projectId" jdbcType="INTEGER" />
+		<result column="content_type" property="contentType" jdbcType="INTEGER" />
 		<result column="dep_id" property="depId" jdbcType="INTEGER" />
 		<result column="action_name" property="actionName" jdbcType="VARCHAR" />
 		<result column="action_desc" property="actionDesc" jdbcType="VARCHAR" />
@@ -15,6 +16,7 @@
 		<result column="action_level" property="actionLevel" jdbcType="INTEGER" />
 		<result column="test_group_id" property="testGroupId" jdbcType="INTEGER" />
 		<result column="request_head_definition" property="requestHeadDefinition" jdbcType="LONGVARCHAR" />
+		<result column="query_definition" property="queryDefinition" jdbcType="LONGVARCHAR" />
 		<result column="request_definition" property="requestDefinition" jdbcType="LONGVARCHAR" />
 		<result column="response_definition" property="responseDefinition" jdbcType="LONGVARCHAR" />
 		<result column="response_fail_definition" property="responseFailDefinition" jdbcType="LONGVARCHAR" />
@@ -28,8 +30,8 @@
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		id,module_id,project_id,dep_id,action_name,action_desc,request_type,domain_id,request_url,status,action_level,test_group_id,request_head_definition,
-		request_definition,response_definition,response_fail_definition,request_head_mock,request_mock,response_mock,create_user,
+		id,module_id,project_id,dep_id,content_type,action_name,action_desc,request_type,domain_id,request_url,status,action_level,test_group_id,request_head_definition,
+		request_definition,query_definition,response_definition,response_fail_definition,request_head_mock,request_mock,response_mock,create_user,
 		create_time,update_user,update_time
 	</sql>
 	
@@ -181,6 +183,9 @@
 			<if test="depId != null">
 				dep_id,
 			</if>
+			<if test="contentType != null">
+				content_type,
+			</if>
 			<if test="actionName != null">
 			action_name,
 			</if>
@@ -210,6 +215,9 @@
 			</if>
 			<if test="requestDefinition != null">
 			request_definition,
+			</if>
+			<if test="queryDefinition != null">
+				query_definition,
 			</if>
 			<if test="responseDefinition != null">
 			response_definition,
@@ -252,6 +260,9 @@
 			<if test="depId != null">
 				#{depId,jdbcType=INTEGER},
 			</if>
+			<if test="contentType != null">
+				#{contentType,jdbcType=INTEGER},
+			</if>
 			<if test="actionName != null">
 			#{actionName,jdbcType=VARCHAR},
 			</if>
@@ -281,6 +292,9 @@
 			</if>
 			<if test="requestDefinition != null">
 			#{requestDefinition,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="queryDefinition != null">
+				#{queryDefinition,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="responseDefinition != null">
 			#{responseDefinition,jdbcType=LONGVARCHAR},
@@ -324,6 +338,9 @@
 			<if test="depId != null">
 				dep_id = #{depId,jdbcType=INTEGER},
 			</if>
+			<if test="contentType != null">
+				content_type = #{contentType,jdbcType=INTEGER},
+			</if>
 			<if test="actionName != null">
 			action_name = #{actionName,jdbcType=VARCHAR},
 			</if>
@@ -353,6 +370,9 @@
 			</if>
 			<if test="requestDefinition != null">
 			request_definition = #{requestDefinition,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="queryDefinition != null">
+				query_definition = #{queryDefinition,jdbcType=LONGVARCHAR},
 			</if>
 			<if test="responseDefinition != null">
 			response_definition = #{responseDefinition,jdbcType=LONGVARCHAR},

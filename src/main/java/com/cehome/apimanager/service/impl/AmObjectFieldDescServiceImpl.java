@@ -108,13 +108,12 @@ public class AmObjectFieldDescServiceImpl implements IAmObjectFieldDescService{
         dto.setClassWholeName(classWholeName);
         dto.setFieldDescValue("{}");
         String fieldInfoValue = dto.getFieldInfoValue();
-
+        dto.setUpdateTime(new Date());
         if(classWholeNameObj != null){
             dto.setUpdateUser(dto.getCreateUser());
-            dto.setUpdateTime(new Date());
             objectFieldDescDao.update(dto);
         } else {
-            dto.setCreateTime(new Date());
+            dto.setCreateTime(dto.getUpdateTime());
             objectFieldDescDao.add(dto);
         }
     }

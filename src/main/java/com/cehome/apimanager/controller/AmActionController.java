@@ -45,7 +45,7 @@ public class AmActionController extends BaseController {
             AmUser loginUser = WebUtils.getLoginUser(session);
             dto.setCreateUser(loginUser.getId());
             actionService.add(dto);
-            return toSuccess();
+            return toSuccess(dto.getId());
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return toFail(e);

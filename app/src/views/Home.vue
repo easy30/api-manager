@@ -86,7 +86,7 @@
 				info: {}
 			}
 		},
-		mounted() {
+        async mounted() {
 			/*  this.axios.post("/apimanager/user/login?account=13911610242&password=123456")
 			      .then((response)=>{
 			          console.log("res="+response.data);
@@ -95,7 +95,6 @@
 			      }).catch((response)=>{
 			      console.log(response)
 			  })*/
-
 
 			this.axios.get(baseUrl + "/list").then((response) => {
 				var json = response.data;
@@ -108,6 +107,7 @@
 
 		},
 		methods: {
+
 			edit(index) {
 				console.log(index);
 				this.rows[index].edit = true
@@ -118,7 +118,7 @@
 				if (confirm(this.$t("deleteConfirm"))) {
 				    var thisRows=this.rows;
 					var row = thisRows[index];
-					this.axios.$post(baseUrl + "/delete", { id: row.id },
+					this.ajax.postForm(baseUrl + "/delete", { id: row.id },
 						function (response) {
                             thisRows.splice(index, 1);
 					} ) ;
@@ -130,7 +130,7 @@
 				var url = baseUrl + (row.id ? "/update" : "/add");
 				console.log(row);
 				var self=this;
-				this.axios.$post(url,row, function(response){
+				this.ajax.postForm(url,row, function(response){
 				    row.edit = false;
                     self.$forceUpdate();
 				});
