@@ -99,7 +99,10 @@ public class RedirectFilter implements Filter {
 		else if(!requestURL.toString().contains("apimanager.tiebaobei.com/mockData/")){
 			String requestURI = httpRequest.getRequestURI();
 			HttpSession session = httpRequest.getSession();
-			if (whileList(requestURI) || WebUtils.isLogin(session)) {
+			if(requestURI.equals("/")){
+				httpResponse.sendRedirect(httpRequest.getContextPath() + "/apimanager/app/#/");
+			}
+			else if (whileList(requestURI) || WebUtils.isLogin(session)) {
 				chain.doFilter(request, response);
 			} else {
 				httpResponse.setStatus(320);
@@ -193,6 +196,19 @@ public class RedirectFilter implements Filter {
 	}
 
 
+	private boolean isEnd(String requestURI){
+    	requestURI=requestURI.toLowerCase();
+    	String[] exts={".html",".htm",".js",".jpg",".png",".css",".ico"};
+    	for(String ext:exts) if (requestURI.endsWith(ext)) return true;
+    	return false;
+	}
+	private boolean isStart(String requestURI){
+		requestURI=requestURI;
+		String[] urls={"/apimanager/app/css","/apimanager/app/js","/apimanager/app/fonts","/apimanager/app/img"};
+		for(String url:urls) if (requestURI.startsWith(url)) return true;
+		return false;
+	}
+
 	/**
 	 * 配置白名单
 	 *
@@ -200,7 +216,13 @@ public class RedirectFilter implements Filter {
 	 * @return
 	 */
 	private boolean whileList(String requestURI) {
+		if(isStart(requestURI)||isEnd(requestURI)){
+			return true;
+		}
 		if(requestURI.equals("/")){
+			return true;
+		}
+		if(requestURI.equals("/apimanager/app/")){
 			return true;
 		}
         if (requestURI.contains("/reload.html")) {

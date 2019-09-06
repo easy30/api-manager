@@ -6,11 +6,13 @@ var ajax = {};
 export {axios, ajax};
 //axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 //axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+
 ajax.postFormItem = function (url, data) {
    return axios.post(url, qs.stringify(data));
 }
 
 ajax.postForm = function (url, data, succesCallback,failCallback) {
+
     ajax.postFormItem(url, data)
         .then((response) => {
             doResponse(response, succesCallback,failCallback);
@@ -135,8 +137,6 @@ function getCode(response) {
 }
 
 function doResponse(response, callback,failCallback) {
-    //if(response.status==320){}
-    console("response",response);
     var code=getCode(response);
     if (code == 0) {
 

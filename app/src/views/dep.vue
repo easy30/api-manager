@@ -8,6 +8,7 @@
 			</router-link>
 
 			<el-link style="font-size:16px;float:right" @click="logout()" v-t="'logout'"></el-link>
+			<el-link href="http://192.168.0.21:8099/" style="margin-right:20px;font-size:16px;float:right">旧版本</el-link>
 
 
 
