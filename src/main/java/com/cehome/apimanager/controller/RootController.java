@@ -24,6 +24,11 @@ public class RootController {
         }
     }
 
+    @RequestMapping("/apimanager/app")
+    public String app(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return "redirect:/apimanager/app/index.html";
+    }
+
     @RequestMapping("/apimanager/up")
     public void upload(HttpServletRequest request, HttpServletResponse response) throws Exception {
         InputStream is=request.getInputStream();

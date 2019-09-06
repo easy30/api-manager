@@ -1,22 +1,33 @@
-function lang_text() {/*
-separator= ;
+var lang_text=
+`separator= ;
 hello=Hello;您好
 id=ID;编号
+address=Address;地址
 arrayItemParam=Array Item Parameter;数组成员参数
 apiName=API Name;接口名称
 back=Back;返回
+changeConfirm=Data changed, continue to leave?;数据有修改，要离开吗？
 copy=Copy;复制
 deleteConfirm=Really delete?;真的要删除吗？
-changeConfirm=Data changed, continue to leave?;数据有修改，要离开吗？
+document=Document;文档
 export=Export;导出
 homePage=Home;主页
 import=Import;导入
 level=Level;级别
+login=Login;登录
+logout=Logout;退出
 inputSaveName=please input save name;请输入保存名称
 normalParam=Normal Parameter;普通参数
 object=Object;对象
 ok=OK;确定
+password=Password;密码
+passwordRequire=password require;密码不可为空
 SaveSuccess=successfully saved;保存成功
+server=Server;服务器
+username=Username;用户名
+usernameRequire=username require;账号不可为空
+
+
 
 
 status=Status;状态
@@ -70,17 +81,14 @@ validate=Validate;校验
 
 develop=Develop;开发中
 complete=Complete;已完成
-pleaseSelect=Please Select;请选择
-
-
-*/}
+pleaseSelect=Please Select;请选择`;
 function lang_trim(s){
     return s.replace(/(^\s*)|(\s*$)/g, "");
 }
 function lang_parse() {
-    var text= lang_text.toString().replace(/^[^\/]+\/\*!?\s?/, '').replace(/\*\/[^\/]+$/, '');
+    //var text= lang_text.toString().replace(/^[^/]+\/\*!?\s?/, '').replace(/\*\/[^\/]+$/, '');
 
-    var list=text.split(/[\r\n]+/);
+    var list=lang_text.split(/[\r\n]+/);
     var ens={};
     var cns={};
     for(var i in list){

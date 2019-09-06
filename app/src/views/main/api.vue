@@ -99,9 +99,10 @@
 		},
 		mounted() {
 
-			actionsPath = `/main/api/${this.depId}/actions`;
+            console.log("this.$route",this.$route);
+			actionsPath = `/main/api/${this.depId}/list`;
 
-			/*this.$router.push({
+		/*	this.$router.push({
 				path: actionsPath,
 				query: this.utils.clone(this.$route.query)
 			});*/

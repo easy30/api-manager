@@ -2,7 +2,7 @@
     <el-container style="height: 500px; border: 1px solid #eee">
         <!-- {{$route.query.id}}-->
         <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-            <el-tree  :load="loadNode"  lazy   @node-click="handleNodeClick">   </el-tree>
+            <el-tree  :load="loadNode"   :props="treePops" lazy   @node-click="handleNodeClick">   </el-tree>
         </el-aside>
         <router-view :key="key"></router-view>
     </el-container>
@@ -18,7 +18,15 @@
     export default {
         data() {
 
-            return {}
+            return {
+                depId : this.$route.params.depId,
+                treePops: {
+
+                    label: 'label',
+                    children: 'children',
+                    isLeaf: 'leaf'
+                }
+            }
         },
         computed: {
             key() {
@@ -32,25 +40,25 @@
 
         methods: {
             handleNodeClick(data, node) {
-                console.log(node);
+
                 if (node.level == 2) {
-                    this.$router.push({path: '/main/doc/module', query: {id: data.id}});
+                    this.$router.push({path: `/main/doc/${this.depId}/module`, query: {id: data.id}});
                 }
 
             },
             loadNode(node, resolve) {
                 if (node.level === 0) {
-                    var depId = this.$route.query.id;
 
-                    this.axios.get('/apimanager/project/list?depId=' + depId).then((response) => {
+                    this.axios.get('/apimanager/project/list?depId=' + this.depId).then((response) => {
                         var json = response.data;
-                        //console.log(json);
+                        console.log(json);
                         var data = json.data;
+                        data.sort(this.utils.compare("projectName"));
                         var result = [];
                         for (var i = 0; i < data.length; i++) {
                             var p = data[i];
                             // console.log("----"+p.projectName);
-                            result.push({"id": p.id, "label": p.projectName, "isLeaf": false});
+                            result.push({"id": p.id, "label": p.projectName, "leaf": false});
                         }
                         return resolve(result);
 
@@ -73,7 +81,7 @@
                         for (var i = 0; i < data.length; i++) {
                             var p = data[i];
                             //console.log("moduleName:" + p.moduleName);
-                            result.push({"id": p.id, "label": p.moduleName, "isLeaf": true});
+                            result.push({"id": p.id, "label": p.moduleName, "leaf": true});
                         }
                         return resolve(result);
 

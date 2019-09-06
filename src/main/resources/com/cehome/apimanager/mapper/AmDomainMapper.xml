@@ -4,6 +4,7 @@
 	<resultMap id="BaseResultMap" type="com.cehome.apimanager.model.po.AmDomain">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="env_id" property="envId" jdbcType="INTEGER" />
+		<result column="project_id" property="projectId" jdbcType="INTEGER" />
 		<result column="domain_code" property="domainCode" jdbcType="INTEGER" />
 		<result column="domain_name" property="domainName" jdbcType="VARCHAR" />
 		<result column="sort_code" property="sortCode" jdbcType="INTEGER" />
@@ -12,7 +13,7 @@
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		id,env_id,domain_code,domain_name,sort_code,create_user,update_user
+		id,env_id,project_id,domain_code,domain_name,sort_code,create_user,update_user
 	</sql>
 	
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -66,6 +67,10 @@
         AND
 			env_id = #{envId,jdbcType=INTEGER}
 		</if>
+		<if test="projectId != null">
+			AND
+			project_id = #{projectId,jdbcType=INTEGER}
+		</if>
 		<if test="domainCode != null">
         AND
 			domain_code = #{domainCode,jdbcType=INTEGER}
@@ -86,6 +91,9 @@
 			</if>
 			<if test="envId != null">
 				env_id,
+			</if>
+			<if test="projectId != null">
+				project_id,
 			</if>
 			<if test="domainCode != null">
 				domain_code,
@@ -110,6 +118,9 @@
 			<if test="envId != null">
 				#{envId,jdbcType=INTEGER},
 			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=INTEGER},
+			</if>
 			<if test="domainCode != null">
 				#{domainCode,jdbcType=INTEGER},
 			</if>
@@ -133,6 +144,9 @@
 		<set>
 			<if test="envId != null">
 				env_id = #{envId,jdbcType=INTEGER},
+			</if>
+			<if test="projectId != null">
+				project_id = #{projectId,jdbcType=INTEGER},
 			</if>
 			<if test="domainName != null">
 				domain_name = #{domainName,jdbcType=VARCHAR},

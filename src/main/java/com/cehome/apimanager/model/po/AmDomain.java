@@ -18,6 +18,7 @@ public class AmDomain extends BaseEntity implements Serializable {
     private Integer sortCode;
     private Integer createUser;
     private Integer updateUser;
+    private Integer projectId;
     public Integer getId() {
         return id;
     }
@@ -72,6 +73,14 @@ public class AmDomain extends BaseEntity implements Serializable {
 
     public void setUpdateUser(Integer updateUser) {
         this.updateUser = updateUser;
+    }
+
+    public Integer getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
     }
 
     @Override

@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+//npm install vue-cookies --save https://www.npmjs.com/package/vue-cookies
+import VueCookies from 'vue-cookies'
 import './plugins/element.js'
 import utils from './plugins/utils.js'
 import global from './global.js'
@@ -33,6 +35,9 @@ ajax.error(showError);
 
 Vue.use(VueAxios,axios);
 Vue.use(VueI18n) ;
+Vue.use(VueCookies);
+VueCookies.config('7d');
+
 Vue.component("Page",Page);
 Vue.component("DropDown",DropDown);
 const i18n = new VueI18n({

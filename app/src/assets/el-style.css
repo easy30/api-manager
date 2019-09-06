@@ -9,20 +9,6 @@
     padding: 0 10px;
     border-radius: 0px;
 }
- 
-.el-big > .el-input__inner  {
-    height: 40px;
-    line-height: 40px;
-    padding: 0 15px;
-    border-radius: 0px;
-}
-.el-big > .el-input__inner  {
-    height: 40px;
-    line-height: 40px;
-    padding: 0 15px;
-    border-radius: 0px;
-}
-
 
 .el-input__icon {
 
@@ -31,10 +17,24 @@
 
 
 
+.el-input--big > .el-input__inner  {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 15px;
+    border-radius: 0px;
+}
+
+
+
 .el-button {
 	padding: 5px 10px;
 	font-size: 12px;
     border-radius: 0px;
+}
+
+.el-button--big {
+    padding: 12px 20px;
+    font-size: 14px;
 }
 
 .el-button--mini, .el-button--mini.is-round {

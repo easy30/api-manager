@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import login1 from './views/login.vue'
+import dep from './views/dep.vue'
+
 import Json from './views/temp/Json.vue'
 import Module from './views/main/doc/module.vue'
 import Doc from './views/main/doc/doc.vue'
 import Main from './views/main.vue'
 import API from "./views/main/api.vue"
-import Actions from "./views/main/api/actions.vue"
+import ApiList from "./views/main/api/list.vue"
 import action from "./views/main/api/action.vue"
 import views from './views/views.vue'
 import head from './views/head.vue'
@@ -19,8 +21,13 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name: 'home',
-            component: Home
+            name: 'login',
+            component: login1
+        },
+        {
+            path: '/dep',
+            name: 'dep',
+            component: dep
         },
         {
             path: '/json',
@@ -67,8 +74,8 @@ export default new Router({
                     path: "api/:depId",
                     component: API,
                     children: [{
-                        path: 'actions',
-                        component: Actions
+                        path: 'list',
+                        component: ApiList
                     }, {  path: 'action',
                         component: action}]
                     /*,

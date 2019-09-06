@@ -1,3 +1,4 @@
 module.exports = {
-  publicPath: '/apimanager/app/'
+  publicPath: '/apimanager/app/',
+  //  outputDir: '../src/main/resources/statics/apimanager/app'
 }

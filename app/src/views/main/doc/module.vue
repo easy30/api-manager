@@ -20,7 +20,7 @@
                     <div>
                         <h2 :id="'action_'+index" style="display: inline-block;font-size: 30px">{{item.id}}. {{item.actionName}}</h2>
                         <span style="border:1px solid;cursor: pointer;margin-left: 10px" @click="urlClick(-1)">回到顶部</span>
-                        <div>{{item.actionDesc}}</div>
+                        <pre>{{item.actionDesc}}</pre>
                         <p>
                             <span>{{convertHttpMethod(item.requestType)}}</span>
                             <span style="margin-left: 10px">{{item.requestUrl}}</span>

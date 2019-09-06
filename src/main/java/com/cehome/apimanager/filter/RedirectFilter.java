@@ -1,6 +1,7 @@
 package com.cehome.apimanager.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cehome.apimanager.GlobalConfig;
 import com.cehome.apimanager.common.CommonMeta;
 import com.cehome.apimanager.model.dto.AmActionResDto;
 import com.cehome.apimanager.model.po.AmDomain;
@@ -92,7 +93,7 @@ public class RedirectFilter implements Filter {
         String path=httpRequest.getServletPath();
 
 
-        if(path.startsWith(Const.BASE_URL+"/app") || path.startsWith("/sockjs-node/")){
+        if(GlobalConfig.isDev() && ( path.startsWith(Const.BASE_URL+"/app") || path.startsWith("/sockjs-node/"))){
             get(httpRequest,httpResponse,requestURL.replace(":8099",":8080"));
 
         }

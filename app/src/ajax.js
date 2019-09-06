@@ -6,22 +6,28 @@ var ajax = {};
 export {axios, ajax};
 //axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 //axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-ajax.postForm = function (url, data, succesCallback) {
-    axios.post(url, qs.stringify(data))
+ajax.postFormItem = function (url, data) {
+   return axios.post(url, qs.stringify(data));
+}
+
+ajax.postForm = function (url, data, succesCallback,failCallback) {
+    ajax.postFormItem(url, data)
         .then((response) => {
-            doResponse(response, succesCallback);
+            doResponse(response, succesCallback,failCallback);
         })
         .catch((error) => {
-
-            ajax.showError(error);
+            if(failCallback) failCallback(error);
+            else ajax.showError(error);
 
         })
 
 }
 
+
+
 ajax.postFormSync = async function (url, data, silent) {
     try {
-        let response = await axios.post(url, qs.stringify(data));
+        let response = await ajax.postFormItem(url, data);
         return doResponseSync(response, silent);
     }
     catch (error) {
@@ -33,8 +39,11 @@ ajax.postFormSync = async function (url, data, silent) {
 
 }
 
+ajax.postJsonItem = function (url, data) {
+    return axios.post(url, data)
+}
 ajax.postJson = function (url, data, succesCallback) {
-    axios.post(url, data)
+    ajax.postJsonItem(url, data)
         .then((response) => {
             doResponse(response, succesCallback);
         })
@@ -49,7 +58,7 @@ ajax.postJson = function (url, data, succesCallback) {
 
 ajax.postJsonSync = async function (url, data, silent) {
     try {
-        let response = await axios.post(url, qs.stringify(data));
+        let response = await ajax.postJsonItem(url, qs.stringify(data));
         return doResponseSync(response, silent);
     }
     catch (error) {
@@ -60,11 +69,14 @@ ajax.postJsonSync = async function (url, data, silent) {
 
 
 }
-
+ajax.getItem = function (url, data) {
+    var d=data?{params:data}:null;
+    return axios.get(url, d);
+}
 ajax.get = function (url, p2, p3) {
-    var data = p3 ? {params:p2} : null;
+    var data = p3 ? p2 : null;
     var callback = p3 ? p3 : p2;
-    axios.get(url, data)
+    ajax.getItem(url, data)
         .then((response) => {
             doResponse(response, callback);
         })
@@ -79,9 +91,9 @@ ajax.get = function (url, p2, p3) {
 
 ajax.getSync = async function (url, p2, p3) {
     try {
-        var data = p3 ? {params:p2} : null;
+        var data = p3 ? p2 : null;
         var silent = p3 ? p3 : p2;
-        let response = await axios.get(url, data);
+        let response = await ajax.getItem(url, data);
         return doResponseSync(response, silent);
     } catch (error) {
         return doErrorsync(error,silent);
@@ -92,15 +104,15 @@ ajax.getSync = async function (url, p2, p3) {
 
 
 
-ajax.all = function (reqeusts, callback) {
+ajax.all = function (requestItems, callback) {
 
-    axios.all(reqeusts).then(axios.spread(callback))
+    axios.all(requestItems).then(axios.spread(callback))
         .catch(error=>{  ajax.showError(error);});
      
 }
-ajax.allSync = async function (reqeusts, silent) {
+ajax.allSync = async function (requestItems, silent) {
     try {
-    var responses=await axios.all(reqeusts);
+    var responses=await axios.all(requestItems);
     for(var i=0;i<responses.length;i++){
         doResponseSync(responses[i],silent);
     }
@@ -122,7 +134,7 @@ function getCode(response) {
     return code;
 }
 
-function doResponse(response, callback) {
+function doResponse(response, callback,failCallback) {
     var code=getCode(response);
     if (code == 0) {
 
@@ -132,7 +144,8 @@ function doResponse(response, callback) {
         var message=response.data && response.data.msg?response.data.msg:"";
         var e=new Error(message);
         e.code=code;
-        ajax.showError(e);
+        if(failCallback) failCallback(e);
+        else ajax.showError(e);
     }
 }
 

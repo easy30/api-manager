@@ -37,12 +37,12 @@
                     <tr>
                         <td>{{item.id}}</td>
                         <td>{{item.actionName}}</td>
-                        <td>{{item.moduleId}}</td>
+                        <td>{{item.moduleName}}</td>
                         <td>{{item.createUserName}}</td>
                         <td>{{item.updateUserName}}</td>
                         <td>{{new Date(item.updateTime).toLocaleString()}}</td>
                         <td>
-                            <el-button v-t="'edit'" type="primary" @click="edit(item)"></el-button>
+                            <el-button style="margin-right: 10px" v-t="'edit'" type="primary" @click="edit(item)"></el-button>
                             <el-button v-t="'copy'" type="primary" @click="copy(item)"></el-button>
                             <el-button v-t="'delete'" type="danger" @click="actionDelete(item)"></el-button>
                         </td>
@@ -183,25 +183,9 @@
     };
 </script>
 
-<style>
-    /* .table-bordered {
-         border: 1px solid #dee2e6;
-     }
-
-     .table {
-         width: 100%;
-         margin-bottom: 1rem;
-         background-color: transparent;
-     }
-
-     table {
-         border-collapse: collapse;
-     }
-
-     .table th, .table td {
-         border: solid #dee2e6;
-         border-width: 0 1px 1px 0;
-         padding: 2px;
-     }*/
+<style scoped>
+    .el-button+.el-button {
+        margin: 2px 10px 0px 0px;
+    }
 
 </style>

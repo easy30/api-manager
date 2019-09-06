@@ -1,6 +1,17 @@
 <template>
 
 	<el-container>
+		<el-header>
+			<router-link to="/dep" style="text-decoration: none;">
+				<img src="img/logo.png" style="width: 48px;vertical-align: middle;">
+				<span style="vertical-align: middle;  margin-left: 5px; font-size: 18px; font-weight: bold;margin-right: 50px">API Manager</span>
+			</router-link>
+
+			<el-link style="font-size:16px;float:right" @click="logout()" v-t="'logout'"></el-link>
+
+
+
+		</el-header>
 
 		<el-main>
 			<table class="c-table c-big">
@@ -16,7 +27,7 @@
 					<tr v-if="row.edit" :key="index">
 						<td>{{row.id}}</td>
 						<td>
-							<el-input class="el-big" v-model="row.depName"></el-input>
+							<el-input class="el-input--big" v-model="row.depName"></el-input>
 						</td>
 						<td>
 							<el-input class="el-big" v-model="row.depDesc"></el-input>
@@ -61,7 +72,7 @@
 			</el-table> -->
 			<el-row class="c-m-10">
 				<el-col :span="24">
-					<el-button @click="add()" v-t="'add'"></el-button>
+					<el-button type="big" style="float:right" @click="add()" v-t="'add'"></el-button>
 				</el-col>
 			</el-row>
 
@@ -159,8 +170,16 @@
 				// this.$router.push({path: '/main/api', params: {depId: row.id}});
 				var row = this.rows[index];
 				this.$router.push({
-					path: `/main/api/${row.id}`
+					path: `/main/api/${row.id}/list`
 				}); //, params: {depId: row.id}});
+
+			},
+
+			logout(){
+
+			    this.ajax.get("/apimanager/user/loginOut", ()=>{
+			        this.$router.push("/");
+				});
 
 			}
 		},
@@ -169,3 +188,10 @@
 		}
 	}
 </script>
+
+<style scoped>
+	.el-header {
+		line-height: 60px;
+	}
+
+</style>

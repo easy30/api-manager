@@ -4,10 +4,10 @@
     <el-dialog :title="$t('module')" :visible.sync="visible" width="400px" :close-on-click-modal="false" :close-on-press-escape="false">
         <el-form >
             <el-form-item :label="$tt('module name')"  >
-                <el-input class="el-big" v-model="row.moduleName" autocomplete="off"></el-input>
+                <el-input class="el-input--big" v-model="row.moduleName" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item :label="$tt('module desc')"  >
-                <el-input class="el-big"  v-model="row.moduleDesc" autocomplete="off"></el-input>
+                <el-input class="el-input--big"  v-model="row.moduleDesc" autocomplete="off"></el-input>
             </el-form-item>
 
         </el-form>
