@@ -20,6 +20,10 @@ import VueAxios from 'vue-axios'
 //axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
 function  showError(error){
+    if(error.response.status==320){
+        vue.$router.push("/");
+        return;
+    }
     vue.$message({
         showClose: true,
         duration: 15000,

@@ -107,14 +107,12 @@
 			      console.log(response)
 			  })*/
 
-			this.axios.get(baseUrl + "/list").then((response) => {
+			this.ajax.get(baseUrl + "/list",(response) => {
 				var json = response.data;
 				this.rows = json.data;
 				this.info = response.data;
 
-			}).catch((response) => {
-				console.log(response)
-			})
+			});
 
 		},
 		methods: {

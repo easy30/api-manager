@@ -56,6 +56,7 @@
                         this.ajax.postForm("/apimanager/user/login",
                             { account: this.form.username,password:this.form.password},
                             ()=>{
+                                console.log("hello");
                                 this.$cookies.set("username",this.form.username,"30d");
                                 this.$cookies.set("password",this.form.password,"30d");
                                 this.$router.push("/dep");

@@ -32,7 +32,7 @@ ajax.postFormSync = async function (url, data, silent) {
     }
     catch (error) {
 
-        return doErrorsync(error,silent);
+        return doErrorSync(error,silent);
 
     }
 
@@ -63,7 +63,7 @@ ajax.postJsonSync = async function (url, data, silent) {
     }
     catch (error) {
 
-        return doErrorsync(error,silent);
+        return doErrorSync(error,silent);
 
     }
 
@@ -96,7 +96,7 @@ ajax.getSync = async function (url, p2, p3) {
         let response = await ajax.getItem(url, data);
         return doResponseSync(response, silent);
     } catch (error) {
-        return doErrorsync(error,silent);
+        return doErrorSync(error,silent);
 
     }
 
@@ -119,7 +119,7 @@ ajax.allSync = async function (requestItems, silent) {
     return responses;
 
     }catch (error) {
-        return doErrorsync(error,silent);
+        return doErrorSync(error,silent);
 
     }
 }
@@ -135,18 +135,26 @@ function getCode(response) {
 }
 
 function doResponse(response, callback,failCallback) {
+    //if(response.status==320){}
+    console("response",response);
     var code=getCode(response);
     if (code == 0) {
 
         if (callback) callback(response);
     }
     else {
-        var message=response.data && response.data.msg?response.data.msg:"";
-        var e=new Error(message);
-        e.code=code;
+        var e=responseToError(response);
         if(failCallback) failCallback(e);
         else ajax.showError(e);
     }
+}
+
+function responseToError(response){
+    var message=response.data && response.data.msg?response.data.msg:"";
+    var e=new Error(message);
+    e.code=getCode(response);
+    e.response=response;
+    return e;
 }
 
 function doResponseSync(response, silent) {
@@ -156,11 +164,13 @@ function doResponseSync(response, silent) {
     }
     else {
         response.success=false;
-        if(!silent)ajax.showError(response);
+        if(!silent){
+            ajax.showError(responseToError(response));
+        }
     }
     return response;
 }
-function doErrorsync(error,silent) {
+function doErrorSync(error,silent) {
     var response={};
     response.success=false;
     response.error=error;
