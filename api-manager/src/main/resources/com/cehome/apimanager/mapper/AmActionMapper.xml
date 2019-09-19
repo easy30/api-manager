@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cehome.apimanager.model.po.AmAction">
+
 	<resultMap id="BaseResultMap" type="com.cehome.apimanager.model.po.AmAction">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="module_id" property="moduleId" jdbcType="INTEGER" />
@@ -107,6 +108,89 @@
 			create_user = #{createUser}
 		</if>
 	</select>
+
+
+	<select id="searchCount" parameterType="map" resultType="java.lang.Integer">
+		SELECT COUNT(1)
+		FROM  am_action a
+		left join am_project p on a.project_id=p.id
+		left join  am_module m  on a.module_id=m.id
+		left join am_user u on a.update_user=u.id
+		WHERE
+		1=1
+		<if test="keywordArray != null">
+		<foreach collection="keywordArray" item="item" separator=" ) and ( " open=" and ( " close=" ) ">
+            a.action_name like #{item} or a.action_desc like #{item} or a.request_url like #{item}
+            or a.request_head_definition like #{item} or a.request_definition like #{item} or a.response_definition like #{item}
+            or a.response_fail_definition like #{item} or p.project_name like #{item}  or m.module_name like #{item}
+            or u.user_name like #{item} or u.account like #{item}
+        </foreach>
+		</if>
+
+		<if test="id != null">
+			AND
+			a.id = #{id}
+		</if>
+
+		<if test="moduleId != null">
+			AND
+			a.module_id = #{moduleId}
+		</if>
+		<if test="projectId != null">
+			AND
+			a.project_id = #{projectId}
+		</if>
+		<if test="depId != null">
+			AND
+			a.dep_id = #{depId}
+		</if>
+		<if test="createUser != null">
+			AND
+			a.create_user = #{createUser}
+		</if>
+	</select>
+	<select id="search" parameterType="map" resultType="com.cehome.apimanager.model.dto.AmActionResDto">
+		SELECT a.*,p.project_name,m.module_name,u.user_name update_user_name
+		FROM  am_action a
+		left join am_project p on a.project_id=p.id
+		left join  am_module m  on a.module_id=m.id
+		left join am_user u on a.update_user=u.id
+		WHERE
+		1=1
+		<if test="keywordArray != null">
+		<foreach collection="keywordArray" item="item" separator=" ) and ( " open=" and ( " close=" ) ">
+            a.action_name like #{item} or a.action_desc like #{item} or a.request_url like #{item}
+            or a.request_head_definition like #{item} or a.request_definition like #{item} or a.response_definition like #{item}
+            or a.response_fail_definition like #{item} or p.project_name like #{item}  or m.module_name like #{item}
+			or u.user_name like #{item} or u.account like #{item}
+        </foreach>
+		</if>
+
+		<if test="id != null">
+			AND
+			a.id = #{id}
+		</if>
+
+		<if test="moduleId != null">
+			AND
+			a.module_id = #{moduleId}
+		</if>
+		<if test="projectId != null">
+			AND
+			a.project_id = #{projectId}
+		</if>
+		<if test="depId != null">
+			AND
+			a.dep_id = #{depId}
+		</if>
+		<if test="createUser != null">
+			AND
+			a.create_user = #{createUser}
+		</if>
+		ORDER BY a.update_time DESC
+		 LIMIT #{pageOffset},#{pageSize}
+	</select>
+
 	
 	<select id="list" parameterType="com.cehome.apimanager.model.po.AmAction" resultMap="BaseResultMap">
 		SELECT

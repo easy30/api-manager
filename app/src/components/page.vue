@@ -51,7 +51,7 @@
 
                 q.pageIndex = page;
                 q.pageSize = this.data.pageSize;
-                this.$router.replace({path: this.$route.path, query: q});
+                this.$router.push({path: this.$route.path, query: q});
 
 
             },

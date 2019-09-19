@@ -96,10 +96,10 @@ public class RedirectFilter implements Filter {
         if(GlobalConfig.isDev() && ( path.startsWith(Const.BASE_URL+"/app") || path.startsWith("/sockjs-node/"))){
             get(httpRequest,httpResponse,requestURL.replace(":8099",":8080"));
         }
-		else if(!requestURL.toString().contains("apimanager.tiebaobei.com/mockData/")){
+		else if(!path.startsWith("/mockData/")){
 			String requestURI = httpRequest.getRequestURI();
 			HttpSession session = httpRequest.getSession();
-			if(requestURI.equals("/")){
+			if(requestURI.equals("/") || requestURI.equals("/index.html")){
 				httpResponse.sendRedirect(httpRequest.getContextPath() + "/apimanager/app/#/");
 			}
 			else if (whileList(requestURI) || WebUtils.isLogin(session)) {

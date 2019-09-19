@@ -57,6 +57,8 @@ public class ApplicationConfiguration {
         try {
             factoryBean.setMapperLocations(context.getResources(MAPPER_PACKAGE));
             sessionFactory = factoryBean.getObject();
+            // project_id => projectId
+            sessionFactory.getConfiguration().setMapUnderscoreToCamelCase(true);
             return new SqlSessionTemplate(sessionFactory);
         } catch (Exception e) {
             logger.error("context.getResources error!", e);

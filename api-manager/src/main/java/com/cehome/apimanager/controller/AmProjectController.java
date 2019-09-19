@@ -74,7 +74,7 @@ public class AmProjectController extends BaseController {
 	@RequestMapping("findById")
 	public Map<String, Object> findById(AmProjectQueryReqDto dto) {
 		try {
-			AmProjectResDto amProjectResDto = projectService.findById(dto);
+			AmProjectResDto amProjectResDto = projectService.findById(dto.getId());
 			return toSuccess(amProjectResDto);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);

@@ -2,7 +2,7 @@
 
 
     <el-container>
-        <el-main>
+        <el-main style="padding: 0px 0px 0px 10px;">
 
 
             <!-- <el-table :data="actions"
@@ -18,7 +18,25 @@
              </el-table>-->
             <el-row>
                 <el-col :span="24" class="c-margin">
+                    <el-form :inline="true" >
+                        <el-form-item label="" style="margin-bottom:0px">
+                            <el-input v-model="keywords" style="width:400px" @keyup.enter.native="search()"></el-input>
+                        </el-form-item>
+
+                        <el-form-item style="margin-bottom:0px ">
+                            <el-button type="primary" @click="search()" v-t="'search'"></el-button>
+                        </el-form-item>
+                    </el-form>
+
+                </el-col>
+            </el-row>
+            <el-row class="c-margin">
+                <el-col :span="20" >
                     <Page :data="data" ></Page>
+                </el-col>
+                <el-col :span="4">
+                    <el-button type="primary" v-t="'addApi'" @click="add()"></el-button>
+
                 </el-col>
             </el-row>
             <table class="c-table">
@@ -27,20 +45,20 @@
                     <th v-t="'id'"></th>
                     <th v-t="'apiName'"></th>
                     <th v-t="'module'"></th>
-                    <th v-t="'creator'"></th>
+                  <!--  <th v-t="'creator'"></th>-->
                     <th v-t="'editor'"></th>
                     <th v-t="'lastmodified'"></th>
                     <th v-t="'operation'"></th>
 
                 </tr>
                 <template v-for="(item) in actions">
-                    <tr>
+                    <tr :key="item.id">
                         <td>{{item.id}}</td>
-                        <td>{{item.actionName}}</td>
+                        <td><el-link  @click="edit(item)">{{item.actionName}}</el-link></td>
                         <td>{{item.moduleName}}</td>
-                        <td>{{item.createUserName}}</td>
+                      <!--  <td>{{item.createUserName}}</td>-->
                         <td>{{item.updateUserName}}</td>
-                        <td>{{new Date(item.updateTime).toLocaleString()}}</td>
+                        <td :title="new Date(item.updateTime).toLocaleString()">{{new Date(item.updateTime).toLocaleDateString()}}</td>
                         <td>
                             <el-button style="margin-right: 10px" v-t="'edit'" type="primary" @click="edit(item)"></el-button>
                             <el-button v-t="'copy'" type="primary" @click="copy(item)"></el-button>
@@ -56,7 +74,7 @@
                     <Page :data="data" ></Page>
                 </el-col>
                 <el-col :span="4">
-                    <el-button v-t="'add'" @click="add()"></el-button>
+                    <el-button type="primary" v-t="'addApi'" @click="add()"></el-button>
 
                 </el-col>
             </el-row>
@@ -79,8 +97,11 @@
         data() {
             return {
                 depId : this.utils.notNull(this.$route.params.depId),
+                keywords:this.utils.notNull(this.$route.query.keywords),
+                r:this.utils.notNull(this.$route.query.r,0),
                 data: {},
-                actions: []
+                actions: [],
+
             }
         },
         mounted() {
@@ -92,7 +113,7 @@
             var pageIndex = this.utils.notNull(this.$route.query.pageIndex, 1);
             var pageSize = this.utils.notNull(this.$route.query.pageSize, 20);
             //pageIndex=1&pageSize=8&depId=&projectId=&moduleId=170&createUser=
-            var url = `/apimanager/action/findPage?pageIndex=${pageIndex}&pageSize=${pageSize}&depId=${this.depId}&projectId=${projectId}&moduleId=${moduleId}`;
+            var url = `/apimanager/action/search?pageIndex=${pageIndex}&pageSize=${pageSize}&depId=${this.depId}&projectId=${projectId}&moduleId=${moduleId}&keywords=${this.keywords}`;
 
 
             this.ajax.get(url,(response) => {
@@ -143,10 +164,19 @@
             actionDelete(action){
                 if(!confirm(this.$t("deleteConfirm"))) return;
                 var url = "/apimanager/action/delete";
-                this.ajax.postForm(url,{id:action.id},response=>{
+                this.ajax.postForm(url,{id:action.id},()=>{
                     this.$router.go(0);
                 });
             },
+            search(){
+                var q = this.utils.clone(this.$route.query);
+                if (q == null) q = {};
+                q.pageIndex = 1;
+                q.pageSize = this.data.pageSize;
+                q.keywords=this.keywords;
+                this.$routerPush({path: this.$route.path, query: q});
+
+            }
           /*  convertHttpMethod(type) {
                 if (type == 1) return "GET";
                 if (type == 2) return "POST";

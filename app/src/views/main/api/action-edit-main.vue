@@ -13,7 +13,7 @@
                 <el-col :span="2" v-t="'require'" style="text-align: center"></el-col>
                 <el-col :span="5" v-t="'description'"></el-col>
                 <el-col :span="3" v-t="'mockRule'"></el-col>
-                <el-col :span="3" v-t="'sample'"></el-col>
+                <el-col :span="3" v-t="'mockDefault'"></el-col>
             </el-row>
             <JsonEditor :defValues="queryValue" :nodes="meta.query" :deep="0">
                 <template v-slot="sd">
@@ -47,7 +47,7 @@
                 <el-col :span="2" v-t="'require'" style="text-align: center"></el-col>
                 <el-col :span="4" v-t="'description'"></el-col>
                 <el-col :span="2" v-t="'mockRule'"></el-col>
-                <el-col :span="2" v-t="'sample'"></el-col>
+                <el-col :span="2" v-t="'mockDefault'"></el-col>
             </el-row>
 
             <JsonEditor ref="editor" :defValues="bodyValue" :nodes="meta.requestBody" :deep="deep" :addChild="addChild">
@@ -118,7 +118,7 @@
                 <el-col :span="3" v-t="'type'"></el-col>
                 <el-col :span="5" v-t="'description'"></el-col>
                 <el-col :span="3" v-t="'mockRule'"></el-col>
-                <el-col :span="2" v-t="'sample'"></el-col>
+                <el-col :span="2" v-t="'mockDefault'"></el-col>
             </el-row>
             <JsonEditor :defValues="responseValue" :nodes="meta.response" :deep="deep" :addChild="addChild">
                 <template v-slot="sd">
@@ -154,7 +154,7 @@
                 <el-col :span="3" v-t="'type'"></el-col>
                 <el-col :span="5" v-t="'description'"></el-col>
                 <el-col :span="3" v-t="'mockRule'"></el-col>
-                <el-col :span="2" v-t="'sample'"></el-col>
+                <el-col :span="2" v-t="'mockDefault'"></el-col>
             </el-row>
             <JsonEditor :defValues="responseFailValue" :nodes="meta.responseFail" :deep="0" :addChild="addChild">
                 <template v-slot="sd">
@@ -187,7 +187,7 @@
                 <el-col :span="2">&nbsp;</el-col>
                 <el-col :span="8" v-t="'name'"></el-col>
                 <el-col :span="8" v-t="'description'"></el-col>
-                <el-col :span="5" v-t="'sample'"></el-col>
+                <el-col :span="5" v-t="'mockDefault'"></el-col>
             </el-row>
             <JsonEditor :defValues="headerValue" :nodes="meta.requestHeader" :deep="0">
                 <template v-slot="sd">
@@ -374,7 +374,7 @@
                    var obj={classWholeName:value};
                    obj.fieldInfoValue=JSON.stringify(  this.meta.requestBody);
                    this.ajax.postJson("/apimanager/object/field/createObj",obj,(response)=>{
-                       this.$message(this.$t("SaveSuccess"));
+                       this.$message(this.$t("saveSuccess"));
                    });
 
 
@@ -384,14 +384,16 @@
             },
             addChild(parent, defValues) {
 
-                if (parent.child == null) parent.child = [];
+                if (parent.child == null)  this.$set(parent,"child",[]);// parent.child = [];
                 if (this.utils.isArrayField(parent.type)) {
                     defValues.name = "array[" + parent.child.length + "]";
                     defValues.cat=1;
                 }
 
                // defValues.id = "nd_id_s_v";
+
                 parent.child.push(defValues);
+                this.$set(parent.child,parent.child.length-1,defValues);
                 //this.$set(defValues,"type", parseInt(defValues.type));
 
                 //this.$forceUpdate();

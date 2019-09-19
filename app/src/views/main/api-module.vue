@@ -84,7 +84,7 @@
 
                 if (confirm(this.$t("deleteConfirm"))) {
                     this.ajax.postForm(baseUrl + "/delete", {id: data.row.id},
-                        function (response) {
+                        function () {
                             parent.$refs.tree.remove(node);
                             parent.$forceUpdate();
                         });

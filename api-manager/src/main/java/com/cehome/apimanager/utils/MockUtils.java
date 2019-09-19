@@ -47,8 +47,8 @@ public class MockUtils {
 		engine = manager.getEngineByName("js");
 		InputStreamReader inputStreamReader = null;
 		try {
-			InputStream inputStream = new FileInputStream(new File(getJsPath()));
-			inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+			//InputStream inputStream =   new FileInputStream(new File(getJsPath()));
+			inputStreamReader = new InputStreamReader(getJsInputStream(), "UTF-8");
 			engine.eval(inputStreamReader);
 			engine.eval("function mockData(mockTemplate) { "
 						+ "	var jsonObject = JSON.parse(mockTemplate);"
@@ -68,9 +68,11 @@ public class MockUtils {
 		}
 	}
 	
-	private static String getJsPath(){
-		URL resource = Thread.currentThread().getContextClassLoader().getResource("");
-		String path = resource.getPath();
-		return path + File.separator + "static/plugins/mock/mock-min.js";
+	private static InputStream getJsInputStream() throws IOException {
+		 return Thread.currentThread().getContextClassLoader().getResource("static/plugins/mock/mock-min.js").openStream();
+
+
+		//String path = resource.getPath();
+		//return path + File.separator + "static/plugins/mock/mock-min.js";
 	}
 }

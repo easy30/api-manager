@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -54,6 +55,9 @@ public class AmActionServiceImpl implements IAmActionService {
 
     @Autowired
     private IAmModuleService moduleService;
+
+    @Autowired
+    private IAmProjectService projectService;
 
     @Override
     public void add(AmActionReqDto dto) {
@@ -147,6 +151,7 @@ public class AmActionServiceImpl implements IAmActionService {
     @Override
     public Integer findIdByRequestUrl(String requestUrl) {
         List<AmAction> actionUrlCache = cacheProvider.getActionUrlCache();
+        AntPathMatcher apm = new AntPathMatcher();
         AmAction result = actionUrlCache.stream().filter(action -> UrlUtils.match(action.getRequestUrl(), requestUrl)).findAny().orElse(null);
         return result == null ? 0 : result.getId();
     }
@@ -184,28 +189,58 @@ public class AmActionServiceImpl implements IAmActionService {
     public Page<AmAction> findPage(AmActionQueryReqDto dto) {
         Page<AmAction> actionPage = actionDao.find(dto);
         List<AmAction> datas = actionPage.getDatas();
-        if(CollectionUtils.isEmpty(datas)){
+        if (CollectionUtils.isEmpty(datas)) {
             return actionPage;
         }
         Map<String, String> userDicMap = cacheProvider.getUserDicMap();
         List<AmAction> result = new ArrayList<>();
-        for(AmAction action : datas){
+        for (AmAction action : datas) {
             AmActionResDto actionResDto = new AmActionResDto();
             BeanUtils.copyProperties(action, actionResDto);
-            if(action.getCreateUser() != null){
+            if (action.getCreateUser() != null) {
                 actionResDto.setCreateUserName(userDicMap.get(action.getCreateUser() + ""));
             }
-            if(action.getUpdateUser() != null){
+            if (action.getUpdateUser() != null) {
                 actionResDto.setUpdateUserName(userDicMap.get(action.getUpdateUser() + ""));
             }
 
-            AmModuleResDto moduleResDto=moduleService.findById(action.getModuleId());
-            if(moduleResDto!=null) {
-                actionResDto.setModuleName(moduleResDto.getModuleName());
+            AmModuleResDto moduleResDto = moduleService.findById(action.getModuleId());
+            if (moduleResDto != null) {
+                AmProjectResDto projectResDto = projectService.findById(moduleResDto.getProjectId());
+                actionResDto.setModuleName(projectResDto.getProjectName() + "-" + moduleResDto.getModuleName());
             }
             result.add(actionResDto);
         }
         actionPage.setDatas(result);
+        return actionPage;
+    }
+
+    @Override
+    public Page<AmActionResDto> search(AmActionQueryReqDto dto) {
+        if (org.apache.commons.lang.StringUtils.isNotBlank(dto.getKeywords())) {
+            String[] keywordArray=dto.getKeywords().trim().split("\\s+");
+            for(int i=0;i<keywordArray.length;i++) keywordArray[i]="%"+ keywordArray[i]+"%";
+            dto.setKeywordArray(keywordArray);
+        }
+        Page<AmActionResDto> actionPage = actionDao.search(dto);
+        /*List<AmActionResDto> datas = actionPage.getDatas();
+        if (CollectionUtils.isEmpty(datas)) {
+            return actionPage;
+        }
+        Map<String, String> userDicMap = cacheProvider.getUserDicMap();
+        List<AmActionResDto> result = new ArrayList<>();
+        for (AmActionResDto action : datas) {
+            AmActionResDto actionResDto = new AmActionResDto();
+            BeanUtils.copyProperties(action, actionResDto);
+            if (action.getCreateUser() != null) {
+                actionResDto.setCreateUserName(userDicMap.get(action.getCreateUser() + ""));
+            }
+            if (action.getUpdateUser() != null) {
+                actionResDto.setUpdateUserName(userDicMap.get(action.getUpdateUser() + ""));
+            }
+            result.add(actionResDto);
+        }
+        actionPage.setDatas(result);*/
         return actionPage;
     }
 

@@ -118,8 +118,8 @@
                     let url = baseUrl + "/findById?id=" + this.id;
                     let response = await this.ajax.getSync(url);
                     this.action = response.data.data;
-                    var t=parseInt(this.action.type);
-                    if(t>=6 && t<=9) t=5; //array[type]==> array
+                    //var t=parseInt(this.action.type);
+                    //if(t>=6 && t<=9) t=5; //array[type]==> array
 
 
                     this.meta.requestHeader = JSON.parse(this.action.requestHeadDefinition);
@@ -128,8 +128,13 @@
                     if(this.action.queryDefinition) {
                         this.meta.query = JSON.parse(this.action.queryDefinition);
                     }
-                    this.meta.response = JSON.parse(this.action.responseDefinition);
-                    this.meta.responseFail = JSON.parse(this.action.responseFailDefinition);
+                    this.meta.response =JSON.parse(this.action.responseDefinition);
+                    this.meta.responseFail =JSON.parse(this.action.responseFailDefinition);
+
+
+                    this.fixFieldType(this.meta.requestBody);
+                    this.fixFieldType(this.meta.response);
+                    this.fixFieldType(this.meta.responseFail);
 
                     if(this.copy){
                         this.action.actionName+="_"+this.$t("copy");
@@ -222,6 +227,13 @@
                     }
                 }
                 this.$router.go(-1);
+            },
+            fixFieldType(array){
+                for(var i=0;i<array.length;i++){
+                    var node=array[i];
+                    if(node.type>=6 &&node.type<=9) node.type="5";
+                    if(node.child) this.fixFieldType(node.child);
+                }
             }
         }
     }

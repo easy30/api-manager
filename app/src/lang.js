@@ -2,12 +2,14 @@ var lang_text=
 `separator= ;
 hello=Hello;您好
 id=ID;编号
+addApi=Add API;添加接口
 address=Address;地址
 arrayItemParam=Array Item Parameter;数组成员参数
 apiName=API Name;接口名称
 back=Back;返回
 changeConfirm=Data changed, continue to leave?;数据有修改，要离开吗？
 copy=Copy;复制
+defaultValue=Default;缺省值
 deleteConfirm=Really delete?;真的要删除吗？
 document=Document;文档
 export=Export;导出
@@ -17,20 +19,18 @@ level=Level;级别
 login=Login;登录
 logout=Logout;退出
 inputSaveName=please input save name;请输入保存名称
+mockDefault=Mock Default;Mock缺省值
 normalParam=Normal Parameter;普通参数
 object=Object;对象
 ok=OK;确定
 password=Password;密码
 passwordRequire=password require;密码不可为空
-SaveSuccess=successfully saved;保存成功
+saveSuccess=successfully saved;保存成功
+status=Status;状态
 server=Server;服务器
 username=Username;用户名
 usernameRequire=username require;账号不可为空
 
-
-
-
-status=Status;状态
 
 creator=Creator;创建者
 view=View;查看

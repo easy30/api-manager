@@ -13,7 +13,7 @@
             </el-col> </el-row>
 
             <!-- tree view -->
-			<el-tree ref="tree"  :load="treeNodeLoad" :props="treePops" lazy @node-click="treeNodeClick" node-key="id">
+			<el-tree ref="tree"  :highlight-current="true" :load="treeNodeLoad" :props="treePops" lazy @node-click="treeNodeClick" node-key="id">
 				<span class="custom-tree-node" slot-scope="{ node, data }"  >
 					<div v-if="node.level === 1">
 						<span style="width:140px;display: inline-block; white-space: nowrap; overflow: hidden;text-overflow:ellipsis"

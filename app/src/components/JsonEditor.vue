@@ -61,10 +61,10 @@
                 if(this.addChild){
                     this.addChild(node,values);
                 }else {
-                    if (node.child == null) node.child = [];
+                    if (node.child == null) this.$set(node,"child",[]);
                     node.child.push(values);
                 }
-                this.$forceUpdate();
+                //this.$forceUpdate();
             },
             isObjectOrArray: function (type) {
                 return type >= 4;

@@ -89,8 +89,8 @@ public class AmProjectServiceImpl implements IAmProjectService {
 	}
 
 	@Override
-	public AmProjectResDto findById(AmProjectQueryReqDto dto) {
-		AmProject amProject = projectDao.get(dto.getId());
+	public AmProjectResDto findById(Integer id) {
+		AmProject amProject = projectDao.get(id);
 		if(amProject == null){
 			return null;
 		}

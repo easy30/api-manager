@@ -62,6 +62,8 @@ public interface IAmActionService {
      */
     Page<AmAction> findPage(AmActionQueryReqDto dto);
 
+    Page<AmActionResDto> search(AmActionQueryReqDto dto);
+
     /**
      * 查询接口文档列表
      *

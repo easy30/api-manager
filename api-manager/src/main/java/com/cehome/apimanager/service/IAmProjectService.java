@@ -35,7 +35,7 @@ public interface IAmProjectService {
 	 * @param dto
 	 * @return
 	 */
-	AmProjectResDto findById(AmProjectQueryReqDto dto);
+	AmProjectResDto findById(Integer id);
 
 	/**
 	 * 删除项目

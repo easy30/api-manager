@@ -67,6 +67,16 @@ Vue.prototype.$tt = function (args) {
 };
 
 
+Vue.prototype.$routerPush=function(location) {
+    this.$router.push(location,null,()=> {
+        //app must complete reload() method
+        this.$root.$children[0].reload();
+    });
+}
+
+
+
+
 var vue=new Vue({
     i18n,
   router,

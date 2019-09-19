@@ -10,6 +10,7 @@ import com.cehome.apimanager.model.po.AmAction;
 import com.cehome.apimanager.model.po.AmUser;
 import com.cehome.apimanager.service.IAmActionService;
 import com.cehome.apimanager.utils.WebUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,6 +118,16 @@ public class AmActionController extends BaseController {
     public Map<String, Object> findPage(AmActionQueryReqDto dto) {
         try {
             Page<AmAction> page = actionService.findPage(dto);
+            return toSuccess(page);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return toFail(e.getMessage());
+        }
+    }
+    @RequestMapping("search")
+    public Map<String, Object> search(AmActionQueryReqDto dto) {
+        try {
+            Page<AmActionResDto> page = actionService.search(dto);
             return toSuccess(page);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
