@@ -55,7 +55,7 @@
                     <tr :key="item.id">
                         <td>{{item.id}}</td>
                         <td><el-link  @click="edit(item)">{{item.actionName}}</el-link></td>
-                        <td>{{item.moduleName}}</td>
+                        <td>{{item.projectName}}-{{item.moduleName}}</td>
                       <!--  <td>{{item.createUserName}}</td>-->
                         <td>{{item.updateUserName}}</td>
                         <td :title="new Date(item.updateTime).toLocaleString()">{{new Date(item.updateTime).toLocaleDateString()}}</td>

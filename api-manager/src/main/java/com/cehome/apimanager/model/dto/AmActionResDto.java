@@ -9,6 +9,7 @@ public class AmActionResDto extends AmAction {
 	private String createUserName = "";
 	private String updateUserName = "";
 	private String moduleName="";
+	private String projectName;
 
 	public String getCreateUserName() {
 		return createUserName;
@@ -48,5 +49,13 @@ public class AmActionResDto extends AmAction {
 
 	public void setModuleName(String moduleName) {
 		this.moduleName = moduleName;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
 }
