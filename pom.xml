@@ -65,7 +65,7 @@
 		<dependency>
 			<groupId>com.cehome</groupId>
 			<artifactId>jsharp</artifactId>
-			<version>1.35</version>
+			<version>5.1.45</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -88,20 +88,20 @@
 		<dependency>
 			<groupId>commons-pool</groupId>
 			<artifactId>commons-pool</artifactId>
-			<version>1.5.1</version>
+			<version>4.5.5</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.xhtmlrenderer</groupId>
 			<artifactId>flying-saucer-core</artifactId>
-			<version>9.0.3-RC1</version>
+			<version>9.12.1</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib-repo/flying-saucer-core-9.0.3-RC1.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.xhtmlrenderer</groupId>
 			<artifactId>flying-saucer-pdf-itext5</artifactId>
-			<version>9.0.3-RC1</version>
+			<version>9.1.20</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib-repo/flying-saucer-pdf-itext5-9.0.3-RC1.jar</systemPath>
 		</dependency>
@@ -109,7 +109,7 @@
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
-			<version>5.4.4</version>
+			<version>5.5.13.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.itextpdf</groupId>
